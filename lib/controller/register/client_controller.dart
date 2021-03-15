@@ -8,7 +8,7 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 // import 'package:loading_hud/loading_indicator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:pcm/repository/user_repository.dart';
+// import 'package:pcm/repository/user_repository.dart';
 
 class ClientController extends GetxController {
   TextEditingController nController = TextEditingController();
@@ -37,6 +37,8 @@ class ClientController extends GetxController {
   RxBool role = false.obs;
 
   PickedFile pickedFile;
+  RxInt clientCount = 0.obs;
+  RxInt distributorCount = 0.obs;
 
   Future<void> clientRegister() async {
     try {
@@ -53,23 +55,22 @@ class ClientController extends GetxController {
       // ..set('client', client)
       ParseResponse resultUser = await userData.create();
 
-      // ParseObject shopData = ParseObject('Shop')
-      //   ..set('shopName', sNController.text)
-      //   ..set('shopPhoto', ParseFile(File(pickedFile.path)))
-      //   ..set('address1', aPController.text)
-      //   ..set('landmark', lController.text)
-      //   ..set('city', cIController.text)
-      //   ..set('state', stController.text)
-      //   ..set('user', resultUser.results)
-      //   ..set(
-      //       'shopLocation',
-      //       ParseGeoPoint(
-      //           latitude: position.latitude, longitude: position.longitude));
-      //
-      // ParseResponse resultShop = await shopData.create();
+      ParseObject shopData = ParseObject('Shop')
+        ..set('shopName', sNController.text)
+        ..set('shopPhoto', ParseFile(File(pickedFile.path)))
+        ..set('address1', aPController.text)
+        ..set('landmark', lController.text)
+        ..set('city', cIController.text)
+        ..set('state', stController.text)
+        ..set('user', resultUser.result)
+        ..set(
+            'shopLocation',
+            ParseGeoPoint(
+                latitude: position.latitude, longitude: position.longitude));
 
-      if (resultUser.success //&& resultShop.success
-          ) {
+      ParseResponse resultShop = await shopData.create();
+      print(resultUser.result);
+      if (resultUser.success && resultShop.success) {
         btnController.success();
         nController.clear();
         sNController.clear();
@@ -128,5 +129,28 @@ class ClientController extends GetxController {
       position = await Geolocator.getCurrentPosition();
       print(position.latitude);
     }
+  }
+
+  void counts() async {
+    QueryBuilder<ParseObject> clientCountData =
+        QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
+          ..whereEqualTo('role', 'Client');
+    ParseResponse clientResponse = await clientCountData.count();
+    if (clientResponse.success && clientResponse != null) {
+      clientCount.value = clientResponse.result[0];
+    }
+    QueryBuilder<ParseObject> distributorCountData =
+        QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
+          ..whereEqualTo('role', 'Distributor');
+    ParseResponse distributorResponse = await distributorCountData.count();
+    if (distributorResponse.success && distributorResponse != null) {
+      distributorCount.value = distributorResponse.result[0];
+    }
+  }
+
+  @override
+  void onInit() {
+    counts();
+    super.onInit();
   }
 }

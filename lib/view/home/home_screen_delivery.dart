@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pcm/controller/register/client_controller.dart';
+// import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/order/ongoing_order_delivery.dart';
 import 'package:pcm/view/order/order_history_delivery.dart';
-import 'package:pcm/view/register/client.dart';
+// import 'package:pcm/view/register/client.dart';
 import 'file:///D:/flutter/pcm/lib/view/common/feedback.dart';
 import 'file:///D:/flutter/pcm/lib/view/common/support.dart';
 import 'package:pcm/widgets/dashbord_card.dart';
 import 'package:get/get.dart';
+
+import 'home_screen_distributor.dart';
 
 class HomeScreenDelivery extends StatelessWidget {
   @override
@@ -19,10 +21,7 @@ class HomeScreenDelivery extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 1,
         titleSpacing: 0,
-        leading: Container(
-          height: 35,
-          width: 35,
-        ),
+        leading: Icon(Icons.home_outlined),
         title: Text(
           'HomeScreen',
           style:
@@ -61,6 +60,10 @@ class HomeScreenDelivery extends StatelessWidget {
                   dashboardContainer(
                     name: 'Support',
                     onTap: () => Get.to(Support()),
+                  ),
+                  dashboardContainer(
+                    name: 'Distributor',
+                    onTap: () => Get.to(HomeScreenDistributor()),
                   ),
                 ],
               ),

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pcm/controller/register/client_controller.dart';
+// import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
-import 'package:pcm/view/home/home_screen_delivery.dart';
+import 'package:pcm/view/order/order_history_distributor.dart';
+import 'package:pcm/view/place_order.dart';
+// import 'package:pcm/view/home/home_screen_delivery.dart';
 import 'file:///D:/flutter/pcm/lib/view/order/order_history_client.dart';
 import 'package:pcm/view/products.dart';
-import 'package:pcm/view/register/client.dart';
+// import 'package:pcm/view/register/client.dart';
 import 'file:///D:/flutter/pcm/lib/view/common/feedback.dart';
 import 'file:///D:/flutter/pcm/lib/view/common/support.dart';
 import 'package:pcm/widgets/dashbord_card.dart';
 import 'package:get/get.dart';
 
-import 'package:qr_flutter/qr_flutter.dart';
-
-class HomeScreenClient extends StatelessWidget {
+class HomeScreenDistributor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,23 +30,11 @@ class HomeScreenClient extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              icon: Icon(Icons.qr_code_scanner),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      content: Container(
-                        child: QrImage(
-                          data: "9874653210",
-                          version: QrVersions.auto,
-                          size: 150.0,
-                        ),
-                      ),
-                    );
-                  },
-                );
-              })
+              icon: Icon(Icons.shopping_cart_outlined), onPressed: () {}),
+          IconButton(
+            icon: Icon(Icons.article_outlined),
+            onPressed: () => Get.to(() => PlaceOrder()),
+          ),
         ],
       ),
       body: Container(
@@ -68,7 +56,7 @@ class HomeScreenClient extends StatelessWidget {
                   ),
                   dashboardContainer(
                     name: 'Order History',
-                    onTap: () => Get.to(OrderHistoryClient()),
+                    onTap: () => Get.to(OrderHistoryDistributor()),
                   ),
                   dashboardContainer(
                     name: 'Settings',
@@ -82,10 +70,10 @@ class HomeScreenClient extends StatelessWidget {
                     name: 'Support',
                     onTap: () => Get.to(Support()),
                   ),
-                  dashboardContainer(
-                    name: 'Delivery',
-                    onTap: () => Get.to(HomeScreenDelivery()),
-                  ),
+                  // dashboardContainer(
+                  //   name: 'Delivery',
+                  //   onTap: () => Get.to(HomeScreenDelivery()),
+                  // ),
                 ],
               ),
             )

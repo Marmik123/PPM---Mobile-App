@@ -21,10 +21,7 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 1,
         titleSpacing: 0,
-        leading: Container(
-          height: 35,
-          width: 35,
-        ),
+        leading: Icon(Icons.home_outlined),
         title: Text(
           'HomeScreen',
           style:
@@ -46,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                       label: Text('Add'),
                       // Text(S.of(context).add),
                       avatar: CircleAvatar(
-                        child: Text('1'),
+                        child: Text(clientCon.clientCount.value.toString()),
                       ),
                     ),
                     onTap: () {
@@ -70,7 +67,8 @@ class HomeScreen extends StatelessWidget {
                       label: Text('Add'),
                       // Text(S.of(context).add),
                       avatar: CircleAvatar(
-                        child: Text('1'),
+                        child:
+                            Text(clientCon.distributorCount.value.toString()),
                       ),
                     ),
                     onTap: () {
