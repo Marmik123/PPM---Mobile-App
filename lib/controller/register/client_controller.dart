@@ -83,7 +83,11 @@ class ClientController extends GetxController {
         slController.clear();
         cController.clear();
         mController.clear();
-        // Get.back();
+        if (role.value) {
+          distributorCount.value++;
+        } else {
+          clientCount.value++;
+        }
       }
     } catch (e) {
       btnController.error();
@@ -91,6 +95,7 @@ class ClientController extends GetxController {
     } finally {
       Future.delayed(Duration(milliseconds: 1500))
           .then((value) => btnController.reset());
+      Get.back();
     }
   }
 
@@ -137,6 +142,8 @@ class ClientController extends GetxController {
           ..whereEqualTo('role', 'Client');
     ParseResponse clientResponse = await clientCountData.count();
     if (clientResponse.success && clientResponse != null) {
+      print('clientresponse.results ${clientResponse.results}');
+      print('clientResponse.result[0] ${clientResponse.result[0]}');
       clientCount.value = clientResponse.result[0];
     }
     QueryBuilder<ParseObject> distributorCountData =
@@ -146,11 +153,28 @@ class ClientController extends GetxController {
     if (distributorResponse.success && distributorResponse != null) {
       distributorCount.value = distributorResponse.result[0];
     }
+    final LiveQuery liveQuery = LiveQuery();
+    Subscription subscription =
+        await liveQuery.client.subscribe(clientCountData);
+    subscription.on(LiveQueryEvent.update, (value) {
+      print('clientCount updating ${clientCount.value} ');
+      clientCount.value++;
+      print('clientCount updated ${clientCount.value} ');
+    });
+    subscription.on(LiveQueryEvent.create, (value) {
+      print('clientCount updating ${clientCount.value} ');
+      clientCount.value++;
+      print('clientCount updated ${clientCount.value} ');
+    });
+
+    subscription.on(LiveQueryEvent.delete, (value) {
+      clientCount.value--;
+    });
   }
 
   @override
   void onInit() {
-    counts();
     super.onInit();
+    counts();
   }
 }

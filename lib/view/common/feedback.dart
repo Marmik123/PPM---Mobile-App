@@ -75,7 +75,11 @@ class FeedbackPage extends StatelessWidget {
               height: 25,
             ),
             RoundedLoadingButton(
-              child: Text('Submit'),
+              color: Colors.cyan,
+              child: Text(
+                'Submit',
+                style: TextStyle(color: Colors.white),
+              ),
               borderRadius: 10,
               height: 35,
               width: 100,

@@ -42,21 +42,28 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'PCM',
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          brightness: Brightness.light,
-          iconTheme: IconThemeData(color: Colors.black),
-          color: Colors.white,
-          elevation: 1,
-        ),
-        // textTheme: TextTheme(
-        //
-        // )
-      ),
+          appBarTheme: AppBarTheme(
+            brightness: Brightness.light,
+            iconTheme: IconThemeData(color: Colors.black),
+            color: Colors.white,
+            elevation: 1,
+            textTheme: TextTheme(
+              headline6: GoogleFonts.montserrat(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500),
+              ),
+            ),
+          ),
+          textTheme: TextTheme(
+            headline6: GoogleFonts.merriweather(),
+          )),
       getPages: [
         GetPage(
           name: '/',
           page: () {
-            return Login();
+            return HomeScreen();
           },
         )
       ],

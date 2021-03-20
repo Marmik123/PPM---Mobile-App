@@ -16,8 +16,6 @@ class OrderHistoryDelivery extends StatelessWidget {
         titleSpacing: 0,
         title: Text(
           'Order History',
-          style:
-              GoogleFonts.montserrat(textStyle: TextStyle(color: Colors.black)),
         ),
       ),
       body: Container(
@@ -28,7 +26,7 @@ class OrderHistoryDelivery extends StatelessWidget {
                   onTap: () {
                     // bottomNavigationIndex.value = 0;
                   },
-                  leading: Icon(Icons.handyman),
+                  // leading: Icon(Icons.done),
                   title: Text('Order Delivered' /*S.of(context).jobs*/),
                   trailing: GestureDetector(
                     child: Chip(

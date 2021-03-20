@@ -8,9 +8,6 @@ class OrderHistoryClient extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'Order History',
-          style: GoogleFonts.montserrat(
-            textStyle: TextStyle(color: Colors.black),
-          ),
         ),
       ),
     );

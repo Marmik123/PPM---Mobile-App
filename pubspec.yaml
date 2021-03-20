@@ -46,6 +46,7 @@ dev_dependencies:
   animations: ^2.0.0
   flutter_shimmer: ^2.0.0-prerelease-nullsafety
   qr_flutter: ^4.0.0
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

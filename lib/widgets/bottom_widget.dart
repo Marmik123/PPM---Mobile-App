@@ -1,0 +1,97 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:pcm/view/common/settings.dart';
+import 'package:pcm/view/common/feedback.dart';
+import 'package:pcm/view/common/support.dart';
+
+class BottomWidget extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const BottomWidget({Key key, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      backgroundColor: Colors.cyan,
+      child: IconButton(
+        iconSize: 30,
+        icon: Icon(Icons.history),
+        tooltip: 'History',
+        onPressed: onTap,
+      ),
+    );
+    //   Card(
+    //   elevation: 2,
+    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    //   child: Row(
+    //     mainAxisSize: MainAxisSize.max,
+    //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //     children: [
+    //       Column(
+    //         mainAxisSize: MainAxisSize.min,
+    //         children: [
+    //           IconButton(
+    //             iconSize: 30,
+    //             tooltip: 'Settings',
+    //             icon: Icon(
+    //               Icons.settings,
+    //             ),
+    //             onPressed: () => Get.to(() => SettingsPage()),
+    //           ),
+    //           // Text('Settings'),
+    //         ],
+    //       ),
+    //       Container(
+    //         height: 25,
+    //         width: 2,
+    //         color: Colors.black26,
+    //       ),
+    //       Column(
+    //         mainAxisSize: MainAxisSize.min,
+    //         children: [
+    //           IconButton(
+    //             iconSize: 30,
+    //             icon: Icon(Icons.feedback_outlined),
+    //             tooltip: 'Feedback',
+    //             onPressed: () => Get.to(() => FeedbackPage()),
+    //           ),
+    //           // Text('FeedBack'),
+    //         ],
+    //       ),
+    //       Container(
+    //         height: 25,
+    //         width: 2,
+    //         color: Colors.black26,
+    //       ),
+    //       Column(
+    //         mainAxisSize: MainAxisSize.min,
+    //         children: [
+    //           IconButton(
+    //             iconSize: 30,
+    //             icon: Icon(Icons.support_agent),
+    //             tooltip: 'Support',
+    //             onPressed: () => Get.to(() => Support()),
+    //           ),
+    //           // Text('Support'),
+    //         ],
+    //       ),
+    //       showHistory
+    //           ? Container(
+    //               height: 25,
+    //               width: 2,
+    //               color: Colors.black26,
+    //             )
+    //           : SizedBox.shrink(),
+    //       showHistory
+    //           ? Column(
+    //               mainAxisSize: MainAxisSize.min,
+    //               children: [
+    //                 // Text('History'),
+    //               ],
+    //             )
+    //           : SizedBox.shrink(),
+    //     ],
+    //   ),
+    // );
+  }
+}

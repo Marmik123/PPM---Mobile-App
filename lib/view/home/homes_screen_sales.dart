@@ -5,14 +5,22 @@ import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/home/home_screen_client.dart';
 import 'package:pcm/view/home/home_screen_delivery.dart';
 import 'package:pcm/view/register/client.dart';
+import 'package:pcm/widgets/bottom_widget.dart';
 import 'file:///D:/flutter/pcm/lib/view/common/feedback.dart';
 import 'file:///D:/flutter/pcm/lib/view/common/support.dart';
 import 'package:pcm/widgets/dashbord_card.dart';
 import 'package:get/get.dart';
 
 // ignore: must_be_immutable
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen>
+    with AutomaticKeepAliveClientMixin<HomeScreen> {
   ClientController clientCon = Get.put(ClientController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,9 +32,59 @@ class HomeScreen extends StatelessWidget {
         leading: Icon(Icons.home_outlined),
         title: Text(
           'HomeScreen',
-          style:
-              GoogleFonts.montserrat(textStyle: TextStyle(color: Colors.black)),
         ),
+        actions: [
+          PopupMenuButton(
+            icon: Icon(Icons.more_vert),
+            onSelected: (value) {
+              if (value == 'Settings') {
+                Get.to(() => SettingsPage());
+              } else if (value == 'Feedback') {
+                Get.to(() => FeedbackPage());
+              } else if (value == 'Support') {
+                Get.to(() => Support());
+              }
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    Icon(Icons.settings),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text('Settings'),
+                  ],
+                ),
+                value: 'Settings',
+              ),
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    Icon(Icons.feedback_outlined),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text('Feedback'),
+                  ],
+                ),
+                value: 'Feedback',
+              ),
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    Icon(Icons.support_agent),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text('Support'),
+                  ],
+                ),
+                value: 'Support',
+              ),
+            ],
+          ),
+        ],
       ),
       body: Container(
         child: Column(
@@ -36,7 +94,7 @@ class HomeScreen extends StatelessWidget {
                   onTap: () {
                     // bottomNavigationIndex.value = 0;
                   },
-                  leading: Icon(Icons.handyman),
+                  leading: Icon(Icons.person_outline),
                   title: Text('Clients Registered' /*S.of(context).jobs*/),
                   trailing: GestureDetector(
                     child: Chip(
@@ -57,10 +115,11 @@ class HomeScreen extends StatelessWidget {
             ),
             Card(
               child: ListTile(
-                  onTap: () {
-                    // bottomNavigationIndex.value = 0;
-                  },
-                  leading: Icon(Icons.handyman),
+                  // tileColor: Colors.cyanAccent,
+                  // onTap: () {
+                  //   // bottomNavigationIndex.value = 0;
+                  // },
+                  leading: Icon(Icons.domain),
                   title: Text('Distributors Registered' /*S.of(context).jobs*/),
                   trailing: GestureDetector(
                     child: Chip(
@@ -85,26 +144,31 @@ class HomeScreen extends StatelessWidget {
             ),
             Expanded(
               child: GridView(
+                padding: EdgeInsets.all(20),
                 primary: false,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
                 children: [
                   // dashboardContainer(name: 'Register'),
 
-                  dashboardContainer(
-                    name: 'Settings',
-                    onTap: () => Get.to(SettingsPage()),
-                  ),
-                  dashboardContainer(
-                    name: 'FeedBack',
-                    onTap: () => Get.to(FeedbackPage()),
-                  ),
-                  dashboardContainer(
-                    name: 'Support',
-                    onTap: () => Get.to(Support()),
-                  ),
+                  // dashboardContainer(
+                  //   name: 'Settings',
+                  //   icon: Icons.settings,
+                  //   onTap: () => Get.to(SettingsPage()),
+                  // ),
+                  // dashboardContainer(
+                  //   name: 'FeedBack',
+                  //   icon: Icons.feedback_outlined,
+                  //   onTap: () => Get.to(FeedbackPage()),
+                  // ),
+                  // dashboardContainer(
+                  //   name: 'Support',
+                  //   icon: Icons.contact_support_outlined,
+                  //   onTap: () => Get.to(Support()),
+                  // ),
                   dashboardContainer(
                     name: 'Client',
+                    icon: Icons.person_outline,
                     onTap: () => Get.to(HomeScreenClient()),
                   ),
                   // dashboardContainer(
@@ -117,6 +181,13 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // bottomNavigationBar: BottomWidget(
+      //   showHistory: false,
+      // ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

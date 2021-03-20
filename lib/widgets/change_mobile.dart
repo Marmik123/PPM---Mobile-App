@@ -60,7 +60,7 @@ class _ChangeMobileState extends State<ChangeMobile> {
             children: [
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Enter Mobile',
+                  labelText: 'Enter Name',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(
@@ -69,8 +69,30 @@ class _ChangeMobileState extends State<ChangeMobile> {
                   ),
                 ),
                 controller: passResetController,
+                // validator: (value) {
+                //   if (value.isEmpty && value.length < 6) {
+                //     return 'enter valid Mobile no';
+                //   }
+                //   return null;
+                // },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Enter Mobile',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Colors.blueGrey,
+                    ),
+                  ),
+                ),
+                keyboardType: TextInputType.number,
+                // controller: passResetController,
                 validator: (value) {
-                  if (value.isEmpty && value.length < 6) {
+                  if (value.isEmpty && value.length < 11) {
                     return 'enter valid Mobile no';
                   }
                   return null;
@@ -80,7 +102,10 @@ class _ChangeMobileState extends State<ChangeMobile> {
                 height: 10,
               ),
               RoundedLoadingButton(
-                child: Text('submit'),
+                child: Text(
+                  'submit',
+                  style: TextStyle(color: Colors.white),
+                ),
                 borderRadius: 10,
                 height: 40,
                 width: 100,

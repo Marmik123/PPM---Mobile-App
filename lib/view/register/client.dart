@@ -13,9 +13,6 @@ class ClientRegister extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           con.role.value ? 'Register Distributor' : 'Register Client',
-          style: GoogleFonts.montserrat(
-            textStyle: TextStyle(color: Colors.black),
-          ),
         ),
       ),
       body: Form(
@@ -189,7 +186,6 @@ class ClientRegister extends StatelessWidget {
                           borderSide: BorderSide(color: Colors.blueGrey),
                         ),
                       ),
-                      maxLines: null,
                     ),
                   ],
                 ),
