@@ -19,12 +19,7 @@ import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 
-class HomeScreenDistributor extends StatefulWidget {
-  @override
-  _HomeScreenDistributorState createState() => _HomeScreenDistributorState();
-}
-
-class _HomeScreenDistributorState extends State<HomeScreenDistributor> {
+class HomeScreenDistributor extends StatelessWidget {
   HomeScreenClientController cltrClient = Get.put(HomeScreenClientController());
 
   @override
@@ -119,7 +114,7 @@ class _HomeScreenDistributorState extends State<HomeScreenDistributor> {
         query: cltrClient.productData,
         lazyLoading: true,
         preloadedColumns: ['productName', 'fileImage'],
-        listLoadingElement: LinearProgressIndicator(),
+        listLoadingElement: Center(child: CircularProgressIndicator()),
         childBuilder: (context, snapshot) {
           if (snapshot.failed) {
             return Text('Something went wrong');

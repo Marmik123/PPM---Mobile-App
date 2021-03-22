@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
+import 'package:pcm/controller/cart_controller.dart';
+import 'package:pcm/controller/cart_controller.dart';
 import 'package:pcm/controller/products_controller.dart';
 import 'package:get/get.dart';
+import 'package:pcm/repository/products_repository.dart';
 
 class ProductDetails extends StatefulWidget {
   final ParseObject product;
@@ -13,7 +16,10 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+  CartController cltrCart = CartController();
+
   ProductsController cltrProduct = Get.put(ProductsController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,8 +145,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                       TextButton(
                         onPressed: () {
-                          cltrProduct.cartProducts.add(widget.product);
-                          print(cltrProduct.cartProducts);
+                          // cltrProduct.cartProducts.add(widget.product);
+                          cltrCart.addItem(
+                              widget.product.objectId,
+                              widget.product.get('productName'),
+                              100,
+                              cltrProduct.quantity.value);
+                          print('this is cart items $cartItems');
+                          // print(cltrProduct.cartProducts);
                         },
                         style: ButtonStyle(
                           backgroundColor:

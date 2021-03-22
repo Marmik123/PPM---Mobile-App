@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
+import 'package:pcm/controller/cart_controller.dart';
+// import 'package:pcm/controller/cart_controller.dart';
 import 'package:pcm/view/purchase_receipt.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
+// import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:get/get.dart';
+import 'package:pcm/repository/products_repository.dart';
 
 class Cart extends StatefulWidget {
   @override
@@ -10,6 +13,8 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+  CartController cltrCart = Get.put(CartController());
+
   RxInt value_1 = 0.obs;
   @override
   Widget build(BuildContext context) {
@@ -54,201 +59,216 @@ class _CartState extends State<Cart> {
             child: ListView.builder(
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
-              itemCount: 2,
-              itemBuilder: (context, index) => Container(
-                margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
-                // padding: EdgeInsets.fromLTRB(12, 12, 16, 16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(
-                        0,
-                        4,
+              itemCount: cltrCart.itemCount,
+              itemBuilder: (context, index) {
+                RxInt quantity = cartItems.values.toList()[index].quantity.obs;
+
+                return Obx(() => Container(
+                      margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
+                      // padding: EdgeInsets.fromLTRB(12, 12, 16, 16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(
+                              0,
+                              4,
+                            ),
+                            blurRadius: 15,
+                            spreadRadius: 0,
+                          )
+                        ],
                       ),
-                      blurRadius: 15,
-                      spreadRadius: 0,
-                    )
-                  ],
-                ),
-                child: ListTile(
-                  leading: Container(
-                    height: 70,
-                    width: 70,
-                    child: ClipRRect(
-                      child: Image(
-                        fit: BoxFit.cover,
-                        image:
-                            NetworkImage('https://picsum.photos/id/1/200/300'),
-                      ),
-                    ),
-                  ),
-                  title: Text(
-                    'Product Name',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  subtitle: Text(
-                    'Price',
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      // InkWell(
-                      //   onTap: () {
-                      //     setState(() {
-                      //       if (quentity > 1) {
-                      //         quentity--;
-                      //       }
-                      //     });
-                      //   },
-                      //   child: buttonContainer(
-                      //     Image.asset(quentity <= 1
-                      //         ? "assets/images/btn_medicine_quantity_minus_disabled.png"
-                      //         : 'assets/images/btn_medicine_quantity_minus.png'),
-                      //   ),
-                      // ),
-                      IconButton(
-                          icon: Icon(
-                            Icons.remove,
-                            color: Colors.black,
-                            size: 14,
+                      child: ListTile(
+                        leading: Container(
+                          height: 70,
+                          width: 70,
+                          child: ClipRRect(
+                            child: Image(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                  'https://picsum.photos/id/1/200/300'),
+                            ),
                           ),
-                          onPressed: () {}),
+                        ),
+                        title: Text(
+                          cartItems.values.toList()[index].title,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        subtitle: Text(
+                          'Price : ${cartItems.values.toList()[index].price}',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            // InkWell(
+                            //   onTap: () {
+                            //     setState(() {
+                            //       if (quentity > 1) {
+                            //         quentity--;
+                            //       }
+                            //     });
+                            //   },
+                            //   child: buttonContainer(
+                            //     Image.asset(quentity <= 1
+                            //         ? "assets/images/btn_medicine_quantity_minus_disabled.png"
+                            //         : 'assets/images/btn_medicine_quantity_minus.png'),
+                            //   ),
+                            // ),
+                            IconButton(
+                                icon: Icon(
+                                  Icons.remove,
+                                  color: Colors.black,
+                                  size: 12,
+                                ),
+                                onPressed: () {
+                                  if (quantity.value != 0) {
+                                    quantity.value--;
+                                  }
+                                  // } else if (quantity.value < 1) {
+                                  //   cltrCart.removeItem(cltrCart.cartItem.values
+                                  //       .toList()[index]
+                                  //       .id);
+                                  // }
+                                }),
 
-                      Text(
-                        '1',
-                        style: TextStyle(
-                          color: Color(0xff010101),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                            Text(
+                              '${quantity.value}',
+                              style: TextStyle(
+                                color: Color(0xff010101),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.add,
+                                color: Colors.black,
+                              ),
+                              onPressed: () {
+                                quantity.value++;
+                              },
+                              iconSize: 12,
+                            ),
+                            // InkWell(
+                            //   onTap: () {
+                            //     setState(() {
+                            //       quentity++;
+                            //     });
+                            //   },
+                            //   child: buttonContainer(
+                            //     Image.asset(
+                            //         "assets/images/btn_medicine_quantity_add.png"),
+                            //   ),
+                            // ),
+                          ],
                         ),
                       ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.add,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {},
-                        iconSize: 14,
-                      ),
-                      // InkWell(
-                      //   onTap: () {
-                      //     setState(() {
-                      //       quentity++;
-                      //     });
-                      //   },
-                      //   child: buttonContainer(
-                      //     Image.asset(
-                      //         "assets/images/btn_medicine_quantity_add.png"),
-                      //   ),
+                      // Column(
+                      //   mainAxisSize: MainAxisSize.min,
+                      //   crossAxisAlignment: CrossAxisAlignment.start,
+                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      //   children: [
+                      //     Padding(
+                      //       padding: const EdgeInsets.only(
+                      //         top: 8,
+                      //       ),
+                      //       child: Row(
+                      //         mainAxisSize: MainAxisSize.max,
+                      //         crossAxisAlignment: CrossAxisAlignment.start,
+                      //         children: [
+                      //           // Image(
+                      //           //   height: 70,
+                      //           //   width: 70,
+                      //           //   image: AssetImage('assets/images/panadol.png'),
+                      //           // ),
+                      //           Container(
+                      //             height: 70,
+                      //             width: 70,
+                      //             child: ClipRRect(
+                      //               child: Image(
+                      //                 fit: BoxFit.cover,
+                      //                 image: NetworkImage(
+                      //                     'https://picsum.photos/id/1/200/300'),
+                      //               ),
+                      //             ),
+                      //           ),
+                      //           Expanded(
+                      //             child: Padding(
+                      //               padding: const EdgeInsets.only(
+                      //                 left: 15,
+                      //                 right: 16,
+                      //               ),
+                      //               child: Column(
+                      //                 mainAxisSize: MainAxisSize.max,
+                      //                 mainAxisAlignment:
+                      //                     MainAxisAlignment.spaceEvenly,
+                      //                 children: [
+                      //                   Padding(
+                      //                     padding: const EdgeInsets.only(
+                      //                       bottom: 14,
+                      //                     ),
+                      //                     child: Text('Product Name',
+                      //                         style: TextStyle(
+                      //                           fontSize: 14,
+                      //                           fontWeight: FontWeight.w500,
+                      //                         )),
+                      //                   ),
+                      //                   /*SizedBox(
+                      //                             height: 18,
+                      //                           ),*/
+                      //                   Row(
+                      //                     mainAxisAlignment:
+                      //                         MainAxisAlignment.spaceBetween,
+                      //                     children: [
+                      //                       Container(
+                      //                         decoration: BoxDecoration(
+                      //                           borderRadius:
+                      //                               BorderRadius.circular(4),
+                      //                         ),
+                      //                         child: Padding(
+                      //                           padding: const EdgeInsets.only(
+                      //                             left: 7,
+                      //                             right: 7,
+                      //                             top: 3,
+                      //                             bottom: 2,
+                      //                           ),
+                      //                           child: Row(
+                      //                             mainAxisSize: MainAxisSize.min,
+                      //                             children: [
+                      //                               Text(
+                      //                                 'Price',
+                      //                                 style: TextStyle(
+                      //                                   fontSize: 16,
+                      //                                 ),
+                      //                               )
+                      //                             ],
+                      //                           ),
+                      //                         ),
+                      //                       ),
+
+                      //                     ],
+                      //                   )
+                      //                 ],
+                      //               ),
+                      //             ),
+                      //           )
+                      //         ],
+                      //       ),
+                      //     )
+                      //   ],
                       // ),
-                    ],
-                  ),
-                ),
-                // Column(
-                //   mainAxisSize: MainAxisSize.min,
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //   children: [
-                //     Padding(
-                //       padding: const EdgeInsets.only(
-                //         top: 8,
-                //       ),
-                //       child: Row(
-                //         mainAxisSize: MainAxisSize.max,
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         children: [
-                //           // Image(
-                //           //   height: 70,
-                //           //   width: 70,
-                //           //   image: AssetImage('assets/images/panadol.png'),
-                //           // ),
-                //           Container(
-                //             height: 70,
-                //             width: 70,
-                //             child: ClipRRect(
-                //               child: Image(
-                //                 fit: BoxFit.cover,
-                //                 image: NetworkImage(
-                //                     'https://picsum.photos/id/1/200/300'),
-                //               ),
-                //             ),
-                //           ),
-                //           Expanded(
-                //             child: Padding(
-                //               padding: const EdgeInsets.only(
-                //                 left: 15,
-                //                 right: 16,
-                //               ),
-                //               child: Column(
-                //                 mainAxisSize: MainAxisSize.max,
-                //                 mainAxisAlignment:
-                //                     MainAxisAlignment.spaceEvenly,
-                //                 children: [
-                //                   Padding(
-                //                     padding: const EdgeInsets.only(
-                //                       bottom: 14,
-                //                     ),
-                //                     child: Text('Product Name',
-                //                         style: TextStyle(
-                //                           fontSize: 14,
-                //                           fontWeight: FontWeight.w500,
-                //                         )),
-                //                   ),
-                //                   /*SizedBox(
-                //                             height: 18,
-                //                           ),*/
-                //                   Row(
-                //                     mainAxisAlignment:
-                //                         MainAxisAlignment.spaceBetween,
-                //                     children: [
-                //                       Container(
-                //                         decoration: BoxDecoration(
-                //                           borderRadius:
-                //                               BorderRadius.circular(4),
-                //                         ),
-                //                         child: Padding(
-                //                           padding: const EdgeInsets.only(
-                //                             left: 7,
-                //                             right: 7,
-                //                             top: 3,
-                //                             bottom: 2,
-                //                           ),
-                //                           child: Row(
-                //                             mainAxisSize: MainAxisSize.min,
-                //                             children: [
-                //                               Text(
-                //                                 'Price',
-                //                                 style: TextStyle(
-                //                                   fontSize: 16,
-                //                                 ),
-                //                               )
-                //                             ],
-                //                           ),
-                //                         ),
-                //                       ),
-
-                //                     ],
-                //                   )
-                //                 ],
-                //               ),
-                //             ),
-                //           )
-                //         ],
-                //       ),
-                //     )
-                //   ],
-                // ),
-              ),
+                    ));
+              },
             ),
           ),
           SizedBox(
@@ -322,7 +342,7 @@ class _CartState extends State<Cart> {
                       ),
                     ),
                     Text(
-                      "₹ 20.0",
+                      '₹ ${cltrCart.totalA}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
@@ -344,7 +364,7 @@ class _CartState extends State<Cart> {
                       ),
                     ),
                     Text(
-                      "₹ 20.0",
+                      '₹ ${cltrCart.delivery}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
@@ -414,14 +434,14 @@ class _CartState extends State<Cart> {
             Row(
               children: [
                 Text(
-                  'OrderTotal',
+                  'OrderTotal:  ',
                   style: TextStyle(
                     // color: AppColors.k010101,
                     fontSize: 12,
                   ),
                 ),
                 Text(
-                  "  ₹ 20.0",
+                  '₹ ${cltrCart.totalA + cltrCart.delivery.value}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
@@ -441,7 +461,10 @@ class _CartState extends State<Cart> {
                 ),
               ),
               onPressed: () {
-                Get.to(() => PurchaseReceipt());
+                cltrCart.orderPlaced(
+                  price: cltrCart.totalA + cltrCart.delivery.value,
+                );
+                // Get.to(() => PurchaseReceipt());
               },
             ),
           ],

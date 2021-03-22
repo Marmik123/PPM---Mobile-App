@@ -176,5 +176,6 @@ class ClientController extends GetxController {
   void onInit() {
     super.onInit();
     counts();
+    update();
   }
 }

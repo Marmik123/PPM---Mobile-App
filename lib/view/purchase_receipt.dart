@@ -1,9 +1,28 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:intl/intl.dart';
 
-class PurchaseReceipt extends StatelessWidget {
+class PurchaseReceipt extends StatefulWidget {
+  final ParseObject order;
+  PurchaseReceipt(this.order);
+
+  @override
+  _PurchaseReceiptState createState() => _PurchaseReceiptState();
+}
+
+// QueryBuilder<ParseObject> order =
+// QueryBuilder<ParseObject>(ParseObject('Orders')).whereMat(column, value);
+class _PurchaseReceiptState extends State<PurchaseReceipt> {
+  List products;
+
   @override
   Widget build(BuildContext context) {
+    print(widget.order);
+    products = widget.order.get('order_details');
+    print(products.toString());
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.light,
@@ -65,19 +84,20 @@ class PurchaseReceipt extends StatelessWidget {
                           RichText(
                             textAlign: TextAlign.left,
                             text: TextSpan(
-                              style: TextStyle(
-                                  fontSize: 12, color: Colors.black),
+                              style:
+                                  TextStyle(fontSize: 12, color: Colors.black),
                               children: [
-                                TextSpan(text: 'Order Number'),
+                                TextSpan(text: 'OrderId: '),
                                 TextSpan(
-                                  text: '000000012',
+                                  text: '${widget.order.objectId}',
                                   style: TextStyle(),
                                 ),
                               ],
                             ),
                           ),
                           Text(
-                            DateTime.now().toString(),
+                            DateFormat('dd MMM yyyy')
+                                .format(widget.order.get('date_time')),
                             style: TextStyle(
                               fontSize: 10,
                             ),
@@ -107,7 +127,7 @@ class PurchaseReceipt extends StatelessWidget {
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 18)),
                                 TextSpan(
-                                  text: '40.0',
+                                  text: '${widget.order.get('total_price')}',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -127,11 +147,11 @@ class PurchaseReceipt extends StatelessWidget {
                 ListView.builder(
                   shrinkWrap: true,
                   physics: ClampingScrollPhysics(),
-                  itemCount: 2,
+                  itemCount: products.length,
                   itemBuilder: (BuildContext context, index) => ListTile(
                     leading: CircleAvatar(
                       child: Text(
-                        '1x',
+                        '',
                         style: TextStyle(color: Colors.black),
                       ),
                       radius: 15,

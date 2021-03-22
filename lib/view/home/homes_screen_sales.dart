@@ -3,22 +3,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/home/home_screen_client.dart';
-import 'package:pcm/view/home/home_screen_delivery.dart';
+// import 'package:pcm/view/home/home_screen_delivery.dart';
 import 'package:pcm/view/register/client.dart';
-import 'package:pcm/widgets/bottom_widget.dart';
+// import 'package:pcm/widgets/bottom_widget.dart';
 import 'file:///D:/flutter/pcm/lib/view/common/feedback.dart';
 import 'file:///D:/flutter/pcm/lib/view/common/support.dart';
 import 'package:pcm/widgets/dashbord_card.dart';
 import 'package:get/get.dart';
 
 // ignore: must_be_immutable
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen>
-    with AutomaticKeepAliveClientMixin<HomeScreen> {
+class HomeScreen extends StatelessWidget {
   ClientController clientCon = Get.put(ClientController());
 
   @override
@@ -86,99 +80,102 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ],
       ),
-      body: Container(
-        child: Column(
-          children: [
-            Card(
-              child: ListTile(
-                  onTap: () {
-                    // bottomNavigationIndex.value = 0;
-                  },
-                  leading: Icon(Icons.person_outline),
-                  title: Text('Clients Registered' /*S.of(context).jobs*/),
-                  trailing: GestureDetector(
-                    child: Chip(
-                      label: Text('Add'),
-                      // Text(S.of(context).add),
-                      avatar: CircleAvatar(
-                        child: Text(clientCon.clientCount.value.toString()),
-                      ),
-                    ),
+      body: Obx(
+        () => Container(
+          child: Column(
+            children: [
+              Card(
+                child: ListTile(
                     onTap: () {
-                      clientCon.role.value = false;
-
-                      Get.to(ClientRegister());
-                      // Navigator.of(context)
-                      //     .pushNamed(CreateReception.routeName);
+                      // bottomNavigationIndex.value = 0;
                     },
-                  )),
-            ),
-            Card(
-              child: ListTile(
-                  // tileColor: Colors.cyanAccent,
-                  // onTap: () {
-                  //   // bottomNavigationIndex.value = 0;
-                  // },
-                  leading: Icon(Icons.domain),
-                  title: Text('Distributors Registered' /*S.of(context).jobs*/),
-                  trailing: GestureDetector(
-                    child: Chip(
-                      label: Text('Add'),
-                      // Text(S.of(context).add),
-                      avatar: CircleAvatar(
-                        child:
-                            Text(clientCon.distributorCount.value.toString()),
+                    leading: Icon(Icons.person_outline),
+                    title: Text('Clients Registered' /*S.of(context).jobs*/),
+                    trailing: GestureDetector(
+                      child: Chip(
+                        label: Text('Add'),
+                        // Text(S.of(context).add),
+                        avatar: CircleAvatar(
+                          child: Text(clientCon.clientCount.value.toString()),
+                        ),
                       ),
-                    ),
-                    onTap: () {
-                      clientCon.role.value = true;
+                      onTap: () {
+                        clientCon.role.value = false;
 
-                      Get.to(ClientRegister());
-                      // Navigator.of(context)
-                      //     .pushNamed(CreateReception.routeName);
-                    },
-                  )),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Expanded(
-              child: GridView(
-                padding: EdgeInsets.all(20),
-                primary: false,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
-                children: [
-                  // dashboardContainer(name: 'Register'),
-
-                  // dashboardContainer(
-                  //   name: 'Settings',
-                  //   icon: Icons.settings,
-                  //   onTap: () => Get.to(SettingsPage()),
-                  // ),
-                  // dashboardContainer(
-                  //   name: 'FeedBack',
-                  //   icon: Icons.feedback_outlined,
-                  //   onTap: () => Get.to(FeedbackPage()),
-                  // ),
-                  // dashboardContainer(
-                  //   name: 'Support',
-                  //   icon: Icons.contact_support_outlined,
-                  //   onTap: () => Get.to(Support()),
-                  // ),
-                  dashboardContainer(
-                    name: 'Client',
-                    icon: Icons.person_outline,
-                    onTap: () => Get.to(HomeScreenClient()),
-                  ),
-                  // dashboardContainer(
-                  //   name: 'Delivery Boy',
-                  //   onTap: () => Get.to(HomeScreenDelivery()),
-                  // ),
-                ],
+                        Get.to(ClientRegister());
+                        // Navigator.of(context)
+                        //     .pushNamed(CreateReception.routeName);
+                      },
+                    )),
               ),
-            )
-          ],
+              Card(
+                child: ListTile(
+                    // tileColor: Colors.cyanAccent,
+                    // onTap: () {
+                    //   // bottomNavigationIndex.value = 0;
+                    // },
+                    leading: Icon(Icons.domain),
+                    title:
+                        Text('Distributors Registered' /*S.of(context).jobs*/),
+                    trailing: GestureDetector(
+                      child: Chip(
+                        label: Text('Add'),
+                        // Text(S.of(context).add),
+                        avatar: CircleAvatar(
+                          child:
+                              Text(clientCon.distributorCount.value.toString()),
+                        ),
+                      ),
+                      onTap: () {
+                        clientCon.role.value = true;
+
+                        Get.to(ClientRegister());
+                        // Navigator.of(context)
+                        //     .pushNamed(CreateReception.routeName);
+                      },
+                    )),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                child: GridView(
+                  padding: EdgeInsets.all(20),
+                  primary: false,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  children: [
+                    // dashboardContainer(name: 'Register'),
+
+                    // dashboardContainer(
+                    //   name: 'Settings',
+                    //   icon: Icons.settings,
+                    //   onTap: () => Get.to(SettingsPage()),
+                    // ),
+                    // dashboardContainer(
+                    //   name: 'FeedBack',
+                    //   icon: Icons.feedback_outlined,
+                    //   onTap: () => Get.to(FeedbackPage()),
+                    // ),
+                    // dashboardContainer(
+                    //   name: 'Support',
+                    //   icon: Icons.contact_support_outlined,
+                    //   onTap: () => Get.to(Support()),
+                    // ),
+                    dashboardContainer(
+                      name: 'Client',
+                      icon: Icons.person_outline,
+                      onTap: () => Get.to(HomeScreenClient()),
+                    ),
+                    // dashboardContainer(
+                    //   name: 'Delivery Boy',
+                    //   onTap: () => Get.to(HomeScreenDelivery()),
+                    // ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
