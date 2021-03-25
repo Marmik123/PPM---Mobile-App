@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shimmer/flutter_shimmer.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-import 'package:get/get.dart';
-import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:pcm/view/product_details.dart';
 
 class Products extends StatefulWidget {
@@ -56,7 +56,7 @@ class _ProductsState extends State<Products> {
                   onTap: () => Get.to(() => ProductDetails(
                         product: snapshot.loadedData,
                       )),
-                  subtitle: Text('Price : 100'),
+                  subtitle: Text(snapshot.loadedData.get('productPrice')),
                   title: Text(
                     snapshot.loadedData.get('productName'),
                     style: TextStyle(fontSize: 18),

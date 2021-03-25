@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/order/ongoing_order_delivery.dart';
 import 'package:pcm/view/order/order_history_delivery.dart';
 import 'package:pcm/widgets/bottom_widget.dart';
 // import 'package:pcm/view/register/client.dart';
-import 'file:///D:/flutter/pcm/lib/view/common/feedback.dart';
-import 'file:///D:/flutter/pcm/lib/view/common/support.dart';
 import 'package:pcm/widgets/dashbord_card.dart';
-import 'package:get/get.dart';
 
+import '../common/feedback.dart';
+import '../common/support.dart';
 import 'home_screen_distributor.dart';
 
 class HomeScreenDelivery extends StatelessWidget {

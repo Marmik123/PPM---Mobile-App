@@ -1,9 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:intl/intl.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+
+import '../controller/cart_controller.dart';
 
 class PurchaseReceipt extends StatefulWidget {
   final ParseObject order;
@@ -17,14 +18,22 @@ class PurchaseReceipt extends StatefulWidget {
 // QueryBuilder<ParseObject>(ParseObject('Orders')).whereMat(column, value);
 class _PurchaseReceiptState extends State<PurchaseReceipt> {
   List products;
+  CartController cltrCart = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
     print(widget.order);
-    products = widget.order.get('order_details');
-    print(products.toString());
+    cltrCart.orderDetails(widget.order['order_details']);
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_sharp),
+          onPressed: () {
+            /* cltrCart.subTotal.value = 0;
+            cartItems.clear();*/
+            Get.back();
+          },
+        ),
         brightness: Brightness.light,
         backgroundColor: Colors.white,
         elevation: 1,
@@ -96,7 +105,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                             ),
                           ),
                           Text(
-                            DateFormat('dd MMM yyyy')
+                            DateFormat('d MMMM y')
                                 .format(widget.order.get('date_time')),
                             style: TextStyle(
                               fontSize: 10,
@@ -144,21 +153,30 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                 SizedBox(
                   height: 15,
                 ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: ClampingScrollPhysics(),
-                  itemCount: products.length,
-                  itemBuilder: (BuildContext context, index) => ListTile(
-                    leading: CircleAvatar(
-                      child: Text(
-                        '',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      radius: 15,
-                      backgroundColor: Color.fromRGBO(90, 177, 255, 0.1),
-                    ),
-                    title: Text('Product Name'),
-                    trailing: Text('₹ 20.0'),
+                Obx(
+                  () => ListView.builder(
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    itemCount: cltrCart.orderDetails.length,
+                    itemBuilder: (BuildContext context, index) {
+                      cltrCart.subTotal.value =
+                          widget.order.get('total_price') -
+                              cltrCart.delivery.value;
+                      return ListTile(
+                        leading: CircleAvatar(
+                          child: Text(
+                            '${cltrCart.orderDetails[index]['quantity'] ?? "-"} x ',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          radius: 20,
+                          backgroundColor: Color.fromRGBO(90, 177, 255, 0.1),
+                        ),
+                        title: Text(
+                            cltrCart.orderDetails[index]['name'] ?? "name"),
+                        trailing: Text(
+                            '₹ ${cltrCart.orderDetails[index]['quantity'] * cltrCart.orderDetails[index]['price']}'),
+                      );
+                    },
                   ),
                 ),
                 Divider(
@@ -177,7 +195,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                             style: TextStyle(fontSize: 12),
                           ),
                           Text(
-                            '₹ 40.0',
+                            '₹ ${cltrCart.subTotal.value}',
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w500),
                           ),
@@ -194,7 +212,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                             style: TextStyle(fontSize: 12),
                           ),
                           Text(
-                            '₹ 9.0',
+                            '₹ ${cltrCart.delivery}',
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w500),
                           ),
@@ -210,7 +228,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                               style: TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.w500)),
                           Text(
-                            '₹ 49.0',
+                            '₹ ${cltrCart.subTotal.value + cltrCart.delivery.value} ',
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w500),
                           ),
@@ -221,7 +239,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

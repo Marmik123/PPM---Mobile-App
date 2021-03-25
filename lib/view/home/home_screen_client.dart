@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_shimmer/flutter_shimmer.dart';
+import 'package:get/get.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/homescreen_client_controller.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/home/home_screen_delivery.dart';
 import 'package:pcm/view/order/order_placed.dart';
-import '../product_details.dart';
-import 'file:///D:/flutter/pcm/lib/view/order/order_history_client.dart';
 // import 'package:pcm/view/products.dart';
 // import 'package:pcm/view/register/client.dart';
 import 'package:pcm/widgets/bottom_widget.dart';
-import 'file:///D:/flutter/pcm/lib/view/common/feedback.dart';
-import 'file:///D:/flutter/pcm/lib/view/common/support.dart';
 import 'package:pcm/widgets/dashbord_card.dart';
-import 'package:get/get.dart';
-import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:flutter_shimmer/flutter_shimmer.dart';
+
+import '../common/feedback.dart';
+import '../common/support.dart';
+import '../product_details.dart';
 
 class HomeScreenClient extends StatefulWidget {
   @override

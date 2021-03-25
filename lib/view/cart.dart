@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
-import 'package:pcm/controller/cart_controller.dart';
-// import 'package:pcm/controller/cart_controller.dart';
-import 'package:pcm/view/purchase_receipt.dart';
 // import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:get/get.dart';
+// import 'package:google_fonts/google_fonts.dart';
+import 'package:pcm/controller/cart_controller.dart';
 import 'package:pcm/repository/products_repository.dart';
+// import 'package:pcm/controller/cart_controller.dart';
+import 'package:pcm/view/purchase_receipt.dart';
 
 class Cart extends StatefulWidget {
   @override
@@ -464,7 +464,6 @@ class _CartState extends State<Cart> {
                 cltrCart.orderPlaced(
                   price: cltrCart.totalA + cltrCart.delivery.value,
                 );
-                // Get.to(() => PurchaseReceipt());
               },
             ),
           ],

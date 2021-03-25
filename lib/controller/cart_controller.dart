@@ -1,14 +1,13 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pcm/repository/products_repository.dart';
-import 'package:pcm/model/cart_item.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:pcm/model/cart_item.dart';
+import 'package:pcm/repository/products_repository.dart';
 import 'package:pcm/view/purchase_receipt.dart';
 
 class CartController extends GetxController {
   RxDouble delivery = 20.0.obs;
+  RxDouble subTotal = 0.0.obs;
+  RxList orderDetails = [].obs;
 
   int get itemCount {
     return cartItems == null ? 0 : cartItems.length;
@@ -119,7 +118,7 @@ class CartController extends GetxController {
       print('successful!!!!!!!!!!');
 
       // ParseResponse result=await order.query();
-      Get.to(() => PurchaseReceipt(objectId));
+      Get.to(() => PurchaseReceipt(orderData));
     }
     try {} catch (e) {
       print('error in orderPlaced $e');

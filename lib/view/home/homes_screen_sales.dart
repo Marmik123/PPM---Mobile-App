@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/home/home_screen_client.dart';
 // import 'package:pcm/view/home/home_screen_delivery.dart';
 import 'package:pcm/view/register/client.dart';
 // import 'package:pcm/widgets/bottom_widget.dart';
-import 'file:///D:/flutter/pcm/lib/view/common/feedback.dart';
-import 'file:///D:/flutter/pcm/lib/view/common/support.dart';
 import 'package:pcm/widgets/dashbord_card.dart';
-import 'package:get/get.dart';
+
+import '../common/feedback.dart';
+import '../common/support.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {

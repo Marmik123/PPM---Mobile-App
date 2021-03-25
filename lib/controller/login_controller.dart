@@ -1,8 +1,9 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:pcm/repository/user_repository.dart';
-import 'file:///D:/flutter/pcm/lib/view/home/homes_screen_sales.dart';
+
+import '../view/home/homes_screen_sales.dart';
 
 class LoginController extends GetxController {
   RxBool isLoading = false.obs;

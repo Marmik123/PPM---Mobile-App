@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:pcm/view/common/settings.dart';
-import 'package:pcm/view/common/feedback.dart';
-import 'package:pcm/view/common/support.dart';
 
 class BottomWidget extends StatelessWidget {
   final VoidCallback onTap;
@@ -12,6 +8,7 @@ class BottomWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      onPressed: () {},
       backgroundColor: Colors.cyan,
       child: IconButton(
         iconSize: 30,
