@@ -36,7 +36,9 @@ class HomeScreenDistributor extends StatelessWidget {
         actions: [
           IconButton(
               icon: Icon(Icons.shopping_cart_outlined),
-              onPressed: () => Get.to(() => Cart())),
+              onPressed: () {
+                return Get.to(() => Cart());
+              }),
 
           PopupMenuButton(
             icon: Icon(Icons.more_vert),
@@ -112,7 +114,7 @@ class HomeScreenDistributor extends StatelessWidget {
         shrinkWrap: true,
         query: cltrClient.productData,
         lazyLoading: true,
-        preloadedColumns: ['productName', 'fileImage'],
+        preloadedColumns: ['productName', 'fileImage', 'productPrice'],
         listLoadingElement: Center(child: CircularProgressIndicator()),
         childBuilder: (context, snapshot) {
           if (snapshot.failed) {
@@ -124,7 +126,8 @@ class HomeScreenDistributor extends StatelessWidget {
                   onTap: () => Get.to(() => ProductDetails(
                         product: snapshot.loadedData,
                       )),
-                  subtitle: Text('Price : 100'),
+                  subtitle: Text(
+                      'Price : ${snapshot.loadedData.get('productPrice')}'),
                   title: Text(
                     snapshot.loadedData.get('productName'),
                     style: TextStyle(fontSize: 18),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:pcm/controller/products_controller.dart';
+import 'package:pcm/repository/products_repository.dart';
 
 import '../controller/cart_controller.dart';
 
@@ -19,6 +22,7 @@ class PurchaseReceipt extends StatefulWidget {
 class _PurchaseReceiptState extends State<PurchaseReceipt> {
   List products;
   CartController cltrCart = Get.put(CartController());
+  ProductsController cltrProduct = Get.put(ProductsController());
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +35,8 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
           onPressed: () {
             /* cltrCart.subTotal.value = 0;
             cartItems.clear();*/
+            cartItems.clear();
+            cltrProduct.quantity.value = 1;
             Get.back();
           },
         ),
@@ -195,7 +201,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                             style: TextStyle(fontSize: 12),
                           ),
                           Text(
-                            '₹ ${cltrCart.subTotal.value}',
+                            '₹ ${cltrCart.totalA}',
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w500),
                           ),
@@ -228,7 +234,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                               style: TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.w500)),
                           Text(
-                            '₹ ${cltrCart.subTotal.value + cltrCart.delivery.value} ',
+                            '₹ ${cltrCart.totalA + cltrCart.delivery.value}',
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w500),
                           ),

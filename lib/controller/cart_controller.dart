@@ -3,12 +3,16 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/model/cart_item.dart';
 import 'package:pcm/repository/products_repository.dart';
 import 'package:pcm/view/purchase_receipt.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class CartController extends GetxController {
   RxDouble delivery = 20.0.obs;
   RxDouble subTotal = 0.0.obs;
   RxList orderDetails = [].obs;
-
+  RxList orderHistory = [].obs;
+  RoundedLoadingButtonController buttonCtrl = RoundedLoadingButtonController();
+  QueryBuilder<ParseObject> orderData =
+      QueryBuilder<ParseObject>(ParseObject('Orders'));
   int get itemCount {
     return cartItems == null ? 0 : cartItems.length;
   }
@@ -82,46 +86,54 @@ class CartController extends GetxController {
     price,
   }) async {
     var details = [];
-    for (var i = 0; i < cartItems.length; i++) {
-      details.add({
-        'name': cartItems.values.toList()[i].title,
-        'price': cartItems.values.toList()[i].price,
-        'quantity': cartItems.values.toList()[i].quantity,
-        'id': cartItems.values.toList()[i].id,
-      });
-    }
-    // List<CartItem> details = List.generate(
-    //   cartItems.length,
-    //   (index) => CartItem(
-    //     id: cartItems.values.toList()[index].id,
-    //     title: cartItems.values.toList()[index].title,
-    //     quantity: cartItems.values.toList()[index].quantity,
-    //     price: cartItems.values.toList()[index].price,
-    //   ),
-    // );
-    print('length ${details.length}');
-    print('this is details of ordered products $details');
+    try {
+      for (var i = 0; i < cartItems.length; i++) {
+        details.add({
+          'name': cartItems.values.toList()[i].title,
+          'price': cartItems.values.toList()[i].price,
+          'quantity': cartItems.values.toList()[i].quantity,
+          'id': cartItems.values.toList()[i].id,
+        });
+      }
+      // List<CartItem> details = List.generate(
+      //   cartItems.length,
+      //   (index) => CartItem(
+      //     id: cartItems.values.toList()[index].id,
+      //     title: cartItems.values.toList()[index].title,
+      //     quantity: cartItems.values.toList()[index].quantity,
+      //     price: cartItems.values.toList()[index].price,
+      //   ),
+      // );
+      print('length ${details.length}');
+      print('this is details of ordered products $details');
 
-    ParseObject orderData = ParseObject('Orders')
-      ..setAddAll('order_details', details)
-      ..set('address', '')
-      ..set('date_time', DateTime.now())
-      ..set('payment_option', 'COD')
-      ..set('total_price', price)
-      ..set('delivery_fees', '');
+      ParseObject orderData = ParseObject('Orders')
+        ..setAddAll('order_details', details)
+        ..set('address', '')
+        ..set('date_time', DateTime.now())
+        ..set('payment_option', 'COD')
+        ..set('total_price', price)
+        ..set('delivery_fees', '');
+      ParseResponse response = await orderData.create();
+      var objectId;
+      if (response.success) {
+        buttonCtrl.success();
+        print("order data is $orderData");
+        orderHistory.add(orderData);
+        print(response.result.get('objectId'));
+        objectId = response.result.get('objectId');
+        print('successful!!!!!!!!!!');
+        Future.delayed(Duration(milliseconds: 800), () {
+          Get.off(() => PurchaseReceipt(orderData));
+        });
+        // ParseResponse result=await order.query();
 
-    ParseResponse response = await orderData.create();
-    var objectId;
-    if (response.success) {
-      print(response.result.get('objectId'));
-      objectId = response.result.get('objectId');
-      print('successful!!!!!!!!!!');
-
-      // ParseResponse result=await order.query();
-      Get.to(() => PurchaseReceipt(orderData));
-    }
-    try {} catch (e) {
+      }
+    } catch (e) {
       print('error in orderPlaced $e');
+      buttonCtrl.error();
+    } finally {
+      print('orderPlaced finally');
     }
   }
 }

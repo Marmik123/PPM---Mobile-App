@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:get/get.dart';
-import 'package:animations/animations.dart';
+import 'package:pcm/controller/cart_controller.dart';
 import 'package:pcm/view/order/order_placed.dart';
 // import 'package:pcm/widgets/orders.dart';
 
 // ignore: must_be_immutable
 class OrderHistoryDistributor extends StatelessWidget {
+  CartController cltrCart = Get.put(CartController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +29,6 @@ class OrderHistoryDistributor extends StatelessWidget {
                 child: ListTile(
                     onTap: () {
                       Get.to(() => OrderPlaced());
-
                       // return showModal<void>(
                       //   context: context,
                       //   builder: (context) {
@@ -45,7 +44,7 @@ class OrderHistoryDistributor extends StatelessWidget {
                         label: Text('Add'),
                         // Text(S.of(context).add),
                         avatar: CircleAvatar(
-                          child: Text('1'),
+                          child: Text("1"),
                         ),
                       ),
                       // onTap: () {
@@ -76,7 +75,7 @@ class OrderHistoryDistributor extends StatelessWidget {
                         label: Text('Add'),
                         // Text(S.of(context).add),
                         avatar: CircleAvatar(
-                          child: Text('1'),
+                          child: Text(cltrCart.orderHistory.length.toString()),
                         ),
                       ),
                       onTap: () {},

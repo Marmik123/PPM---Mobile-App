@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 // import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 // import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/cart_controller.dart';
+import 'package:pcm/controller/products_controller.dart';
 import 'package:pcm/repository/products_repository.dart';
-// import 'package:pcm/controller/cart_controller.dart';
-import 'package:pcm/view/purchase_receipt.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class Cart extends StatefulWidget {
   @override
@@ -14,6 +15,7 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
   CartController cltrCart = Get.put(CartController());
+  ProductsController cltrProduct = Get.put(ProductsController());
 
   RxInt value_1 = 0.obs;
   @override
@@ -21,6 +23,59 @@ class _CartState extends State<Cart> {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
+        actions: [
+          IconButton(
+            tooltip: "Clear Cart",
+            icon: Icon(Icons.delete_outline),
+            onPressed: () {
+              /* cltrCart.subTotal.value = 0;
+            cartItems.clear();*/
+              Get.defaultDialog(
+                  content: Text(""),
+                  radius: 5,
+                  titleStyle: GoogleFonts.montserrat(
+                    textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  title: "Are you sure you want to clear cart ?",
+                  confirm: ElevatedButton(
+                      style: ButtonStyle(
+                          textStyle: MaterialStateProperty.all(
+                            GoogleFonts.montserrat(
+                              textStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.cyan)),
+                      onPressed: () {
+                        cartItems.clear();
+                        cltrProduct.quantity.value = 0;
+                      },
+                      child: Text("Yes")),
+                  cancel: ElevatedButton(
+                      style: ButtonStyle(
+                          textStyle: MaterialStateProperty.all(
+                            GoogleFonts.montserrat(
+                              textStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.cyan)),
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: Text("No")));
+            },
+          )
+        ],
         title: Text(
           'My Cart',
         ),
@@ -63,211 +118,213 @@ class _CartState extends State<Cart> {
               itemBuilder: (context, index) {
                 RxInt quantity = cartItems.values.toList()[index].quantity.obs;
 
-                return Obx(() => Container(
-                      margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
-                      // padding: EdgeInsets.fromLTRB(12, 12, 16, 16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            offset: Offset(
-                              0,
-                              4,
-                            ),
-                            blurRadius: 15,
-                            spreadRadius: 0,
-                          )
-                        ],
-                      ),
-                      child: ListTile(
-                        leading: Container(
-                          height: 70,
-                          width: 70,
-                          child: ClipRRect(
-                            child: Image(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                  'https://picsum.photos/id/1/200/300'),
-                            ),
-                          ),
-                        ),
-                        title: Text(
-                          cartItems.values.toList()[index].title,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        subtitle: Text(
-                          'Price : ${cartItems.values.toList()[index].price}',
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            // InkWell(
-                            //   onTap: () {
-                            //     setState(() {
-                            //       if (quentity > 1) {
-                            //         quentity--;
-                            //       }
-                            //     });
-                            //   },
-                            //   child: buttonContainer(
-                            //     Image.asset(quentity <= 1
-                            //         ? "assets/images/btn_medicine_quantity_minus_disabled.png"
-                            //         : 'assets/images/btn_medicine_quantity_minus.png'),
-                            //   ),
-                            // ),
-                            IconButton(
-                                icon: Icon(
-                                  Icons.remove,
-                                  color: Colors.black,
-                                  size: 12,
-                                ),
-                                onPressed: () {
-                                  if (quantity.value != 0) {
-                                    quantity.value--;
-                                  }
-                                  // } else if (quantity.value < 1) {
-                                  //   cltrCart.removeItem(cltrCart.cartItem.values
-                                  //       .toList()[index]
-                                  //       .id);
-                                  // }
-                                }),
-
-                            Text(
-                              '${quantity.value}',
-                              style: TextStyle(
-                                color: Color(0xff010101),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
+                return Obx(() => cltrProduct.quantity.value == 0
+                    ? Container()
+                    : Container(
+                        margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
+                        // padding: EdgeInsets.fromLTRB(12, 12, 16, 16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              offset: Offset(
+                                0,
+                                4,
                               ),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.add,
-                                color: Colors.black,
-                              ),
-                              onPressed: () {
-                                quantity.value++;
-                              },
-                              iconSize: 12,
-                            ),
-                            // InkWell(
-                            //   onTap: () {
-                            //     setState(() {
-                            //       quentity++;
-                            //     });
-                            //   },
-                            //   child: buttonContainer(
-                            //     Image.asset(
-                            //         "assets/images/btn_medicine_quantity_add.png"),
-                            //   ),
-                            // ),
+                              blurRadius: 15,
+                              spreadRadius: 0,
+                            )
                           ],
                         ),
-                      ),
-                      // Column(
-                      //   mainAxisSize: MainAxisSize.min,
-                      //   crossAxisAlignment: CrossAxisAlignment.start,
-                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //   children: [
-                      //     Padding(
-                      //       padding: const EdgeInsets.only(
-                      //         top: 8,
-                      //       ),
-                      //       child: Row(
-                      //         mainAxisSize: MainAxisSize.max,
-                      //         crossAxisAlignment: CrossAxisAlignment.start,
-                      //         children: [
-                      //           // Image(
-                      //           //   height: 70,
-                      //           //   width: 70,
-                      //           //   image: AssetImage('assets/images/panadol.png'),
-                      //           // ),
-                      //           Container(
-                      //             height: 70,
-                      //             width: 70,
-                      //             child: ClipRRect(
-                      //               child: Image(
-                      //                 fit: BoxFit.cover,
-                      //                 image: NetworkImage(
-                      //                     'https://picsum.photos/id/1/200/300'),
-                      //               ),
-                      //             ),
-                      //           ),
-                      //           Expanded(
-                      //             child: Padding(
-                      //               padding: const EdgeInsets.only(
-                      //                 left: 15,
-                      //                 right: 16,
-                      //               ),
-                      //               child: Column(
-                      //                 mainAxisSize: MainAxisSize.max,
-                      //                 mainAxisAlignment:
-                      //                     MainAxisAlignment.spaceEvenly,
-                      //                 children: [
-                      //                   Padding(
-                      //                     padding: const EdgeInsets.only(
-                      //                       bottom: 14,
-                      //                     ),
-                      //                     child: Text('Product Name',
-                      //                         style: TextStyle(
-                      //                           fontSize: 14,
-                      //                           fontWeight: FontWeight.w500,
-                      //                         )),
-                      //                   ),
-                      //                   /*SizedBox(
-                      //                             height: 18,
-                      //                           ),*/
-                      //                   Row(
-                      //                     mainAxisAlignment:
-                      //                         MainAxisAlignment.spaceBetween,
-                      //                     children: [
-                      //                       Container(
-                      //                         decoration: BoxDecoration(
-                      //                           borderRadius:
-                      //                               BorderRadius.circular(4),
-                      //                         ),
-                      //                         child: Padding(
-                      //                           padding: const EdgeInsets.only(
-                      //                             left: 7,
-                      //                             right: 7,
-                      //                             top: 3,
-                      //                             bottom: 2,
-                      //                           ),
-                      //                           child: Row(
-                      //                             mainAxisSize: MainAxisSize.min,
-                      //                             children: [
-                      //                               Text(
-                      //                                 'Price',
-                      //                                 style: TextStyle(
-                      //                                   fontSize: 16,
-                      //                                 ),
-                      //                               )
-                      //                             ],
-                      //                           ),
-                      //                         ),
-                      //                       ),
+                        child: ListTile(
+                          leading: Container(
+                            height: 70,
+                            width: 70,
+                            child: ClipRRect(
+                              child: Image(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                    'https://picsum.photos/id/1/200/300'),
+                              ),
+                            ),
+                          ),
+                          title: Text(
+                            cartItems.values.toList()[index].title,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          subtitle: Text(
+                            'Price : ${cartItems.values.toList()[index].price}',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              // InkWell(
+                              //   onTap: () {
+                              //     setState(() {
+                              //       if (quentity > 1) {
+                              //         quentity--;
+                              //       }
+                              //     });
+                              //   },
+                              //   child: buttonContainer(
+                              //     Image.asset(quentity <= 1
+                              //         ? "assets/images/btn_medicine_quantity_minus_disabled.png"
+                              //         : 'assets/images/btn_medicine_quantity_minus.png'),
+                              //   ),
+                              // ),
+                              IconButton(
+                                  icon: Icon(
+                                    Icons.remove,
+                                    color: Colors.black,
+                                    size: 12,
+                                  ),
+                                  onPressed: () {
+                                    if (cltrProduct.quantity.value != 0) {
+                                      cltrProduct.quantity.value--;
+                                    }
+                                    // } else if (quantity.value < 1) {
+                                    //   cltrCart.removeItem(cltrCart.cartItem.values
+                                    //       .toList()[index]
+                                    //       .id);
+                                    // }
+                                  }),
 
-                      //                     ],
-                      //                   )
-                      //                 ],
-                      //               ),
-                      //             ),
-                      //           )
-                      //         ],
-                      //       ),
-                      //     )
-                      //   ],
-                      // ),
-                    ));
+                              Text(
+                                '${cltrProduct.quantity.value}',
+                                style: TextStyle(
+                                  color: Color(0xff010101),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.add,
+                                  color: Colors.black,
+                                ),
+                                onPressed: () {
+                                  cltrProduct.quantity.value++;
+                                },
+                                iconSize: 12,
+                              ),
+                              // InkWell(
+                              //   onTap: () {
+                              //     setState(() {
+                              //       quentity++;
+                              //     });
+                              //   },
+                              //   child: buttonContainer(
+                              //     Image.asset(
+                              //         "assets/images/btn_medicine_quantity_add.png"),
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ),
+                        // Column(
+                        //   mainAxisSize: MainAxisSize.min,
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        //   children: [
+                        //     Padding(
+                        //       padding: const EdgeInsets.only(
+                        //         top: 8,
+                        //       ),
+                        //       child: Row(
+                        //         mainAxisSize: MainAxisSize.max,
+                        //         crossAxisAlignment: CrossAxisAlignment.start,
+                        //         children: [
+                        //           // Image(
+                        //           //   height: 70,
+                        //           //   width: 70,
+                        //           //   image: AssetImage('assets/images/panadol.png'),
+                        //           // ),
+                        //           Container(
+                        //             height: 70,
+                        //             width: 70,
+                        //             child: ClipRRect(
+                        //               child: Image(
+                        //                 fit: BoxFit.cover,
+                        //                 image: NetworkImage(
+                        //                     'https://picsum.photos/id/1/200/300'),
+                        //               ),
+                        //             ),
+                        //           ),
+                        //           Expanded(
+                        //             child: Padding(
+                        //               padding: const EdgeInsets.only(
+                        //                 left: 15,
+                        //                 right: 16,
+                        //               ),
+                        //               child: Column(
+                        //                 mainAxisSize: MainAxisSize.max,
+                        //                 mainAxisAlignment:
+                        //                     MainAxisAlignment.spaceEvenly,
+                        //                 children: [
+                        //                   Padding(
+                        //                     padding: const EdgeInsets.only(
+                        //                       bottom: 14,
+                        //                     ),
+                        //                     child: Text('Product Name',
+                        //                         style: TextStyle(
+                        //                           fontSize: 14,
+                        //                           fontWeight: FontWeight.w500,
+                        //                         )),
+                        //                   ),
+                        //                   /*SizedBox(
+                        //                             height: 18,
+                        //                           ),*/
+                        //                   Row(
+                        //                     mainAxisAlignment:
+                        //                         MainAxisAlignment.spaceBetween,
+                        //                     children: [
+                        //                       Container(
+                        //                         decoration: BoxDecoration(
+                        //                           borderRadius:
+                        //                               BorderRadius.circular(4),
+                        //                         ),
+                        //                         child: Padding(
+                        //                           padding: const EdgeInsets.only(
+                        //                             left: 7,
+                        //                             right: 7,
+                        //                             top: 3,
+                        //                             bottom: 2,
+                        //                           ),
+                        //                           child: Row(
+                        //                             mainAxisSize: MainAxisSize.min,
+                        //                             children: [
+                        //                               Text(
+                        //                                 'Price',
+                        //                                 style: TextStyle(
+                        //                                   fontSize: 16,
+                        //                                 ),
+                        //                               )
+                        //                             ],
+                        //                           ),
+                        //                         ),
+                        //                       ),
+
+                        //                     ],
+                        //                   )
+                        //                 ],
+                        //               ),
+                        //             ),
+                        //           )
+                        //         ],
+                        //       ),
+                        //     )
+                        //   ],
+                        // ),
+                      ));
               },
             ),
           ),
@@ -353,25 +410,27 @@ class _CartState extends State<Cart> {
                 SizedBox(
                   height: 16,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Delivery Fees',
-                      style: TextStyle(
-                        // color: AppColors.k010101,
-                        fontSize: 12,
+                cltrCart.itemCount == 0
+                    ? Container()
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Delivery Fees',
+                            style: TextStyle(
+                              // color: AppColors.k010101,
+                              fontSize: 12,
+                            ),
+                          ),
+                          Text(
+                            '₹ ${cltrCart.delivery}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          )
+                        ],
                       ),
-                    ),
-                    Text(
-                      '₹ ${cltrCart.delivery}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
-                    )
-                  ],
-                ),
                 SizedBox(
                   height: 20,
                 ),
@@ -440,18 +499,27 @@ class _CartState extends State<Cart> {
                     fontSize: 12,
                   ),
                 ),
-                Text(
-                  '₹ ${cltrCart.totalA + cltrCart.delivery.value}',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17,
-                  ),
-                ),
+                cltrCart.itemCount == 0
+                    ? Text('₹ 0',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                        ))
+                    : Text(
+                        '₹ ${cltrCart.totalA + cltrCart.delivery.value}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                        ),
+                      ),
               ],
             ),
-            TextButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.cyan)),
+            RoundedLoadingButton(
+              controller: cltrCart.buttonCtrl,
+              borderRadius: 10,
+              height: 40,
+              width: 100,
+              color: Colors.cyan,
               child: Text(
                 'Place Order',
                 style: TextStyle(
@@ -461,9 +529,12 @@ class _CartState extends State<Cart> {
                 ),
               ),
               onPressed: () {
-                cltrCart.orderPlaced(
-                  price: cltrCart.totalA + cltrCart.delivery.value,
-                );
+                cartItems.length != 0
+                    ? cltrCart.orderPlaced(
+                        price: cltrCart.totalA + cltrCart.delivery.value,
+                      )
+                    : cltrCart.buttonCtrl.error();
+                //cltrCart.subTotal.value = 0;
               },
             ),
           ],

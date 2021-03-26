@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:pcm/controller/cart_controller.dart';
-import 'package:pcm/controller/cart_controller.dart';
 import 'package:pcm/controller/products_controller.dart';
-import 'package:get/get.dart';
 import 'package:pcm/repository/products_repository.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -19,6 +18,12 @@ class _ProductDetailsState extends State<ProductDetails> {
   CartController cltrCart = CartController();
 
   ProductsController cltrProduct = Get.put(ProductsController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    cltrProduct.quantity.value = 1;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +73,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '₹ 100',
+                    '₹ ${widget.product.get('productPrice')}',
                     style: GoogleFonts.merriweather(
                       color: Colors.black,
                       fontSize: 16,
@@ -77,7 +82,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   Row(
                     children: [
                       Card(
-                        child: Row(
+                        child: Obx(()=>Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -104,7 +109,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 onPressed: () {
                                   if (cltrProduct.quantity.value != 0) {
                                     setState(() {
-                                      cltrProduct.quantity--;
+                                      cltrProduct.quantity.value--;
                                     });
                                   }
                                 }),
@@ -124,7 +129,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  cltrProduct.quantity++;
+                                  cltrProduct.quantity.value++;
                                 });
                               },
                               iconSize: 12,
@@ -141,7 +146,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             //   ),
                             // ),
                           ],
-                        ),
+                        )),
                       ),
                       TextButton(
                         onPressed: () {
@@ -152,6 +157,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                               100,
                               cltrProduct.quantity.value);
                           print('this is cart items $cartItems');
+                          Get.snackbar(
+                            "Cart Updated Successfully",
+                            "Item Added to Cart",
+                            backgroundColor: Colors.black.withOpacity(0.8),
+                            maxWidth: MediaQuery.of(context).size.width / 1.5,
+                            colorText: Colors.white,
+                          );
                           // print(cltrProduct.cartProducts);
                         },
                         style: ButtonStyle(
@@ -159,7 +171,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               MaterialStateProperty.all(Colors.cyan),
                         ),
                         child: Text(
-                          'Add Cart',
+                          'Add to Cart',
                           style: GoogleFonts.merriweather(
                             color: Colors.white,
                             fontSize: 16,

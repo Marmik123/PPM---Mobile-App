@@ -3,6 +3,7 @@ import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/homescreen_client_controller.dart';
+import 'package:pcm/controller/products_controller.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/home/home_screen_delivery.dart';
@@ -24,7 +25,7 @@ class HomeScreenClient extends StatefulWidget {
 
 class _HomeScreenClientState extends State<HomeScreenClient> {
   HomeScreenClientController cltrClient = Get.put(HomeScreenClientController());
-
+  ProductsController proCtrl = Get.put(ProductsController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,6 +108,7 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
         ],
       ),
       body: ListView(
+        physics: ClampingScrollPhysics(),
         shrinkWrap: true,
         children: [
           SizedBox(
@@ -116,7 +118,7 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
             shrinkWrap: true,
             query: cltrClient.productData,
             lazyLoading: true,
-            preloadedColumns: ['productName', 'fileImage'],
+            preloadedColumns: ['productName', 'fileImage', 'productPrice'],
             listLoadingElement: LinearProgressIndicator(),
             childBuilder: (context, snapshot) {
               if (snapshot.failed) {
@@ -128,7 +130,8 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
                       onTap: () => Get.to(() => ProductDetails(
                             product: snapshot.loadedData,
                           )),
-                      subtitle: Text('Price : 100'),
+                      subtitle: Text(
+                          'Price: ${snapshot.loadedData.get('productPrice')}'),
                       title: Text(
                         snapshot.loadedData.get('productName'),
                         style: TextStyle(fontSize: 18),
