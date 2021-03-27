@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 // import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:parse_server_sdk/parse_server_sdk.dart';
 // import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/cart_controller.dart';
 import 'package:pcm/controller/products_controller.dart';
 import 'package:pcm/repository/products_repository.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
-import 'package:parse_server_sdk/parse_server_sdk.dart';
 
 class Cart extends StatefulWidget {
   final ParseObject product;
@@ -127,7 +127,7 @@ class _CartState extends State<Cart> {
                 cltrCart.quantity.value =
                     cartItems.values.toList()[index].quantity;
 
-                return cltrProduct.quantity.value == 0
+                return cltrCart.quantity.value == 0
                     ? Container()
                     : Container(
                         margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
@@ -198,14 +198,26 @@ class _CartState extends State<Cart> {
                                   ),
                                   onPressed: () {
                                     setState(() {
-                                      if (cltrProduct.quantity.value != 0) {
+                                      if (cartItems.values
+                                              .toList()[index]
+                                              .quantity !=
+                                          0) {
                                         cltrProduct.quantity.value--;
-                                      }
-                                      cltrCart.quantity.value--;
-                                      if (cltrCart.quantity.value == 1) {
-                                        cltrCart.removeItem(cartItems.values
+                                        cltrCart.quantity.value--;
+                                        cartItems.values
                                             .toList()[index]
-                                            .id);
+                                            .quantity--;
+                                      }
+                                      if (cltrCart.quantity.value < 1) {
+                                        /*cltrCart.removeItem(cartItems.values
+                                            .toList()[index]
+                                            .id);*/
+
+                                      }
+                                      if (cartItems.isEmpty) {
+                                        setState(() {
+                                          cltrCart.delivery.value = 0;
+                                        });
                                       }
                                     });
 
@@ -231,14 +243,15 @@ class _CartState extends State<Cart> {
                                 ),
                                 onPressed: () {
                                   setState(() {
-                                    //cartItems.values.toList()[index].quantity;
-                                    cltrCart.addItem(
+                                    cartItems.values.toList()[index].quantity++;
+                                    cltrProduct.quantity.value++;
+                                    /*cltrCart.addItem(
                                         cartItems.values.toList()[index].id,
                                         cartItems.values.toList()[index].title,
                                         cartItems.values.toList()[index].price,
                                         cartItems.values
                                             .toList()[index]
-                                            .quantity);
+                                            .quantity);*/
                                     cltrCart.quantity.value++;
                                   });
                                 },
@@ -438,7 +451,7 @@ class _CartState extends State<Cart> {
                 SizedBox(
                   height: 16,
                 ),
-                cltrCart.itemCount == 0
+                cltrCart.totalA == 0
                     ? Container()
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -527,19 +540,19 @@ class _CartState extends State<Cart> {
                     fontSize: 12,
                   ),
                 ),
-                cltrCart.quantity.value == 0
+                cltrCart.totalA == 0
                     ? Text('₹ 0',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 17,
                         ))
-                    : Text(
-                        '₹ ${cltrCart.totalA + cltrCart.delivery.value}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17,
-                        ),
-                      ),
+                    : Obx(() => Text(
+                          '₹ ${cltrCart.totalA + cltrCart.delivery.value}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                          ),
+                        )),
               ],
             ),
             RoundedLoadingButton(
@@ -558,7 +571,7 @@ class _CartState extends State<Cart> {
               ),
               onPressed: () {
                 setState(() {
-                  cartItems.length != 0
+                  cltrCart.totalA != 0
                       ? cltrCart.orderPlaced(
                           price: cltrCart.totalA + cltrCart.delivery.value,
                         )

@@ -23,6 +23,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     // TODO: implement initState
     super.initState();
     cltrProduct.quantity.value = 1;
+    cltrCart.quantity.value = 1;
   }
 
   @override
@@ -110,12 +111,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       if (cltrProduct.quantity.value != 0) {
                                         setState(() {
                                           cltrProduct.quantity.value--;
+                                          cltrCart.quantity.value--;
                                         });
                                       }
                                     }),
 
                                 Text(
-                                  '${cltrProduct.quantity.value}',
+                                  '${cltrCart.quantity.value}',
                                   style: TextStyle(
                                     color: Color(0xff010101),
                                     fontWeight: FontWeight.bold,
@@ -130,6 +132,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   onPressed: () {
                                     setState(() {
                                       cltrProduct.quantity.value++;
+                                      cltrCart.quantity.value++;
                                     });
                                   },
                                   iconSize: 12,
@@ -155,7 +158,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               widget.product.objectId,
                               widget.product.get('productName'),
                               double.parse(widget.product.get('productPrice')),
-                              cltrProduct.quantity.value);
+                              cltrCart.quantity.value);
                           print('this is cart items $cartItems');
 
                           // print(cltrProduct.cartProducts);

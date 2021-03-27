@@ -20,11 +20,11 @@ class CartController extends GetxController {
   }
 
   double get totalA {
-    var total = 0.0;
+    var total = 0.0.obs;
     cartItems.forEach((key, cartItem) {
-      total += cartItem.price * cartItem.quantity;
+      total.value += cartItem.price * cartItem.quantity;
     });
-    return total;
+    return total.value;
   }
 
   void addItem(

@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/products_controller.dart';
 import 'package:pcm/repository/products_repository.dart';
+import 'package:pcm/view/home/home_screen_distributor.dart';
 
 import '../controller/cart_controller.dart';
 
@@ -36,8 +37,9 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
             /* cltrCart.subTotal.value = 0;
             cartItems.clear();*/
             cartItems.clear();
-            cltrProduct.quantity.value = 1;
-            Get.back();
+            cltrCart.quantity.value = 0;
+            Get.to(HomeScreenDistributor());
+            //Get.back();
           },
         ),
         brightness: Brightness.light,
@@ -159,31 +161,28 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                 SizedBox(
                   height: 15,
                 ),
-                Obx(
-                  () => ListView.builder(
-                    shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
-                    itemCount: cltrCart.orderDetails.length,
-                    itemBuilder: (BuildContext context, index) {
-                      cltrCart.subTotal.value =
-                          widget.order.get('total_price') -
-                              cltrCart.delivery.value;
-                      return ListTile(
-                        leading: CircleAvatar(
-                          child: Text(
-                            '${cltrCart.orderDetails[index]['quantity'] ?? "-"} x ',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          radius: 20,
-                          backgroundColor: Color.fromRGBO(90, 177, 255, 0.1),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: ClampingScrollPhysics(),
+                  itemCount: cltrCart.orderDetails.length,
+                  itemBuilder: (BuildContext context, index) {
+                    cltrCart.subTotal.value = widget.order.get('total_price') -
+                        cltrCart.delivery.value;
+                    return ListTile(
+                      leading: CircleAvatar(
+                        child: Text(
+                          '${cltrCart.orderDetails[index]['quantity'] ?? "-"} x ',
+                          style: TextStyle(color: Colors.black),
                         ),
-                        title: Text(
-                            cltrCart.orderDetails[index]['name'] ?? "name"),
-                        trailing: Text(
-                            '₹ ${cltrCart.orderDetails[index]['quantity'] * cltrCart.orderDetails[index]['price']}'),
-                      );
-                    },
-                  ),
+                        radius: 20,
+                        backgroundColor: Color.fromRGBO(90, 177, 255, 0.1),
+                      ),
+                      title:
+                          Text(cltrCart.orderDetails[index]['name'] ?? "name"),
+                      trailing: Text(
+                          '₹ ${cltrCart.orderDetails[index]['quantity'] * cltrCart.orderDetails[index]['price']}'),
+                    );
+                  },
                 ),
                 Divider(
                   endIndent: 25,
