@@ -7,8 +7,12 @@ import 'package:pcm/controller/cart_controller.dart';
 import 'package:pcm/controller/products_controller.dart';
 import 'package:pcm/repository/products_repository.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:parse_server_sdk/parse_server_sdk.dart';
 
 class Cart extends StatefulWidget {
+  final ParseObject product;
+
+  const Cart({Key key, this.product}) : super(key: key);
   @override
   _CartState createState() => _CartState();
 }
@@ -53,8 +57,12 @@ class _CartState extends State<Cart> {
                           backgroundColor:
                               MaterialStateProperty.all(Colors.cyan)),
                       onPressed: () {
-                        cartItems.clear();
-                        cltrProduct.quantity.value = 0;
+                        setState(() {
+                          cartItems.clear();
+                          cltrCart.quantity.value = 0;
+                          cltrCart.delivery.value = 0;
+                          Get.back();
+                        });
                       },
                       child: Text("Yes")),
                   cancel: ElevatedButton(
@@ -116,9 +124,10 @@ class _CartState extends State<Cart> {
               physics: ClampingScrollPhysics(),
               itemCount: cltrCart.itemCount,
               itemBuilder: (context, index) {
-                RxInt quantity = cartItems.values.toList()[index].quantity.obs;
+                cltrCart.quantity.value =
+                    cartItems.values.toList()[index].quantity;
 
-                return Obx(() => cltrProduct.quantity.value == 0
+                return cltrProduct.quantity.value == 0
                     ? Container()
                     : Container(
                         margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
@@ -188,9 +197,18 @@ class _CartState extends State<Cart> {
                                     size: 12,
                                   ),
                                   onPressed: () {
-                                    if (cltrProduct.quantity.value != 0) {
-                                      cltrProduct.quantity.value--;
-                                    }
+                                    setState(() {
+                                      if (cltrProduct.quantity.value != 0) {
+                                        cltrProduct.quantity.value--;
+                                      }
+                                      cltrCart.quantity.value--;
+                                      if (cltrCart.quantity.value == 1) {
+                                        cltrCart.removeItem(cartItems.values
+                                            .toList()[index]
+                                            .id);
+                                      }
+                                    });
+
                                     // } else if (quantity.value < 1) {
                                     //   cltrCart.removeItem(cltrCart.cartItem.values
                                     //       .toList()[index]
@@ -199,7 +217,7 @@ class _CartState extends State<Cart> {
                                   }),
 
                               Text(
-                                '${cltrProduct.quantity.value}',
+                                '${cltrCart.quantity.value}',
                                 style: TextStyle(
                                   color: Color(0xff010101),
                                   fontWeight: FontWeight.bold,
@@ -212,7 +230,17 @@ class _CartState extends State<Cart> {
                                   color: Colors.black,
                                 ),
                                 onPressed: () {
-                                  cltrProduct.quantity.value++;
+                                  setState(() {
+                                    //cartItems.values.toList()[index].quantity;
+                                    cltrCart.addItem(
+                                        cartItems.values.toList()[index].id,
+                                        cartItems.values.toList()[index].title,
+                                        cartItems.values.toList()[index].price,
+                                        cartItems.values
+                                            .toList()[index]
+                                            .quantity);
+                                    cltrCart.quantity.value++;
+                                  });
                                 },
                                 iconSize: 12,
                               ),
@@ -324,7 +352,7 @@ class _CartState extends State<Cart> {
                         //     )
                         //   ],
                         // ),
-                      ));
+                      );
               },
             ),
           ),
@@ -499,7 +527,7 @@ class _CartState extends State<Cart> {
                     fontSize: 12,
                   ),
                 ),
-                cltrCart.itemCount == 0
+                cltrCart.quantity.value == 0
                     ? Text('₹ 0',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -529,11 +557,14 @@ class _CartState extends State<Cart> {
                 ),
               ),
               onPressed: () {
-                cartItems.length != 0
-                    ? cltrCart.orderPlaced(
-                        price: cltrCart.totalA + cltrCart.delivery.value,
-                      )
-                    : cltrCart.buttonCtrl.error();
+                setState(() {
+                  cartItems.length != 0
+                      ? cltrCart.orderPlaced(
+                          price: cltrCart.totalA + cltrCart.delivery.value,
+                        )
+                      : showerror();
+                });
+
                 //cltrCart.subTotal.value = 0;
               },
             ),
@@ -541,5 +572,16 @@ class _CartState extends State<Cart> {
         ),
       ),
     );
+  }
+
+  showerror() {
+    Get.snackbar(
+      "Cart Is Empty",
+      "Please add items",
+      backgroundColor: Colors.black.withOpacity(0.8),
+      maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
+      colorText: Colors.white,
+    );
+    cltrCart.buttonCtrl.error();
   }
 }

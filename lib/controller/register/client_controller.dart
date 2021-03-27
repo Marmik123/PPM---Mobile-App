@@ -1,13 +1,13 @@
 import 'dart:io';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 // import 'package:loading_hud/loading_hud.dart';
 // import 'package:loading_hud/loading_indicator.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 // import 'package:pcm/repository/user_repository.dart';
 
 class ClientController extends GetxController {
@@ -93,8 +93,8 @@ class ClientController extends GetxController {
       btnController.error();
       print(e);
     } finally {
-      Future.delayed(Duration(milliseconds: 1500))
-          .then((value) => btnController.reset());
+      /*Future.delayed(Duration(milliseconds: 1500))
+          .then((value) => btnController.reset());*/
       Get.back();
     }
   }
@@ -132,7 +132,7 @@ class ClientController extends GetxController {
     } else {
       print('location available');
       position = await Geolocator.getCurrentPosition();
-      print(position.latitude);
+      //print(position.latitude);
     }
   }
 

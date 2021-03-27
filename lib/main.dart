@@ -16,7 +16,7 @@ import 'package:pcm/view/login.dart';
 
 const String parse_App_ID = '849F7316D6729D5A14451E65AF5E1';
 const String parse_Masterkey = 'A2F3518273BE94F51A3BD44CBAC5E';
-const String parse_App_url = 'https://cup.marketing.dharmatech.in/parse';
+const String parse_App_url = 'https://cup.marketing.dharmatech.in/manage';
 const String kParseLiveQueryUrl = 'wss://cup.marketing.dharmatech.in';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

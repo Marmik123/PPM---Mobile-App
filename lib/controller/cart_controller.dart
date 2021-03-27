@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/model/cart_item.dart';
@@ -10,6 +11,7 @@ class CartController extends GetxController {
   RxDouble subTotal = 0.0.obs;
   RxList orderDetails = [].obs;
   RxList orderHistory = [].obs;
+  RxInt quantity = 0.obs;
   RoundedLoadingButtonController buttonCtrl = RoundedLoadingButtonController();
   QueryBuilder<ParseObject> orderData =
       QueryBuilder<ParseObject>(ParseObject('Orders'));
@@ -55,10 +57,19 @@ class CartController extends GetxController {
               ));
     }
     print('product added to the cart');
+    Get.snackbar(
+      "Cart Updated Successfully",
+      "Item Added to Cart",
+      backgroundColor: Colors.black.withOpacity(0.8),
+      maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
+      colorText: Colors.white,
+    );
   }
 
   void removeItem(String productId) {
     cartItems.remove(productId);
+    quantity--;
+    print("remove item from cart");
   }
 
   void singleItem(String prodId) {
@@ -123,6 +134,13 @@ class CartController extends GetxController {
         print(response.result.get('objectId'));
         objectId = response.result.get('objectId');
         print('successful!!!!!!!!!!');
+        Get.snackbar(
+          "Order Placed Successfully",
+          "",
+          backgroundColor: Colors.black.withOpacity(0.8),
+          maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
+          colorText: Colors.white,
+        );
         Future.delayed(Duration(milliseconds: 800), () {
           Get.off(() => PurchaseReceipt(orderData));
         });

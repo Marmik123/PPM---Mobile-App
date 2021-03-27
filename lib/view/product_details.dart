@@ -82,71 +82,71 @@ class _ProductDetailsState extends State<ProductDetails> {
                   Row(
                     children: [
                       Card(
-                        child: Obx(()=>Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            // InkWell(
-                            //   onTap: () {
-                            //     setState(() {
-                            //       if (quentity > 1) {
-                            //         quentity--;
-                            //       }
-                            //     });
-                            //   },
-                            //   child: buttonContainer(
-                            //     Image.asset(quentity <= 1
-                            //         ? "assets/images/btn_medicine_quantity_minus_disabled.png"
-                            //         : 'assets/images/btn_medicine_quantity_minus.png'),
-                            //   ),
-                            // ),
-                            IconButton(
-                                icon: Icon(
-                                  Icons.remove,
-                                  color: Colors.black,
-                                  size: 12,
-                                ),
-                                onPressed: () {
-                                  if (cltrProduct.quantity.value != 0) {
-                                    setState(() {
-                                      cltrProduct.quantity.value--;
-                                    });
-                                  }
-                                }),
+                        child: Obx(() => Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                // InkWell(
+                                //   onTap: () {
+                                //     setState(() {
+                                //       if (quentity > 1) {
+                                //         quentity--;
+                                //       }
+                                //     });
+                                //   },
+                                //   child: buttonContainer(
+                                //     Image.asset(quentity <= 1
+                                //         ? "assets/images/btn_medicine_quantity_minus_disabled.png"
+                                //         : 'assets/images/btn_medicine_quantity_minus.png'),
+                                //   ),
+                                // ),
+                                IconButton(
+                                    icon: Icon(
+                                      Icons.remove,
+                                      color: Colors.black,
+                                      size: 12,
+                                    ),
+                                    onPressed: () {
+                                      if (cltrProduct.quantity.value != 0) {
+                                        setState(() {
+                                          cltrProduct.quantity.value--;
+                                        });
+                                      }
+                                    }),
 
-                            Text(
-                              '${cltrProduct.quantity.value}',
-                              style: TextStyle(
-                                color: Color(0xff010101),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.add,
-                                color: Colors.black,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  cltrProduct.quantity.value++;
-                                });
-                              },
-                              iconSize: 12,
-                            ),
-                            // InkWell(
-                            //   onTap: () {
-                            //     setState(() {
-                            //       quentity++;
-                            //     });
-                            //   },
-                            //   child: buttonContainer(
-                            //     Image.asset(
-                            //         "assets/images/btn_medicine_quantity_add.png"),
-                            //   ),
-                            // ),
-                          ],
-                        )),
+                                Text(
+                                  '${cltrProduct.quantity.value}',
+                                  style: TextStyle(
+                                    color: Color(0xff010101),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.add,
+                                    color: Colors.black,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      cltrProduct.quantity.value++;
+                                    });
+                                  },
+                                  iconSize: 12,
+                                ),
+                                // InkWell(
+                                //   onTap: () {
+                                //     setState(() {
+                                //       quentity++;
+                                //     });
+                                //   },
+                                //   child: buttonContainer(
+                                //     Image.asset(
+                                //         "assets/images/btn_medicine_quantity_add.png"),
+                                //   ),
+                                // ),
+                              ],
+                            )),
                       ),
                       TextButton(
                         onPressed: () {
@@ -154,16 +154,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                           cltrCart.addItem(
                               widget.product.objectId,
                               widget.product.get('productName'),
-                              100,
+                              double.parse(widget.product.get('productPrice')),
                               cltrProduct.quantity.value);
                           print('this is cart items $cartItems');
-                          Get.snackbar(
-                            "Cart Updated Successfully",
-                            "Item Added to Cart",
-                            backgroundColor: Colors.black.withOpacity(0.8),
-                            maxWidth: MediaQuery.of(context).size.width / 1.5,
-                            colorText: Colors.white,
-                          );
+
                           // print(cltrProduct.cartProducts);
                         },
                         style: ButtonStyle(
