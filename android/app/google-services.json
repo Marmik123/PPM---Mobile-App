@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "276131450498",
+    "project_id": "pcmapp-9ef46",
+    "storage_bucket": "pcmapp-9ef46.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:276131450498:android:6bbbed647d2efbf62e2e9b",
+        "android_client_info": {
+          "package_name": "com.em.pcm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "276131450498-834cm5919tvupp133omn71aucbl3bicb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhiOKD2-HzjOvQDBxfO7c-_f4Ve2Fyr80"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "276131450498-834cm5919tvupp133omn71aucbl3bicb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

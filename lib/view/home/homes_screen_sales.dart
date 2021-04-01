@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
         titleSpacing: 0,
         leading: Icon(Icons.home_outlined),
         title: Text(
-          'HomeScreen',
+          'Home Screen',
         ),
         actions: [
           PopupMenuButton(
@@ -108,7 +108,7 @@ class HomeScreen extends StatelessWidget {
                       },
                     )),
               ),
-              Card(
+/*              Card(
                 child: ListTile(
                     // tileColor: Colors.cyanAccent,
                     // onTap: () {
@@ -116,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                     // },
                     leading: Icon(Icons.domain),
                     title:
-                        Text('Distributors Registered' /*S.of(context).jobs*/),
+                        Text('Distributors Registered' */ /*S.of(context).jobs*/ /*),
                     trailing: GestureDetector(
                       child: Chip(
                         label: Text('Add'),
@@ -134,7 +134,7 @@ class HomeScreen extends StatelessWidget {
                         //     .pushNamed(CreateReception.routeName);
                       },
                     )),
-              ),
+              ),*/
               SizedBox(
                 height: 20,
               ),

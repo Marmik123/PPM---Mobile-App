@@ -35,8 +35,8 @@ dev_dependencies:
   parse_server_sdk_flutter: ^2.1.0
   shared_preferences: ^2.0.3
 #  http: ^0.13.0
-  flutter_localizations:
-    sdk: flutter
+  #flutter_localizations:
+  #  sdk: flutter
   google_fonts: ^2.0.0
   get: ^3.25.6
   rounded_loading_button: ^1.0.18
@@ -59,6 +59,11 @@ dependency_overrides:
   crypto: ^3.0.0
   plugin_platform_interface: ^2.0.0
   http_parser: ^4.0.0
+  pin_code_fields: ^6.0.2
+  country_picker: ^2.0.1
+  firebase_core: ^0.6.0
+  firebase_auth: ^0.19.0
+  firebase_analytics: ^7.0.0
 
 flutter:
 

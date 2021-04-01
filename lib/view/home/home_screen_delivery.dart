@@ -5,12 +5,9 @@ import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/order/ongoing_order_delivery.dart';
 import 'package:pcm/view/order/order_history_delivery.dart';
 import 'package:pcm/widgets/bottom_widget.dart';
-// import 'package:pcm/view/register/client.dart';
-import 'package:pcm/widgets/dashbord_card.dart';
 
 import '../common/feedback.dart';
 import '../common/support.dart';
-import 'home_screen_distributor.dart';
 
 class HomeScreenDelivery extends StatelessWidget {
   @override
@@ -79,21 +76,22 @@ class HomeScreenDelivery extends StatelessWidget {
         ],
       ),
       body: ListView(
-        // shrinkWrap: true,
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
         children: [
           ListView.builder(
             physics: ClampingScrollPhysics(),
             shrinkWrap: true,
-            itemCount: 5,
+            itemCount: 1,
             itemBuilder: (context, index) {
               return OngoingOrderDelivery();
             },
           ),
-          dashboardContainer(
+          /* dashboardContainer(
             name: 'Distributor',
             icon: Icons.domain,
             onTap: () => Get.to(HomeScreenDistributor()),
-          ),
+          ),*/
         ],
       ),
       // Container(

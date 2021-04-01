@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
-import 'package:pcm/repository/user_repository.dart';
+import 'package:pcm/controller/register/login_mobile_controller.dart';
+import 'package:pcm/view/home/home_screen_client.dart';
+import 'package:pcm/view/home/home_screen_delivery.dart';
 
 import '../view/home/homes_screen_sales.dart';
 
@@ -12,6 +14,61 @@ class LoginController extends GetxController {
 
   final userController = TextEditingController();
   final passController = TextEditingController();
+  SignInController phoneCtrl = Get.put(SignInController());
+  QueryBuilder<ParseObject> clientInfo =
+      QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
+        ..whereEqualTo('role', 'Client');
+
+  QueryBuilder<ParseObject> salesInfo =
+      QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
+        ..whereEqualTo('role', 'SalesPerson');
+
+  QueryBuilder<ParseObject> delInfo =
+      QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
+        ..whereEqualTo('role', 'DeliveryBoy');
+
+  Future<void> userMobileLogin(String mobile) async {
+    try {
+      print('load User try executed');
+      QueryBuilder<ParseObject> data =
+          QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
+            ..whereEqualTo('number', mobile);
+      ParseResponse response = await data.query();
+      print("client query");
+      if (response.success) {
+        print(response);
+        if (response.results[0]['role'] == "Client") {
+          Get.to(() => HomeScreenClient());
+        } else if (response.results[0]['role'] == "DeliveryBoy") {
+          Get.to(() => HomeScreenDelivery());
+        } else if (response.results[0]['role'] == "SalesPerson") {
+          Get.to(() => HomeScreen());
+        } else if (response.isBlank) {
+          Get.to(() => HomeScreen());
+        }
+      } else {
+        Get.snackbar(
+          "Error Occured",
+          "Some Internal Error,Please try again.",
+          backgroundColor: Colors.white,
+          duration: Duration(seconds: 2),
+          colorText: Colors.teal,
+        );
+        print("error occured ");
+      }
+    } catch (e) {
+      Get.snackbar(
+        "Error Occured",
+        "Some Internal Error,Please try again.",
+        backgroundColor: Colors.white,
+        duration: Duration(seconds: 2),
+        colorText: Colors.teal,
+      );
+      print(e);
+    }
+  }
+
+/*
   Future<ParseUser> login(
     String username,
     String pass,
@@ -29,7 +86,13 @@ class LoginController extends GetxController {
       Get.to(HomeScreen());
     } else {
       print(result.error.message);
-
+      Get.snackbar(
+        "Error Occured",
+        "Some Internal Error,Please try again.",
+        backgroundColor: Colors.white,
+        duration: Duration(seconds: 2),
+        colorText: Colors.teal,
+      );
       // showDialog(
       //   context: context,
       //   builder: (context) => AlertDialog(
@@ -50,6 +113,7 @@ class LoginController extends GetxController {
 
     return user;
   }
+*/
 
 // Future<ParseUser> signUP(username, pass) async {
 //   var user = ParseUser(username, pass, '')..set('role', 'admin');

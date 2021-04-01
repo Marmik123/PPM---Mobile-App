@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pcm/controller/register/client_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pcm/controller/register/client_controller.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-class ClientRegister extends StatelessWidget {
+class ClientRegister extends StatefulWidget {
+  @override
+  _ClientRegisterState createState() => _ClientRegisterState();
+}
+
+class _ClientRegisterState extends State<ClientRegister> {
+  int selectedType = 0;
+
   ClientController con = Get.put(ClientController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,6 +89,100 @@ class ClientRegister extends StatelessWidget {
                   return null;
                 },
               ),
+              SizedBox(
+                height: 10,
+              ),
+              DropdownButtonFormField(
+                  isExpanded: true,
+                  value: selectedType,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedType = value;
+                    });
+                  },
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Enter Shop Name';
+                    }
+                    return null;
+                  },
+                  iconEnabledColor: Colors.black,
+                  iconDisabledColor: Colors.cyan,
+                  decoration: InputDecoration(
+                    labelText: "Enter Type of Store",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.blueGrey),
+                    ),
+                  ),
+                  items: [
+                    DropdownMenuItem(
+                        value: 0,
+                        child: Text(
+                          "Stationary",
+                          style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        )),
+                    DropdownMenuItem(
+                        value: 1,
+                        child: Text(
+                          "Kirana",
+                          style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        )),
+                    DropdownMenuItem(
+                        value: 2,
+                        child: Text(
+                          "Dairy",
+                          style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        )),
+                    DropdownMenuItem(
+                        value: 3,
+                        child: Text(
+                          "Vegetable",
+                          style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        )),
+                    DropdownMenuItem(
+                        value: 4,
+                        child: Text(
+                          "Provision",
+                          style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        )),
+                    DropdownMenuItem(
+                        value: 5,
+                        child: Text(
+                          "Medical",
+                          style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ))
+                  ]),
               SizedBox(
                 height: 10,
               ),

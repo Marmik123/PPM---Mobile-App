@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/homescreen_client_controller.dart';
 import 'package:pcm/controller/products_controller.dart';
+import 'package:pcm/view/cart.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/home/home_screen_delivery.dart';
@@ -39,6 +40,12 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
           'HomeScreen',
         ),
         actions: [
+          IconButton(
+              icon: Icon(Icons.shopping_cart_outlined),
+              onPressed: () {
+                // Add Your Code here.
+                return Get.to(() => Cart());
+              }),
           IconButton(
               icon: Icon(Icons.qr_code_scanner),
               onPressed: () {
@@ -116,6 +123,7 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
           ),
           ParseLiveListWidget<ParseObject>(
             shrinkWrap: true,
+            scrollPhysics: ClampingScrollPhysics(),
             query: cltrClient.productData,
             lazyLoading: true,
             preloadedColumns: ['productName', 'fileImage', 'productPrice'],

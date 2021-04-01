@@ -115,7 +115,7 @@ class HomeScreenDistributor extends StatelessWidget {
         shrinkWrap: true,
         query: cltrClient.productData,
         lazyLoading: true,
-        preloadedColumns: ['productName', 'fileImage', 'productPrice'],
+        preloadedColumns: ['productName', 'productPhoto', 'productPrice'],
         listLoadingElement: Center(child: CircularProgressIndicator()),
         childBuilder: (context, snapshot) {
           if (snapshot.failed) {
