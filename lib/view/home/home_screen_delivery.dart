@@ -1,15 +1,36 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:pcm/controller/orders_assign_controller.dart';
+import 'package:pcm/controller/register/login_mobile_controller.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/order/ongoing_order_delivery.dart';
 import 'package:pcm/view/order/order_history_delivery.dart';
 import 'package:pcm/widgets/bottom_widget.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../common/feedback.dart';
 import '../common/support.dart';
 
-class HomeScreenDelivery extends StatelessWidget {
+class HomeScreenDelivery extends StatefulWidget {
+  @override
+  _HomeScreenDeliveryState createState() => _HomeScreenDeliveryState();
+}
+
+class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
+  OrderAssignController assignCtrl = Get.put(OrderAssignController());
+
+  RoundedLoadingButtonController ctrl = RoundedLoadingButtonController();
+  SignInController phoneCtrl = Get.put(SignInController());
+  /*@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    assignCtrl.showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
+  }*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +41,7 @@ class HomeScreenDelivery extends StatelessWidget {
         titleSpacing: 0,
         leading: Icon(Icons.home_outlined),
         title: Text(
-          'HomeScreen',
+          'Home Screen',
         ),
         actions: [
           PopupMenuButton(
@@ -79,14 +100,62 @@ class HomeScreenDelivery extends StatelessWidget {
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),
         children: [
-          ListView.builder(
-            physics: ClampingScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: 1,
-            itemBuilder: (context, index) {
-              return OngoingOrderDelivery();
-            },
-          ),
+          Obx(
+            () => assignCtrl.noOrderLeft.value
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 5, right: 5, top: 150),
+                    child: Column(
+                      //crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          elevation: 35,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.cyan,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Text(
+                                "Great, All Done!",
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 35,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Text(
+                          "No more orders are there for Delivery",
+                          style: GoogleFonts.montserrat(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.cyan),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    physics: ClampingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: assignCtrl.orderList.length ?? 0,
+                    itemBuilder: (context, index) {
+                      return OngoingOrderDelivery(
+                        index: index,
+                      );
+                    },
+                  ),
+          )
           /* dashboardContainer(
             name: 'Distributor',
             icon: Icons.domain,
@@ -142,7 +211,9 @@ class HomeScreenDelivery extends StatelessWidget {
       // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: BottomWidget(
-        onTap: () => Get.to(OrderHistoryDelivery()),
+        onTap: () {
+          return Get.to(() => OrderHistoryDelivery());
+        },
       ),
     );
   }

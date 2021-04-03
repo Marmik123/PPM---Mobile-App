@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:pcm/controller/orders_assign_controller.dart';
+import 'package:pcm/widgets/circular_loader.dart';
 
 class OngoingOrderDelivery extends StatelessWidget {
+  OrderAssignController assignCtrl = Get.put(OrderAssignController());
+
+  int index;
+
+  OngoingOrderDelivery({Key key, this.index}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.all(5),
-      child: Column(
+      child: /*Obx(
+          () =>*/
+          Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
@@ -20,7 +29,7 @@ class OngoingOrderDelivery extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  DateTime.now().toString(),
+                  assignCtrl.orderList[index]['date_time'].toString(),
                   style: GoogleFonts.montserrat(
                       fontSize: 12, fontWeight: FontWeight.w500),
                 ),
@@ -57,7 +66,7 @@ class OngoingOrderDelivery extends StatelessWidget {
                           ),
                         )),
                     Text(
-                      '0000023',
+                      assignCtrl.orderList[index]['objectId'],
                       style: GoogleFonts.montserrat(
                         fontSize: 14,
                         fontWeight: FontWeight.w300,
@@ -72,7 +81,7 @@ class OngoingOrderDelivery extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('customerName',
+                    Text('Total Price',
                         style: GoogleFonts.montserrat(
                           fontSize: 14,
                           fontWeight: FontWeight.w300,
@@ -84,7 +93,7 @@ class OngoingOrderDelivery extends StatelessWidget {
                           ),
                         )),
                     Text(
-                      'Seth Caldwell',
+                      assignCtrl.orderList[index]['total_price'].toString(),
                       style: GoogleFonts.montserrat(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -99,7 +108,7 @@ class OngoingOrderDelivery extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('CustomerNumber',
+                    Text('Payment option',
                         style: GoogleFonts.montserrat(
                           fontSize: 14,
                           fontWeight: FontWeight.w300,
@@ -111,7 +120,7 @@ class OngoingOrderDelivery extends StatelessWidget {
                           ),
                         )),
                     Text(
-                      '9874563210',
+                      assignCtrl.orderList[index]['payment_option'],
                       style: GoogleFonts.montserrat(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -207,43 +216,44 @@ class OngoingOrderDelivery extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              RoundedLoadingButton(
-                color: Colors.cyan,
-                child: Text(
-                  'Delivered',
-                  style: TextStyle(color: Colors.white),
-                ),
-                borderRadius: 10,
-                height: 40,
-                width: 100,
-                // controller: _btnSubmit,
-                onPressed: () {},
-                // () => _passKey.currentState.validate()
-                // ? _submit()
-                // : Scaffold.of(context).showSnackBar(
-                // SnackBar(content: Text(S.of(context).passFail))),
-              ),
-              RoundedLoadingButton(
-                color: Colors.cyan,
-                child: Text(
-                  'Cash Collected',
-                  style: TextStyle(color: Colors.white),
-                ),
-                borderRadius: 10,
-                height: 40,
-                width: 100,
-                // controller: _btnSubmit,
-                onPressed: () {},
-                // () => _passKey.currentState.validate()
-                // ? _submit()
-                // : Scaffold.of(context).showSnackBar(
-                // SnackBar(content: Text(S.of(context).passFail))),
-              ),
-            ],
+          Obx(() => assignCtrl.isLoading.value
+                  ? buildLoader()
+                  : ElevatedButton(
+                      child: Text(
+                        'Delivered',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      style: ButtonStyle(
+                        elevation: MaterialStateProperty.all(25),
+                        backgroundColor: MaterialStateProperty.all(Colors.cyan),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        )),
+                      ),
+                      onPressed: () {
+                        assignCtrl.setDeliveryStatus(
+                            assignCtrl.orderList[index], "yes");
+                      },
+                    )
+/*
+          RoundedLoadingButton(
+            color: Colors.cyan,
+            child: Text(
+              'Delivered',
+              style: TextStyle(color: Colors.white),
+            ),
+            borderRadius: 10,
+            height: 40,
+            width: 100,
+            controller: assignCtrl.ctrl,
+
+            // () => _passKey.currentState.validate()
+            // ? _submit()
+            // : Scaffold.of(context).showSnackBar(
+            // SnackBar(content: Text(S.of(context).passFail))),
           )
+*/
+              ),
         ],
       ),
     );

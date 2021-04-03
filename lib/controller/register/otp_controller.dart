@@ -5,12 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pcm/controller/login_controller.dart';
+import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class OtpController extends GetxController {
   String verificationId;
   FocusNode otpFocus = FocusNode();
+  OrderAssignController assignCtrl = Get.put(OrderAssignController());
+
   RoundedLoadingButtonController butCtrl = RoundedLoadingButtonController();
 
   String otpValue = "";
@@ -56,6 +59,8 @@ class OtpController extends GetxController {
             print("User is  registered");
             loginCtrl
                 .userMobileLogin(phoneCtrl.mobileNo.text.trim().toString());
+            assignCtrl
+                .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
           }
         },
         verificationFailed: (FirebaseAuthException e) {
@@ -118,6 +123,7 @@ class OtpController extends GetxController {
         loginCtrl.userMobileLogin(phoneCtrl.mobileNo.text.trim().toString());
         // Get.offAll(HomeScreen());
         print("login successful");
+        assignCtrl.showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
       } /* else if (value != null*/ /* && token == 'newuser'*/ /*) {
         print("New user");
         Get.to(HomeScreen());
