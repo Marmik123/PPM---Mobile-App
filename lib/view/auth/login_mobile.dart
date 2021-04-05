@@ -1,4 +1,3 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,13 +16,22 @@ class SignIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            colors: [Colors.white, Colors.cyan],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          )),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 60, left: 40.0, bottom: 30),
+                padding:
+                    const EdgeInsets.only(top: 100, left: 40.0, bottom: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -89,30 +97,30 @@ class SignIn extends StatelessWidget {
                                     return "Please enter a valid number";
                                   } else
                                     return null;
+/*                                  showCountryPicker(
+                                    context: context,
+                                    //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
+                                    exclude: <String>['KN', 'MF'],
+                                    //Optional. Shows phone code before the country name.
+                                    showPhoneCode: true,
+                                    onSelect: (Country country) {
+                                      ctrl.phoneCode = country.phoneCode;
+                                      //ctrl.phoneCode.value = country.phoneCode;
+                                      print(
+                                          'Select country: ${country.displayName}');
+                                    },
+                                  );*/
                                 },
                                 decoration: InputDecoration(
-                                  prefixIcon: IconButton(
+                                  /*prefixIcon: IconButton(
                                     icon: Icon(
                                       Icons.arrow_drop_down,
                                       color: Colors.black,
                                     ),
                                     onPressed: () {
-                                      showCountryPicker(
-                                        context: context,
-                                        //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
-                                        exclude: <String>['KN', 'MF'],
-                                        //Optional. Shows phone code before the country name.
-                                        showPhoneCode: true,
-                                        onSelect: (Country country) {
-                                          ctrl.phoneCode = country.phoneCode;
-                                          //ctrl.phoneCode.value = country.phoneCode;
-                                          print(
-                                              'Select country: ${country.displayName}');
-                                        },
-                                      );
                                     },
-                                  ),
-                                  prefixText: "+${ctrl.phoneCode}  " ?? "+12",
+                                  ),*/
+                                  prefixText: "+91  " ?? "+12",
                                   /*prefixStyle: kStyle.copyWith(
                                         color: Colors.black,
                                         fontSize: 18,

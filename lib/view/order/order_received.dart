@@ -9,12 +9,12 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/cart_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 
-class OrderPlaced extends StatefulWidget {
+class OrderReceived extends StatefulWidget {
   @override
-  _OrderPlacedState createState() => _OrderPlacedState();
+  _OrderReceivedState createState() => _OrderReceivedState();
 }
 
-class _OrderPlacedState extends State<OrderPlaced> {
+class _OrderReceivedState extends State<OrderReceived> {
   CartController cltrCart = Get.put(CartController());
   SignInController ctrl = Get.put(SignInController());
 
@@ -48,7 +48,7 @@ class _OrderPlacedState extends State<OrderPlaced> {
               ParseLiveListWidget<ParseObject>(
                 shrinkWrap: true,
                 query: cltrCart
-                    .showOrderHistory(ctrl.mobileNo.text.trim().toString()),
+                    .showReceivedOrder(ctrl.mobileNo.text.trim().toString()),
                 scrollPhysics: ClampingScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 lazyLoading: true,

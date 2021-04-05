@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
-import 'package:pcm/view/home/home_screen_client.dart';
 // import 'package:pcm/view/home/home_screen_delivery.dart';
 import 'package:pcm/view/register/client.dart';
-// import 'package:pcm/widgets/bottom_widget.dart';
-import 'package:pcm/widgets/dashbord_card.dart';
 
 import '../common/feedback.dart';
 import '../common/support.dart';
@@ -138,6 +135,7 @@ class HomeScreen extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
+/*
               Expanded(
                 child: GridView(
                   padding: EdgeInsets.all(20),
@@ -174,6 +172,7 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               )
+*/
             ],
           ),
         ),

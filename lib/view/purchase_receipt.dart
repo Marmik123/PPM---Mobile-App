@@ -177,6 +177,9 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                         radius: 20,
                         backgroundColor: Color.fromRGBO(90, 177, 255, 0.1),
                       ),
+                      subtitle: Text(
+                          "Size: ${cltrCart.orderDetails[index]['size']}" ??
+                              "size"),
                       title:
                           Text(cltrCart.orderDetails[index]['name'] ?? "name"),
                       trailing: Text(

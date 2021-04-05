@@ -7,13 +7,10 @@ import 'package:pcm/controller/products_controller.dart';
 import 'package:pcm/view/cart.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
-import 'package:pcm/view/home/home_screen_delivery.dart';
 import 'package:pcm/view/order/order_placed.dart';
 // import 'package:pcm/view/products.dart';
 // import 'package:pcm/view/register/client.dart';
 import 'package:pcm/widgets/bottom_widget.dart';
-import 'package:pcm/widgets/dashbord_card.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 import '../common/feedback.dart';
 import '../common/support.dart';
@@ -46,7 +43,7 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
                 // Add Your Code here.
                 return Get.to(() => Cart());
               }),
-          IconButton(
+/*          IconButton(
               icon: Icon(Icons.qr_code_scanner),
               onPressed: () {
                 showDialog(
@@ -61,7 +58,7 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
                     );
                   },
                 );
-              }),
+              })*/
           PopupMenuButton(
             icon: Icon(Icons.more_vert),
             onSelected: (value) {
@@ -246,11 +243,11 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
           //     ],
           //   ),
           // )
-          dashboardContainer(
+/*          dashboardContainer(
             name: 'Delivery',
             icon: Icons.delivery_dining,
             onTap: () => Get.to(HomeScreenDelivery()),
-          ),
+          ),*/
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

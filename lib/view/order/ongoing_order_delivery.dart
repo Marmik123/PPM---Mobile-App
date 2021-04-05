@@ -189,7 +189,7 @@ class OngoingOrderDelivery extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('location',
+                    Text('Customer Name' ?? '-',
                         style: GoogleFonts.montserrat(
                           fontSize: 14,
                           fontWeight: FontWeight.w300,
@@ -201,7 +201,61 @@ class OngoingOrderDelivery extends StatelessWidget {
                           ),
                         )),
                     Text(
-                      'Melbourne',
+                      assignCtrl.orderList[index]['customerName'] ?? '-',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Customer Address',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                          color: Color.fromRGBO(
+                            94,
+                            94,
+                            94,
+                            1,
+                          ),
+                        )),
+                    Text(
+                      assignCtrl.orderList[index]['customerAddress'] ?? '-',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Customer Contact No.',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                          color: Color.fromRGBO(
+                            94,
+                            94,
+                            94,
+                            1,
+                          ),
+                        )),
+                    Text(
+                      assignCtrl.orderList[index]['customerContactNo'] ?? "-",
                       style: GoogleFonts.montserrat(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -216,7 +270,7 @@ class OngoingOrderDelivery extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Obx(() => assignCtrl.isLoading.value
+          Obx(() => assignCtrl.pressedButtonIndex.value != 0
                   ? buildLoader()
                   : ElevatedButton(
                       child: Text(
@@ -231,8 +285,11 @@ class OngoingOrderDelivery extends StatelessWidget {
                         )),
                       ),
                       onPressed: () {
+                        assignCtrl.pressedButtonIndex.value = index + 1;
                         assignCtrl.setDeliveryStatus(
-                            assignCtrl.orderList[index], "yes");
+                          assignCtrl.orderList[index],
+                          "yes",
+                        );
                       },
                     )
 /*

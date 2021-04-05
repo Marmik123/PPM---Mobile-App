@@ -5,13 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 // import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/cart_controller.dart';
+import 'package:pcm/controller/homescreen_client_controller.dart';
 import 'package:pcm/controller/products_controller.dart';
 import 'package:pcm/repository/products_repository.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class Cart extends StatefulWidget {
   final ParseObject product;
-
   const Cart({Key key, this.product}) : super(key: key);
   @override
   _CartState createState() => _CartState();
@@ -20,7 +20,8 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   CartController cltrCart = Get.put(CartController());
   ProductsController cltrProduct = Get.put(ProductsController());
-
+  HomeScreenClientController client = Get.put(HomeScreenClientController());
+  RxInt radio = 1.obs;
   RxInt value_1 = 0.obs;
   @override
   Widget build(BuildContext context) {
@@ -98,7 +99,7 @@ class _CartState extends State<Cart> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Deliver to ------------------'),
+                Text('Deliver to '),
                 SizedBox(
                   height: 5,
                 ),
@@ -166,10 +167,24 @@ class _CartState extends State<Cart> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          subtitle: Text(
-                            'Price : ${cartItems.values.toList()[index].price}',
-                            style: TextStyle(
-                              fontSize: 16,
+                          subtitle: Padding(
+                            padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Price : ${cartItems.values.toList()[index].price}',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Text(
+                                  'Size : ${cartItems.values.toList()[index].size}',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                           trailing: Row(
@@ -389,14 +404,15 @@ class _CartState extends State<Cart> {
                     Radio(
                       autofocus: true,
                       value: 1,
-                      groupValue: 1,
+                      groupValue: radio.value,
                       onChanged: (value) {
-                        // setState(() {
-                        // value_1.value = value;
-                        // });
+                        setState(() {
+                          cltrCart.payment_option.value = "COD";
+                          radio.value = value;
+                        });
                       },
                       activeColor: Colors.cyan,
-                      toggleable: true,
+                      toggleable: false,
                     ),
                     Text(
                       'Cash on Delivery',
@@ -406,7 +422,131 @@ class _CartState extends State<Cart> {
                       ),
                     )
                   ],
-                )
+                ),
+                Row(
+                  children: [
+                    Radio(
+                      autofocus: true,
+                      value: 2,
+                      groupValue: radio.value,
+                      onChanged: (value) {
+                        setState(() {
+                          radio.value = value;
+                        });
+                      },
+                      activeColor: Colors.cyan,
+                      toggleable: false,
+                    ),
+                    Text(
+                      'Online Payment',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                      ),
+                    )
+                  ],
+                ),
+                radio.value == 2
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 5.0, bottom: 10),
+                        child: Container(
+                          height: 150,
+                          width: 250,
+                          decoration: BoxDecoration(
+                            /* boxShadow: [
+                              BoxShadow(
+                                  color: Colors.white70,
+                                  spreadRadius: 10,
+                                  blurRadius: 1)
+                            ],*/
+                            gradient: LinearGradient(
+                                colors: [Colors.white70, Colors.cyan]),
+                            borderRadius: BorderRadius.circular(15),
+                            shape: BoxShape.rectangle,
+                            color: Colors.cyan.withOpacity(0.4),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Radio(
+                                    autofocus: true,
+                                    value: 1,
+                                    groupValue: value_1.value,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        cltrCart.payment_option.value =
+                                            "Credit Card";
+                                        value_1.value = value;
+                                      });
+                                    },
+                                    activeColor: Colors.cyan,
+                                    toggleable: false,
+                                  ),
+                                  Text(
+                                    'Credit Card',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Radio(
+                                    autofocus: false,
+                                    value: 2,
+                                    groupValue: value_1.value,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        cltrCart.payment_option.value =
+                                            "Debit Card";
+                                        value_1.value = value;
+                                      });
+                                    },
+                                    activeColor: Colors.cyan,
+                                    toggleable: false,
+                                  ),
+                                  Text(
+                                    'Debit Card',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Radio(
+                                    autofocus: true,
+                                    value: 3,
+                                    groupValue: value_1.value,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        cltrCart.payment_option.value = "UPI";
+                                        value_1.value = value;
+                                      });
+                                    },
+                                    activeColor: Colors.cyan,
+                                    toggleable: false,
+                                  ),
+                                  Text(
+                                    'UPI',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : Container()
               ],
             ),
           ),
@@ -574,6 +714,10 @@ class _CartState extends State<Cart> {
                   cltrCart.totalA != 0
                       ? cltrCart.orderPlaced(
                           price: cltrCart.totalA + cltrCart.delivery.value,
+                          customerName: client.loggedInClient[0]['name'],
+                          customerAddress: client.loggedInClient[0]['address1'],
+                          customerMobile: client.loggedInClient[0]['number'],
+                          size: cltrProduct.size.value,
                         )
                       : showerror();
                 });

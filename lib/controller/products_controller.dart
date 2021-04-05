@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
@@ -8,6 +7,8 @@ class ProductsController extends GetxController {
 
   RxList products = [].obs;
   RxList cartProducts = [].obs;
+  RxString size = "".obs;
+  RxList sizeList = [].obs;
   RxInt quantity = 1.obs;
   Future<void> productData() async {
     try {

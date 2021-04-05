@@ -7,6 +7,7 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class OrderAssignController extends GetxController {
   RxBool isLoading = false.obs;
+  RxInt pressedButtonIndex = 0.obs;
   RxBool noOrderLeft = false.obs;
   RxBool noOrderDelivered = false.obs;
   RxList<ParseObject> orderList = <ParseObject>[].obs;
@@ -32,7 +33,6 @@ class OrderAssignController extends GetxController {
         print(response);
         orderList.removeRange(0, orderList.length);
         await orderList(response.results);
-
         if (orderList.isEmpty) {
           noOrderLeft.value = true;
         }
@@ -110,7 +110,6 @@ class OrderAssignController extends GetxController {
         print("updated delivery status successfully");
         await showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
         showDeliveredOrder(phoneCtrl.mobileNo.text.trim().toString());
-
         isLoading.value = false;
         final snackBar = SnackBar(
           width: MediaQuery.of(Get.context).size.width / 2,

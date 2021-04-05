@@ -383,7 +383,9 @@ class OrderHistoryDelivery extends StatelessWidget {
                                                               MainAxisAlignment
                                                                   .spaceBetween,
                                                           children: [
-                                                            Text('location',
+                                                            Text(
+                                                                'Customer Name' ??
+                                                                    '-',
                                                                 style: GoogleFonts
                                                                     .montserrat(
                                                                   fontSize: 14,
@@ -399,7 +401,95 @@ class OrderHistoryDelivery extends StatelessWidget {
                                                                   ),
                                                                 )),
                                                             Text(
-                                                              'Melbourne',
+                                                              assignCtrl.deliveredOrders[
+                                                                          index]
+                                                                      [
+                                                                      'customerName'] ??
+                                                                  '-',
+                                                              style: GoogleFonts
+                                                                  .montserrat(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                                'Customer Address',
+                                                                style: GoogleFonts
+                                                                    .montserrat(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300,
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                    94,
+                                                                    94,
+                                                                    94,
+                                                                    1,
+                                                                  ),
+                                                                )),
+                                                            Text(
+                                                              assignCtrl.deliveredOrders[
+                                                                          index]
+                                                                      [
+                                                                      'customerAddress'] ??
+                                                                  '-',
+                                                              style: GoogleFonts
+                                                                  .montserrat(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                                'Customer Contact No.',
+                                                                style: GoogleFonts
+                                                                    .montserrat(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300,
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                    94,
+                                                                    94,
+                                                                    94,
+                                                                    1,
+                                                                  ),
+                                                                )),
+                                                            Text(
+                                                              assignCtrl.deliveredOrders[
+                                                                          index]
+                                                                      [
+                                                                      'customerContactNo'] ??
+                                                                  "-",
                                                               style: GoogleFonts
                                                                   .montserrat(
                                                                 fontSize: 14,

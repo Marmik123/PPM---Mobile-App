@@ -7,7 +7,7 @@ import 'package:pcm/controller/homescreen_client_controller.dart';
 import 'package:pcm/view/cart.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
-import 'package:pcm/view/order/order_history_distributor.dart';
+import 'package:pcm/view/order/order_history_client.dart';
 import 'package:pcm/view/place_order.dart';
 // import 'package:pcm/view/home/home_screen_delivery.dart';
 // import 'file:///D:/flutter/pcm/lib/view/order/order_history_client.dart';
@@ -245,7 +245,7 @@ class HomeScreenDistributor extends StatelessWidget {
       // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: BottomWidget(
-        onTap: () => Get.to(OrderHistoryDistributor()),
+        onTap: () => Get.to(OrderHistoryClient()),
       ),
     );
   }

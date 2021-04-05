@@ -16,6 +16,7 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   CartController cltrCart = CartController();
+  int selectedType = 0;
 
   ProductsController cltrProduct = Get.put(ProductsController());
   @override
@@ -155,10 +156,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                         onPressed: () {
                           // cltrProduct.cartProducts.add(widget.product);
                           cltrCart.addItem(
-                              widget.product.objectId,
-                              widget.product.get('productName'),
-                              double.parse(widget.product.get('productPrice')),
-                              cltrCart.quantity.value);
+                            widget.product.objectId,
+                            widget.product.get('productName'),
+                            double.parse(widget.product.get('productPrice')),
+                            cltrCart.quantity.value,
+                            cltrProduct.size.value,
+                          );
                           print('this is cart items $cartItems');
 
                           // print(cltrProduct.cartProducts);
@@ -177,6 +180,90 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0, top: 10),
+              child: Row(
+                children: [
+/*                  Text(
+                    "Choose Product Type",
+                    style: GoogleFonts.merriweather(
+                      color: Colors.black,
+                      fontSize: 16,
+                    ),
+                  )*/
+                  Container(
+                    height: MediaQuery.of(context).size.height / 10,
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: DropdownButtonFormField(
+                        elevation: 10,
+                        value: selectedType,
+                        onChanged: (value) {
+                          setState(() {
+                            value == 0
+                                ? cltrProduct.size.value = "Small"
+                                : value == 1
+                                    ? cltrProduct.size.value = "Medium"
+                                    : cltrProduct.size.value = "Large";
+                            selectedType = value;
+                          });
+                        },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Enter Shop Name';
+                          }
+                          return null;
+                        },
+                        iconEnabledColor: Colors.black,
+                        iconDisabledColor: Colors.cyan,
+                        decoration: InputDecoration(
+                          labelText: "Choose Type of Product",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(color: Colors.blueGrey),
+                          ),
+                        ),
+                        items: [
+                          DropdownMenuItem(
+                              value: 0,
+                              child: Text(
+                                "Small (S)",
+                                style: GoogleFonts.montserrat(
+                                  textStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              )),
+                          DropdownMenuItem(
+                              value: 1,
+                              child: Text(
+                                "Medium (M)",
+                                style: GoogleFonts.montserrat(
+                                  textStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              )),
+                          DropdownMenuItem(
+                              value: 2,
+                              child: Text(
+                                "Large (L)",
+                                style: GoogleFonts.montserrat(
+                                  textStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              )),
+                        ]),
+                  )
                 ],
               ),
             ),
@@ -202,7 +289,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                   width: 1,
                 ),
               ),
-              height: 300,
+              //height: 300,
+              child: Text(widget.product.get('productDesc')),
             ),
           ],
         ),
