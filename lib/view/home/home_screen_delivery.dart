@@ -4,11 +4,13 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
+import 'package:pcm/generated/l10n.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/order/ongoing_order_delivery.dart';
 import 'package:pcm/view/order/order_history_delivery.dart';
 import 'package:pcm/widgets/bottom_widget.dart';
+import 'package:pcm/widgets/circular_loader.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../common/feedback.dart';
@@ -20,10 +22,8 @@ class HomeScreenDelivery extends StatefulWidget {
 }
 
 class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
-  OrderAssignController assignCtrl = Get.put(OrderAssignController());
-
   RoundedLoadingButtonController ctrl = RoundedLoadingButtonController();
-  SignInController phoneCtrl = Get.put(SignInController());
+
   /*@override
   void initState() {
     // TODO: implement initState
@@ -33,6 +33,8 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
 
   @override
   Widget build(BuildContext context) {
+    OrderAssignController assignCtrl = Get.put(OrderAssignController());
+    SignInController phoneCtrl = Get.put(SignInController());
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.light,
@@ -41,9 +43,16 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
         titleSpacing: 0,
         leading: Icon(Icons.home_outlined),
         title: Text(
-          'Home Screen',
+          S.of(context).HomeScreen,
         ),
         actions: [
+          IconButton(
+            icon: Icon(Icons.refresh_sharp),
+            onPressed: () async {
+              await assignCtrl
+                  .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
+            },
+          ),
           PopupMenuButton(
             icon: Icon(Icons.more_vert),
             onSelected: (value) {
@@ -63,7 +72,7 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
                     SizedBox(
                       width: 5,
                     ),
-                    Text('Settings'),
+                    Text(S.of(context).Settings),
                   ],
                 ),
                 value: 'Settings',
@@ -75,7 +84,7 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
                     SizedBox(
                       width: 5,
                     ),
-                    Text('Feedback'),
+                    Text(S.of(context).feedback),
                   ],
                 ),
                 value: 'Feedback',
@@ -87,7 +96,7 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
                     SizedBox(
                       width: 5,
                     ),
-                    Text('Support'),
+                    Text(S.of(context).Support),
                   ],
                 ),
                 value: 'Support',
@@ -121,7 +130,7 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
                             child: Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: Text(
-                                "Great, All Done!",
+                                S.of(context).complete,
                                 style: GoogleFonts.montserrat(
                                     fontSize: 35,
                                     fontWeight: FontWeight.w500,
@@ -135,7 +144,7 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
                           height: 30,
                         ),
                         Text(
-                          "No more orders are there for Delivery",
+                          S.of(context).info,
                           style: GoogleFonts.montserrat(
                               fontSize: 25,
                               fontWeight: FontWeight.w500,
@@ -145,16 +154,18 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
                       ],
                     ),
                   )
-                : ListView.builder(
-                    physics: ClampingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: assignCtrl.orderList.length ?? 0,
-                    itemBuilder: (context, index) {
-                      return OngoingOrderDelivery(
-                        index: index,
-                      );
-                    },
-                  ),
+                : assignCtrl.isLoading.value
+                    ? buildLoader()
+                    : ListView.builder(
+                        physics: ClampingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: assignCtrl.orderList.length ?? 0,
+                        itemBuilder: (context, index) {
+                          return OngoingOrderDelivery(
+                            index: index,
+                          );
+                        },
+                      ),
           )
           /* dashboardContainer(
             name: 'Distributor',
@@ -212,6 +223,8 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: BottomWidget(
         onTap: () {
+          assignCtrl
+              .showDeliveredOrder(phoneCtrl.mobileNo.text.trim().toString());
           return Get.to(() => OrderHistoryDelivery());
         },
       ),

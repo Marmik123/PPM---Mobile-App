@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pcm/controller/register/client_controller.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/view/common/settings.dart';
 // import 'package:pcm/view/home/home_screen_delivery.dart';
 import 'package:pcm/view/register/client.dart';
@@ -22,7 +23,7 @@ class HomeScreen extends StatelessWidget {
         titleSpacing: 0,
         leading: Icon(Icons.home_outlined),
         title: Text(
-          'Home Screen',
+          S.of(context).HomeScreen,
         ),
         actions: [
           PopupMenuButton(
@@ -44,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                     SizedBox(
                       width: 5,
                     ),
-                    Text('Settings'),
+                    Text(S.of(context).Settings),
                   ],
                 ),
                 value: 'Settings',
@@ -56,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                     SizedBox(
                       width: 5,
                     ),
-                    Text('Feedback'),
+                    Text(S.of(context).feedback),
                   ],
                 ),
                 value: 'Feedback',
@@ -68,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                     SizedBox(
                       width: 5,
                     ),
-                    Text('Support'),
+                    Text(S.of(context).Support),
                   ],
                 ),
                 value: 'Support',
@@ -87,10 +88,10 @@ class HomeScreen extends StatelessWidget {
                       // bottomNavigationIndex.value = 0;
                     },
                     leading: Icon(Icons.person_outline),
-                    title: Text('Clients Registered' /*S.of(context).jobs*/),
+                    title: Text(S.of(context).register),
                     trailing: GestureDetector(
                       child: Chip(
-                        label: Text('Add'),
+                        label: Text(S.of(context).Add),
                         // Text(S.of(context).add),
                         avatar: CircleAvatar(
                           child: Text(clientCon.clientCount.value.toString()),

@@ -48,7 +48,7 @@ class LoginController extends GetxController {
           Get.to(() => HomeScreenClient());
         } else if (response.results[0]['role'] == "DeliveryBoy") {
           Get.to(() => HomeScreenDelivery());
-          orderCtrl
+          await orderCtrl
               .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
         } else if (response.results[0]['role'] == "SalesPerson") {
           Get.to(() => HomeScreen());

@@ -60,7 +60,7 @@ class OtpController extends GetxController {
             print("User is  registered");
             loginCtrl
                 .userMobileLogin(phoneCtrl.mobileNo.text.trim().toString());
-            assignCtrl
+            await assignCtrl
                 .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
             clientCtrl.showLoggedInUserData(
                 phoneCtrl.mobileNo.text.trim().toString());
@@ -91,13 +91,13 @@ class OtpController extends GetxController {
           isLoading.value = false;
           butCtrl.reset();
           phoneCtrl.buttonCtrl.reset();
-          Get.snackbar(
+/*          Get.snackbar(
             "Enter Otp Manually",
             "Automatic Otp verification failed",
             backgroundColor: Colors.white,
             duration: Duration(seconds: 2),
             colorText: Colors.teal,
-          );
+          );*/
           print("Timeout");
           print(verificationId);
         },

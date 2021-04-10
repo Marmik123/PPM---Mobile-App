@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/widgets/change_language.dart';
 import 'package:pcm/widgets/change_mobile.dart';
 
@@ -10,7 +11,7 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Settings',
+          S.of(context).Settings,
           style: GoogleFonts.montserrat(
             textStyle: TextStyle(color: Colors.black),
           ),
@@ -36,7 +37,7 @@ class SettingsPage extends StatelessWidget {
                   //   }
                 },
                 leading: Icon(Icons.handyman),
-                title: Text('Change Language' /*S.of(context).jobs*/),
+                title: Text( S.of(context).change),
               ),
             ),
             Card(
@@ -56,7 +57,7 @@ class SettingsPage extends StatelessWidget {
                   //   }
                 },
                 leading: Icon(Icons.handyman),
-                title: Text('Change Mobile Number' /*S.of(context).jobs*/),
+                title: Text( S.of(context).changeMob),
               ),
             ),
             // Card(

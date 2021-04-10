@@ -8,6 +8,7 @@ import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/cart_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
+import 'package:pcm/generated/l10n.dart';
 
 class OrderPlaced extends StatefulWidget {
   @override
@@ -23,7 +24,7 @@ class _OrderPlacedState extends State<OrderPlaced> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'History',
+          S.of(context).History,
         ),
       ),
       body: SingleChildScrollView(
@@ -36,7 +37,7 @@ class _OrderPlacedState extends State<OrderPlaced> {
             //physics: ClampingScrollPhysics(),
             children: [
               Text(
-                'Order History',
+                S.of(context).hist,
                 style: GoogleFonts.montserrat(
                   fontSize: 17,
                   fontWeight: FontWeight.w500,
@@ -61,7 +62,7 @@ class _OrderPlacedState extends State<OrderPlaced> {
                 listLoadingElement: Center(child: CircularProgressIndicator()),
                 childBuilder: (context, snapshot) {
                   if (snapshot.failed) {
-                    return Text('Something went wrong');
+                    return Text(S.of(context).error);
                   } else if (snapshot.hasData || snapshot.hasPreLoadedData) {
                     if (snapshot.hasData) {
                       return Card(
@@ -71,7 +72,7 @@ class _OrderPlacedState extends State<OrderPlaced> {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Order Id:'),
+                              Text(S.of(context).OrderId),
                               Text(snapshot.loadedData
                                       .get('objectId')
                                       .toString() ??
@@ -117,7 +118,7 @@ class _OrderPlacedState extends State<OrderPlaced> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(right: 10.0),
-                              child: Text("Total : " +
+                              child: Text(S.of(context).Total +
                                       snapshot.loadedData
                                           .get('total_price')
                                           .toString() ??

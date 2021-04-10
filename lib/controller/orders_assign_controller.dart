@@ -6,15 +6,18 @@ import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class OrderAssignController extends GetxController {
+  SignInController phoneCtrl = Get.put(SignInController());
   RxBool isLoading = false.obs;
   RxInt pressedButtonIndex = 0.obs;
   RxBool noOrderLeft = false.obs;
+  RxBool showDelivered = false.obs;
+  var isLoadingButton = -1.obs;
   RxBool noOrderDelivered = false.obs;
   RxList<ParseObject> orderList = <ParseObject>[].obs;
   RxList<ParseObject> completeOrderData = <ParseObject>[].obs;
   RxList<ParseObject> deliveredOrders = <ParseObject>[].obs;
   final RoundedLoadingButtonController ctrl = RoundedLoadingButtonController();
-  SignInController phoneCtrl = Get.put(SignInController());
+
   Future<void> showAssignedOrder(String mobile) async {
     isLoading.value = true;
     print("called load assign order data");
@@ -26,28 +29,33 @@ class OrderAssignController extends GetxController {
             ..whereNotEqualTo('deliveryStatus', "yes");
 
       ParseResponse response = await orders.query();
-      showDeliveredOrder(mobile);
+      //showDeliveredOrder(mobile);
       print("client query");
       if (response.success) {
-        isLoading.value = false;
         print(response);
         orderList.removeRange(0, orderList.length);
-        await orderList(response.results);
+        orderList(response.results);
+        noOrderLeft.value = false;
+        isLoading.value = false;
         if (orderList.isEmpty) {
           noOrderLeft.value = true;
         }
+        Future.delayed(Duration(seconds: 5), () => isLoading.value = false);
+
         print("this is new order list to be delivered ${orderList}");
       } else {
+        isLoading.value = false;
         Get.snackbar(
           "Error Occured",
-          "Error in Showing Assigned Order",
+          "Error in Showing Assigned Orders",
           backgroundColor: Colors.white,
-          duration: Duration(seconds: 2),
+          duration: Duration(seconds: 3),
           colorText: Colors.teal,
         );
         print("error occured ");
       }
     } catch (e) {
+      isLoading.value = false;
       Get.snackbar(
         "Error Occured",
         "Error in Showing Assigned Order",
@@ -79,18 +87,18 @@ class OrderAssignController extends GetxController {
           "Error ! Please try again.",
           "Order Data Not Loaded",
           backgroundColor: Colors.white,
-          duration: Duration(seconds: 4),
+          duration: Duration(seconds: 3),
           colorText: Colors.teal,
         );
       }
     } catch (e) {
       isLoading.value = false;
-      print("default error---" + e);
+      print("default error---" + e.toString());
       Get.snackbar(
         "Error ! Please try again.",
         "Order Data Not Loaded",
         backgroundColor: Colors.white,
-        duration: Duration(seconds: 4),
+        duration: Duration(seconds: 3),
         colorText: Colors.teal,
       );
     } finally {
@@ -100,7 +108,7 @@ class OrderAssignController extends GetxController {
 
   Future<void> setDeliveryStatus(
       ParseObject orderObject, String deliveryStatus) async {
-    isLoading.value = true;
+    //isLoading.value = true;
 
     try {
       //orderObject..setAdd('deliveryBoy', object);
@@ -109,8 +117,9 @@ class OrderAssignController extends GetxController {
       if (adResult.success) {
         print("updated delivery status successfully");
         await showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
+        isLoadingButton = -1;
         showDeliveredOrder(phoneCtrl.mobileNo.text.trim().toString());
-        isLoading.value = false;
+        //isLoading.value = false;
         final snackBar = SnackBar(
           width: MediaQuery.of(Get.context).size.width / 2,
           behavior: SnackBarBehavior.floating,
@@ -125,22 +134,24 @@ class OrderAssignController extends GetxController {
         ScaffoldMessenger.of(Get.context).showSnackBar(snackBar);
       } else {
         isLoading.value = false;
+        isLoadingButton = -1;
         Get.snackbar(
           "Error ! Please try again.",
           "Order Delivery Status Not updated",
           backgroundColor: Colors.white,
-          duration: Duration(seconds: 4),
+          duration: Duration(seconds: 3),
           colorText: Colors.teal,
         );
       }
     } catch (e) {
+      isLoadingButton = -1;
       isLoading.value = false;
-      print("default error---" + e);
+      print("default error---" + e.toString());
       Get.snackbar(
         "Error ! Please try again.",
         "Order Delivery Status Not updated",
         backgroundColor: Colors.white,
-        duration: Duration(seconds: 4),
+        duration: Duration(seconds: 3),
         colorText: Colors.teal,
       );
     } finally {
@@ -149,7 +160,7 @@ class OrderAssignController extends GetxController {
   }
 
   Future<void> showDeliveredOrder(String mobile) async {
-    isLoading.value = true;
+    showDelivered.value = true;
 
     try {
       //orderObject..setAdd('deliveryBoy', object);
@@ -167,7 +178,7 @@ class OrderAssignController extends GetxController {
         if (deliveredOrders.isEmpty) {
           noOrderDelivered.value = true;
         }
-        isLoading.value = false;
+        showDelivered.value = false;
 
         final snackBar = SnackBar(
           width: MediaQuery.of(Get.context).size.width / 2,
@@ -182,23 +193,23 @@ class OrderAssignController extends GetxController {
         );
         ScaffoldMessenger.of(Get.context).showSnackBar(snackBar);
       } else {
-        isLoading.value = false;
+        showDelivered.value = false;
         Get.snackbar(
           "Error ! Please try again.",
           "Delivery History Not Updated",
           backgroundColor: Colors.white,
-          duration: Duration(seconds: 4),
+          duration: Duration(seconds: 3),
           colorText: Colors.teal,
         );
       }
     } catch (e) {
-      isLoading.value = false;
-      print("default error---" + e);
+      showDelivered.value = false;
+      print("default error---" + e.toString());
       Get.snackbar(
-        "Error ! Please try again.",
+        "Catch Error ! Please try again.",
         "Delivery History Not Updated",
         backgroundColor: Colors.white,
-        duration: Duration(seconds: 4),
+        duration: Duration(seconds: 3),
         colorText: Colors.teal,
       );
     } finally {

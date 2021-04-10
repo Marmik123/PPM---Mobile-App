@@ -2,296 +2,326 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/orders_assign_controller.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/widgets/circular_loader.dart';
 
-class OngoingOrderDelivery extends StatelessWidget {
-  OrderAssignController assignCtrl = Get.put(OrderAssignController());
-
+class OngoingOrderDelivery extends StatefulWidget {
   int index;
 
   OngoingOrderDelivery({Key key, this.index}) : super(key: key);
+
+  @override
+  _OngoingOrderDeliveryState createState() => _OngoingOrderDeliveryState();
+}
+
+class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
   @override
   Widget build(BuildContext context) {
+    OrderAssignController assignCtrl = Get.put(OrderAssignController());
     return Container(
-      padding: EdgeInsets.all(10),
-      margin: EdgeInsets.all(5),
-      child: /*Obx(
-          () =>*/
-          Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
-            decoration: BoxDecoration(
-              color: Color.fromRGBO(90, 177, 255, 0.1),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  assignCtrl.orderList[index]['date_time'].toString(),
-                  style: GoogleFonts.montserrat(
-                      fontSize: 12, fontWeight: FontWeight.w500),
-                ),
-                Text(
-                  'Ongoing',
-                  style: GoogleFonts.montserrat(
-                      fontSize: 12, fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            padding: EdgeInsets.only(
-              left: 20,
-              right: 20,
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('DeliveryId',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromRGBO(
-                            94,
-                            94,
-                            94,
-                            1,
-                          ),
-                        )),
-                    Text(
-                      assignCtrl.orderList[index]['objectId'],
-                      style: GoogleFonts.montserrat(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.black,
-                      ),
+        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.all(5),
+        child: Obx(() => assignCtrl.isLoading.value
+            ? buildLoader()
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(
+                        top: 10, bottom: 10, left: 20, right: 20),
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(90, 177, 255, 0.1),
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Total Price',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromRGBO(
-                            94,
-                            94,
-                            94,
-                            1,
-                          ),
-                        )),
-                    Text(
-                      assignCtrl.orderList[index]['total_price'].toString(),
-                      style: GoogleFonts.montserrat(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          assignCtrl.orderList[widget.index]['date_time']
+                              .toString(),
+                          style: GoogleFonts.montserrat(
+                              fontSize: 12, fontWeight: FontWeight.w500),
+                        ),
+                        Text(
+                          S.of(context).Ongoing,
+                          style: GoogleFonts.montserrat(
+                              fontSize: 12, fontWeight: FontWeight.w500),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Payment option',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromRGBO(
-                            94,
-                            94,
-                            94,
-                            1,
-                          ),
-                        )),
-                    Text(
-                      assignCtrl.orderList[index]['payment_option'],
-                      style: GoogleFonts.montserrat(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                      ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(
+                      left: 20,
+                      right: 20,
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Text('tranlator',
-                //         style: GoogleFonts.montserrat(
-                //           fontSize: 14,
-                //           fontWeight: FontWeight.w300,
-                //           color: Color.fromRGBO(
-                //             94,
-                //             94,
-                //             94,
-                //             1,
-                //           ),
-                //         )),
-                //     Text(
-                //       'Seth Caldwell',
-                //       style: GoogleFonts.montserrat(
-                //         fontSize: 14,
-                //         fontWeight: FontWeight.w500,
-                //         color: Colors.black,
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // SizedBox(
-                //   height: 10,
-                // ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Text('doctor',
-                //         style: GoogleFonts.montserrat(
-                //           fontSize: 14,
-                //           fontWeight: FontWeight.w300,
-                //           color: Color.fromRGBO(
-                //             94,
-                //             94,
-                //             94,
-                //             1,
-                //           ),
-                //         )),
-                //     Text(
-                //       'Chad Murray',
-                //       style: GoogleFonts.montserrat(
-                //         fontSize: 14,
-                //         fontWeight: FontWeight.w500,
-                //         color: Colors.black,
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // SizedBox(
-                //   height: 10,
-                // ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Customer Name' ?? '-',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromRGBO(
-                            94,
-                            94,
-                            94,
-                            1,
-                          ),
-                        )),
-                    Text(
-                      assignCtrl.orderList[index]['customerName'] ?? '-',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                      ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(S.of(context).delId,
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w300,
+                                  color: Color.fromRGBO(
+                                    94,
+                                    94,
+                                    94,
+                                    1,
+                                  ),
+                                )),
+                            Text(
+                              assignCtrl.orderList[widget.index]['objectId'],
+                              style: GoogleFonts.montserrat(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w300,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(S.of(context).price,
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w300,
+                                  color: Color.fromRGBO(
+                                    94,
+                                    94,
+                                    94,
+                                    1,
+                                  ),
+                                )),
+                            Text(
+                              assignCtrl.orderList[widget.index]['total_price']
+                                  .toString(),
+                              style: GoogleFonts.montserrat(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(S.of(context).payment,
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w300,
+                                  color: Color.fromRGBO(
+                                    94,
+                                    94,
+                                    94,
+                                    1,
+                                  ),
+                                )),
+                            Text(
+                              assignCtrl.orderList[widget.index]
+                                  ['payment_option'],
+                              style: GoogleFonts.montserrat(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Text('tranlator',
+                        //         style: GoogleFonts.montserrat(
+                        //           fontSize: 14,
+                        //           fontWeight: FontWeight.w300,
+                        //           color: Color.fromRGBO(
+                        //             94,
+                        //             94,
+                        //             94,
+                        //             1,
+                        //           ),
+                        //         )),
+                        //     Text(
+                        //       'Seth Caldwell',
+                        //       style: GoogleFonts.montserrat(
+                        //         fontSize: 14,
+                        //         fontWeight: FontWeight.w500,
+                        //         color: Colors.black,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        // SizedBox(
+                        //   height: 10,
+                        // ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Text('doctor',
+                        //         style: GoogleFonts.montserrat(
+                        //           fontSize: 14,
+                        //           fontWeight: FontWeight.w300,
+                        //           color: Color.fromRGBO(
+                        //             94,
+                        //             94,
+                        //             94,
+                        //             1,
+                        //           ),
+                        //         )),
+                        //     Text(
+                        //       'Chad Murray',
+                        //       style: GoogleFonts.montserrat(
+                        //         fontSize: 14,
+                        //         fontWeight: FontWeight.w500,
+                        //         color: Colors.black,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        // SizedBox(
+                        //   height: 10,
+                        // ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(S.of(context).customerN,
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w300,
+                                  color: Color.fromRGBO(
+                                    94,
+                                    94,
+                                    94,
+                                    1,
+                                  ),
+                                )),
+                            Text(
+                              assignCtrl.orderList[widget.index]
+                                      ['customerName'] ??
+                                  '-',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(S.of(context).customerAdd,
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w300,
+                                  color: Color.fromRGBO(
+                                    94,
+                                    94,
+                                    94,
+                                    1,
+                                  ),
+                                )),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 3,
+                              alignment: Alignment.topRight,
+                              child: Text(
+                                assignCtrl.orderList[widget.index]
+                                        ['customerAddress'] ??
+                                    '-',
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(S.of(context).contact,
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w300,
+                                  color: Color.fromRGBO(
+                                    94,
+                                    94,
+                                    94,
+                                    1,
+                                  ),
+                                )),
+                            Text(
+                              assignCtrl.orderList[widget.index]
+                                      ['customerContactNo'] ??
+                                  "-",
+                              style: GoogleFonts.montserrat(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Customer Address',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromRGBO(
-                            94,
-                            94,
-                            94,
-                            1,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  assignCtrl.isLoadingButton == widget.index + 1
+                      ? buildLoader()
+                      : ElevatedButton(
+                          child: Text(
+                            S.of(context).Delivered,
+                            style: TextStyle(color: Colors.white),
                           ),
-                        )),
-                    Text(
-                      assignCtrl.orderList[index]['customerAddress'] ?? '-',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Customer Contact No.',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromRGBO(
-                            94,
-                            94,
-                            94,
-                            1,
+                          style: ButtonStyle(
+                            elevation: MaterialStateProperty.all(25),
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.cyan),
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            )),
                           ),
-                        )),
-                    Text(
-                      assignCtrl.orderList[index]['customerContactNo'] ?? "-",
-                      style: GoogleFonts.montserrat(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Obx(() => assignCtrl.pressedButtonIndex.value != 0
-                  ? buildLoader()
-                  : ElevatedButton(
-                      child: Text(
-                        'Delivered',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      style: ButtonStyle(
-                        elevation: MaterialStateProperty.all(25),
-                        backgroundColor: MaterialStateProperty.all(Colors.cyan),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        )),
-                      ),
-                      onPressed: () {
-                        assignCtrl.pressedButtonIndex.value = index + 1;
-                        assignCtrl.setDeliveryStatus(
-                          assignCtrl.orderList[index],
-                          "yes",
-                        );
-                      },
-                    )
+                          onPressed: () {
+                            setState(() {
+                              assignCtrl.isLoadingButton = widget.index + 1;
+                            });
+                            print(assignCtrl.isLoadingButton);
+                            print(widget.index + 1);
+                            assignCtrl.pressedButtonIndex.value =
+                                widget.index + 1;
+                            assignCtrl.setDeliveryStatus(
+                              assignCtrl.orderList[widget.index],
+                              "yes",
+                            );
+                          },
+                        )
 /*
           RoundedLoadingButton(
             color: Colors.cyan,
@@ -310,9 +340,7 @@ class OngoingOrderDelivery extends StatelessWidget {
             // SnackBar(content: Text(S.of(context).passFail))),
           )
 */
-              ),
-        ],
-      ),
-    );
+                ],
+              )));
   }
 }

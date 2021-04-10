@@ -3,6 +3,7 @@ import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/view/product_details.dart';
 
 class Products extends StatefulWidget {
@@ -35,7 +36,7 @@ class _ProductsState extends State<Products> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Products',
+          S.of(context).Products,
           style: GoogleFonts.montserrat(
             textStyle: TextStyle(color: Colors.black),
           ),
@@ -48,7 +49,7 @@ class _ProductsState extends State<Products> {
         listLoadingElement: LinearProgressIndicator(),
         childBuilder: (context, snapshot) {
           if (snapshot.failed) {
-            return Text('Something went wrong');
+            return Text(S.of(context).error);
           } else if (snapshot.hasData || snapshot.hasPreLoadedData) {
             if (snapshot.hasData) {
               return Card(

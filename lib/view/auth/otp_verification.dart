@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/controller/register/otp_controller.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
@@ -24,7 +25,7 @@ class OtpVerification extends StatelessWidget {
               physics: ClampingScrollPhysics(),
               children: [
                 Text(
-                  "Enter Your Code",
+                  S.of(context).otp,
                   style: GoogleFonts.montserrat(
                     textStyle: TextStyle(
                         color: Colors.cyan,
@@ -38,9 +39,9 @@ class OtpVerification extends StatelessWidget {
                 PinCodeTextField(
                   validator: (value) {
                     if (value.isEmpty) {
-                      return "please enter Otp";
+                      return S.of(context).otpError;
                     } else if (value.length < 6) {
-                      return "Enter valid Otp";
+                      return S.of(context).otpValid;
                     } else
                       return null;
                   },
@@ -121,7 +122,7 @@ class OtpVerification extends StatelessWidget {
                            */
                     }
                   },
-                  child: Text('Continue'),
+                  child: Text(S.of(context).Continue),
                   borderRadius: 12,
                   height: 40,
                   width: 120,
@@ -159,25 +160,31 @@ class OtpVerification extends StatelessWidget {
                 SizedBox(
                   height: 40,
                 ),
+/*
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
                       "Terms of Service",
-                      /*style: kStyle.copyWith(
+                      */
+/*style: kStyle.copyWith(
                           color: Colors.white24,
                           fontSize: 14,
-                        ),*/
+                        ),*/ /*
+
                     ),
                     Text(
                       "Privacy Policy",
-                      /*style: kStyle.copyWith(
+                      */
+/*style: kStyle.copyWith(
                           color: Colors.white24,
                           fontSize: 14,
-                        ),*/
+                        ),*/ /*
+
                     ),
                   ],
                 )
+*/
               ],
             ),
           ),

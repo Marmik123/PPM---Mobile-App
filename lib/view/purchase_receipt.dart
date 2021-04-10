@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/products_controller.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/repository/products_repository.dart';
 import 'package:pcm/view/home/home_screen_distributor.dart';
 
@@ -47,7 +48,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
         elevation: 1,
         titleSpacing: 0,
         title: Text(
-          'Receipt',
+          S.of(context).Receipt,
           style:
               GoogleFonts.montserrat(textStyle: TextStyle(color: Colors.black)),
         ),
@@ -83,13 +84,13 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Purchase Receipt',
+                            S.of(context).PurchaseReceipt,
                             style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
                       Text(
-                        'Receipt Message',
+                        S.of(context).ReceiptMessage,
                         style: TextStyle(fontSize: 14),
                       ),
                       SizedBox(
@@ -104,7 +105,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                               style:
                                   TextStyle(fontSize: 12, color: Colors.black),
                               children: [
-                                TextSpan(text: 'OrderId: '),
+                                TextSpan(text: S.of(context).OrderId),
                                 TextSpan(
                                   text: '${widget.order.objectId}',
                                   style: TextStyle(),
@@ -128,7 +129,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Total Order',
+                            S.of(context).TotalOrder,
                             style: TextStyle(fontSize: 20),
                           ),
                           RichText(
@@ -177,9 +178,9 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                         radius: 20,
                         backgroundColor: Color.fromRGBO(90, 177, 255, 0.1),
                       ),
-                      subtitle: Text(
-                          "Size: ${cltrCart.orderDetails[index]['size']}" ??
-                              "size"),
+                      subtitle: Text(S.of(context).Size +
+                              " ${cltrCart.orderDetails[index]['size']}" ??
+                          "size"),
                       title:
                           Text(cltrCart.orderDetails[index]['name'] ?? "name"),
                       trailing: Text(
@@ -199,7 +200,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Sub Total',
+                            S.of(context).subT,
                             style: TextStyle(fontSize: 12),
                           ),
                           Text(
@@ -216,7 +217,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Delivery Fees',
+                            S.of(context).fees,
                             style: TextStyle(fontSize: 12),
                           ),
                           Text(
@@ -232,7 +233,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Order Total',
+                          Text(S.of(context).orderTotal,
                               style: TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.w500)),
                           Text(

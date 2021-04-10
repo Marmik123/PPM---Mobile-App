@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:get/get.dart';
 import 'package:pcm/controller/cart_controller.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/view/order/order_placed.dart';
 import 'package:pcm/view/order/order_received.dart';
 // import 'package:pcm/widgets/orders.dart';
@@ -19,7 +20,7 @@ class OrderHistoryClient extends StatelessWidget {
         elevation: 1,
         titleSpacing: 0,
         title: Text(
-          'Order History',
+          S.of(context).hist,
         ),
       ),
       body: Container(
@@ -39,10 +40,10 @@ class OrderHistoryClient extends StatelessWidget {
                       // bottomNavigationIndex.value = 0;
                     },
                     leading: Icon(Icons.receipt_long_outlined),
-                    title: Text('Order Received' /*S.of(context).jobs*/),
+                    title: Text(S.of(context).oRec /*S.of(context).jobs*/),
                     trailing: GestureDetector(
                       child: Chip(
-                        label: Text('Add'),
+                        label: Text(S.of(context).Add),
                         // Text(S.of(context).add),
                         avatar: CircleAvatar(
                           child: Text("1"),
@@ -70,10 +71,10 @@ class OrderHistoryClient extends StatelessWidget {
                       // );
                     },
                     leading: Icon(Icons.receipt_long_outlined),
-                    title: Text('Order Placed' /*S.of(context).jobs*/),
+                    title: Text(S.of(context).placed),
                     trailing: GestureDetector(
                       child: Chip(
-                        label: Text('Add'),
+                        label: Text(S.of(context).Add),
                         // Text(S.of(context).add),
                         avatar: CircleAvatar(
                           child: Text(cltrCart.orderHistory.length.toString()),

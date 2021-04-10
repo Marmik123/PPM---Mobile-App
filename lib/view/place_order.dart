@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
-import 'package:get/get.dart';
 
 class PlaceOrder extends StatelessWidget {
   @override
@@ -12,7 +12,7 @@ class PlaceOrder extends StatelessWidget {
           SizedBox(
             height: 100,
           ),
-          GestureDetector(
+/*          GestureDetector(
             onTap: () {},
             child: Container(
               margin: EdgeInsets.only(left: 30, right: 30),
@@ -21,7 +21,7 @@ class PlaceOrder extends StatelessWidget {
               width: 100,
               child: Text('QR Scanner'),
             ),
-          ),
+          )*/
           SizedBox(
             height: 30,
           ),
@@ -35,7 +35,7 @@ class PlaceOrder extends StatelessWidget {
           TextField(
             // controller: con.sController,
             decoration: InputDecoration(
-              hintText: 'Enter phone Number',
+              hintText: S.of(context).hint,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(color: Colors.blueGrey),
@@ -52,7 +52,7 @@ class PlaceOrder extends StatelessWidget {
             height: 15,
           ),
           RoundedLoadingButton(
-            child: Text('Send OTP'),
+            child: Text(S.of(context).send),
             borderRadius: 10,
             height: 35,
             width: 100,
@@ -66,7 +66,7 @@ class PlaceOrder extends StatelessWidget {
           ),
           TextField(
             decoration: InputDecoration(
-              hintText: 'Enter OTP',
+              hintText: S.of(context).otp,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(color: Colors.blueGrey),
@@ -79,7 +79,7 @@ class PlaceOrder extends StatelessWidget {
             height: 25,
           ),
           RoundedLoadingButton(
-            child: Text('Verify'),
+            child: Text(S.of(context).Verify),
             borderRadius: 10,
             height: 35,
             width: 100,

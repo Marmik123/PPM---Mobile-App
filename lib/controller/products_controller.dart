@@ -7,7 +7,7 @@ class ProductsController extends GetxController {
 
   RxList products = [].obs;
   RxList cartProducts = [].obs;
-  RxString size = "".obs;
+  RxString size = "Small".obs;
   RxList sizeList = [].obs;
   RxInt quantity = 1.obs;
   Future<void> productData() async {

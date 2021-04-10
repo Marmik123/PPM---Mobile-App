@@ -10,6 +10,7 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 class CartController extends GetxController {
   RxDouble delivery = 20.0.obs;
   RxDouble subTotal = 0.0.obs;
+  RxBool isLoading = false.obs;
   RxList orderDetails = [].obs;
   RxList orderHistory = [].obs;
   RxInt quantity = 0.obs;
@@ -133,6 +134,7 @@ class CartController extends GetxController {
       String customerMobile}) async {
     var details = [];
     try {
+      isLoading.value = true;
       for (var i = 0; i < cartItems.length; i++) {
         details.add({
           'name': cartItems.values.toList()[i].title,
@@ -171,6 +173,7 @@ class CartController extends GetxController {
         buttonCtrl.success();
         print("order data is $orderData");
         orderHistory.add(orderData);
+        isLoading.value = false;
         print(response.result.get('objectId'));
         objectId = response.result.get('objectId');
         print('successful!!!!!!!!!!');
@@ -190,6 +193,13 @@ class CartController extends GetxController {
     } catch (e) {
       print('error in orderPlaced $e');
       buttonCtrl.error();
+      Get.snackbar(
+        "Error",
+        "",
+        backgroundColor: Colors.black.withOpacity(0.8),
+        maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
+        colorText: Colors.white,
+      );
     } finally {
       print('orderPlaced finally');
     }

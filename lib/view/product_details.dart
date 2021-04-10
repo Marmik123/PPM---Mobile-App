@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:pcm/controller/cart_controller.dart';
 import 'package:pcm/controller/products_controller.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/repository/products_repository.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -32,7 +33,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'ProductDetail',
+          S.of(context).detail,
         ),
       ),
       body: SingleChildScrollView(
@@ -171,7 +172,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               MaterialStateProperty.all(Colors.cyan),
                         ),
                         child: Text(
-                          'Add to Cart',
+                          S.of(context).cartAdd,
                           style: GoogleFonts.merriweather(
                             color: Colors.white,
                             fontSize: 16,
@@ -215,14 +216,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                         },
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Enter Shop Name';
+                            return S.of(context).errorS;
                           }
                           return null;
                         },
                         iconEnabledColor: Colors.black,
                         iconDisabledColor: Colors.cyan,
                         decoration: InputDecoration(
-                          labelText: "Choose Type of Product",
+                          labelText: S.of(context).type,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
                             borderSide: BorderSide(color: Colors.blueGrey),
@@ -232,7 +233,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           DropdownMenuItem(
                               value: 0,
                               child: Text(
-                                "Small (S)",
+                                S.of(context).small,
                                 style: GoogleFonts.montserrat(
                                   textStyle: TextStyle(
                                       color: Colors.black,
@@ -243,7 +244,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           DropdownMenuItem(
                               value: 1,
                               child: Text(
-                                "Medium (M)",
+                                S.of(context).medium,
                                 style: GoogleFonts.montserrat(
                                   textStyle: TextStyle(
                                       color: Colors.black,
@@ -254,7 +255,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           DropdownMenuItem(
                               value: 2,
                               child: Text(
-                                "Large (L)",
+                                S.of(context).large,
                                 style: GoogleFonts.montserrat(
                                   textStyle: TextStyle(
                                       color: Colors.black,
@@ -274,7 +275,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               alignment: Alignment.centerLeft,
               margin: EdgeInsets.only(top: 10, bottom: 10, left: 20),
               child: Text(
-                'Description:',
+                S.of(context).desc,
                 style: GoogleFonts.merriweather(
                   color: Colors.black,
                   fontSize: 16,
