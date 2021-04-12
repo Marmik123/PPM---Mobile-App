@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pcm/repository/user_repository.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
 // import 'package:loading_hud/loading_hud.dart';
 // import 'package:loading_hud/loading_indicator.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:pcm/repository/user_repository.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class FeedbackController extends GetxController {
   GlobalKey fkey = GlobalKey();
@@ -29,7 +29,7 @@ class FeedbackController extends GetxController {
       ParseObject feedbackData = ParseObject('Feedback')
         ..set('subject', sController.text)
         ..set('message', mController.text)
-        ..set('userData', userParse);
+        ..set('userData', currentUser);
       ParseResponse response = await feedbackData.create();
       if (response.success) {
         // loadingHud.dismiss();

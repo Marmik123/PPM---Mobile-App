@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/controller/register/otp_controller.dart';
 import 'package:pcm/generated/l10n.dart';
-import 'package:pcm/utils/shared_preferences_utils.dart';
 import 'package:pcm/view/auth/otp_verification.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
@@ -16,9 +16,10 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   SignInController ctrl = Get.put(SignInController());
+  OrderAssignController assignCtrl = Get.put(OrderAssignController());
 
   OtpController otpCtx = Get.put(OtpController());
-  String langCode = savedLocale.languageCode;
+  // String langCode = savedLocale.languageCode;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,7 +101,8 @@ class _SignInState extends State<SignIn> {
                                 validator: (value) {
                                   if (!GetUtils.isPhoneNumber(value)) {
                                     return S.of(context).valid;
-                                  } else if (value.length != 10) {
+                                  }
+                                  if (value.length != 10) {
                                     return S.of(context).valid;
                                   } else
                                     return null;
@@ -214,8 +216,11 @@ class _SignInState extends State<SignIn> {
                           elevation: 10,
                           color: Colors.cyan,
                           onPressed: () async {
-                            await otpCtx.registerUser();
-                            Get.to(() => OtpVerification());
+                            if (ctrl.formKey.currentState.validate()) {
+                              await otpCtx.registerUser();
+                              Get.to(() => OtpVerification());
+                            } else
+                              ctrl.buttonCtrl.reset();
 /*
                             if (otpCtx.formKey.currentState.validate()) {
 

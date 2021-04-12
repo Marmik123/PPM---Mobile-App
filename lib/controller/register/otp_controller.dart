@@ -18,6 +18,7 @@ class OtpController extends GetxController {
   RoundedLoadingButtonController butCtrl = RoundedLoadingButtonController();
 
   String otpValue = "";
+  RxString mobile = "".obs;
   RxBool isLoading = false.obs;
   String token;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -58,10 +59,10 @@ class OtpController extends GetxController {
           print(user);
           if (user != null) {
             print("User is  registered");
+            mobile.value = phoneCtrl.mobileNo.text.trim().toString();
             loginCtrl
                 .userMobileLogin(phoneCtrl.mobileNo.text.trim().toString());
-            await assignCtrl
-                .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
+            await assignCtrl.showAssignedOrder(mobile.value);
             clientCtrl.showLoggedInUserData(
                 phoneCtrl.mobileNo.text.trim().toString());
           }
@@ -123,6 +124,7 @@ class OtpController extends GetxController {
       if (value != null /*&& token == 'registered'*/) {
         butCtrl.success();
         print("User already registered");
+        mobile.value = phoneCtrl.mobileNo.text.trim().toString();
         loginCtrl.userMobileLogin(phoneCtrl.mobileNo.text.trim().toString());
         // Get.offAll(HomeScreen());
         print("login successful");

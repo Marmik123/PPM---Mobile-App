@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
+import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
@@ -23,7 +24,9 @@ class HomeScreenDelivery extends StatefulWidget {
 
 class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
   RoundedLoadingButtonController ctrl = RoundedLoadingButtonController();
-
+  SupportController sCtrl = Get.put(SupportController());
+  OrderAssignController assignCtrl = Get.put(OrderAssignController());
+  SignInController phoneCtrl = Get.put(SignInController());
   /*@override
   void initState() {
     // TODO: implement initState
@@ -33,8 +36,6 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
 
   @override
   Widget build(BuildContext context) {
-    OrderAssignController assignCtrl = Get.put(OrderAssignController());
-    SignInController phoneCtrl = Get.put(SignInController());
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.light,
@@ -49,8 +50,8 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
           IconButton(
             icon: Icon(Icons.refresh_sharp),
             onPressed: () async {
-              await assignCtrl
-                  .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
+              await assignCtrl.showAssignedOrder(
+                  phoneCtrl.mobileNo.text.trim().toString() ?? "-");
             },
           ),
           PopupMenuButton(
@@ -61,6 +62,7 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
               } else if (value == 'Feedback') {
                 Get.to(() => FeedbackPage());
               } else if (value == 'Support') {
+                sCtrl.loadData();
                 Get.to(() => Support());
               }
             },
@@ -159,11 +161,16 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
                     : ListView.builder(
                         physics: ClampingScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: assignCtrl.orderList.length ?? 0,
+                        itemCount: assignCtrl.orderList?.length,
                         itemBuilder: (context, index) {
-                          return OngoingOrderDelivery(
-                            index: index,
-                          );
+                          print(assignCtrl.orderList.length);
+                          return (assignCtrl.orderList == null ||
+                                  assignCtrl.orderList.length == 0)
+                              ? buildLoader()
+                              : OngoingOrderDelivery(
+                                  index: index,
+                                  listObject: assignCtrl.orderList[index],
+                                );
                         },
                       ),
           )
@@ -223,9 +230,12 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: BottomWidget(
         onTap: () {
+          setState(() {});
           assignCtrl
               .showDeliveredOrder(phoneCtrl.mobileNo.text.trim().toString());
-          return Get.to(() => OrderHistoryDelivery());
+          return Get.to(() => OrderHistoryDelivery(
+                listObject: assignCtrl.deliveredOrders.value,
+              ));
         },
       ),
     );

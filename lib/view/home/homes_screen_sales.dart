@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pcm/controller/register/client_controller.dart';
+import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/view/common/settings.dart';
 // import 'package:pcm/view/home/home_screen_delivery.dart';
@@ -12,7 +13,7 @@ import '../common/support.dart';
 // ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
   ClientController clientCon = Get.put(ClientController());
-
+  SupportController ctrl = Get.put(SupportController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +35,7 @@ class HomeScreen extends StatelessWidget {
               } else if (value == 'Feedback') {
                 Get.to(() => FeedbackPage());
               } else if (value == 'Support') {
+                ctrl.loadData();
                 Get.to(() => Support());
               }
             },

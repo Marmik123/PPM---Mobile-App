@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
 // import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/repository/user_repository.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class ChangeMobile extends StatefulWidget {
   final ParseObject user;
@@ -20,9 +20,9 @@ class _ChangeMobileState extends State<ChangeMobile> {
   final _passKey = GlobalKey<FormState>();
   void _submit() async {
     try {
-      userParse.set('number', passResetController.text);
+      currentUser.set('number', passResetController.text);
 
-      ParseResponse response = await userParse.save();
+      ParseResponse response = await currentUser.save();
       if (response.success) {
         _btnSubmit.success();
       }
