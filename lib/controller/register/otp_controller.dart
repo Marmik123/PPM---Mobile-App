@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pcm/controller/homescreen_client_controller.dart';
 import 'package:pcm/controller/login_controller.dart';
 import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
@@ -13,7 +14,7 @@ class OtpController extends GetxController {
   String verificationId;
   FocusNode otpFocus = FocusNode();
   OrderAssignController assignCtrl = Get.put(OrderAssignController());
-
+  HomeScreenClientController clientCtrl = Get.put(HomeScreenClientController());
   RoundedLoadingButtonController butCtrl = RoundedLoadingButtonController();
 
   String otpValue = "";
@@ -45,7 +46,7 @@ class OtpController extends GetxController {
     print("Register user called");
     try {
       await _auth.verifyPhoneNumber(
-        phoneNumber: "+${phoneCtrl.phoneCode}" + phoneCtrl.mobileNo.text,
+        phoneNumber: "+91" + phoneCtrl.mobileNo.text,
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential credential) async {
           isLoading.value = false;
@@ -59,8 +60,10 @@ class OtpController extends GetxController {
             print("User is  registered");
             loginCtrl
                 .userMobileLogin(phoneCtrl.mobileNo.text.trim().toString());
-            assignCtrl
+            await assignCtrl
                 .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
+            clientCtrl.showLoggedInUserData(
+                phoneCtrl.mobileNo.text.trim().toString());
           }
         },
         verificationFailed: (FirebaseAuthException e) {
@@ -88,13 +91,13 @@ class OtpController extends GetxController {
           isLoading.value = false;
           butCtrl.reset();
           phoneCtrl.buttonCtrl.reset();
-          Get.snackbar(
+/*          Get.snackbar(
             "Enter Otp Manually",
             "Automatic Otp verification failed",
             backgroundColor: Colors.white,
             duration: Duration(seconds: 2),
             colorText: Colors.teal,
-          );
+          );*/
           print("Timeout");
           print(verificationId);
         },
@@ -123,7 +126,8 @@ class OtpController extends GetxController {
         loginCtrl.userMobileLogin(phoneCtrl.mobileNo.text.trim().toString());
         // Get.offAll(HomeScreen());
         print("login successful");
-        assignCtrl.showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
+        clientCtrl
+            .showLoggedInUserData(phoneCtrl.mobileNo.text.trim().toString());
       } /* else if (value != null*/ /* && token == 'newuser'*/ /*) {
         print("New user");
         Get.to(HomeScreen());

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
-class BottomWidget extends StatelessWidget {
+class BottomWidget extends StatefulWidget {
   final VoidCallback onTap;
 
   const BottomWidget({Key key, this.onTap});
 
+  @override
+  _BottomWidgetState createState() => _BottomWidgetState();
+}
+
+class _BottomWidgetState extends State<BottomWidget> {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
@@ -14,7 +19,7 @@ class BottomWidget extends StatelessWidget {
         iconSize: 30,
         icon: Icon(Icons.history),
         tooltip: 'History',
-        onPressed: onTap,
+        onPressed: widget.onTap,
       ),
     );
     //   Card(

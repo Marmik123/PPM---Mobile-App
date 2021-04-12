@@ -1,34 +1,49 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/controller/register/otp_controller.dart';
+import 'package:pcm/generated/l10n.dart';
+import 'package:pcm/utils/shared_preferences_utils.dart';
 import 'package:pcm/view/auth/otp_verification.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-class SignIn extends StatelessWidget {
+class SignIn extends StatefulWidget {
+  @override
+  _SignInState createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
   SignInController ctrl = Get.put(SignInController());
 
   OtpController otpCtx = Get.put(OtpController());
-
+  String langCode = savedLocale.languageCode;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            colors: [Colors.white, Colors.cyan],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          )),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 60, left: 40.0, bottom: 30),
+                padding:
+                    const EdgeInsets.only(top: 100, left: 40.0, bottom: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Sign in to",
+                      S.of(context).signIn,
                       style: GoogleFonts.montserrat(
                         textStyle: TextStyle(
                             color: Colors.black,
@@ -41,7 +56,7 @@ class SignIn extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      "PCM",
+                      S.of(context).home,
                       style: GoogleFonts.montserrat(
                         textStyle: TextStyle(
                             color: Colors.cyan,
@@ -84,41 +99,41 @@ class SignIn extends StatelessWidget {
                                 controller: ctrl.mobileNo,
                                 validator: (value) {
                                   if (!GetUtils.isPhoneNumber(value)) {
-                                    return "Please enter a valid mobile number";
+                                    return S.of(context).valid;
                                   } else if (value.length != 10) {
-                                    return "Please enter a valid number";
+                                    return S.of(context).valid;
                                   } else
                                     return null;
+/*                                  showCountryPicker(
+                                    context: context,
+                                    //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
+                                    exclude: <String>['KN', 'MF'],
+                                    //Optional. Shows phone code before the country name.
+                                    showPhoneCode: true,
+                                    onSelect: (Country country) {
+                                      ctrl.phoneCode = country.phoneCode;
+                                      //ctrl.phoneCode.value = country.phoneCode;
+                                      print(
+                                          'Select country: ${country.displayName}');
+                                    },
+                                  );*/
                                 },
                                 decoration: InputDecoration(
-                                  prefixIcon: IconButton(
+                                  /*prefixIcon: IconButton(
                                     icon: Icon(
                                       Icons.arrow_drop_down,
                                       color: Colors.black,
                                     ),
                                     onPressed: () {
-                                      showCountryPicker(
-                                        context: context,
-                                        //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
-                                        exclude: <String>['KN', 'MF'],
-                                        //Optional. Shows phone code before the country name.
-                                        showPhoneCode: true,
-                                        onSelect: (Country country) {
-                                          ctrl.phoneCode = country.phoneCode;
-                                          //ctrl.phoneCode.value = country.phoneCode;
-                                          print(
-                                              'Select country: ${country.displayName}');
-                                        },
-                                      );
                                     },
-                                  ),
-                                  prefixText: "+${ctrl.phoneCode}  " ?? "+12",
+                                  ),*/
+                                  prefixText: "+91  ",
                                   /*prefixStyle: kStyle.copyWith(
                                         color: Colors.black,
                                         fontSize: 18,
                                         fontWeight: FontWeight.normal,
                                       ),*/
-                                  hintText: "Enter a Phone No.",
+                                  hintText: S.of(context).hint,
                                   /*hintStyle: kStyle.copyWith(
                                         color: Colors.white.withOpacity(0.4),
                                         fontSize: 18,
@@ -214,7 +229,7 @@ class SignIn extends StatelessWidget {
 */
                           },
                           child: Text(
-                            'Continue',
+                            S.of(context).Continue,
                             style: GoogleFonts.montserrat(
                               textStyle: TextStyle(
                                   color: Colors.black,

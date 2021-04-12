@@ -3,8 +3,14 @@ import 'package:get/get.dart';
 import 'package:pcm/controller/login_controller.dart';
 
 // ignore: must_be_immutable
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
   LoginController loginCon = Get.put(LoginController());
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;

@@ -4,20 +4,18 @@ import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/homescreen_client_controller.dart';
 import 'package:pcm/controller/products_controller.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/view/cart.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
-import 'package:pcm/view/home/home_screen_delivery.dart';
-import 'package:pcm/view/order/order_placed.dart';
+import 'package:pcm/view/order/order_history_client.dart';
 // import 'package:pcm/view/products.dart';
 // import 'package:pcm/view/register/client.dart';
 import 'package:pcm/widgets/bottom_widget.dart';
-import 'package:pcm/widgets/dashbord_card.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 import '../common/feedback.dart';
 import '../common/support.dart';
-import '../product_details.dart';
+// import '../product_details.dart';
 
 class HomeScreenClient extends StatefulWidget {
   @override
@@ -37,7 +35,7 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
         titleSpacing: 0,
         leading: Icon(Icons.home_outlined),
         title: Text(
-          'HomeScreen',
+          S.of(context).HomeScreen,
         ),
         actions: [
           IconButton(
@@ -46,22 +44,22 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
                 // Add Your Code here.
                 return Get.to(() => Cart());
               }),
-          // IconButton(
-          //     icon: Icon(Icons.qr_code_scanner),
-          //     onPressed: () {
-          //       showDialog(
-          //         context: context,
-          //         builder: (context) {
-          //           return AlertDialog(
-          //             content: QrImage(
-          //               data: "9874653210",
-          //               version: QrVersions.auto,
-          //               size: 300.0,
-          //             ),
-          //           );
-          //         },
-          //       );
-          //     }),
+/*          IconButton(
+              icon: Icon(Icons.qr_code_scanner),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: QrImage(
+                        data: "9874653210",
+                        version: QrVersions.auto,
+                        size: 300.0,
+                      ),
+                    );
+                  },
+                );
+              })*/
           PopupMenuButton(
             icon: Icon(Icons.more_vert),
             onSelected: (value) {
@@ -81,7 +79,7 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
                     SizedBox(
                       width: 5,
                     ),
-                    Text('Settings'),
+                    Text(S.of(context).Settings),
                   ],
                 ),
                 value: 'Settings',
@@ -93,7 +91,7 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
                     SizedBox(
                       width: 5,
                     ),
-                    Text('Feedback'),
+                    Text(S.of(context).feedback),
                   ],
                 ),
                 value: 'Feedback',
@@ -105,7 +103,7 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
                     SizedBox(
                       width: 5,
                     ),
-                    Text('Support'),
+                    Text(S.of(context).Support),
                   ],
                 ),
                 value: 'Support',
@@ -131,7 +129,7 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
             // listLoadingElement: LinearProgressIndicator(),
             childBuilder: (context, snapshot) {
               if (snapshot.failed) {
-                return Text('Something went wrong');
+                return Text(S.of(context).warning);
               } else if (snapshot.hasData || snapshot.hasPreLoadedData) {
                 if (snapshot.hasData) {
                   return Card(
@@ -282,17 +280,17 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
           //     ],
           //   ),
           // )
-          dashboardContainer(
+/*          dashboardContainer(
             name: 'Delivery',
             icon: Icons.delivery_dining,
             onTap: () => Get.to(HomeScreenDelivery()),
-          ),
+          ),*/
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: BottomWidget(
         onTap: () => Get.to(
-          OrderPlaced(),
+          OrderHistoryClient(),
         ),
       ),
     );

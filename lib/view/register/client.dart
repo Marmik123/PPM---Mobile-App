@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pcm/controller/register/client_controller.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class ClientRegister extends StatefulWidget {
@@ -20,7 +21,7 @@ class _ClientRegisterState extends State<ClientRegister> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          con.role.value ? 'Register Distributor' : 'Register Client',
+          S.of(context).client,
         ),
       ),
       body: Form(
@@ -32,7 +33,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                 onTap: () {},
                 controller: con.nController,
                 decoration: InputDecoration(
-                  labelText: 'Name',
+                  labelText: S.of(context).Name,
                   //enabledBorder: InputBorder.none,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -41,7 +42,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                 ),
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Enter Name';
+                    return S.of(context).errorName;
                   }
                   return null;
                 },
@@ -57,7 +58,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                 keyboardType: TextInputType.number,
                 controller: con.mController,
                 decoration: InputDecoration(
-                  labelText: 'Number',
+                  labelText: S.of(context).Number,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(color: Colors.blueGrey),
@@ -65,7 +66,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                 ),
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Enter Number';
+                    return S.of(context).errorNum;
                   }
                   return null;
                 },
@@ -76,7 +77,7 @@ class _ClientRegisterState extends State<ClientRegister> {
               TextFormField(
                 controller: con.sNController,
                 decoration: InputDecoration(
-                  labelText: 'Shop Name',
+                  labelText: S.of(context).sName,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(color: Colors.blueGrey),
@@ -84,7 +85,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                 ),
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Enter Shop Name';
+                    return S.of(context).errorS;
                   }
                   return null;
                 },
@@ -102,14 +103,14 @@ class _ClientRegisterState extends State<ClientRegister> {
                   },
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Enter Shop Name';
+                      return S.of(context).sName;
                     }
                     return null;
                   },
                   iconEnabledColor: Colors.black,
                   iconDisabledColor: Colors.cyan,
                   decoration: InputDecoration(
-                    labelText: "Enter Type of Store",
+                    labelText: S.of(context).type,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(color: Colors.blueGrey),
@@ -119,7 +120,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                     DropdownMenuItem(
                         value: 0,
                         child: Text(
-                          "Stationary",
+                          S.of(context).stat,
                           style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
                                 color: Colors.black,
@@ -130,7 +131,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                     DropdownMenuItem(
                         value: 1,
                         child: Text(
-                          "Kirana",
+                          S.of(context).Kirana,
                           style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
                                 color: Colors.black,
@@ -141,7 +142,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                     DropdownMenuItem(
                         value: 2,
                         child: Text(
-                          "Dairy",
+                          S.of(context).Dairy,
                           style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
                                 color: Colors.black,
@@ -152,7 +153,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                     DropdownMenuItem(
                         value: 3,
                         child: Text(
-                          "Vegetable",
+                          S.of(context).Vegetable,
                           style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
                                 color: Colors.black,
@@ -163,7 +164,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                     DropdownMenuItem(
                         value: 4,
                         child: Text(
-                          "Provision",
+                          S.of(context).Provision,
                           style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
                                 color: Colors.black,
@@ -174,7 +175,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                     DropdownMenuItem(
                         value: 5,
                         child: Text(
-                          "Medical",
+                          S.of(context).Medical,
                           style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
                                 color: Colors.black,
@@ -191,7 +192,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                 onTap: () async => await con.shopPhoto(ImageSource.camera),
                 controller: con.sPController,
                 decoration: InputDecoration(
-                  labelText: 'Shop photo',
+                  labelText: S.of(context).photo,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(color: Colors.blueGrey),
@@ -237,13 +238,11 @@ class _ClientRegisterState extends State<ClientRegister> {
                 ),
                 child: Column(
                   children: [
-                    Text(
-                      'Address',
-                    ),
+                    Text(S.of(context).Address),
                     TextFormField(
                       controller: con.aPController,
                       decoration: InputDecoration(
-                        labelText: 'Address Line 1',
+                        labelText: S.of(context).AddressL,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: Colors.blueGrey),
@@ -256,7 +255,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                     TextFormField(
                       controller: con.lController,
                       decoration: InputDecoration(
-                        labelText: 'Landmark',
+                        labelText: S.of(context).Landmark,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: Colors.blueGrey),
@@ -269,7 +268,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                     TextFormField(
                       controller: con.cIController,
                       decoration: InputDecoration(
-                        labelText: 'City',
+                        labelText: S.of(context).City,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: Colors.blueGrey),
@@ -282,7 +281,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                     TextFormField(
                       controller: con.stController,
                       decoration: InputDecoration(
-                        labelText: 'State',
+                        labelText: S.of(context).State,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: Colors.blueGrey),
@@ -314,7 +313,7 @@ class _ClientRegisterState extends State<ClientRegister> {
         mainAxisSize: MainAxisSize.min,
         children: [
           RoundedLoadingButton(
-            child: Text('Save'),
+            child: Text(S.of(context).Save),
             borderRadius: 10,
             height: 35,
             width: 100,

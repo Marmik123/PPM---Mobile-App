@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
+import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/view/home/home_screen_client.dart';
 import 'package:pcm/view/home/home_screen_delivery.dart';
@@ -15,6 +16,7 @@ class LoginController extends GetxController {
   final userController = TextEditingController();
   final passController = TextEditingController();
   SignInController phoneCtrl = Get.put(SignInController());
+  OrderAssignController orderCtrl = Get.put(OrderAssignController());
   QueryBuilder<ParseObject> clientInfo =
       QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
         ..whereEqualTo('role', 'Client');
@@ -37,13 +39,18 @@ class LoginController extends GetxController {
       print("client query");
       if (response.success) {
         print(response);
-        if (response.results[0]['role'] == "Client") {
+        print('#####');
+        print(response.results);
+        print('#####');
+        if (response.results == null) {
+          Get.to(() => HomeScreen());
+        } else if (response.results[0]['role'] == "Client") {
           Get.to(() => HomeScreenClient());
         } else if (response.results[0]['role'] == "DeliveryBoy") {
           Get.to(() => HomeScreenDelivery());
+          await orderCtrl
+              .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
         } else if (response.results[0]['role'] == "SalesPerson") {
-          Get.to(() => HomeScreen());
-        } else if (response.isBlank) {
           Get.to(() => HomeScreen());
         }
       } else {

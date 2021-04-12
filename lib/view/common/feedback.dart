@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/feedback_controller.dart';
-import 'package:get/get.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 // ignore: must_be_immutable
-class FeedbackPage extends StatelessWidget {
+class FeedbackPage extends StatefulWidget {
+  @override
+  _FeedbackPageState createState() => _FeedbackPageState();
+}
+
+class _FeedbackPageState extends State<FeedbackPage> {
   FeedbackController con = Get.put(FeedbackController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +21,7 @@ class FeedbackPage extends StatelessWidget {
       key: con.fkey,
       appBar: AppBar(
         title: Text(
-          'Feedback',
+          S.of(context).feedback,
           style: GoogleFonts.montserrat(
             textStyle: TextStyle(color: Colors.black),
           ),
@@ -32,7 +39,7 @@ class FeedbackPage extends StatelessWidget {
             TextField(
               controller: con.sController,
               decoration: InputDecoration(
-                labelText: 'Subject',
+                labelText:  S.of(context).Subject,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide(color: Colors.blueGrey),
@@ -60,8 +67,8 @@ class FeedbackPage extends StatelessWidget {
             ),
             TextField(
               decoration: InputDecoration(
-                labelText: 'FeedBack',
-                hintText: 'Enter Feedback',
+                labelText: S.of(context).feedback,
+                hintText:  S.of(context).hintF,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide(color: Colors.blueGrey),
@@ -77,7 +84,7 @@ class FeedbackPage extends StatelessWidget {
             RoundedLoadingButton(
               color: Colors.cyan,
               child: Text(
-                'Submit',
+                S.of(context).Submit,
                 style: TextStyle(color: Colors.white),
               ),
               borderRadius: 10,

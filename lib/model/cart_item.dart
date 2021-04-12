@@ -5,11 +5,13 @@ class CartItem {
   final String title;
   int quantity;
   final double price;
+  final String size;
 
   CartItem({
     @required this.id,
     @required this.title,
     @required this.quantity,
     @required this.price,
+    @required this.size,
   });
 }
