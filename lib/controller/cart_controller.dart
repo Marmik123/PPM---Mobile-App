@@ -13,6 +13,7 @@ class CartController extends GetxController {
   RxBool isLoading = false.obs;
   RxList orderDetails = [].obs;
   RxList orderHistory = [].obs;
+  RxList orderRHistory = [].obs;
   RxInt quantity = 0.obs;
   RxString payment_option = "".obs;
   RoundedLoadingButtonController buttonCtrl = RoundedLoadingButtonController();
@@ -25,7 +26,45 @@ class CartController extends GetxController {
       QueryBuilder<ParseObject> loadOrderHistory =
           QueryBuilder<ParseObject>(ParseObject('Orders'))
             ..whereEqualTo('customerContactNo', mobile);
+
       return loadOrderHistory;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> showROrderHistoryData(String mobile) async {
+    try {
+      print("showOrderDatahistory called");
+      QueryBuilder<ParseObject> loadOrderHistory =
+          QueryBuilder<ParseObject>(ParseObject('Orders'))
+            ..whereEqualTo('customerContactNo', mobile)
+            ..whereEqualTo('deliveryStatus', 'yes');
+
+      ParseResponse orderData = await loadOrderHistory.query();
+      if (orderData.success) {
+        orderRHistory(orderData.results);
+      } else {
+        print("error");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> showOrderHistoryData(String mobile) async {
+    try {
+      print("showOrderDatahistory called");
+      QueryBuilder<ParseObject> loadOrderHistory =
+          QueryBuilder<ParseObject>(ParseObject('Orders'))
+            ..whereEqualTo('customerContactNo', mobile);
+
+      ParseResponse orderData = await loadOrderHistory.query();
+      if (orderData.success) {
+        orderHistory(orderData.results);
+      } else {
+        print("error");
+      }
     } catch (e) {
       print(e);
     }

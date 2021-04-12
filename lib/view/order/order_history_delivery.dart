@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/orders_assign_controller.dart';
+import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/widgets/circular_loader.dart';
 
@@ -17,16 +18,17 @@ class OrderHistoryDelivery extends StatefulWidget {
 
 class _OrderHistoryDeliveryState extends State<OrderHistoryDelivery> {
   OrderAssignController assignCtrl = Get.put(OrderAssignController());
+  SignInController ctrl = Get.put(SignInController());
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     setState(() {});
+    assignCtrl.showDeliveredOrder(ctrl.mobileNo.text.trim().toString());
   }
 
   @override
   _OrderHistoryDeliveryState createState() => _OrderHistoryDeliveryState();
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,23 +59,19 @@ class _OrderHistoryDeliveryState extends State<OrderHistoryDelivery> {
                           leading: Icon(Icons.done),
                           title: Text(S.of(context).del),
                           trailing: GestureDetector(
-                            child: Chip(
-                              label: Text(S.of(context).Add),
-                              // Text(S.of(context).add),
-                              avatar: CircleAvatar(
-                                child: Text(
-                                    widget.listObject.length.toString() ??
-                                        "10"),
-                              ),
-                            ),
-                            // onTap: () {
-                            //   clientCon.role.value = false;
-                            //
-                            //   Get.to(ClientRegister());
-                            //   // Navigator.of(context)
-                            //   //     .pushNamed(CreateReception.routeName);
-                            // },
-                          )),
+                              child: CircleAvatar(
+                            radius: 15,
+                            child: Text(
+                                widget.listObject.length.toString() ?? "10"),
+                          )
+                              // onTap: () {
+                              //   clientCon.role.value = false;
+                              //
+                              //   Get.to(ClientRegister());
+                              //   // Navigator.of(context)
+                              //   //     .pushNamed(CreateReception.routeName);
+                              // },
+                              )),
                     ),
                     SizedBox(
                       height: 10,

@@ -17,7 +17,7 @@ class OrderPlaced extends StatefulWidget {
 
 class _OrderPlacedState extends State<OrderPlaced> {
   CartController cltrCart = Get.put(CartController());
-  SignInController ctrl = Get.put(SignInController());
+  SignInController phoneCtrl = Get.put(SignInController());
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +48,8 @@ class _OrderPlacedState extends State<OrderPlaced> {
               ),
               ParseLiveListWidget<ParseObject>(
                 shrinkWrap: true,
-                query: cltrCart
-                    .showOrderHistory(ctrl.mobileNo.text.trim().toString()),
+                query: cltrCart.showOrderHistory(
+                    phoneCtrl.mobileNo.text.trim().toString()),
                 scrollPhysics: ClampingScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 lazyLoading: true,

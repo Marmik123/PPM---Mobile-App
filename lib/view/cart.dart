@@ -63,7 +63,7 @@ class _CartState extends State<Cart> {
                         setState(() {
                           cartItems.clear();
                           cltrCart.quantity.value = 0;
-                          cltrCart.delivery.value = 0;
+
                           Get.back();
                         });
                       },
@@ -96,7 +96,7 @@ class _CartState extends State<Cart> {
           : ListView(
               shrinkWrap: true,
               children: [
-                Container(
+/*                Container(
                   color: Colors.white,
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.all(10),
@@ -118,7 +118,7 @@ class _CartState extends State<Cart> {
                       ),
                     ],
                   ),
-                ),
+                )*/
                 SizedBox(
                   height: 5,
                 ),
@@ -239,9 +239,7 @@ class _CartState extends State<Cart> {
 
                                             }
                                             if (cartItems.isEmpty) {
-                                              setState(() {
-                                                cltrCart.delivery.value = 0;
-                                              });
+                                              setState(() {});
                                             }
                                           });
 
@@ -604,7 +602,7 @@ class _CartState extends State<Cart> {
                       SizedBox(
                         height: 16,
                       ),
-                      cltrCart.totalA == 0
+                      /*cltrCart.totalA == 0
                           ? Container()
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -624,7 +622,7 @@ class _CartState extends State<Cart> {
                                   ),
                                 )
                               ],
-                            ),
+                            ),*/
                       SizedBox(
                         height: 20,
                       ),
@@ -700,7 +698,7 @@ class _CartState extends State<Cart> {
                           fontSize: 17,
                         ))
                     : Obx(() => Text(
-                          '₹ ${cltrCart.totalA + cltrCart.delivery.value}',
+                          '₹ ${cltrCart.totalA}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 17,
@@ -726,7 +724,7 @@ class _CartState extends State<Cart> {
                 setState(() {
                   cltrCart.totalA != 0
                       ? cltrCart.orderPlaced(
-                          price: cltrCart.totalA + cltrCart.delivery.value,
+                          price: cltrCart.totalA,
                           customerName: client.loggedInClient[0]['name'],
                           customerAddress: client.loggedInClient[0]['address1'],
                           customerMobile: client.loggedInClient[0]['number'],

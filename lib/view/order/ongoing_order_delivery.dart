@@ -8,8 +8,9 @@ import 'package:pcm/widgets/circular_loader.dart';
 
 class OngoingOrderDelivery extends StatefulWidget {
   int index;
+  var updateFunc;
   var listObject;
-  OngoingOrderDelivery({Key key, this.index, this.listObject})
+  OngoingOrderDelivery({Key key, this.index, this.listObject, this.updateFunc})
       : super(key: key);
 
   @override
@@ -307,10 +308,8 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
                           onPressed: () {
                             setState(() {
                               assignCtrl.isLoadingButton = widget.index + 1;
-                              assignCtrl.showAssignedOrder(
-                                  phoneCtrl.mobileNo.text.trim().toString());
                             });
-
+                            widget.updateFunc;
                             assignCtrl.pressedButtonIndex.value =
                                 widget.index + 1;
                             assignCtrl.setDeliveryStatus(

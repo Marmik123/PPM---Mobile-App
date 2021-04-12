@@ -7,7 +7,7 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/products_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/repository/products_repository.dart';
-import 'package:pcm/view/home/home_screen_distributor.dart';
+import 'package:pcm/view/home/home_screen_client.dart';
 
 import '../controller/cart_controller.dart';
 
@@ -39,7 +39,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
             cartItems.clear();*/
             cartItems.clear();
             cltrCart.quantity.value = 0;
-            Get.to(HomeScreenDistributor());
+            Get.off(HomeScreenClient());
             //Get.back();
           },
         ),

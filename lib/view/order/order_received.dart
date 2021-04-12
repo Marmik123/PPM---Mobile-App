@@ -17,7 +17,7 @@ class OrderReceived extends StatefulWidget {
 
 class _OrderReceivedState extends State<OrderReceived> {
   CartController cltrCart = Get.put(CartController());
-  SignInController ctrl = Get.put(SignInController());
+  SignInController ctrl = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +48,7 @@ class _OrderReceivedState extends State<OrderReceived> {
               ),
               ParseLiveListWidget<ParseObject>(
                 shrinkWrap: true,
-                query: cltrCart
-                    .showReceivedOrder(ctrl.mobileNo.text.trim().toString()),
+                query: cltrCart.showReceivedOrder("7990126072"),
                 scrollPhysics: ClampingScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 lazyLoading: true,
