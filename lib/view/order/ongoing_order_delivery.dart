@@ -7,8 +7,9 @@ import 'package:pcm/widgets/circular_loader.dart';
 
 class OngoingOrderDelivery extends StatefulWidget {
   int index;
-
-  OngoingOrderDelivery({Key key, this.index}) : super(key: key);
+  var listObject;
+  OngoingOrderDelivery({Key key, this.index, this.listObject})
+      : super(key: key);
 
   @override
   _OngoingOrderDeliveryState createState() => _OngoingOrderDeliveryState();
@@ -17,6 +18,7 @@ class OngoingOrderDelivery extends StatefulWidget {
 class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
   @override
   Widget build(BuildContext context) {
+    print(widget.listObject);
     OrderAssignController assignCtrl = Get.put(OrderAssignController());
     return Container(
         padding: EdgeInsets.all(10),
@@ -36,8 +38,7 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          assignCtrl.orderList[widget.index]['date_time']
-                              .toString(),
+                          widget.listObject['date_time'].toString() ?? "-",
                           style: GoogleFonts.montserrat(
                               fontSize: 12, fontWeight: FontWeight.w500),
                         ),
@@ -74,7 +75,7 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
                                   ),
                                 )),
                             Text(
-                              assignCtrl.orderList[widget.index]['objectId'],
+                              widget.listObject['objectId'] ?? "-",
                               style: GoogleFonts.montserrat(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w300,
@@ -101,8 +102,8 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
                                   ),
                                 )),
                             Text(
-                              assignCtrl.orderList[widget.index]['total_price']
-                                  .toString(),
+                              widget.listObject['total_price'].toString() ??
+                                  "-",
                               style: GoogleFonts.montserrat(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -129,8 +130,7 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
                                   ),
                                 )),
                             Text(
-                              assignCtrl.orderList[widget.index]
-                                  ['payment_option'],
+                              widget.listObject['payment_option'] ?? "-",
                               style: GoogleFonts.montserrat(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -211,9 +211,7 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
                                   ),
                                 )),
                             Text(
-                              assignCtrl.orderList[widget.index]
-                                      ['customerName'] ??
-                                  '-',
+                              widget.listObject['customerName'] ?? '-',
                               style: GoogleFonts.montserrat(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -243,9 +241,7 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
                               width: MediaQuery.of(context).size.width / 3,
                               alignment: Alignment.topRight,
                               child: Text(
-                                assignCtrl.orderList[widget.index]
-                                        ['customerAddress'] ??
-                                    '-',
+                                widget.listObject['customerAddress'] ?? '-',
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 3,
                                 style: GoogleFonts.montserrat(
@@ -275,9 +271,7 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
                                   ),
                                 )),
                             Text(
-                              assignCtrl.orderList[widget.index]
-                                      ['customerContactNo'] ??
-                                  "-",
+                              widget.listObject['customerContactNo'] ?? "-",
                               style: GoogleFonts.montserrat(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -317,7 +311,7 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
                             assignCtrl.pressedButtonIndex.value =
                                 widget.index + 1;
                             assignCtrl.setDeliveryStatus(
-                              assignCtrl.orderList[widget.index],
+                              widget.listObject,
                               "yes",
                             );
                           },

@@ -66,7 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "cart" : MessageLookupByLibrary.simpleMessage("Clear Cart"),
     "cartAdd" : MessageLookupByLibrary.simpleMessage("Add to Cart"),
     "cartM" : MessageLookupByLibrary.simpleMessage("Are you sure you want to clear cart ?"),
-    "change" : MessageLookupByLibrary.simpleMessage("Change Languages"),
+    "change" : MessageLookupByLibrary.simpleMessage("Change Language"),
     "changeMob" : MessageLookupByLibrary.simpleMessage("Change Mobile Number"),
     "client" : MessageLookupByLibrary.simpleMessage("Register Client"),
     "cod" : MessageLookupByLibrary.simpleMessage("Cash on Delivery"),

@@ -165,10 +165,10 @@ class S {
     );
   }
 
-  /// `Change Languages`
+  /// `Change Language`
   String get change {
     return Intl.message(
-      'Change Languages',
+      'Change Language',
       name: 'change',
       desc: '',
       args: [],

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/homescreen_client_controller.dart';
 import 'package:pcm/controller/products_controller.dart';
+import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/view/cart.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
@@ -25,6 +26,8 @@ class HomeScreenClient extends StatefulWidget {
 class _HomeScreenClientState extends State<HomeScreenClient> {
   HomeScreenClientController cltrClient = Get.put(HomeScreenClientController());
   ProductsController proCtrl = Get.put(ProductsController());
+  SupportController ctrl = Get.put(SupportController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,6 +71,7 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
               } else if (value == 'Feedback') {
                 Get.to(() => FeedbackPage());
               } else if (value == 'Support') {
+                ctrl.loadData();
                 Get.to(() => Support());
               }
             },

@@ -7,6 +7,7 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class OrderAssignController extends GetxController {
   SignInController phoneCtrl = Get.put(SignInController());
+  //OtpController otpCtrl = Get.put(OtpController());
   RxBool isLoading = false.obs;
   RxInt pressedButtonIndex = 0.obs;
   RxBool noOrderLeft = false.obs;
@@ -40,7 +41,7 @@ class OrderAssignController extends GetxController {
         if (orderList.isEmpty) {
           noOrderLeft.value = true;
         }
-        Future.delayed(Duration(seconds: 5), () => isLoading.value = false);
+        isLoading.value = false;
 
         print("this is new order list to be delivered ${orderList}");
       } else {
@@ -93,7 +94,7 @@ class OrderAssignController extends GetxController {
       }
     } catch (e) {
       isLoading.value = false;
-      print("default error---" + e.toString());
+      //print("default error---" + e.toString());
       Get.snackbar(
         "Error ! Please try again.",
         "Order Data Not Loaded",
@@ -116,7 +117,7 @@ class OrderAssignController extends GetxController {
       ParseResponse adResult = await orderObject.save();
       if (adResult.success) {
         print("updated delivery status successfully");
-        await showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
+        showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
         isLoadingButton = -1;
         showDeliveredOrder(phoneCtrl.mobileNo.text.trim().toString());
         //isLoading.value = false;
@@ -146,7 +147,7 @@ class OrderAssignController extends GetxController {
     } catch (e) {
       isLoadingButton = -1;
       isLoading.value = false;
-      print("default error---" + e.toString());
+      print(" error---" + e.toString());
       Get.snackbar(
         "Error ! Please try again.",
         "Order Delivery Status Not updated",
@@ -172,14 +173,16 @@ class OrderAssignController extends GetxController {
       ParseResponse adResult = await orderData.query();
       if (adResult.success) {
         print("assigned Delivery boy success");
+        print("11111");
         deliveredOrders.removeRange(0, deliveredOrders.length);
+        print("11111");
         deliveredOrders(adResult.results);
-
+        print("11111");
+        print(deliveredOrders);
         if (deliveredOrders.isEmpty) {
           noOrderDelivered.value = true;
         }
         showDelivered.value = false;
-
         final snackBar = SnackBar(
           width: MediaQuery.of(Get.context).size.width / 2,
           behavior: SnackBarBehavior.floating,
@@ -194,6 +197,7 @@ class OrderAssignController extends GetxController {
         ScaffoldMessenger.of(Get.context).showSnackBar(snackBar);
       } else {
         showDelivered.value = false;
+
         Get.snackbar(
           "Error ! Please try again.",
           "Delivery History Not Updated",

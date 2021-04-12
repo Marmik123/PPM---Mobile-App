@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/',
           page: () {
-            return Login();
+            return /*GetStorage().hasData('kUserData') ? HomeScreen() : */ SignIn();
           },
         )
       ],
