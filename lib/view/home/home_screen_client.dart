@@ -46,22 +46,22 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
                 // Add Your Code here.
                 return Get.to(() => Cart());
               }),
-          IconButton(
-              icon: Icon(Icons.qr_code_scanner),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      content: QrImage(
-                        data: "9874653210",
-                        version: QrVersions.auto,
-                        size: 300.0,
-                      ),
-                    );
-                  },
-                );
-              }),
+          // IconButton(
+          //     icon: Icon(Icons.qr_code_scanner),
+          //     onPressed: () {
+          //       showDialog(
+          //         context: context,
+          //         builder: (context) {
+          //           return AlertDialog(
+          //             content: QrImage(
+          //               data: "9874653210",
+          //               version: QrVersions.auto,
+          //               size: 300.0,
+          //             ),
+          //           );
+          //         },
+          //       );
+          //     }),
           PopupMenuButton(
             icon: Icon(Icons.more_vert),
             onSelected: (value) {
@@ -121,83 +121,119 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
           SizedBox(
             height: 20,
           ),
-          ParseLiveListWidget<ParseObject>(
+          ParseLiveGridWidget<ParseObject>(
+            
             shrinkWrap: true,
             scrollPhysics: ClampingScrollPhysics(),
             query: cltrClient.productData,
             lazyLoading: true,
             preloadedColumns: ['productName', 'fileImage', 'productPrice'],
-            listLoadingElement: LinearProgressIndicator(),
+            // listLoadingElement: LinearProgressIndicator(),
             childBuilder: (context, snapshot) {
               if (snapshot.failed) {
                 return Text('Something went wrong');
               } else if (snapshot.hasData || snapshot.hasPreLoadedData) {
                 if (snapshot.hasData) {
                   return Card(
-                    child: ListTile(
-                      onTap: () => Get.to(() => ProductDetails(
-                            product: snapshot.loadedData,
-                          )),
-                      subtitle: Text(
-                          'Price: ${snapshot.loadedData.get('productPrice')}'),
-                      title: Text(
-                        snapshot.loadedData.get('productName'),
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      trailing: Container(
-                        height: 50,
-                        width: 50,
-                        child: ClipRRect(
-                          child: Image(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                                'https://picsum.photos/id/1/200/300'),
+                    child: Container(
+                    height: 300,
+                    child: Card(
+                      child: Stack(
+                        fit: StackFit.loose,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.all(5),
+                            height: MediaQuery.of(context).size.height,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.cyan,
                           ),
-                        ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              padding: EdgeInsets.only(left: 5),
+                              margin: EdgeInsets.only(left: 5, right: 5, bottom: 5),
+                              height: 35,
+                              color: Colors.red.withOpacity(0.3),
+                              alignment: Alignment.bottomCenter,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(snapshot.loadedData.get('productName')),
+                                  IconButton(
+                                      icon: Icon(Icons.shopping_cart_outlined),
+                                      onPressed: () {})
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  );
+                    // child: ListTile(
+                    //   onTap: () => Get.to(() => ProductDetails(
+                    //         product: snapshot.loadedData,
+                    //       )),
+                    //   subtitle: Text(
+                    //       'Price: ${snapshot.loadedData.get('productPrice')}'),
+                    //   title: Text(
+                    //     snapshot.loadedData.get('productName'),
+                    //     style: TextStyle(fontSize: 18),
+                    //   ),
+                    //   trailing: Container(
+                    //     height: 50,
+                    //     width: 50,
+                    //     child: ClipRRect(
+                    //       child: Image(
+                    //         fit: BoxFit.cover,
+                    //         image: NetworkImage(
+                    //             'https://picsum.photos/id/1/200/300'),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                  ),);
                   // GridView.builder(
                   // shrinkWrap: true,
                   // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   //     crossAxisCount: 2),
                   // itemBuilder: (context, index) {
                   //   return
-                  //     Container(
-                  //   height: 300,
-                  //   child: Card(
-                  //     child: Stack(
-                  //       fit: StackFit.loose,
-                  //       children: [
-                  //         Container(
-                  //           margin: EdgeInsets.all(5),
-                  //           height: MediaQuery.of(context).size.height,
-                  //           width: MediaQuery.of(context).size.width,
-                  //           color: Colors.cyan,
-                  //         ),
-                  //         Align(
-                  //           alignment: Alignment.bottomCenter,
-                  //           child: Container(
-                  //             padding: EdgeInsets.only(left: 5),
-                  //             margin: EdgeInsets.only(left: 5, right: 5, bottom: 5),
-                  //             height: 35,
-                  //             color: Colors.red.withOpacity(0.3),
-                  //             alignment: Alignment.bottomCenter,
-                  //             child: Row(
-                  //               mainAxisSize: MainAxisSize.max,
-                  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //               children: [
-                  //                 Text(snapshot.loadedData.get('productName')),
-                  //                 IconButton(
-                  //                     icon: Icon(Icons.shopping_cart_outlined),
-                  //                     onPressed: () {})
-                  //               ],
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
+                    //   Container(
+                    // height: 300,
+                    // child: Card(
+                    //   child: Stack(
+                    //     fit: StackFit.loose,
+                    //     children: [
+                    //       Container(
+                    //         margin: EdgeInsets.all(5),
+                    //         height: MediaQuery.of(context).size.height,
+                    //         width: MediaQuery.of(context).size.width,
+                    //         color: Colors.cyan,
+                    //       ),
+                    //       Align(
+                    //         alignment: Alignment.bottomCenter,
+                    //         child: Container(
+                    //           padding: EdgeInsets.only(left: 5),
+                    //           margin: EdgeInsets.only(left: 5, right: 5, bottom: 5),
+                    //           height: 35,
+                    //           color: Colors.red.withOpacity(0.3),
+                    //           alignment: Alignment.bottomCenter,
+                    //           child: Row(
+                    //             mainAxisSize: MainAxisSize.max,
+                    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //             children: [
+                    //               Text(snapshot.loadedData.get('productName')),
+                    //               IconButton(
+                    //                   icon: Icon(Icons.shopping_cart_outlined),
+                    //                   onPressed: () {})
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   //   //   );
                   //   // },
                   // );

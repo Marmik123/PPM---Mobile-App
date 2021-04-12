@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/view/auth/login_mobile.dart';
+import 'view/home/homes_screen_sales.dart';
 // import 'generated/l10n.dart';
 
 const String parse_App_ID = '849F7316D6729D5A14451E65AF5E1';
@@ -59,7 +60,7 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/',
           page: () {
-            return SignIn();
+            return HomeScreen();
           },
         )
       ],
