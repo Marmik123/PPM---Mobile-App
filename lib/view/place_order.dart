@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-class PlaceOrder extends StatelessWidget {
+class PlaceOrder extends StatefulWidget {
+  @override
+  _PlaceOrderState createState() => _PlaceOrderState();
+}
+
+class _PlaceOrderState extends State<PlaceOrder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

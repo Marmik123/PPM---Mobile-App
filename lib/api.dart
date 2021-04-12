@@ -23,7 +23,7 @@ Future<Response> postMedia(String url, dynamic args) async {
       url,
       data: FormData.fromMap(args),
       options: Options(
-        headers: {},
+        headers:<String,dynamic> {},
       ),
     );
 

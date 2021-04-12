@@ -8,8 +8,14 @@ import 'package:pcm/view/order/order_received.dart';
 // import 'package:pcm/widgets/orders.dart';
 
 // ignore: must_be_immutable
-class OrderHistoryClient extends StatelessWidget {
+class OrderHistoryClient extends StatefulWidget {
+  @override
+  _OrderHistoryClientState createState() => _OrderHistoryClientState();
+}
+
+class _OrderHistoryClientState extends State<OrderHistoryClient> {
   CartController cltrCart = Get.put(CartController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

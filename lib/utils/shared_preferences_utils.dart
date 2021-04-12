@@ -5,6 +5,7 @@ import '../generated/l10n.dart';
 
 SharedPreferences pref;
 const String kLang = 'locale';
+String langCode = savedLocale.languageCode;
 
 initPreferences() async {
   pref = await SharedPreferences.getInstance();

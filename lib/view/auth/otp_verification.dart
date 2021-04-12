@@ -8,8 +8,14 @@ import 'package:pcm/generated/l10n.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-class OtpVerification extends StatelessWidget {
+class OtpVerification extends StatefulWidget {
+  @override
+  _OtpVerificationState createState() => _OtpVerificationState();
+}
+
+class _OtpVerificationState extends State<OtpVerification> {
   OtpController otpCtrl = Get.put(OtpController());
+
   SignInController phoneCtrl = Get.put(SignInController());
 
   @override

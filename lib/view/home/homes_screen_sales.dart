@@ -11,7 +11,12 @@ import '../common/feedback.dart';
 import '../common/support.dart';
 
 // ignore: must_be_immutable
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   ClientController clientCon = Get.put(ClientController());
   SupportController ctrl = Get.put(SupportController());
   @override

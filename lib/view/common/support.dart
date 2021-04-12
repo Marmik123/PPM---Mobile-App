@@ -5,8 +5,14 @@ import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/widgets/circular_loader.dart';
 
-class Support extends StatelessWidget {
+class Support extends StatefulWidget {
+  @override
+  _SupportState createState() => _SupportState();
+}
+
+class _SupportState extends State<Support> {
   SupportController ctrl = Get.put(SupportController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

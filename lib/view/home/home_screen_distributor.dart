@@ -18,7 +18,12 @@ import '../common/feedback.dart';
 import '../common/support.dart';
 import '../product_details.dart';
 
-class HomeScreenDistributor extends StatelessWidget {
+class HomeScreenDistributor extends StatefulWidget {
+  @override
+  _HomeScreenDistributorState createState() => _HomeScreenDistributorState();
+}
+
+class _HomeScreenDistributorState extends State<HomeScreenDistributor> {
   HomeScreenClientController cltrClient = Get.put(HomeScreenClientController());
 
   @override

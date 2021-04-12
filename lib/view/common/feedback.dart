@@ -6,8 +6,14 @@ import 'package:pcm/generated/l10n.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 // ignore: must_be_immutable
-class FeedbackPage extends StatelessWidget {
+class FeedbackPage extends StatefulWidget {
+  @override
+  _FeedbackPageState createState() => _FeedbackPageState();
+}
+
+class _FeedbackPageState extends State<FeedbackPage> {
   FeedbackController con = Get.put(FeedbackController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

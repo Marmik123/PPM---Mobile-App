@@ -9,7 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/view/auth/login_mobile.dart';
-
+import 'package:pcm/view/home/homes_screen_sales.dart';
+import 'package:pcm/view/login.dart';
 // import 'generated/l10n.dart';
 import 'utils/shared_preferences_utils.dart';
 

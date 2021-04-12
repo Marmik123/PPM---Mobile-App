@@ -4,8 +4,13 @@ import 'package:get/get.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/widgets/change_language.dart';
 import 'package:pcm/widgets/change_mobile.dart';
+import 'package:pcm/utils/shared_preferences_utils.dart';
+class SettingsPage extends StatefulWidget {
+  @override
+  _SettingsPageState createState() => _SettingsPageState();
+}
 
-class SettingsPage extends StatelessWidget {
+class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +31,16 @@ class SettingsPage extends StatelessWidget {
                   showModalBottomSheet(
                     context: context,
                     builder: (context) => ChangeLanguage(),
-                  );
+                  ).then((value) async{
+                    if(value!=null){
+                      setState(() {
+                  langCode = value;
+                });
+                await setLang(Locale(langCode));
+
+                setState(() {});
+                    }
+                  });
                   // ).then((value) async {
                   //   if (value != null) {
                   //     setState(() {

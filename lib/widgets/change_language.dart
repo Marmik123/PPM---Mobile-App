@@ -9,7 +9,6 @@ class ChangeLanguage extends StatefulWidget {
 }
 
 class _ChangeLanguageState extends State<ChangeLanguage> {
-  String langCode = savedLocale.languageCode;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -24,39 +23,42 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
             Divider(),
             ListTile(
               onTap: () async {
-                setState(() {
-                  langCode = 'en';
-                });
-                await setLang(Locale(langCode));
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                setState(() {});
-                setState(() {});
+                // setState(() {
+                //   langCode = 'en';
+                // });
+                // await setLang(Locale(langCode));
+                // // Navigator.of(context).pop();
+                // setState(() {});
+                Navigator.of(context).pop('en');
+
+                // setState(() {});
               },
               title: Text(S.of(context).English),
             ),
             ListTile(
               onTap: () async {
-                setState(() {
-                  langCode = 'gu';
-                });
-                await setLang(Locale(langCode));
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                setState(() {});
-                setState(() {});
+                // setState(() {
+                //   langCode = 'gu';
+                // });
+                // await setLang(Locale(langCode));
+
+                // setState(() {});
+                Navigator.of(context).pop('gu');
+
+                // setState(() {});
               },
               title: Text(S.of(context).Gujarati),
             ),
             ListTile(
               onTap: () async {
-                setState(() {
-                  langCode = 'hi';
-                });
-                await setLang(Locale(langCode));
-                Navigator.of(context).pop();
-                setState(() {});
-                setState(() {});
+                // setState(() {
+                //   langCode = 'hi';
+                // });
+                // await setLang(Locale(langCode));
+                // setState(() {});
+                Navigator.of(context).pop('hi');
+
+                // setState(() {});
               },
               title: Text(S.of(context).Hindi),
             )
