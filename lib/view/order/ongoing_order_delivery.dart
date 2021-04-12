@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/orders_assign_controller.dart';
+import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/widgets/circular_loader.dart';
 
@@ -20,6 +21,7 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
   Widget build(BuildContext context) {
     print(widget.listObject);
     OrderAssignController assignCtrl = Get.put(OrderAssignController());
+    SignInController phoneCtrl = Get.put(SignInController());
     return Container(
         padding: EdgeInsets.all(10),
         margin: EdgeInsets.all(5),
@@ -305,9 +307,10 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
                           onPressed: () {
                             setState(() {
                               assignCtrl.isLoadingButton = widget.index + 1;
+                              assignCtrl.showAssignedOrder(
+                                  phoneCtrl.mobileNo.text.trim().toString());
                             });
-                            print(assignCtrl.isLoadingButton);
-                            print(widget.index + 1);
+
                             assignCtrl.pressedButtonIndex.value =
                                 widget.index + 1;
                             assignCtrl.setDeliveryStatus(

@@ -6,7 +6,7 @@ import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class OrderAssignController extends GetxController {
-  SignInController phoneCtrl = Get.put(SignInController());
+  SignInController mobileCtrl = Get.put(SignInController());
   //OtpController otpCtrl = Get.put(OtpController());
   RxBool isLoading = false.obs;
   RxInt pressedButtonIndex = 0.obs;
@@ -117,9 +117,9 @@ class OrderAssignController extends GetxController {
       ParseResponse adResult = await orderObject.save();
       if (adResult.success) {
         print("updated delivery status successfully");
-        showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
+        showAssignedOrder(mobileCtrl.mobileNo.text.trim().toString());
         isLoadingButton = -1;
-        showDeliveredOrder(phoneCtrl.mobileNo.text.trim().toString());
+        showDeliveredOrder(mobileCtrl.mobileNo.text.trim().toString());
         //isLoading.value = false;
         final snackBar = SnackBar(
           width: MediaQuery.of(Get.context).size.width / 2,

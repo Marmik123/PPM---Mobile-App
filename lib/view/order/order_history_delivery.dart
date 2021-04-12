@@ -17,6 +17,12 @@ class OrderHistoryDelivery extends StatefulWidget {
 
 class _OrderHistoryDeliveryState extends State<OrderHistoryDelivery> {
   OrderAssignController assignCtrl = Get.put(OrderAssignController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +82,6 @@ class _OrderHistoryDeliveryState extends State<OrderHistoryDelivery> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-
                     /*assignCtrl.noOrderDelivered.value
                         ? Padding(
                             padding: const EdgeInsets.only(
@@ -111,53 +116,18 @@ class _OrderHistoryDeliveryState extends State<OrderHistoryDelivery> {
                                 SizedBox(
                                   height: 30,
                                 ),
-*/ /*                                Text(
-                                  Get back to work,
-                                  style: GoogleFonts.montserrat(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.cyan),
-                                  textAlign: TextAlign.center,
-                                )*/ /*
                               ],
                             ),
                           )
-                        : */
+                        :*/
                     ListView.builder(
                       physics: ClampingScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: widget.listObject.length ?? 0,
                       itemBuilder: (context, index) {
-                        return /*assignCtrl.deliveredOrders.length == 0
-                            ? Container()
-                            :*/
-                            Container(
+                        return Container(
                           child: Column(
                             children: [
-                              // Card(
-                              //   child: ListTile(
-                              //       onTap: () {
-                              //         // bottomNavigationIndex.value = 0;
-                              //       },
-                              //       leading: Icon(Icons.handyman),
-                              //       title: Text('Distributors Registered' /*S.of(context).jobs*/),
-                              //       trailing: GestureDetector(
-                              //         child: Chip(
-                              //           label: Text('Add'),
-                              //           // Text(S.of(context).add),
-                              //           avatar: CircleAvatar(
-                              //             child: Text('1'),
-                              //           ),
-                              //         ),
-                              //         onTap: () {
-                              //           clientCon.role.value = true;
-                              //
-                              //           Get.to(ClientRegister());
-                              //           // Navigator.of(context)
-                              //           //     .pushNamed(CreateReception.routeName);
-                              //         },
-                              //       )),
-                              // ),
                               SizedBox(
                                 height: 20,
                               ),
