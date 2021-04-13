@@ -35,7 +35,7 @@ class CartController extends GetxController {
 
   Future<void> showROrderHistoryData(String mobile) async {
     try {
-      print("showOrderDatahistory called");
+      print("showROrderDatahistory called");
       QueryBuilder<ParseObject> loadOrderHistory =
           QueryBuilder<ParseObject>(ParseObject('Orders'))
             ..whereEqualTo('customerContactNo', mobile)
@@ -43,6 +43,7 @@ class CartController extends GetxController {
 
       ParseResponse orderData = await loadOrderHistory.query();
       if (orderData.success) {
+        orderRHistory.removeRange(0, orderRHistory.length);
         orderRHistory(orderData.results);
       } else {
         print("error");

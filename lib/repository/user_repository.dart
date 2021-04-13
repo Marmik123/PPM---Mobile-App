@@ -1,16 +1,29 @@
-import 'package:get_storage/get_storage.dart';
+import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-String kUserData = "user_data";
-ParseUser currentUser;
+class RepoController extends GetxController {
+  String kUserData;
+  ParseUser currentUser;
+  RxString objectId = "".obs;
 
-void setUserData(ParseUser user) {
-  GetStorage storage = GetStorage();
-  storage.write(kUserData, user);
-  currentUser = user;
-}
+  Future<void> setUserData(String user) async {
+    //GetStorage storage = GetStorage();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(kUserData, user);
+    objectId.value = user;
+    print("@@@@@@ $kUserData");
+    print(objectId);
+  }
 
-void loadUserData() {
-  GetStorage storage = GetStorage();
-  currentUser = storage.read(kUserData);
+  void deleteUserData() async {
+    //GetStorage storage = GetStorage();
+    //currentUser = storage.read(kUserData);
+    // GetStorage().erase();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(kUserData);
+    print("@@@@@@ $kUserData");
+    objectId.value = null;
+    print(objectId);
+  }
 }

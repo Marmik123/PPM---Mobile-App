@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
+import 'package:pcm/repository/user_repository.dart';
 import 'package:pcm/view/home/home_screen_client.dart';
 import 'package:pcm/view/home/home_screen_delivery.dart';
 
@@ -11,8 +12,8 @@ import '../view/home/homes_screen_sales.dart';
 class LoginController extends GetxController {
   RxBool isLoading = false.obs;
 
-  GlobalKey<FormState> key = GlobalKey();
-
+  GlobalKey<FormState> key = GlobalKey<FormState>();
+  RepoController rCtrl = Get.put(RepoController());
   final userController = TextEditingController();
   final passController = TextEditingController();
   SignInController phoneCtrl = Get.put(SignInController());
@@ -42,9 +43,7 @@ class LoginController extends GetxController {
         print('#####');
         print(response.results);
         print('#####');
-        /* currentUser = response.result;
-        setUserData(currentUser);
-        loadUserData();*/
+        rCtrl.setUserData(response.results[0]['role']);
         if (response.results == null) {
           Get.to(() => HomeScreen());
         } else if (response.results[0]['role'] == "Client") {

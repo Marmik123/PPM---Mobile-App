@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
+import 'package:pcm/repository/user_repository.dart';
+import 'package:pcm/view/auth/login_mobile.dart';
 import 'package:pcm/view/common/settings.dart';
 // import 'package:pcm/view/home/home_screen_delivery.dart';
 import 'package:pcm/view/register/client.dart';
@@ -19,6 +21,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   ClientController clientCon = Get.put(ClientController());
   SupportController ctrl = Get.put(SupportController());
+  RepoController rCtrl = Get.put(RepoController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
               } else if (value == 'Support') {
                 ctrl.loadData();
                 Get.to(() => Support());
+              } else if (value == 'Logout') {
+                rCtrl.deleteUserData();
+                Get.offAll(SignIn());
               }
             },
             itemBuilder: (context) => [
@@ -81,6 +88,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 value: 'Support',
               ),
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    Icon(Icons.logout),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(S.of(context).Logout),
+                  ],
+                ),
+                value: 'Logout',
+              )
             ],
           ),
         ],

@@ -1,6 +1,7 @@
 // import 'package:Rapair_desk/generated/l10n.dart';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 // import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/repository/user_repository.dart';
@@ -15,14 +16,16 @@ class ChangeMobile extends StatefulWidget {
 }
 
 class _ChangeMobileState extends State<ChangeMobile> {
+  RepoController rCtrl = Get.put(RepoController());
+
   final RoundedLoadingButtonController _btnSubmit =
       new RoundedLoadingButtonController();
   final _passKey = GlobalKey<FormState>();
   void _submit() async {
     try {
-      currentUser.set('number', passResetController.text);
+      rCtrl.currentUser.set('number', passResetController.text);
 
-      ParseResponse response = await currentUser.save();
+      ParseResponse response = await rCtrl.currentUser.save();
       if (response.success) {
         _btnSubmit.success();
       }

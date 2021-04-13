@@ -195,6 +195,16 @@ class S {
     );
   }
 
+  /// `Logout`
+  String get Logout {
+    return Intl.message(
+      'Logout',
+      name: 'Logout',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `English`
   String get English {
     return Intl.message(

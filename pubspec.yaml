@@ -44,6 +44,7 @@ dev_dependencies:
   #  sdk: flutter
   google_fonts: ^2.0.0
   get: ^3.25.6
+  flutter_phoenix: ^1.0.0
   get_storage: ^1.4.0
   rounded_loading_button: ^1.0.18
   loading_hud: ^0.2.0

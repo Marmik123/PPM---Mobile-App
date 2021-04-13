@@ -114,39 +114,58 @@ class OtpController extends GetxController {
   verifyPhoneManually() {
     phoneCtrl.isLoading.value = false;
     print("verify phone manually");
-    AuthCredential credential = PhoneAuthProvider.credential(
-      verificationId: verificationId,
-      smsCode: otpController.text,
-    );
 
-    _auth.signInWithCredential(credential).then((value) {
-      print("Result is $value");
-      if (value != null /*&& token == 'registered'*/) {
-        butCtrl.success();
-        print("User already registered");
-        mobile.value = phoneCtrl.mobileNo.text.trim().toString();
-        loginCtrl.userMobileLogin(phoneCtrl.mobileNo.text.trim().toString());
-        // Get.offAll(HomeScreen());
-        print("login successful");
-        clientCtrl
-            .showLoggedInUserData(phoneCtrl.mobileNo.text.trim().toString());
-      } /* else if (value != null*/ /* && token == 'newuser'*/ /*) {
+    try {
+      AuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId,
+        smsCode: otpController.text,
+      );
+
+      _auth.signInWithCredential(credential).then((value) {
+        print("Result is $value");
+        if (value != null /*&& token == 'registered'*/) {
+          butCtrl.success();
+          print("User already registered");
+          mobile.value = phoneCtrl.mobileNo.text.trim().toString();
+          loginCtrl.userMobileLogin(phoneCtrl.mobileNo.text.trim().toString());
+          // Get.offAll(HomeScreen());
+          print("login successful");
+          clientCtrl
+              .showLoggedInUserData(phoneCtrl.mobileNo.text.trim().toString());
+        } else {
+          phoneCtrl.buttonCtrl.reset();
+          butCtrl.reset();
+          Get.snackbar(
+            "Incorrect Otp",
+            "Otp verification failed,Please try again",
+            backgroundColor: Colors.white,
+            duration: Duration(seconds: 2),
+            colorText: Colors.teal,
+          );
+        }
+      });
+    } catch (e) {
+      phoneCtrl.buttonCtrl.reset();
+      butCtrl.reset();
+      Get.snackbar(
+        "Incorrect Otp",
+        "Otp verification failed,Please try again",
+        backgroundColor: Colors.white,
+        duration: Duration(seconds: 2),
+        colorText: Colors.teal,
+      );
+      otpController.clear();
+    }
+    /* finally {
+      butCtrl.reset();
+      phoneCtrl.buttonCtrl.reset();
+    }*/
+    /* else if (value != null*/ /* && token == 'newuser'*/ /*) {
         print("New user");
         Get.to(HomeScreen());
       }*/
-      else {
-        butCtrl.reset();
-        Get.snackbar(
-          "Error Occured",
-          "Otp verification failed,Please try again",
-          backgroundColor: Colors.white,
-          duration: Duration(seconds: 2),
-          colorText: Colors.teal,
-        );
-        otpController.clear();
-        //errorController.add(ErrorAnimationType.shake);
-      }
-    });
+
+    //errorController.add(ErrorAnimationType.shake);
   }
 
 /*displaySnackBar(FirebaseAuthException exception) {

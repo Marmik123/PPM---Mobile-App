@@ -6,6 +6,8 @@ import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
+import 'package:pcm/repository/user_repository.dart';
+import 'package:pcm/view/auth/login_mobile.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/order/ongoing_order_delivery.dart';
@@ -27,6 +29,9 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
   SupportController sCtrl = Get.put(SupportController());
   OrderAssignController assignCtrl = Get.put(OrderAssignController());
   SignInController phoneCtrl = Get.put(SignInController());
+
+  RepoController rCtrl = Get.put(RepoController());
+
   /*@override
   void initState() {
     // TODO: implement initState
@@ -63,6 +68,9 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
                   } else if (value == 'Support') {
                     sCtrl.loadData();
                     Get.to(() => Support());
+                  } else if (value == 'Logout') {
+                    rCtrl.deleteUserData();
+                    Get.offAll(SignIn());
                   }
                 },
                 itemBuilder: (context) => [
@@ -104,6 +112,18 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
                   ),
                 ],
               ),
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    Icon(Icons.logout),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(S.of(context).Logout),
+                  ],
+                ),
+                value: 'Logout',
+              )
             ],
           ),
           body: ListView(

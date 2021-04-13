@@ -167,8 +167,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                   physics: ClampingScrollPhysics(),
                   itemCount: cltrCart.orderDetails.length,
                   itemBuilder: (BuildContext context, index) {
-                    cltrCart.subTotal.value = widget.order.get('total_price') -
-                        cltrCart.delivery.value;
+                    cltrCart.subTotal.value = widget.order.get('total_price');
                     return ListTile(
                       leading: CircleAvatar(
                         child: Text(
@@ -213,7 +212,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                       SizedBox(
                         height: 5,
                       ),
-                      Row(
+/*                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
@@ -226,7 +225,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                                 fontSize: 14, fontWeight: FontWeight.w500),
                           ),
                         ],
-                      ),
+                      )*/
                       SizedBox(
                         height: 5,
                       ),
@@ -237,7 +236,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                               style: TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.w500)),
                           Text(
-                            '₹ ${cltrCart.totalA + cltrCart.delivery.value}',
+                            '₹ ${cltrCart.totalA}',
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w500),
                           ),

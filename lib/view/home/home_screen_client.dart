@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
@@ -8,6 +9,8 @@ import 'package:pcm/controller/products_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
+import 'package:pcm/repository/user_repository.dart';
+import 'package:pcm/view/auth/login_mobile.dart';
 import 'package:pcm/view/cart.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
@@ -29,8 +32,9 @@ class HomeScreenClient extends StatefulWidget {
 class _HomeScreenClientState extends State<HomeScreenClient> {
   HomeScreenClientController cltrClient = Get.put(HomeScreenClientController());
   ProductsController proCtrl = Get.put(ProductsController());
-  SupportController ctrl = Get.put(SupportController());
+  SupportController sCtrl = Get.put(SupportController());
   CartController cartC = Get.put(CartController());
+  RepoController rCtrl = Get.put(RepoController());
   SignInController phoneCtrl = Get.put(SignInController());
 
   @override
@@ -76,8 +80,12 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
               } else if (value == 'Feedback') {
                 Get.to(() => FeedbackPage());
               } else if (value == 'Support') {
-                ctrl.loadData();
+                sCtrl.loadData();
                 Get.to(() => Support());
+              } else if (value == 'Logout') {
+                rCtrl.deleteUserData();
+                Phoenix.rebirth(context);
+                Get.offAll(SignIn());
               }
             },
             itemBuilder: (context) => [
@@ -117,6 +125,18 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
                 ),
                 value: 'Support',
               ),
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    Icon(Icons.logout),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(S.of(context).Logout),
+                  ],
+                ),
+                value: 'Logout',
+              )
             ],
           ),
         ],

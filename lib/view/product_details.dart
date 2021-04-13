@@ -283,6 +283,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               ),
             ),
             Container(
+              width: MediaQuery.of(context).size.width / 1.2,
               margin: EdgeInsets.all(10),
               decoration: BoxDecoration(
                 border: Border.all(
