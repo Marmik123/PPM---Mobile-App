@@ -22,43 +22,29 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
             Text(S.of(context).change),
             Divider(),
             ListTile(
-              onTap: () async {
-                // setState(() {
-                //   langCode = 'en';
-                // });
-                // await setLang(Locale(langCode));
-                // // Navigator.of(context).pop();
-                // setState(() {});
+              onTap: () {
+                
                 Navigator.of(context).pop('en');
 
-                // setState(() {});
+            
               },
               title: Text(S.of(context).English),
             ),
             ListTile(
-              onTap: () async {
-                // setState(() {
-                //   langCode = 'gu';
-                // });
-                // await setLang(Locale(langCode));
-
-                // setState(() {});
+              onTap: () {
+               
                 Navigator.of(context).pop('gu');
 
-                // setState(() {});
+               
               },
               title: Text(S.of(context).Gujarati),
             ),
             ListTile(
-              onTap: () async {
-                // setState(() {
-                //   langCode = 'hi';
-                // });
-                // await setLang(Locale(langCode));
-                // setState(() {});
+              onTap: () {
+                
                 Navigator.of(context).pop('hi');
 
-                // setState(() {});
+               
               },
               title: Text(S.of(context).Hindi),
             )
