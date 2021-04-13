@@ -10,7 +10,6 @@ import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/repository/user_repository.dart';
-import 'package:pcm/view/auth/login_mobile.dart';
 import 'package:pcm/view/cart.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
@@ -85,7 +84,6 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
               } else if (value == 'Logout') {
                 rCtrl.deleteUserData();
                 Phoenix.rebirth(context);
-                Get.offAll(SignIn());
               }
             },
             itemBuilder: (context) => [

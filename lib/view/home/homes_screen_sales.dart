@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
 import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/repository/user_repository.dart';
-import 'package:pcm/view/auth/login_mobile.dart';
 import 'package:pcm/view/common/settings.dart';
 // import 'package:pcm/view/home/home_screen_delivery.dart';
 import 'package:pcm/view/register/client.dart';
@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Get.to(() => Support());
               } else if (value == 'Logout') {
                 rCtrl.deleteUserData();
-                Get.offAll(SignIn());
+                Phoenix.rebirth(context);
               }
             },
             itemBuilder: (context) => [

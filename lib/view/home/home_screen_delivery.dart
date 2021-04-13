@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/orders_assign_controller.dart';
@@ -7,7 +8,6 @@ import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/repository/user_repository.dart';
-import 'package:pcm/view/auth/login_mobile.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/order/ongoing_order_delivery.dart';
@@ -70,7 +70,7 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
                     Get.to(() => Support());
                   } else if (value == 'Logout') {
                     rCtrl.deleteUserData();
-                    Get.offAll(SignIn());
+                    Phoenix.rebirth(context);
                   }
                 },
                 itemBuilder: (context) => [
@@ -110,20 +110,20 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
                     ),
                     value: 'Support',
                   ),
+                  PopupMenuItem(
+                    child: Row(
+                      children: [
+                        Icon(Icons.logout),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(S.of(context).Logout),
+                      ],
+                    ),
+                    value: 'Logout',
+                  )
                 ],
               ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Icon(Icons.logout),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(S.of(context).Logout),
-                  ],
-                ),
-                value: 'Logout',
-              )
             ],
           ),
           body: ListView(

@@ -106,6 +106,13 @@ class OtpController extends GetxController {
     } catch (e) {
       phoneCtrl.buttonCtrl.reset();
       butCtrl.reset();
+      Get.snackbar(
+        "Incorrect Otp",
+        "Otp verification failed,Please try again",
+        backgroundColor: Colors.white,
+        duration: Duration(seconds: 2),
+        colorText: Colors.teal,
+      );
       print("Verfication Failed");
     }
   }
@@ -114,7 +121,6 @@ class OtpController extends GetxController {
   verifyPhoneManually() {
     phoneCtrl.isLoading.value = false;
     print("verify phone manually");
-
     try {
       AuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId,
@@ -155,11 +161,10 @@ class OtpController extends GetxController {
         colorText: Colors.teal,
       );
       otpController.clear();
-    }
-    /* finally {
+    } finally {
       butCtrl.reset();
       phoneCtrl.buttonCtrl.reset();
-    }*/
+    }
     /* else if (value != null*/ /* && token == 'newuser'*/ /*) {
         print("New user");
         Get.to(HomeScreen());

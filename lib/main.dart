@@ -25,7 +25,7 @@ const String parse_App_url = 'https://cup.marketing.dharmatech.in/manage';
 const String kParseLiveQueryUrl = 'wss://cup.marketing.dharmatech.in';
 SharedPreferences prefs;
 
-Future<void> initSPreference() async {
+initSPreference() async {
   prefs = await SharedPreferences.getInstance();
 }
 
@@ -76,11 +76,11 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/',
           page: () {
-            return prefs.getString("kUserData") == 'Client'
+            return prefs.getString(rCtrl.kUserData) == 'Client'
                 ? HomeScreenClient()
-                : prefs.getString("kUserData") == 'DeliveryBoy'
+                : prefs.getString(rCtrl.kUserData) == 'DeliveryBoy'
                     ? HomeScreenDelivery()
-                    : prefs.getString("kUserData") == 'SalesPerson'
+                    : prefs.getString(rCtrl.kUserData) == 'SalesPerson'
                         ? HomeScreen()
                         : SignIn();
           },
