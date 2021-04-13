@@ -5,6 +5,7 @@ import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/widgets/change_language.dart';
 import 'package:pcm/widgets/change_mobile.dart';
 import 'package:pcm/utils/shared_preferences_utils.dart';
+
 class SettingsPage extends StatefulWidget {
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -31,27 +32,22 @@ class _SettingsPageState extends State<SettingsPage> {
                   showModalBottomSheet(
                     context: context,
                     builder: (context) => ChangeLanguage(),
-                  ).then((value) async{
-                    if(value!=null){
+                  ).then((value) async {
+                    if (value != null) {
+                      print('this is the value $value');
                       setState(() {
-                  langCode = value;
-                });
-                await setLang(Locale(langCode));
+                        langCode = value;
+                      });
+                      print(langCode);
+                      await setLang(Locale(langCode));
 
-                setState(() {});
+                      setState(() {});
                     }
                   });
-                  // ).then((value) async {
-                  //   if (value != null) {
-                  //     setState(() {
-                  //       sharedPresf = value;
-                  //     });
-                  //     await setLang(Locale(sharedPresf));
-                  //     setState(() {});
-                  //   }
+                  
                 },
                 leading: Icon(Icons.handyman),
-                title: Text( S.of(context).change),
+                title: Text(S.of(context).change),
               ),
             ),
             Card(
@@ -71,7 +67,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   //   }
                 },
                 leading: Icon(Icons.handyman),
-                title: Text( S.of(context).changeMob),
+                title: Text(S.of(context).changeMob),
               ),
             ),
             // Card(
