@@ -39,10 +39,10 @@ class ClientController extends GetxController {
   PickedFile pickedFile;
   RxInt clientCount = 0.obs;
   RxInt distributorCount = 0.obs;
-
+  ParseObject userData;
   Future<void> clientRegister() async {
     try {
-      ParseObject userData = ParseObject('UserMetadata')
+      userData = ParseObject('UserMetadata')
         ..set('name', nController.text)
         ..set('number', mController.text)
         ..set('address1', aPController.text)

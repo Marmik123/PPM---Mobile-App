@@ -26,6 +26,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     super.initState();
     cltrProduct.quantity.value = 1;
     cltrCart.quantity.value = 1;
+    cltrProduct.size.value = "Small";
   }
 
   @override

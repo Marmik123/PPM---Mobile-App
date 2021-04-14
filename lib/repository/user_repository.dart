@@ -8,30 +8,34 @@ class RepoController extends GetxController {
   String kname = "name";
   String kAddress = "add";
   String kMobileNum = "mobileNo";
+  String kObjectId = "objectId";
   ParseUser currentUser;
   String number;
-  RxString objectId = "".obs;
+  String objectId;
 
   Future<void> setUserData(String user, String mobile) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(kUserData, user);
     await prefs.setString(kMobile, mobile);
-    objectId.value = user;
+    // objectId.value = user;
     print("@@@@@@ ${prefs.getString(kUserData)}");
     print("@@@@@@2 ${prefs.getString(kMobile)}");
     print(objectId);
   }
 
-  Future<void> setLoginData(String name, String address, String number) async {
+  Future<void> setLoginData(
+      String name, String address, String number, String objectId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(kMobileNum, number);
     await prefs.setString(kname, name);
     await prefs.setString(kAddress, address);
+    await prefs.setString(kObjectId, objectId);
   }
 
   Future<String> loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     number = await prefs.getString(kMobile);
+    objectId = await prefs.getString(kObjectId);
   }
 
   void deleteUserData() async {
@@ -43,7 +47,7 @@ class RepoController extends GetxController {
     await prefs.remove(kMobileNum);
     print("@@@@@@ ${prefs.getString(kUserData)}");
     print("@@@@@@2 ${prefs.getString(kMobile)}");
-    objectId.value = null;
+    //objectId.value = null;
     print(objectId);
   }
 }

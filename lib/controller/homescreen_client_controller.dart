@@ -22,8 +22,11 @@ class HomeScreenClientController extends GetxController {
         print(result);
         loggedInClient(result.results);
         print('########$loggedInClient');
-        rCtrl.setLoginData(loggedInClient[0]['name'],
-            loggedInClient[0]['address1'], loggedInClient[0]['number']);
+        rCtrl.setLoginData(
+            loggedInClient[0]['name'],
+            loggedInClient[0]['address1'],
+            loggedInClient[0]['number'],
+            loggedInClient[0]['objectId']);
       }
     } catch (e) {
       print(e);

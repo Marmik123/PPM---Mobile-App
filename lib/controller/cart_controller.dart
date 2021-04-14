@@ -113,7 +113,7 @@ class CartController extends GetxController {
     String size,
   ) {
     print('process of add to cart');
-    if (cartItems.containsKey(productId)) {
+    if (cartItems.containsKey(productId) && cartItems.containsValue(size)) {
       print('product already there, updating');
       cartItems.update(
         productId,
@@ -127,17 +127,57 @@ class CartController extends GetxController {
       );
     } else {
       print('new to the cart');
-      cartItems.putIfAbsent(
+      if (!cartItems.containsKey(productId)) {
+        cartItems.putIfAbsent(
+            productId,
+            () => CartItem(
+                  id: DateTime.now().toString(),
+                  title: title,
+                  price: price,
+                  quantity: quantity,
+                  size: size,
+                ));
+      } else if (cartItems.containsKey(productId) &&
+          !cartItems.containsValue(size)) {
+        cartItems.putIfAbsent(
+            size,
+            () => CartItem(
+                  id: DateTime.now().toString(),
+                  title: title,
+                  price: price,
+                  quantity: quantity,
+                  size: size,
+                ));
+      } else {
+        print("null");
+      }
+      /*else {
+        cartItems.update(
           productId,
-          () => CartItem(
-                id: DateTime.now().toString(),
-                title: title,
-                price: price,
-                quantity: quantity,
-                size: size,
-              ));
+          (existingcardItem) => CartItem(
+            id: existingcardItem.id,
+            title: existingcardItem.title,
+            quantity: existingcardItem.quantity + quantity,
+            price: existingcardItem.price,
+            size: existingcardItem.size,
+          ),
+        );
+      }*/
+      /*   if (cartItems.containsKey(productId)) {
+        cartItems.update(
+          productId,
+          (existingcardItem) => CartItem(
+            id: existingcardItem.id,
+            title: existingcardItem.title,
+            quantity: existingcardItem.quantity + quantity,
+            price: existingcardItem.price,
+            size: existingcardItem.size,
+          ),
+        );
+      } */
     }
     print('product added to the cart');
+    print(cartItems);
     Get.snackbar(
       "Cart Updated Successfully",
       "Item Added to Cart",
