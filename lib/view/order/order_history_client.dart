@@ -9,6 +9,9 @@ import 'package:pcm/view/order/order_received.dart';
 
 // ignore: must_be_immutable
 class OrderHistoryClient extends StatefulWidget {
+  String number;
+
+  OrderHistoryClient({Key key, this.number}) : super(key: key);
   @override
   _OrderHistoryClientState createState() => _OrderHistoryClientState();
 }
@@ -37,7 +40,9 @@ class _OrderHistoryClientState extends State<OrderHistoryClient> {
                 Card(
                   child: ListTile(
                       onTap: () {
-                        Get.to(() => OrderReceived());
+                        Get.to(() => OrderReceived(
+                              mobileNo: widget.number,
+                            ));
                         // return showModal<void>(
                         //   context: context,
                         //   builder: (context) {
@@ -66,7 +71,9 @@ class _OrderHistoryClientState extends State<OrderHistoryClient> {
                   child: ListTile(
                       onTap: () {
                         print('on tap listTile');
-                        Get.to(() => OrderPlaced());
+                        Get.to(() => OrderPlaced(
+                              mobile: widget.number,
+                            ));
                         // return showModal<void>(
                         //   context: context,
                         //   builder: (context) {

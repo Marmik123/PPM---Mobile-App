@@ -121,15 +121,18 @@ class OtpController extends GetxController {
   verifyPhoneManually() {
     phoneCtrl.isLoading.value = false;
     print("verify phone manually");
-    try {
-      AuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: verificationId,
-        smsCode: otpController.text,
-      );
 
+    print("try");
+    AuthCredential credential = PhoneAuthProvider.credential(
+      verificationId: verificationId,
+      smsCode: otpController.text,
+    );
+    print("line 1");
+    try {
       _auth.signInWithCredential(credential).then((value) {
         print("Result is $value");
-        if (value != null /*&& token == 'registered'*/) {
+
+        if (value != null) {
           butCtrl.success();
           print("User already registered");
           mobile.value = phoneCtrl.mobileNo.text.trim().toString();
@@ -151,8 +154,9 @@ class OtpController extends GetxController {
         }
       });
     } catch (e) {
+      print("cATCH CALLED");
       phoneCtrl.buttonCtrl.reset();
-      butCtrl.reset();
+      butCtrl.error();
       Get.snackbar(
         "Incorrect Otp",
         "Otp verification failed,Please try again",

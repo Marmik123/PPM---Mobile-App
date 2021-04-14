@@ -9,8 +9,13 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/cart_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/generated/l10n.dart';
+import 'package:pcm/repository/user_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderReceived extends StatefulWidget {
+  String mobileNo;
+
+  OrderReceived({Key key, this.mobileNo}) : super(key: key);
   @override
   _OrderReceivedState createState() => _OrderReceivedState();
 }
@@ -18,6 +23,20 @@ class OrderReceived extends StatefulWidget {
 class _OrderReceivedState extends State<OrderReceived> {
   CartController cltrCart = Get.put(CartController());
   SignInController ctrl = Get.find();
+  RepoController rCtrl = Get.put(RepoController());
+  String number;
+  SharedPreferences prefs;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    sharedPreferenceF();
+  }
+
+  void sharedPreferenceF() async {
+    prefs = await SharedPreferences.getInstance();
+    //widget.number = mobile.getString(rCtrl.kMobile);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +67,7 @@ class _OrderReceivedState extends State<OrderReceived> {
               ),
               ParseLiveListWidget<ParseObject>(
                 shrinkWrap: true,
-                query: cltrCart.showReceivedOrder("7990126072"),
+                query: cltrCart.showReceivedOrder(rCtrl.kMobile),
                 scrollPhysics: ClampingScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 lazyLoading: true,

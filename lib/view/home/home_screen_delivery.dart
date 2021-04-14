@@ -15,6 +15,7 @@ import 'package:pcm/view/order/order_history_delivery.dart';
 import 'package:pcm/widgets/bottom_widget.dart';
 import 'package:pcm/widgets/circular_loader.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../common/feedback.dart';
 import '../common/support.dart';
@@ -25,6 +26,7 @@ class HomeScreenDelivery extends StatefulWidget {
 }
 
 class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
+  SharedPreferences mobile;
   RoundedLoadingButtonController ctrl = RoundedLoadingButtonController();
   SupportController sCtrl = Get.put(SupportController());
   OrderAssignController assignCtrl = Get.put(OrderAssignController());
@@ -32,12 +34,12 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
 
   RepoController rCtrl = Get.put(RepoController());
 
-  /*@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    assignCtrl.showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
-  }*/
+    updateOrder();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -249,9 +251,9 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
           // ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           floatingActionButton: BottomWidget(
-            onTap: () {
-              /* assignCtrl.showDeliveredOrder(
-                  phoneCtrl.mobileNo.text.trim().toString());*/
+            onTap: () async {
+              SharedPreferences mobile = await SharedPreferences.getInstance();
+              assignCtrl.showDeliveredOrder(mobile.getString(rCtrl.kMobile));
               return Get.to(() => OrderHistoryDelivery(
                     listObject: assignCtrl.deliveredOrders,
                   ));
@@ -261,7 +263,7 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
   }
 
   void updateOrder() async {
-    await assignCtrl
-        .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString() ?? "-");
+    SharedPreferences mobile = await SharedPreferences.getInstance();
+    await assignCtrl.showAssignedOrder(mobile.getString(rCtrl.kMobile) ?? "-");
   }
 }

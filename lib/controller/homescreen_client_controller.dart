@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
+import 'package:pcm/repository/user_repository.dart';
 
 class HomeScreenClientController extends GetxController {
   RxList products = [].obs;
@@ -7,7 +8,7 @@ class HomeScreenClientController extends GetxController {
   RxList<ParseObject> loggedInClient = <ParseObject>[].obs;
   QueryBuilder<ParseObject> productData =
       QueryBuilder<ParseObject>(ParseObject('Products'));
-
+  RepoController rCtrl = Get.put(RepoController());
   Future<void> showLoggedInUserData(String mobile) async {
     print("called showloggedinUser");
     try {
@@ -20,8 +21,9 @@ class HomeScreenClientController extends GetxController {
         print("logged in data success");
         print(result);
         loggedInClient(result.results);
-
         print('########$loggedInClient');
+        rCtrl.setLoginData(loggedInClient[0]['name'],
+            loggedInClient[0]['address1'], loggedInClient[0]['number']);
       }
     } catch (e) {
       print(e);

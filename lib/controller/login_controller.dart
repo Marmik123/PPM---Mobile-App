@@ -43,7 +43,8 @@ class LoginController extends GetxController {
         print('#####');
         print(response.results);
         print('#####');
-        await rCtrl.setUserData(response.results[0]['role']);
+        await rCtrl.setUserData(response.results[0]['role'],
+            phoneCtrl.mobileNo.text.trim().toString());
         if (response.results == null) {
           Get.to(() => HomeScreen());
         } else if (response.results[0]['role'] == "Client") {

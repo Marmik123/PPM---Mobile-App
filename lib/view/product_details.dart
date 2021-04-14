@@ -284,7 +284,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
             Container(
               width: MediaQuery.of(context).size.width / 1.2,
-              margin: EdgeInsets.all(10),
+              margin: EdgeInsets.all(5),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.black26,
@@ -292,7 +292,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
               ),
               //height: 300,
-              child: Text(widget.product.get('productDesc')),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(widget.product.get('productDesc')),
+              ),
             ),
           ],
         ),

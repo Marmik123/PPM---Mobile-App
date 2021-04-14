@@ -9,8 +9,13 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/cart_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/generated/l10n.dart';
+import 'package:pcm/repository/user_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderPlaced extends StatefulWidget {
+  String mobile;
+
+  OrderPlaced({Key key, this.mobile}) : super(key: key);
   @override
   _OrderPlacedState createState() => _OrderPlacedState();
 }
@@ -18,6 +23,19 @@ class OrderPlaced extends StatefulWidget {
 class _OrderPlacedState extends State<OrderPlaced> {
   CartController cltrCart = Get.put(CartController());
   SignInController phoneCtrl = Get.put(SignInController());
+  RepoController rCtrl = Get.put(RepoController());
+  SharedPreferences prefs;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    sharedPreferenceF();
+  }
+
+  void sharedPreferenceF() async {
+    prefs = await SharedPreferences.getInstance();
+    //widget.number = mobile.getString(rCtrl.kMobile);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +66,7 @@ class _OrderPlacedState extends State<OrderPlaced> {
               ),
               ParseLiveListWidget<ParseObject>(
                 shrinkWrap: true,
-                query: cltrCart.showOrderHistory(
-                    phoneCtrl.mobileNo.text.trim().toString()),
+                query: cltrCart.showOrderHistory(rCtrl.kMobile),
                 scrollPhysics: ClampingScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 lazyLoading: true,

@@ -4,8 +4,10 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/model/cart_item.dart';
 import 'package:pcm/repository/products_repository.dart';
+import 'package:pcm/repository/user_repository.dart';
 import 'package:pcm/view/purchase_receipt.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CartController extends GetxController {
   RxDouble delivery = 20.0.obs;
@@ -20,12 +22,19 @@ class CartController extends GetxController {
   QueryBuilder<ParseObject> orderData =
       QueryBuilder<ParseObject>(ParseObject('Orders'));
   SignInController ctrl = Get.put(SignInController());
+  RepoController rCtrl = Get.put(RepoController());
+
+  Future<String> getMobile() async {
+    SharedPreferences mobile = await SharedPreferences.getInstance();
+
+    return mobile.getString(rCtrl.kMobile);
+  }
 
   QueryBuilder showOrderHistory(String mobile) {
     try {
       QueryBuilder<ParseObject> loadOrderHistory =
           QueryBuilder<ParseObject>(ParseObject('Orders'))
-            ..whereEqualTo('customerContactNo', mobile);
+            ..whereEqualTo('customerContactNo', rCtrl.number);
 
       return loadOrderHistory;
     } catch (e) {
@@ -36,15 +45,15 @@ class CartController extends GetxController {
   Future<void> showROrderHistoryData(String mobile) async {
     try {
       print("showROrderDatahistory called");
-      QueryBuilder<ParseObject> loadOrderHistory =
+      QueryBuilder<ParseObject> loadROrderHistory =
           QueryBuilder<ParseObject>(ParseObject('Orders'))
             ..whereEqualTo('customerContactNo', mobile)
             ..whereEqualTo('deliveryStatus', 'yes');
 
-      ParseResponse orderData = await loadOrderHistory.query();
-      if (orderData.success) {
+      ParseResponse rOrderData = await loadROrderHistory.query();
+      if (rOrderData.success) {
         orderRHistory.removeRange(0, orderRHistory.length);
-        orderRHistory(orderData.results);
+        orderRHistory(rOrderData.results);
       } else {
         print("error");
       }
@@ -75,8 +84,9 @@ class CartController extends GetxController {
     try {
       QueryBuilder<ParseObject> loadOrderReceived =
           QueryBuilder<ParseObject>(ParseObject('Orders'))
-            ..whereEqualTo('customerContactNo', mobile)
+            ..whereEqualTo('customerContactNo', rCtrl.number)
             ..whereEqualTo('deliveryStatus', 'yes');
+
       return loadOrderReceived;
     } catch (e) {
       print(e);

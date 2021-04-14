@@ -9,8 +9,10 @@ import 'package:pcm/controller/homescreen_client_controller.dart';
 import 'package:pcm/controller/products_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/repository/products_repository.dart';
+import 'package:pcm/repository/user_repository.dart';
 import 'package:pcm/widgets/circular_loader.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Cart extends StatefulWidget {
   final ParseObject product;
@@ -23,6 +25,8 @@ class _CartState extends State<Cart> {
   CartController cltrCart = Get.put(CartController());
   ProductsController cltrProduct = Get.put(ProductsController());
   HomeScreenClientController client = Get.put(HomeScreenClientController());
+  RepoController rCtrl = Get.put(RepoController());
+
   RxInt radio = 1.obs;
   RxInt value_1 = 0.obs;
   @override
@@ -720,14 +724,16 @@ class _CartState extends State<Cart> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              onPressed: () {
+              onPressed: () async {
+                SharedPreferences mobile =
+                    await SharedPreferences.getInstance();
                 setState(() {
                   cltrCart.totalA != 0
                       ? cltrCart.orderPlaced(
                           price: cltrCart.totalA,
-                          customerName: client.loggedInClient[0]['name'],
-                          customerAddress: client.loggedInClient[0]['address1'],
-                          customerMobile: client.loggedInClient[0]['number'],
+                          customerName: mobile.getString(rCtrl.kname),
+                          customerAddress: mobile.getString(rCtrl.kAddress),
+                          customerMobile: mobile.getString(rCtrl.kMobileNum),
                           size: cltrProduct.size.value,
                         )
                       : showerror();

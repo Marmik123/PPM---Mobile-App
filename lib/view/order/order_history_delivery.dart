@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/generated/l10n.dart';
+import 'package:pcm/repository/user_repository.dart';
 import 'package:pcm/widgets/circular_loader.dart';
 
 // ignore: must_be_immutable
@@ -19,14 +20,8 @@ class OrderHistoryDelivery extends StatefulWidget {
 class _OrderHistoryDeliveryState extends State<OrderHistoryDelivery> {
   OrderAssignController assignCtrl = Get.put(OrderAssignController());
   SignInController ctrl = Get.put(SignInController());
+  RepoController rCtrl = Get.put(RepoController());
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    setState(() {});
-    assignCtrl.showDeliveredOrder(ctrl.mobileNo.text.trim().toString());
-  }
-
   @override
   _OrderHistoryDeliveryState createState() => _OrderHistoryDeliveryState();
 

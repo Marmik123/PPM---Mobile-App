@@ -18,6 +18,7 @@ import 'package:pcm/view/product_details.dart';
 // import 'package:pcm/view/products.dart';
 // import 'package:pcm/view/register/client.dart';
 import 'package:pcm/widgets/bottom_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../common/feedback.dart';
 import '../common/support.dart';
@@ -35,6 +36,14 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
   CartController cartC = Get.put(CartController());
   RepoController rCtrl = Get.put(RepoController());
   SignInController phoneCtrl = Get.put(SignInController());
+  String number;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    rCtrl.loadUserData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -280,12 +289,15 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: BottomWidget(
-        onTap: () {
-          cartC.showOrderHistoryData(phoneCtrl.mobileNo.text.trim().toString());
-          cartC
-              .showROrderHistoryData(phoneCtrl.mobileNo.text.trim().toString());
+        onTap: () async {
+          SharedPreferences mobile = await SharedPreferences.getInstance();
+          cartC.showOrderHistoryData(mobile.getString(rCtrl.kMobile));
+          cartC.showROrderHistoryData(mobile.getString(rCtrl.kMobile));
+          number = mobile.getString(rCtrl.kMobile);
           return Get.to(
-            () => OrderHistoryClient(),
+            () => OrderHistoryClient(
+              number: number,
+            ),
           );
         },
       ),
