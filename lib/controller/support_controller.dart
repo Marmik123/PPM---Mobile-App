@@ -5,15 +5,15 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class SupportController extends GetxController {
   RxList<ParseObject> sData = <ParseObject>[].obs;
-  RxBool isLoading = false.obs;
-  QueryBuilder<ParseObject> supportData =
-      QueryBuilder<ParseObject>(ParseObject('Support'))
-        ..orderByDescending('createdAt');
+  RxBool supportLoading = false.obs;
 
   Future<void> loadData() async {
-    isLoading.value = true;
+    supportLoading.value = true;
     print("called load ad data");
     try {
+      QueryBuilder<ParseObject> supportData =
+          QueryBuilder<ParseObject>(ParseObject('Support'))
+            ..orderByDescending('createdAt');
       print("execute try");
       ParseResponse result = await supportData.query();
       print(result.result);
@@ -21,9 +21,9 @@ class SupportController extends GetxController {
         print("if block ");
         sData(result.results);
         print("this is the list $sData");
-        isLoading.value = false;
+        supportLoading.value = false;
       } else {
-        isLoading.value = false;
+        supportLoading.value = false;
         final snackBar = SnackBar(
           content: Text(
             "Error ! Please try again.",
@@ -40,7 +40,7 @@ class SupportController extends GetxController {
         ScaffoldMessenger.of(Get.context).showSnackBar(snackBar);
       }
     } catch (e) {
-      isLoading.value = false;
+      supportLoading.value = false;
       print("default error---" + e);
       final snackBar = SnackBar(
         content: Text(

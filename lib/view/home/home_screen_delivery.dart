@@ -39,6 +39,7 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
     // TODO: implement initState
     super.initState();
     updateOrder();
+    sCtrl.loadData();
   }
 
   @override

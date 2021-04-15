@@ -43,6 +43,7 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
     // TODO: implement initState
     super.initState();
     rCtrl.loadUserData();
+    sCtrl.loadData();
   }
 
   @override
@@ -88,7 +89,7 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
               } else if (value == 'Feedback') {
                 Get.to(() => FeedbackPage());
               } else if (value == 'Support') {
-                sCtrl.loadData();
+                //sCtrl.loadData();
                 Get.to(() => Support());
               } else if (value == 'Logout') {
                 rCtrl.deleteUserData();

@@ -43,13 +43,13 @@ class _SupportState extends State<Support> {
           ),
           Expanded(
               child: Obx(
-            () => ctrl.isLoading.value
+            () => ctrl.supportLoading.value
                 ? buildLoader()
                 : ListView.builder(
                     itemCount: ctrl.sData.length,
                     itemBuilder: (BuildContext context, int index) => ListTile(
                           leading: Text(
-                            "${ctrl.sData[index]['supportType']} :" ?? "-",
+                            "${ctrl.sData()[index]['supportType']} :" ?? "-",
                             style: GoogleFonts.montserrat(
                               textStyle: TextStyle(
                                   color: Colors.cyan,
@@ -57,7 +57,7 @@ class _SupportState extends State<Support> {
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
-                          trailing: Text(ctrl.sData[index]['data'] ?? "-"),
+                          trailing: Text(ctrl.sData()[index]['data'] ?? "-"),
                         )),
           ))
         ],
