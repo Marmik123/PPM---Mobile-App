@@ -66,6 +66,7 @@ class _CartState extends State<Cart> {
                       onPressed: () {
                         setState(() {
                           cartItems.clear();
+                          cartList.clear();
                           cltrCart.quantity.value = 0;
 
                           Get.back();
@@ -133,8 +134,7 @@ class _CartState extends State<Cart> {
                     physics: ClampingScrollPhysics(),
                     itemCount: cltrCart.itemCount,
                     itemBuilder: (context, index) {
-                      cltrCart.quantity.value =
-                          cartItems.values.toList()[index].quantity;
+                      cltrCart.quantity.value = cartList[index].quantity;
 
                       return cltrCart.quantity.value == 0
                           ? Container()
@@ -169,7 +169,7 @@ class _CartState extends State<Cart> {
                                   ),
                                 ),
                                 title: Text(
-                                  cartItems.values.toList()[index].title,
+                                  cartList[index].title,
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -184,14 +184,14 @@ class _CartState extends State<Cart> {
                                     children: [
                                       Text(
                                         S.of(context).priceT +
-                                            "${cartItems.values.toList()[index].price}",
+                                            "${cartList[index].price}",
                                         style: TextStyle(
                                           fontSize: 12,
                                         ),
                                       ),
                                       Text(
                                         S.of(context).Size +
-                                            '${cartItems.values.toList()[index].size}',
+                                            '${cartList[index].size}',
                                         style: TextStyle(
                                           fontSize: 12,
                                         ),
@@ -226,21 +226,14 @@ class _CartState extends State<Cart> {
                                         ),
                                         onPressed: () {
                                           setState(() {
-                                            if (cartItems.values
-                                                    .toList()[index]
-                                                    .quantity !=
-                                                0) {
+                                            if (cartList[index].quantity != 0) {
                                               cltrProduct.quantity.value--;
                                               cltrCart.quantity.value--;
-                                              cartItems.values
-                                                  .toList()[index]
-                                                  .quantity--;
-                                            }
-                                            if (cltrCart.quantity.value < 1) {
-                                              /*cltrCart.removeItem(cartItems.values
-                                            .toList()[index]
-                                            .id);*/
-
+                                              cartList[index].quantity--;
+                                            } else if (cltrCart.quantity.value <
+                                                1) {
+                                              cltrCart.removeItem(
+                                                  cartList[index].id);
                                             }
                                             if (cartItems.isEmpty) {
                                               setState(() {});
@@ -269,12 +262,10 @@ class _CartState extends State<Cart> {
                                       ),
                                       onPressed: () {
                                         setState(() {
-                                          cartItems.values
-                                              .toList()[index]
-                                              .quantity++;
+                                          cartList[index].quantity++;
                                           cltrProduct.quantity.value++;
                                           /*cltrCart.addItem(
-                                        cartItems.values.toList()[index].id,
+                                        cartList[index.id,
                                         cartItems.values.toList()[index].title,
                                         cartItems.values.toList()[index].price,
                                         cartItems.values

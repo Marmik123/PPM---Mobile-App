@@ -11,6 +11,7 @@ class RepoController extends GetxController {
   String kObjectId = "objectId";
   ParseUser currentUser;
   String number;
+  String name;
   String objectId;
 
   Future<void> setUserData(String user, String mobile) async {
@@ -36,6 +37,7 @@ class RepoController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     number = await prefs.getString(kMobile);
     objectId = await prefs.getString(kObjectId);
+    name = await prefs.getString(kname);
   }
 
   void deleteUserData() async {

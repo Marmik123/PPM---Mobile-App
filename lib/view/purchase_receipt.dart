@@ -38,6 +38,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
             /* cltrCart.subTotal.value = 0;
             cartItems.clear();*/
             cartItems.clear();
+            cartList.clear();
             cltrCart.quantity.value = 0;
             Get.offAll(() => HomeScreenClient());
             //Get.back();

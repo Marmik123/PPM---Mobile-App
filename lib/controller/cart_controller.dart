@@ -94,12 +94,12 @@ class CartController extends GetxController {
   }
 
   int get itemCount {
-    return cartItems == null ? 0 : cartItems.length;
+    return cartList == null ? 0 : cartList.length;
   }
 
   double get totalA {
     var total = 0.0.obs;
-    cartItems.forEach((key, cartItem) {
+    cartList.forEach((cartItem) {
       total.value += cartItem.price * cartItem.quantity;
     });
     return total.value;
@@ -112,22 +112,79 @@ class CartController extends GetxController {
     int quantity,
     String size,
   ) {
+    print("@@ ${cartList.length}");
+    print("#### $cartList");
     print('process of add to cart');
-    if (cartItems.containsKey(productId)) {
+    try {
+      if (cartList.isEmpty) {
+        print("cart empty added new");
+        cartList.add(CartItem(
+          id: productId,
+          title: title,
+          price: price,
+          quantity: quantity,
+          size: size,
+        ));
+        Get.snackbar(
+          "Cart Updated Successfully",
+          "Item Added to Cart",
+          backgroundColor: Colors.black.withOpacity(0.8),
+          maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
+          colorText: Colors.white,
+        );
+        print(cartList.length);
+      } else {
+        if (checkProductContains(productId, size)) {
+          List<CartItem>.from(cartList).forEach((element) {
+            print("called for each");
+            if (element.id == productId && element.size == size) {
+              print("quantity ++");
+              element.quantity += quantity;
+              Get.snackbar(
+                "Cart Updated Successfully",
+                "Item Added to Cart",
+                backgroundColor: Colors.black.withOpacity(0.8),
+                maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
+                colorText: Colors.white,
+              );
+            }
+          });
+        } else {
+          print("else");
+          cartList.add(CartItem(
+            id: productId,
+            title: title,
+            price: price,
+            quantity: quantity,
+            size: size,
+          ));
+          Get.snackbar(
+            "Cart Updated Successfully",
+            "Item Added to Cart",
+            backgroundColor: Colors.black.withOpacity(0.8),
+            maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
+            colorText: Colors.white,
+          );
+          print("AAAAAA ${cartList.length}");
+        }
+      }
+    } catch (e) {
+      print(e);
+      Get.snackbar(
+        "Some Internal Error",
+        "Please logout and try again",
+        backgroundColor: Colors.black.withOpacity(0.8),
+        maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
+        colorText: Colors.white,
+      );
+    }
+
+    /*if (cartItems.containsKey(productId)) {
       print('product already there, updating');
       cartItems.update(productId, (existingcardItem) {
         print(existingcardItem.size);
-        if (existingcardItem.size != size) {
-          return cartItems.putIfAbsent(
-              size,
-              () => CartItem(
-                    id: existingcardItem.id,
-                    title: existingcardItem.title,
-                    price: existingcardItem.price,
-                    quantity: quantity,
-                    size: size,
-                  ));
-        } else {
+        print(size);
+        if (existingcardItem.size == size) {
           return CartItem(
             id: existingcardItem.id,
             title: existingcardItem.title,
@@ -135,24 +192,32 @@ class CartController extends GetxController {
             price: existingcardItem.price,
             size: existingcardItem.size,
           );
+          */ /*cartItems.putIfAbsent(
+              size,
+              () => CartItem(
+                    id: existingcardItem.id,
+                    title: existingcardItem.title,
+                    price: existingcardItem.price,
+                    quantity: quantity,
+                    size: size,
+                  ));*/ /*
         }
       });
     } else {
       print('new to the cart');
-      if (!cartItems.containsKey(productId)) {
-        var firstSize = size;
-        print("####$firstSize");
-        cartItems.putIfAbsent(
-            productId,
-            () => CartItem(
-                  id: DateTime.now().toString(),
-                  title: title,
-                  price: price,
-                  quantity: quantity,
-                  size: firstSize,
-                ));
-      }
-      /*else if (cartItems.containsKey(productId) &&
+      var firstSize = size;
+      print("####$firstSize");
+      cartItems.putIfAbsent(
+          productId,
+          () => CartItem(
+                id: productId,
+                title: title,
+                price: price,
+                quantity: quantity,
+                size: firstSize,
+              ));*/
+
+    /*else if (cartItems.containsKey(productId) &&
           !cartItems.containsValue(size)) {
         cartItems.putIfAbsent(
             size,
@@ -166,7 +231,7 @@ class CartController extends GetxController {
       } else {
         print("null");
       }*/
-      /*else {
+    /*else {
         cartItems.update(
           productId,
           (existingcardItem) => CartItem(
@@ -178,7 +243,7 @@ class CartController extends GetxController {
           ),
         );
       }*/
-      /*   if (cartItems.containsKey(productId)) {
+    /*   if (cartItems.containsKey(productId)) {
         cartItems.update(
           productId,
           (existingcardItem) => CartItem(
@@ -190,30 +255,24 @@ class CartController extends GetxController {
           ),
         );
       } */
-    }
-    print('product added to the cart');
-    print(cartItems);
-    Get.snackbar(
-      "Cart Updated Successfully",
-      "Item Added to Cart",
-      backgroundColor: Colors.black.withOpacity(0.8),
-      maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
-      colorText: Colors.white,
-    );
   }
+  /*print('product added to the cart');
+    print(cartItems);*/
 
   void removeItem(String productId) {
-    cartItems.remove(productId);
+    //cartItems.remove(productId);
+    cartList.remove(productId);
     quantity--;
+    print(productId);
     print("remove item from cart");
   }
 
-  void singleItem(String prodId) {
-    if (!cartItems.containsKey(prodId)) {
+  /*void singleItem(String prodId) {
+    if (!cartList.containsKey(prodId)) {
       return;
     }
-    if (cartItems[prodId].quantity > 1) {
-      cartItems.update(
+    if (cartList[prodId].quantity > 1) {
+      cartList.update(
           prodId,
           (i) => CartItem(
                 id: i.id,
@@ -223,12 +282,12 @@ class CartController extends GetxController {
                 size: i.size,
               ));
     } else {
-      cartItems.remove(prodId);
+      cartList.remove(prodId);
     }
-  }
+  }*/
 
   // void clear() {
-  //   cartItems = {};
+  //   cartList = {};
   // }
 
   Future<void> orderPlaced(
@@ -240,15 +299,16 @@ class CartController extends GetxController {
     var details = [];
     try {
       isLoading.value = true;
-      for (var i = 0; i < cartItems.length; i++) {
+      for (var i = 0; i < cartList.length; i++) {
         details.add({
-          'name': cartItems.values.toList()[i].title,
-          'price': cartItems.values.toList()[i].price,
-          'quantity': cartItems.values.toList()[i].quantity,
-          'id': cartItems.values.toList()[i].id,
-          'size': cartItems.values.toList()[i].size,
+          'name': cartList[i].title,
+          'price': cartList[i].price,
+          'quantity': cartList[i].quantity,
+          'id': cartList[i].id,
+          'size': cartList[i].size,
         });
       }
+
       // List<CartItem> details = List.generate(
       //   cartItems.length,
       //   (index) => CartItem(
@@ -300,7 +360,7 @@ class CartController extends GetxController {
       buttonCtrl.error();
       Get.snackbar(
         "Error",
-        "",
+        "Please logout and try again",
         backgroundColor: Colors.black.withOpacity(0.8),
         maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
         colorText: Colors.white,
@@ -308,5 +368,12 @@ class CartController extends GetxController {
     } finally {
       print('orderPlaced finally');
     }
+  }
+
+  bool checkProductContains(String productId, String size) {
+    var indexOfProduct = cartList.indexWhere(
+        (element) => element.id == productId && element.size == size);
+
+    return indexOfProduct != -1;
   }
 }
