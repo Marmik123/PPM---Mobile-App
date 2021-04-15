@@ -46,15 +46,15 @@ class LoginController extends GetxController {
         await rCtrl.setUserData(response.results[0]['role'],
             phoneCtrl.mobileNo.text.trim().toString());
         if (response.results == null) {
-          Get.to(() => HomeScreen());
+          Get.offAll(() => HomeScreen());
         } else if (response.results[0]['role'] == "Client") {
-          Get.to(() => HomeScreenClient());
+          Get.offAll(() => HomeScreenClient());
         } else if (response.results[0]['role'] == "DeliveryBoy") {
-          Get.to(() => HomeScreenDelivery());
+          Get.offAll(() => HomeScreenDelivery());
           await orderCtrl
               .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
         } else if (response.results[0]['role'] == "SalesPerson") {
-          Get.to(() => HomeScreen());
+          Get.offAll(() => HomeScreen());
         }
       } else {
         Get.snackbar(

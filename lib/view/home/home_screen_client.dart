@@ -291,8 +291,8 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
       floatingActionButton: BottomWidget(
         onTap: () async {
           SharedPreferences mobile = await SharedPreferences.getInstance();
-          cartC.showOrderHistoryData(mobile.getString(rCtrl.kMobile));
-          cartC.showROrderHistoryData(mobile.getString(rCtrl.kMobile));
+          await cartC.showOrderHistoryData(rCtrl.number);
+          await cartC.showROrderHistoryData(rCtrl.number);
           number = mobile.getString(rCtrl.kMobile);
           return Get.to(
             () => OrderHistoryClient(

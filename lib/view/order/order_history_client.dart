@@ -56,7 +56,7 @@ class _OrderHistoryClientState extends State<OrderHistoryClient> {
                       trailing: GestureDetector(
                           child: CircleAvatar(
                         radius: 15,
-                        child: Text(cltrCart.orderRHistory.length.toString()),
+                        child: Text(cltrCart.orderRHistory().length.toString()),
                       )
                           // onTap: () {
                           //   clientCon.role.value = false;
@@ -86,7 +86,7 @@ class _OrderHistoryClientState extends State<OrderHistoryClient> {
                       trailing: GestureDetector(
                           child: CircleAvatar(
                         radius: 15,
-                        child: Text(cltrCart.orderHistory.length.toString()),
+                        child: Text(cltrCart.orderHistory().length.toString()),
                       ))),
                 ),
                 SizedBox(

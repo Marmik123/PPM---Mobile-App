@@ -113,21 +113,35 @@ class CartController extends GetxController {
     String size,
   ) {
     print('process of add to cart');
-    if (cartItems.containsKey(productId) && cartItems.containsValue(size)) {
+    if (cartItems.containsKey(productId)) {
       print('product already there, updating');
-      cartItems.update(
-        productId,
-        (existingcardItem) => CartItem(
-          id: existingcardItem.id,
-          title: existingcardItem.title,
-          quantity: existingcardItem.quantity + quantity,
-          price: existingcardItem.price,
-          size: existingcardItem.size,
-        ),
-      );
+      cartItems.update(productId, (existingcardItem) {
+        print(existingcardItem.size);
+        if (existingcardItem.size != size) {
+          return cartItems.putIfAbsent(
+              size,
+              () => CartItem(
+                    id: existingcardItem.id,
+                    title: existingcardItem.title,
+                    price: existingcardItem.price,
+                    quantity: quantity,
+                    size: size,
+                  ));
+        } else {
+          return CartItem(
+            id: existingcardItem.id,
+            title: existingcardItem.title,
+            quantity: existingcardItem.quantity + quantity,
+            price: existingcardItem.price,
+            size: existingcardItem.size,
+          );
+        }
+      });
     } else {
       print('new to the cart');
       if (!cartItems.containsKey(productId)) {
+        var firstSize = size;
+        print("####$firstSize");
         cartItems.putIfAbsent(
             productId,
             () => CartItem(
@@ -135,9 +149,10 @@ class CartController extends GetxController {
                   title: title,
                   price: price,
                   quantity: quantity,
-                  size: size,
+                  size: firstSize,
                 ));
-      } else if (cartItems.containsKey(productId) &&
+      }
+      /*else if (cartItems.containsKey(productId) &&
           !cartItems.containsValue(size)) {
         cartItems.putIfAbsent(
             size,
@@ -150,7 +165,7 @@ class CartController extends GetxController {
                 ));
       } else {
         print("null");
-      }
+      }*/
       /*else {
         cartItems.update(
           productId,
