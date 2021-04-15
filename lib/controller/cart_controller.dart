@@ -17,6 +17,9 @@ class CartController extends GetxController {
   RxList orderHistory = [].obs;
   RxList orderRHistory = [].obs;
   RxInt quantity = 0.obs;
+  RxBool orderH = false.obs;
+  RxInt rOrders = 0.obs;
+  RxInt pOrders = 0.obs;
   RxString payment_option = "".obs;
   RoundedLoadingButtonController buttonCtrl = RoundedLoadingButtonController();
   QueryBuilder<ParseObject> orderData =
@@ -43,6 +46,7 @@ class CartController extends GetxController {
   }
 
   Future<void> showROrderHistoryData(String mobile) async {
+    orderH.value = true;
     try {
       print("showROrderDatahistory called");
       QueryBuilder<ParseObject> loadROrderHistory =
@@ -54,16 +58,20 @@ class CartController extends GetxController {
       if (rOrderData.success) {
         orderRHistory.removeRange(0, orderRHistory.length);
         orderRHistory(rOrderData.results);
+        rOrders.value = orderRHistory().length;
+        orderH.value = false;
       } else {
         print("error");
       }
     } catch (e) {
+      orderH.value = false;
       print(e);
     }
   }
 
   Future<void> showOrderHistoryData(String mobile) async {
     try {
+      orderH.value = true;
       print("showOrderDatahistory called");
       QueryBuilder<ParseObject> loadOrderHistory =
           QueryBuilder<ParseObject>(ParseObject('Orders'))
@@ -72,10 +80,13 @@ class CartController extends GetxController {
       ParseResponse orderData = await loadOrderHistory.query();
       if (orderData.success) {
         orderHistory(orderData.results);
+        pOrders.value = orderHistory().length;
+        orderH.value = false;
       } else {
         print("error");
       }
     } catch (e) {
+      orderH.value = false;
       print(e);
     }
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -7,7 +8,6 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/products_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/repository/products_repository.dart';
-import 'package:pcm/view/home/home_screen_client.dart';
 
 import '../controller/cart_controller.dart';
 
@@ -40,7 +40,8 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
             cartItems.clear();
             cartList.clear();
             cltrCart.quantity.value = 0;
-            Get.offAll(() => HomeScreenClient());
+            setState(() {});
+            Phoenix.rebirth(context);
             //Get.back();
           },
         ),

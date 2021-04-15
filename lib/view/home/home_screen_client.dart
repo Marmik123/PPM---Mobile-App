@@ -42,8 +42,14 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    RepoController rCtrl = Get.put(RepoController());
     rCtrl.loadUserData();
-    sCtrl.loadData();
+    print("init state called;");
+    SupportController support = Get.put(SupportController());
+    support.loadData();
+    CartController cartC = Get.put(CartController());
+    cartC.showOrderHistoryData(rCtrl.number);
+    cartC.showROrderHistoryData(rCtrl.number);
   }
 
   @override
@@ -292,8 +298,9 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
       floatingActionButton: BottomWidget(
         onTap: () async {
           SharedPreferences mobile = await SharedPreferences.getInstance();
-          await cartC.showOrderHistoryData(rCtrl.number);
-          await cartC.showROrderHistoryData(rCtrl.number);
+          cartC.showOrderHistoryData(rCtrl.number);
+          cartC.showROrderHistoryData(rCtrl.number);
+          setState(() {});
           number = mobile.getString(rCtrl.kMobile);
           return Get.to(
             () => OrderHistoryClient(
