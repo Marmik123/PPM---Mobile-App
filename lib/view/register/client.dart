@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/generated/l10n.dart';
+import 'package:pcm/repository/user_repository.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class ClientRegister extends StatefulWidget {
@@ -13,7 +14,7 @@ class ClientRegister extends StatefulWidget {
 
 class _ClientRegisterState extends State<ClientRegister> {
   int selectedType = 0;
-
+  RepoController repoController = Get.put(RepoController());
   ClientController con = Get.put(ClientController());
 
   @override
@@ -319,7 +320,7 @@ class _ClientRegisterState extends State<ClientRegister> {
             width: 100,
             controller: con.btnController,
             onPressed: () {
-              con.clientRegister();
+              con.clientRegister(repoController.name);
             },
           ),
           SizedBox(

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 // import 'package:loading_hud/loading_indicator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:pcm/repository/user_repository.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 // import 'package:pcm/repository/user_repository.dart';
 
@@ -29,6 +30,7 @@ class ClientController extends GetxController {
 
   TextEditingController cController = TextEditingController();
   TextEditingController mController = TextEditingController();
+  RepoController repo = Get.put(RepoController());
   final RoundedLoadingButtonController btnController =
       new RoundedLoadingButtonController();
 
@@ -40,7 +42,7 @@ class ClientController extends GetxController {
   RxInt clientCount = 0.obs;
   RxInt distributorCount = 0.obs;
   ParseObject userData;
-  Future<void> clientRegister() async {
+  Future<void> clientRegister(String name) async {
     try {
       userData = ParseObject('UserMetadata')
         ..set('name', nController.text)
@@ -49,6 +51,7 @@ class ClientController extends GetxController {
         ..set('landmark', lController.text)
         ..set('city', cIController.text)
         ..set('state', stController.text)
+        ..set('registeredBy', name)
         ..set('role', role.value ? 'Distributor' : 'Client');
       // ..set('status',
       //     widget.jobsData != null ? widget.jobsData.get('status') : 0)
@@ -136,15 +139,16 @@ class ClientController extends GetxController {
     }
   }
 
-  void counts() async {
+  void counts(String name) async {
     QueryBuilder<ParseObject> clientCountData =
         QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
-          ..whereEqualTo('role', 'Client');
+          ..whereEqualTo('role', 'Client')
+          ..whereEqualTo('registeredBy', name);
     ParseResponse clientResponse = await clientCountData.count();
     if (clientResponse.success && clientResponse != null) {
       print('clientresponse.results ${clientResponse.results}');
       print('clientResponse.result[0] ${clientResponse.result[0]}');
-      clientCount.value = clientResponse.result[0];
+      clientCount.value = clientResponse.result[0] ?? 0;
     }
     QueryBuilder<ParseObject> distributorCountData =
         QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
@@ -175,7 +179,7 @@ class ClientController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    counts();
+    counts(repo.name);
     update();
   }
 }

@@ -13,6 +13,7 @@ class RepoController extends GetxController {
   String number;
   String name;
   String objectId;
+  String username;
 
   Future<void> setUserData(String user, String mobile) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -22,6 +23,8 @@ class RepoController extends GetxController {
     print("@@@@@@ ${prefs.getString(kUserData)}");
     print("@@@@@@2 ${prefs.getString(kMobile)}");
     print(objectId);
+    number = await prefs.getString(kMobile);
+    name = await prefs.getString(kname);
   }
 
   Future<void> setLoginData(
@@ -31,6 +34,8 @@ class RepoController extends GetxController {
     await prefs.setString(kname, name);
     await prefs.setString(kAddress, address);
     await prefs.setString(kObjectId, objectId);
+    username = await prefs.getString(kname);
+    print(username);
   }
 
   Future<String> loadUserData() async {
@@ -38,6 +43,7 @@ class RepoController extends GetxController {
     number = await prefs.getString(kMobile);
     objectId = await prefs.getString(kObjectId);
     name = await prefs.getString(kname);
+    print(name);
   }
 
   void deleteUserData() async {

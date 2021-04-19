@@ -12,6 +12,7 @@ import 'package:pcm/repository/user_repository.dart';
 import 'package:pcm/view/auth/login_mobile.dart';
 import 'package:pcm/view/home/home_screen_client.dart';
 import 'package:pcm/view/home/home_screen_delivery.dart';
+import 'package:pcm/view/home/home_screen_marketing.dart';
 import 'package:pcm/view/home/homes_screen_sales.dart';
 // import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -82,7 +83,9 @@ class MyApp extends StatelessWidget {
                     ? HomeScreenDelivery()
                     : prefs.getString(rCtrl.kUserData) == 'SalesPerson'
                         ? HomeScreen()
-                        : SignIn();
+                        : prefs.getString(rCtrl.kUserData) == 'Marketing'
+                            ? HomeScreenM()
+                            : SignIn();
           },
         ),
       ],

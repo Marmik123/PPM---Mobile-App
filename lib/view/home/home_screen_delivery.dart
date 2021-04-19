@@ -462,110 +462,129 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
                                           exportBackgroundColor: Colors.blue,
                                         );
                                         /*var _signatureCanvas =*/
-                                        Get.dialog(Column(
-                                          children: [
-                                            Stack(
-                                              children: [
-                                                Signature(
-                                                  controller: _controller,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height /
-                                                      2,
-                                                  backgroundColor: Colors.white,
-                                                ),
-                                                Positioned(
-                                                    child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Material(
-                                                    child: Text(
-                                                      "Add a Customer Signature Here",
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                        textStyle: TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                      ),
-                                                    ),
+                                        Get.dialog(
+                                          Column(
+                                            children: [
+                                              Stack(
+                                                children: [
+                                                  Signature(
+                                                    controller: _controller,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height /
+                                                            1.5,
+                                                    backgroundColor:
+                                                        Colors.white,
                                                   ),
-                                                )),
-                                              ],
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    1.5,
-                                                height: 50,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    GestureDetector(
-                                                      child: Icon(
-                                                        Icons
-                                                            .check_circle_outline_outlined,
-                                                        color: Colors.cyan,
+                                                  Positioned(
+                                                      child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Material(
+                                                      child: Text(
+                                                        "Add a Customer Signature Here",
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                          textStyle: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                        ),
                                                       ),
-                                                      onTap: () async {
-                                                        if (_controller
-                                                            .isNotEmpty) {
-                                                          assignCtrl
-                                                              .setDeliveryStatus(
-                                                            snapshot.loadedData,
-                                                            "yes",
-                                                          );
-                                                          assignCtrl.chooseFile(
-                                                              await _controller
-                                                                  .toPngBytes());
-                                                        }
-                                                      },
                                                     ),
-                                                    SizedBox(
-                                                      width: 50,
-                                                    ),
-                                                    GestureDetector(
-                                                      child: Icon(
-                                                        Icons.delete_outline,
-                                                        color: Colors.cyan,
-                                                      ),
-                                                      onTap: () {
-                                                        _controller.clear();
-                                                      },
-                                                    ),
-                                                    SizedBox(
-                                                      width: 50,
-                                                    ),
-                                                    GestureDetector(
-                                                      child: Icon(
-                                                        Icons.close,
-                                                        color: Colors.cyan,
-                                                      ),
-                                                      onTap: () {
-                                                        Get.back();
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
+                                                  )),
+                                                ],
                                               ),
-                                            )
-                                          ],
-                                        ));
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      1.5,
+                                                  height: 50,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            color:
+                                                                Colors.black38,
+                                                            spreadRadius: 2,
+                                                            blurRadius: 5,
+                                                            offset:
+                                                                Offset(2, 3))
+                                                      ]),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      GestureDetector(
+                                                        child: Icon(
+                                                          Icons
+                                                              .check_circle_outline_outlined,
+                                                          color: Colors.cyan,
+                                                        ),
+                                                        onTap: () async {
+                                                          if (_controller
+                                                              .isNotEmpty) {
+                                                            assignCtrl
+                                                                .setDeliveryStatus(
+                                                              snapshot
+                                                                  .loadedData,
+                                                              "yes",
+                                                            );
+                                                            assignCtrl.chooseFile(
+                                                                await _controller
+                                                                    .toPngBytes());
+                                                          }
+                                                        },
+                                                      ),
+                                                      SizedBox(
+                                                        width: 50,
+                                                      ),
+                                                      GestureDetector(
+                                                        child: Icon(
+                                                          Icons.delete_outline,
+                                                          color: Colors.cyan,
+                                                        ),
+                                                        onTap: () {
+                                                          _controller.clear();
+                                                        },
+                                                      ),
+                                                      SizedBox(
+                                                        width: 50,
+                                                      ),
+                                                      GestureDetector(
+                                                        child: Icon(
+                                                          Icons.close,
+                                                          color: Colors.cyan,
+                                                        ),
+                                                        onTap: () {
+                                                          Get.back();
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          barrierDismissible: false,
+                                        );
 
                                         //assignCtrl.isLoadingButton = widget.index + 1;
                                       });

@@ -130,6 +130,7 @@ class OrderAssignController extends GetxController {
       ParseResponse adResult = await orderObject.save();
       if (adResult.success) {
         print("updated delivery status successfully");
+        Get.back();
         //showAssignedOrder(rCtrl.number);
         //isLoadingButton = -1;
         //showDeliveredOrder(rCtrl.number);
@@ -180,6 +181,7 @@ class OrderAssignController extends GetxController {
       //orderObject..setAdd('deliveryBoy', object);
       QueryBuilder<ParseObject> orderData =
           QueryBuilder<ParseObject>(ParseObject('Orders'))
+            ..orderByDescending('updatedAt')
             ..whereEqualTo('deliveryBoyNum', mobile)
             ..whereEqualTo('deliveryStatus', 'yes');
 
@@ -249,7 +251,6 @@ class OrderAssignController extends GetxController {
       if (adResult.success) {
         print("signature added");
         isLoading.value = false;
-        Get.back();
       } else {
         isLoading.value = false;
         final snackBar = SnackBar(

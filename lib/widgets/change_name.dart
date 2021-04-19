@@ -8,31 +8,31 @@ import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/repository/user_repository.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-class ChangeMobile extends StatefulWidget {
+class ChangeName extends StatefulWidget {
   final ParseObject user;
 
-  const ChangeMobile({Key key, this.user}) : super(key: key);
+  const ChangeName({Key key, this.user}) : super(key: key);
   @override
-  _ChangeMobileState createState() => _ChangeMobileState();
+  _ChangeNameState createState() => _ChangeNameState();
 }
 
-class _ChangeMobileState extends State<ChangeMobile> {
+class _ChangeNameState extends State<ChangeName> {
   RepoController rCtrl = Get.put(RepoController());
   ClientController cCtrl = Get.put(ClientController());
   final RoundedLoadingButtonController _btnSubmit =
-      new RoundedLoadingButtonController();
+  new RoundedLoadingButtonController();
   final _passKey = GlobalKey<FormState>();
   void _submit() async {
     try {
       QueryBuilder<ParseObject> userData =
-          QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
-            //ParseObject userData = ParseObject('UserMetadata')
-            ..whereEqualTo('objectId', rCtrl.objectId);
+      QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
+      //ParseObject userData = ParseObject('UserMetadata')
+        ..whereEqualTo('objectId', rCtrl.objectId);
 
       ParseResponse response = await userData.query();
       if (response.success) {
         ParseObject user = response.result[0]
-          ..set('number', passResetController.text.trim().toString());
+          ..set('name', nameReset.text.trim().toString());
         print(userData);
         ParseResponse result = await user.save();
         if (result.success) {
@@ -49,7 +49,7 @@ class _ChangeMobileState extends State<ChangeMobile> {
   }
 
   //await ParseUser.
-  TextEditingController passResetController = TextEditingController();
+  TextEditingController nameReset = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -75,9 +75,9 @@ class _ChangeMobileState extends State<ChangeMobile> {
                 height: 10,
               ),
               TextFormField(
-                controller: passResetController,
+                controller: nameReset,
                 decoration: InputDecoration(
-                  labelText: 'Enter Mobile',
+                  labelText: 'Enter the Name',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(
@@ -85,11 +85,11 @@ class _ChangeMobileState extends State<ChangeMobile> {
                     ),
                   ),
                 ),
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.name,
                 // controller: passResetController,
                 validator: (value) {
-                  if (value.isEmpty && value.length < 11) {
-                    return 'Enter valid Mobile number';
+                  if (value.isEmpty ) {
+                    return 'Enter the name';
                   }
                   return null;
                 },

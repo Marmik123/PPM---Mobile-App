@@ -6,6 +6,7 @@ import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/repository/user_repository.dart';
 import 'package:pcm/view/home/home_screen_client.dart';
 import 'package:pcm/view/home/home_screen_delivery.dart';
+import 'package:pcm/view/home/home_screen_marketing.dart';
 
 import '../view/home/homes_screen_sales.dart';
 
@@ -50,6 +51,8 @@ class LoginController extends GetxController {
           Get.offAll(() => HomeScreen());
         } else if (response.results[0]['role'] == "Client") {
           Get.offAll(() => HomeScreenClient());
+        } else if (response.results[0]['role'] == "Marketing") {
+          Get.offAll(() => HomeScreenM());
         } else if (response.results[0]['role'] == "DeliveryBoy") {
           Get.offAll(() => HomeScreenDelivery());
           await orderCtrl
