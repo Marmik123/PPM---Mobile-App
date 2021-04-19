@@ -1,13 +1,17 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
+import 'package:pcm/repository/user_repository.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class OrderAssignController extends GetxController {
   SignInController mobileCtrl = Get.put(SignInController());
   //OtpController otpCtrl = Get.put(OtpController());
+  RepoController rCtrl = Get.put(RepoController());
   RxBool isLoading = false.obs;
   RxInt pressedButtonIndex = 0.obs;
   RxBool noOrderLeft = false.obs;
@@ -18,6 +22,15 @@ class OrderAssignController extends GetxController {
   RxList<ParseObject> completeOrderData = <ParseObject>[].obs;
   RxList<ParseObject> deliveredOrders = <ParseObject>[].obs;
   final RoundedLoadingButtonController ctrl = RoundedLoadingButtonController();
+
+  QueryBuilder showOrder(String mobile) {
+    QueryBuilder<ParseObject> orders =
+        QueryBuilder<ParseObject>(ParseObject('Orders'))
+          ..orderByDescending('updatedAt')
+          ..whereEqualTo('deliveryBoyNum', "9825569974")
+          ..whereNotEqualTo('deliveryStatus', "yes");
+    return orders;
+  }
 
   Future<void> showAssignedOrder(String mobile) async {
     isLoading.value = true;
@@ -117,9 +130,9 @@ class OrderAssignController extends GetxController {
       ParseResponse adResult = await orderObject.save();
       if (adResult.success) {
         print("updated delivery status successfully");
-        showAssignedOrder(mobileCtrl.mobileNo.text.trim().toString());
-        isLoadingButton = -1;
-        showDeliveredOrder(mobileCtrl.mobileNo.text.trim().toString());
+        //showAssignedOrder(rCtrl.number);
+        //isLoadingButton = -1;
+        //showDeliveredOrder(rCtrl.number);
         //isLoading.value = false;
         final snackBar = SnackBar(
           width: MediaQuery.of(Get.context).size.width / 2,
@@ -218,6 +231,48 @@ class OrderAssignController extends GetxController {
       );
     } finally {
       print("Finally executed");
+    }
+  }
+
+  Future<void> chooseFile(Uint8List pickedFile) async {
+    isLoading.value = true;
+    print('called choose file');
+    try {
+      //var image = Image.network(pickedFile.path);
+      //var image = MemoryImage(pickedFile);
+      /* ParseFile img =
+          ParseFile(File.fromRawPath(pickedFile), name: "signature");*/
+      ParseWebFile pic = ParseWebFile(pickedFile, name: "Signature");
+      ParseObject proData = ParseObject('Orders')
+        ..set<ParseWebFile>("custSignature", pic);
+      ParseResponse adResult = await proData.create();
+      if (adResult.success) {
+        print("signature added");
+        isLoading.value = false;
+        Get.back();
+      } else {
+        isLoading.value = false;
+        final snackBar = SnackBar(
+          content: Text(
+            "Error ! Please try again.",
+          ),
+          elevation: 20.0,
+          backgroundColor: Colors.cyan,
+        );
+        ScaffoldMessenger.of(Get.context).showSnackBar(snackBar);
+      }
+    } catch (e) {
+      print(e);
+      Get.back();
+      final snackBar = SnackBar(
+        content: Text(
+          "Error ! Please try again.",
+        ),
+        elevation: 20.0,
+        backgroundColor: Colors.cyan,
+      );
+      ScaffoldMessenger.of(Get.context).showSnackBar(snackBar);
+      return e;
     }
   }
 }

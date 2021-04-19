@@ -41,7 +41,7 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          widget.listObject['date_time'].toString() ?? "-",
+                          widget.listObject.get('date_time').toString() ?? "-",
                           style: GoogleFonts.montserrat(
                               fontSize: 12, fontWeight: FontWeight.w500),
                         ),
@@ -78,7 +78,7 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
                                   ),
                                 )),
                             Text(
-                              widget.listObject['objectId'] ?? "-",
+                              widget.listObject.get('objectId') ?? "-",
                               style: GoogleFonts.montserrat(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w300,
@@ -105,7 +105,7 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
                                   ),
                                 )),
                             Text(
-                              widget.listObject['total_price'].toString() ??
+                              widget.listObject.get('total_price').toString() ??
                                   "-",
                               style: GoogleFonts.montserrat(
                                 fontSize: 14,
@@ -133,7 +133,7 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
                                   ),
                                 )),
                             Text(
-                              widget.listObject['payment_option'] ?? "-",
+                              widget.listObject.get('payment_option') ?? "-",
                               style: GoogleFonts.montserrat(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -214,7 +214,7 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
                                   ),
                                 )),
                             Text(
-                              widget.listObject['customerName'] ?? '-',
+                              widget.listObject.get('customerName') ?? '-',
                               style: GoogleFonts.montserrat(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -244,7 +244,7 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
                               width: MediaQuery.of(context).size.width / 3,
                               alignment: Alignment.topRight,
                               child: Text(
-                                widget.listObject['customerAddress'] ?? '-',
+                                widget.listObject.get('customerAddress') ?? '-',
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 3,
                                 style: GoogleFonts.montserrat(
@@ -274,7 +274,7 @@ class _OngoingOrderDeliveryState extends State<OngoingOrderDelivery> {
                                   ),
                                 )),
                             Text(
-                              widget.listObject['customerContactNo'] ?? "-",
+                              widget.listObject.get('customerContactNo') ?? "-",
                               style: GoogleFonts.montserrat(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
