@@ -6,6 +6,8 @@ import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/view/order/order_placed.dart';
 import 'package:pcm/view/order/order_received.dart';
 import 'package:pcm/widgets/circular_loader.dart';
+
+import 'order_received.dart';
 // import 'package:pcm/widgets/orders.dart';
 
 // ignore: must_be_immutable
@@ -71,63 +73,34 @@ class _OrderHistoryClientState extends State<OrderHistoryClient> {
                                 // },
                                 )),
                       ),
-                      Card(
-                        child: ListTile(
-                            onTap: () {
-                              print('on tap listTile');
-                              Get.to(() => OrderPlaced(
-                                    mobile: widget.number,
-                                  ));
-                              // return showModal<void>(
-                              //   context: context,
-                              //   builder: (context) {
-                              //     return OrderPlaced();
-                              //   },
-                              // );
-                            },
-                            leading: Icon(Icons.receipt_long_outlined),
-                            title: Text(S.of(context).placed),
-                            trailing: GestureDetector(
-                                child: CircleAvatar(
-                              radius: 15,
-                              child: Text(cltrCart.pOrders.value.toString()),
-                            ))),
-                      ),
+                      // Card(
+                      //   child: ListTile(
+                      //       onTap: () {
+                      //         print('on tap listTile');
+                      //         Get.to(() => OrderPlaced(
+                      //               mobile: widget.number,
+                      //             ));
+                      //         // return showModal<void>(
+                      //         //   context: context,
+                      //         //   builder: (context) {
+                      //         //     return OrderPlaced();
+                      //         //   },
+                      //         // );
+                      //       },
+                      //       leading: Icon(Icons.receipt_long_outlined),
+                      //       title: Text(S.of(context).placed),
+                      //       trailing: GestureDetector(
+                      //           child: CircleAvatar(
+                      //         radius: 15,
+                      //         child: Text(cltrCart.pOrders.value.toString()),
+                      //       ))),
+                      // ),
                       SizedBox(
                         height: 20,
                       ),
-
-                      // Expanded(
-                      //   child: GridView(
-                      //     primary: false,
-                      //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      //         crossAxisCount: 2),
-                      //     children: [
-                      //       // dashboardContainer(name: 'Register'),
-                      //
-                      //       dashboardContainer(
-                      //         name: 'Settings',
-                      //         onTap: () => Get.to(SettingsPage()),
-                      //       ),
-                      //       dashboardContainer(
-                      //         name: 'FeedBack',
-                      //         onTap: () => Get.to(FeedbackPage()),
-                      //       ),
-                      //       dashboardContainer(
-                      //         name: 'Support',
-                      //         onTap: () => Get.to(Support()),
-                      //       ),
-                      //       dashboardContainer(
-                      //         name: 'Client',
-                      //         onTap: () => Get.to(HomeScreenClient()),
-                      //       ),
-                      //       // dashboardContainer(
-                      //       //   name: 'Delivery Boy',
-                      //       //   onTap: () => Get.to(HomeScreenDelivery()),
-                      //       // ),
-                      //     ],
-                      //   ),
-                      // )
+                      OrderPlaced(
+                        mobile: widget.number,
+                      ),
                     ],
                   ),
           ),
