@@ -19,7 +19,7 @@ class AdController extends GetxController {
   final RoundedLoadingButtonController btnController =
       new RoundedLoadingButtonController();
 
-  Future<void> registerAd(String name, String number) async {
+  Future<void> registerAd(String name, String number, String paymentR) async {
     isLoading.value = true;
     SharedPreferences preferences = await SharedPreferences.getInstance();
     try {
@@ -28,7 +28,8 @@ class AdController extends GetxController {
         ..set('adDescription', adDesc.text.trim().trim().toString())
         ..set<ParseFile>('adPhoto', ParseFile(File(pickedFile.path)))
         ..set('registeredBy', preferences.getString(repo.kname))
-        ..set('number', preferences.getString(repo.kMobile));
+        ..set('number', preferences.getString(repo.kMobile))
+        ..set('paymentReceived', paymentR);
       ParseResponse adResult = await adData.create();
       if (adResult.success) {
         isLoading.value = false;
@@ -71,6 +72,7 @@ class AdController extends GetxController {
     try {
       QueryBuilder<ParseObject> adData =
           QueryBuilder<ParseObject>(ParseObject('Advertisement'))
+            ..orderByDescending('createdAt')
             ..whereEqualTo('number', repo.number)
             ..whereEqualTo('registeredBy', repo.name);
 

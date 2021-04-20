@@ -14,6 +14,7 @@ class ClientRegister extends StatefulWidget {
 
 class _ClientRegisterState extends State<ClientRegister> {
   int selectedType = 0;
+  int gst = 0;
   RepoController repoController = Get.put(RepoController());
   ClientController con = Get.put(ClientController());
 
@@ -188,6 +189,83 @@ class _ClientRegisterState extends State<ClientRegister> {
               SizedBox(
                 height: 10,
               ),
+              DropdownButtonFormField(
+                  isExpanded: true,
+                  value: gst,
+                  onChanged: (value) {
+                    setState(() {
+                      gst = value;
+                    });
+                  },
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return S.of(context).sName;
+                    }
+                    return null;
+                  },
+                  iconEnabledColor: Colors.black,
+                  iconDisabledColor: Colors.cyan,
+                  decoration: InputDecoration(
+                    labelText: "Enter Type of GST" /*S.of(context).type*/,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: Colors.blueGrey),
+                    ),
+                  ),
+                  items: [
+                    DropdownMenuItem(
+                        value: 0,
+                        child: Text(
+                          "Regular GST" /*S.of(context).stat*/,
+                          style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        )),
+                    DropdownMenuItem(
+                        value: 1,
+                        child: Text(
+                          "Composition GST" /*S.of(context).Kirana*/,
+                          style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        )),
+                    DropdownMenuItem(
+                        value: 2,
+                        child: Text(
+                          "Without GST" /*S.of(context).Dairy*/,
+                          style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        )),
+                  ]),
+              SizedBox(
+                height: 10,
+              ),
+              gst == 0 || gst == 1
+                  ? TextFormField(
+                      controller: con.gst,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        labelText: "GST Number" /* S.of(context).City*/,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.blueGrey),
+                        ),
+                      ),
+                    )
+                  : Container(),
+              SizedBox(
+                height: 10,
+              ),
               TextFormField(
                 readOnly: true,
                 onTap: () async => await con.shopPhoto(ImageSource.camera),
@@ -267,7 +345,22 @@ class _ClientRegisterState extends State<ClientRegister> {
                       height: 10,
                     ),
                     TextFormField(
-                      controller: con.cIController,
+                      controller: con.pincode,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: "Pincode" /* S.of(context).City*/,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.blueGrey),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      // controller: con.cIController,
+                      initialValue: "Surat",
                       decoration: InputDecoration(
                         labelText: S.of(context).City,
                         border: OutlineInputBorder(
@@ -280,7 +373,8 @@ class _ClientRegisterState extends State<ClientRegister> {
                       height: 10,
                     ),
                     TextFormField(
-                      controller: con.stController,
+                      //controller: con.stController,
+                      initialValue: "Gujarat",
                       decoration: InputDecoration(
                         labelText: S.of(context).State,
                         border: OutlineInputBorder(
@@ -320,7 +414,24 @@ class _ClientRegisterState extends State<ClientRegister> {
             width: 100,
             controller: con.btnController,
             onPressed: () {
-              con.clientRegister(repoController.name);
+              con.clientRegister(
+                  repoController.name,
+                  gst == 0
+                      ? 'Regular GST'
+                      : gst == 1
+                          ? 'Composition GST'
+                          : 'Without GST',
+                  selectedType == 0
+                      ? 'Stationary'
+                      : selectedType == 1
+                          ? 'Kirana'
+                          : selectedType == 2
+                              ? 'Dairy'
+                              : selectedType == 3
+                                  ? 'Vegetable'
+                                  : selectedType == 4
+                                      ? 'Provision'
+                                      : 'Medical');
             },
           ),
           SizedBox(

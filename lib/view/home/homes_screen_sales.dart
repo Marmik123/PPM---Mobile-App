@@ -8,6 +8,7 @@ import 'package:pcm/repository/user_repository.dart';
 import 'package:pcm/view/common/settings.dart';
 // import 'package:pcm/view/home/home_screen_delivery.dart';
 import 'package:pcm/view/register/client.dart';
+import 'package:pcm/view/register/display_clients.dart';
 
 import '../common/feedback.dart';
 import '../common/support.dart';
@@ -112,6 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ListTile(
                     onTap: () {
                       // bottomNavigationIndex.value = 0;
+                      Get.to(() => DisplayClient());
                     },
                     leading: Icon(Icons.person_outline),
                     title: Text(S.of(context).register),
@@ -125,7 +127,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       onTap: () {
                         clientCon.role.value = false;
-
                         Get.to(ClientRegister());
                         // Navigator.of(context)
                         //     .pushNamed(CreateReception.routeName);

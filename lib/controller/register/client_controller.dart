@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/repository/user_repository.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:pcm/repository/user_repository.dart';
 
 class ClientController extends GetxController {
@@ -19,6 +20,8 @@ class ClientController extends GetxController {
   TextEditingController sPController = TextEditingController();
 
   TextEditingController aPController = TextEditingController();
+  TextEditingController pincode = TextEditingController();
+  TextEditingController gst = TextEditingController();
 
   TextEditingController lController = TextEditingController();
   TextEditingController cIController = TextEditingController();
@@ -42,7 +45,8 @@ class ClientController extends GetxController {
   RxInt clientCount = 0.obs;
   RxInt distributorCount = 0.obs;
   ParseObject userData;
-  Future<void> clientRegister(String name) async {
+  Future<void> clientRegister(String name, String gstType, String store) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
     try {
       userData = ParseObject('UserMetadata')
         ..set('name', nController.text)
@@ -51,8 +55,13 @@ class ClientController extends GetxController {
         ..set('landmark', lController.text)
         ..set('city', cIController.text)
         ..set('state', stController.text)
+        ..set('pincode', pincode.text)
+        ..set('gstNumber', gst.text)
+        ..set('gstType', gstType)
+        ..set('storeType', store)
         ..set('registeredBy', name)
-        ..set('role', role.value ? 'Distributor' : 'Client');
+        ..set('salesNumber', preferences.getString(repo.kMobile))
+        ..set('role', 'Client');
       // ..set('status',
       //     widget.jobsData != null ? widget.jobsData.get('status') : 0)
       // ..set('client', client)
@@ -140,10 +149,12 @@ class ClientController extends GetxController {
   }
 
   void counts(String name) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
     QueryBuilder<ParseObject> clientCountData =
         QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
           ..whereEqualTo('role', 'Client')
-          ..whereEqualTo('registeredBy', name);
+          ..whereEqualTo('registeredBy', preferences.getString(repo.kname))
+          ..whereEqualTo('salesNumber', preferences.getString(repo.kMobile));
     ParseResponse clientResponse = await clientCountData.count();
     if (clientResponse.success && clientResponse != null) {
       print('clientresponse.results ${clientResponse.results}');
@@ -176,10 +187,26 @@ class ClientController extends GetxController {
     });
   }
 
+  QueryBuilder showClients() {
+    // SharedPreferences preferences = await SharedPreferences.getInstance();
+    try {
+      QueryBuilder<ParseObject> clients =
+          QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
+            ..orderByDescending('createdAt')
+            ..whereEqualTo('salesNumber', repo.number)
+            ..whereEqualTo('registeredBy', repo.name);
+
+      return clients;
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
     counts(repo.name);
+    repo.loadUserData();
     update();
   }
 }

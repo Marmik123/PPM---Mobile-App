@@ -5,19 +5,23 @@ import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-import 'package:pcm/controller/register/ad_controller.dart';
+import 'package:pcm/controller/register/client_controller.dart';
+import 'package:pcm/controller/sales_controller.dart';
 import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/repository/user_repository.dart';
 import 'package:pcm/view/common/feedback.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/common/support.dart';
+import 'package:pcm/view/order/salesperson_client_history.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class DisplayAd extends StatelessWidget {
+class DisplayClient extends StatelessWidget {
   @override
-  AdController adCtrl = Get.put(AdController());
+  ClientController cCtrl = Get.put(ClientController());
   RepoController rCtrl = Get.put(RepoController());
   SupportController ctrl = Get.put(SupportController());
+  SalesController sCtrl = Get.put(SalesController());
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -27,7 +31,7 @@ class DisplayAd extends StatelessWidget {
         titleSpacing: 0,
         leading: Icon(Icons.home_outlined),
         title: Text(
-          "Advertisements Registered",
+          "Clients Registered",
           style: GoogleFonts.montserrat(
             fontSize: 17,
             fontWeight: FontWeight.w500,
@@ -104,7 +108,7 @@ class DisplayAd extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: ParseLiveListWidget(
-            query: adCtrl.showAds(),
+            query: cCtrl.showClients(),
             lazyLoading: true,
             scrollPhysics: ClampingScrollPhysics(),
             shrinkWrap: true,
@@ -118,7 +122,7 @@ class DisplayAd extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Ad Description :  ${snapshot.loadedData.get('adDescription')}' ??
+                          'Client Number :  ${snapshot.loadedData.get('number')}' ??
                               "-",
                           style: GoogleFonts.montserrat(
                             fontSize: 13,
@@ -126,7 +130,7 @@ class DisplayAd extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Payment Received :  ${snapshot.loadedData.get('paymentReceived')}' ??
+                          'Clinet Shop Name :  ${snapshot.loadedData.get('shopName')}' ??
                               "-",
                           style: GoogleFonts.montserrat(
                             fontSize: 13,
@@ -136,22 +140,33 @@ class DisplayAd extends StatelessWidget {
                       ],
                     ),
                     title: Text(
-                      ' Ad Name : ${snapshot.loadedData.get('adName')}',
+                      ' Client Name :  ${snapshot.loadedData.get('name')}',
                       style: GoogleFonts.montserrat(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    trailing: Container(
-                      height: 50,
-                      width: 50,
-                      child: ClipRRect(
-                        child: Image(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                              'https://picsum.photos/id/1/200/300'),
-                        ),
+                    trailing: ElevatedButton(
+                      child: Text(
+                        "Order History" /*S.of(context).Delivered*/,
+                        style: TextStyle(color: Colors.white),
                       ),
+                      style: ButtonStyle(
+                        elevation: MaterialStateProperty.all(20),
+                        backgroundColor: MaterialStateProperty.all(Colors.cyan),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        )),
+                      ),
+                      onPressed: () async {
+                        SharedPreferences preferences =
+                            await SharedPreferences.getInstance();
+                        sCtrl.displayROrderHistoryData(
+                            snapshot.loadedData.get('number'));
+                        Get.to(SalespersonClient(
+                          number: snapshot.loadedData.get('number'),
+                        ));
+                      },
                     ),
                   ),
                 );

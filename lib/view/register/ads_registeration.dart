@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pcm/controller/register/ad_controller.dart';
 import 'package:pcm/generated/l10n.dart';
@@ -16,7 +17,7 @@ class _AdRegisterState extends State<AdRegister> {
   RepoController repoController = Get.put(RepoController());
   AdController adCtrl = Get.put(AdController());
   final adKey = GlobalKey<FormState>();
-
+  bool payment = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,6 +86,27 @@ class _AdRegisterState extends State<AdRegister> {
               SizedBox(
                 height: 10,
               ),
+              Row(
+                children: [
+                  Checkbox(
+                    value: payment,
+                    onChanged: (bool newValue) {
+                      setState(() {
+                        payment = newValue;
+                        print(payment);
+                      });
+                    },
+                    activeColor: Colors.cyan,
+                  ),
+                  Text(
+                    "Payment Received",
+                    style: GoogleFonts.montserrat(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  )
+                ],
+              )
             ],
           )),
       bottomNavigationBar: Column(
@@ -97,7 +119,8 @@ class _AdRegisterState extends State<AdRegister> {
             width: 100,
             controller: adCtrl.btnController,
             onPressed: () {
-              adCtrl.registerAd(repoController.name, repoController.number);
+              adCtrl.registerAd(repoController.name, repoController.number,
+                  payment == true ? 'Yes' : 'No');
             },
           ),
           SizedBox(
