@@ -5,6 +5,7 @@ class ProductsController extends GetxController {
   QueryBuilder<ParseObject> productsData =
       QueryBuilder<ParseObject>(ParseObject('Products'));
 
+  RxString unit = "Kg".obs;
   RxList products = [].obs;
   RxList cartProducts = [].obs;
   RxString size = "Small".obs;

@@ -173,9 +173,9 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                     return ListTile(
                       leading: CircleAvatar(
                         child: Text(
-                          '${cltrCart.orderDetails[index]['quantity'] ?? "-"} x ',
-                          style: TextStyle(color: Colors.black),
-                        ),
+                            '${cltrCart.orderDetails[index]['quantity'] ?? "-"} ${cltrCart.orderDetails[index]['unit'] ?? "-"} x ',
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 12)),
                         radius: 20,
                         backgroundColor: Color.fromRGBO(90, 177, 255, 0.1),
                       ),

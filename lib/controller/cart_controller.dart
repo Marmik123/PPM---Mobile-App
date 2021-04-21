@@ -122,6 +122,7 @@ class CartController extends GetxController {
     double price,
     int quantity,
     String size,
+    String unit,
   ) {
     print("@@ ${cartList.length}");
     print("#### $cartList");
@@ -135,6 +136,7 @@ class CartController extends GetxController {
           price: price,
           quantity: quantity,
           size: size,
+          unit: unit,
         ));
         Get.snackbar(
           "Cart Updated Successfully",
@@ -145,19 +147,21 @@ class CartController extends GetxController {
         );
         print(cartList.length);
       } else {
-        if (checkProductContains(productId, size)) {
+        if (checkProductContains(productId, size, unit)) {
           List<CartItem>.from(cartList).forEach((element) {
             print("called for each");
             if (element.id == productId && element.size == size) {
-              print("quantity ++");
-              element.quantity += quantity;
-              Get.snackbar(
-                "Cart Updated Successfully",
-                "Item Added to Cart",
-                backgroundColor: Colors.black.withOpacity(0.8),
-                maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
-                colorText: Colors.white,
-              );
+              if (element.unit == unit) {
+                print("quantity ++");
+                element.quantity += quantity;
+                Get.snackbar(
+                  "Cart Updated Successfully",
+                  "Item Added to Cart",
+                  backgroundColor: Colors.black.withOpacity(0.8),
+                  maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
+                  colorText: Colors.white,
+                );
+              }
             }
           });
         } else {
@@ -168,6 +172,7 @@ class CartController extends GetxController {
             price: price,
             quantity: quantity,
             size: size,
+            unit: unit,
           ));
           Get.snackbar(
             "Cart Updated Successfully",
@@ -305,6 +310,7 @@ class CartController extends GetxController {
       {price,
       String customerName,
       String size,
+      String unit,
       String customerAddress,
       String customerMobile}) async {
     var details = [];
@@ -317,6 +323,7 @@ class CartController extends GetxController {
           'quantity': cartList[i].quantity,
           'id': cartList[i].id,
           'size': cartList[i].size,
+          'unit': cartList[i].unit,
         });
       }
 
@@ -342,7 +349,8 @@ class CartController extends GetxController {
         ..set('customerName', customerName)
         ..set('customerAddress', customerAddress)
         ..set('customerContactNo', customerMobile)
-        ..set('size', size);
+        ..set('size', size)
+        ..set('unit', unit);
       ParseResponse response = await orderData.create();
       var objectId;
       if (response.success) {
@@ -381,9 +389,11 @@ class CartController extends GetxController {
     }
   }
 
-  bool checkProductContains(String productId, String size) {
-    var indexOfProduct = cartList.indexWhere(
-        (element) => element.id == productId && element.size == size);
+  bool checkProductContains(String productId, String size, String unit) {
+    var indexOfProduct = cartList.indexWhere((element) =>
+        element.id == productId &&
+        element.size == size &&
+        element.unit == unit);
 
     return indexOfProduct != -1;
   }

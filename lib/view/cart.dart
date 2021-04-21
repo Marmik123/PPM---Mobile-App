@@ -248,7 +248,7 @@ class _CartState extends State<Cart> {
                                         }),
 
                                     Text(
-                                      '${cltrCart.quantity.value}',
+                                      '${cartList[index].quantity} ${cartList[index].unit}',
                                       style: TextStyle(
                                         color: Color(0xff010101),
                                         fontWeight: FontWeight.bold,
@@ -726,6 +726,7 @@ class _CartState extends State<Cart> {
                           customerAddress: mobile.getString(rCtrl.kAddress),
                           customerMobile: mobile.getString(rCtrl.kMobileNum),
                           size: cltrProduct.size.value,
+                          unit: cltrProduct.unit.value,
                         )
                       : showerror();
                 });

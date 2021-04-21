@@ -6,6 +6,7 @@ class CartItem {
   int quantity;
   final double price;
   final String size;
+  final String unit;
 
   CartItem({
     @required this.id,
@@ -13,5 +14,6 @@ class CartItem {
     @required this.quantity,
     @required this.price,
     @required this.size,
+    @required this.unit,
   });
 }

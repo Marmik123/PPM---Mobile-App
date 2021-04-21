@@ -18,7 +18,7 @@ class ProductDetails extends StatefulWidget {
 class _ProductDetailsState extends State<ProductDetails> {
   CartController cltrCart = CartController();
   int selectedType = 0;
-
+  int unit = 0;
   ProductsController cltrProduct = Get.put(ProductsController());
   @override
   void initState() {
@@ -120,7 +120,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     }),
 
                                 Text(
-                                  '${cltrCart.quantity.value}',
+                                  '${cltrCart.quantity.value} ${cltrProduct.unit.value}',
                                   style: TextStyle(
                                     color: Color(0xff010101),
                                     fontWeight: FontWeight.bold,
@@ -163,6 +163,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             double.parse(widget.product.get('productPrice')),
                             cltrCart.quantity.value,
                             cltrProduct.size.value,
+                            cltrProduct.unit.value,
                           );
                           print('this is cart items $cartItems');
 
@@ -224,7 +225,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         iconEnabledColor: Colors.black,
                         iconDisabledColor: Colors.cyan,
                         decoration: InputDecoration(
-                          labelText: S.of(context).type,
+                          labelText: "Select Size" /*S.of(context).type*/,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
                             borderSide: BorderSide(color: Colors.blueGrey),
@@ -265,7 +266,64 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 ),
                               )),
                         ]),
-                  )
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height / 10,
+                    width: MediaQuery.of(context).size.width / 3.5,
+                    child: DropdownButtonFormField(
+                        elevation: 10,
+                        value: unit,
+                        onChanged: (value) {
+                          setState(() {
+                            value == 0
+                                ? cltrProduct.unit.value = "Kg"
+                                : cltrProduct.unit.value = "Pc";
+                            unit = value;
+                          });
+                        },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return S.of(context).errorS;
+                          }
+                          return null;
+                        },
+                        iconEnabledColor: Colors.black,
+                        iconDisabledColor: Colors.cyan,
+                        decoration: InputDecoration(
+                          labelText: "Change Unit" /*S.of(context).type*/,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(color: Colors.blueGrey),
+                          ),
+                        ),
+                        items: [
+                          DropdownMenuItem(
+                              value: 0,
+                              child: Text(
+                                "Kg" /*S.of(context).small*/,
+                                style: GoogleFonts.montserrat(
+                                  textStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              )),
+                          DropdownMenuItem(
+                              value: 1,
+                              child: Text(
+                                "Pieces" /*S.of(context).medium*/,
+                                style: GoogleFonts.montserrat(
+                                  textStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              )),
+                        ]),
+                  ),
                 ],
               ),
             ),
