@@ -62,7 +62,8 @@ class OtpController extends GetxController {
             mobile.value = phoneCtrl.mobileNo.text.trim().toString();
             loginCtrl
                 .userMobileLogin(phoneCtrl.mobileNo.text.trim().toString());
-            await assignCtrl.showAssignedOrder(mobile.value);
+            await assignCtrl
+                .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
             clientCtrl.showLoggedInUserData(
                 phoneCtrl.mobileNo.text.trim().toString());
           }

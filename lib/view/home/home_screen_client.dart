@@ -9,7 +9,7 @@ import 'package:pcm/controller/products_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
-import 'package:pcm/repository/user_repository.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 import 'package:pcm/view/cart.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
@@ -44,6 +44,7 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
     super.initState();
     RepoController rCtrl = Get.put(RepoController());
     rCtrl.loadUserData();
+
     print("init state called;");
     SupportController support = Get.put(SupportController());
     support.loadData();
@@ -52,262 +53,276 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
     cartC.showROrderHistoryData(rCtrl.number);
   }
 
+  Future<Locale> loadLang() async {
+    await S.load(rCtrl.storedLocale);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
-        elevation: 1,
-        titleSpacing: 0,
-        leading: Icon(Icons.home_outlined),
-        title: Text(
-          S.of(context).HomeScreen,
-        ),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.shopping_cart_outlined),
-              onPressed: () {
-                // Add Your Code here.
-                return Get.to(() => Cart());
-              }),
+    return GestureDetector(
+      onTap: () {
+        setState(() {});
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          brightness: Brightness.light,
+          backgroundColor: Colors.white,
+          elevation: 1,
+          titleSpacing: 0,
+          leading: Icon(Icons.home_outlined),
+          title: Text(
+            S.of(context).HomeScreen,
+          ),
+          actions: [
+            IconButton(
+                icon: Icon(Icons.shopping_cart_outlined),
+                onPressed: () async {
+                  // Add Your Code here.
+                  return Get.to(() => Cart());
+                }),
 /*          IconButton(
-              icon: Icon(Icons.qr_code_scanner),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      content: QrImage(
-                        data: "9874653210",
-                        version: QrVersions.auto,
-                        size: 300.0,
+                icon: Icon(Icons.qr_code_scanner),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: QrImage(
+                          data: "9874653210",
+                          version: QrVersions.auto,
+                          size: 300.0,
+                        ),
+                      );
+                    },
+                  );
+                })*/
+            PopupMenuButton(
+              icon: Icon(Icons.more_vert),
+              onSelected: (value) {
+                if (value == 'Settings') {
+                  Get.to(() => SettingsPage());
+                } else if (value == 'Feedback') {
+                  Get.to(() => FeedbackPage());
+                } else if (value == 'Support') {
+                  //sCtrl.loadData();
+                  Get.to(() => Support());
+                } else if (value == 'Logout') {
+                  rCtrl.deleteUserData();
+                  Phoenix.rebirth(context);
+                }
+              },
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      Icon(Icons.settings),
+                      SizedBox(
+                        width: 5,
                       ),
-                    );
-                  },
-                );
-              })*/
-          PopupMenuButton(
-            icon: Icon(Icons.more_vert),
-            onSelected: (value) {
-              if (value == 'Settings') {
-                Get.to(() => SettingsPage());
-              } else if (value == 'Feedback') {
-                Get.to(() => FeedbackPage());
-              } else if (value == 'Support') {
-                //sCtrl.loadData();
-                Get.to(() => Support());
-              } else if (value == 'Logout') {
-                rCtrl.deleteUserData();
-                Phoenix.rebirth(context);
-              }
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Icon(Icons.settings),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(S.of(context).Settings),
-                  ],
+                      Text(S.of(context).Settings),
+                    ],
+                  ),
+                  value: 'Settings',
                 ),
-                value: 'Settings',
-              ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Icon(Icons.feedback_outlined),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(S.of(context).feedback),
-                  ],
-                ),
-                value: 'Feedback',
-              ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Icon(Icons.support_agent),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(S.of(context).Support),
-                  ],
-                ),
-                value: 'Support',
-              ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Icon(Icons.logout),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(S.of(context).Logout),
-                  ],
-                ),
-                value: 'Logout',
-              )
-            ],
-          ),
-        ],
-      ),
-      body: ListView(
-        physics: ClampingScrollPhysics(),
-        shrinkWrap: true,
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          ParseLiveListWidget<ParseObject>(
-            shrinkWrap: true,
-            scrollPhysics: ClampingScrollPhysics(),
-            query: cltrClient.productData,
-            lazyLoading: true,
-            preloadedColumns: ['productName', 'fileImage', 'productPrice'],
-            // listLoadingElement: LinearProgressIndicator(),
-            childBuilder: (context, snapshot) {
-              if (snapshot.failed) {
-                return Text(S.of(context).warning);
-              } else if (snapshot.hasData || snapshot.hasPreLoadedData) {
-                if (snapshot.hasData) {
-                  return Card(
-                    child: ListTile(
-                      onTap: () => Get.to(() => ProductDetails(
-                            product: snapshot.loadedData,
-                          )),
-                      subtitle: Text(
-                          'Price: ${snapshot.loadedData.get('productPrice')}'),
-                      title: Text(
-                        snapshot.loadedData.get('productName'),
-                        style: TextStyle(fontSize: 18),
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      Icon(Icons.feedback_outlined),
+                      SizedBox(
+                        width: 5,
                       ),
-                      trailing: Container(
-                        height: 50,
-                        width: 50,
-                        child: ClipRRect(
-                          child: Image(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                                'https://picsum.photos/id/1/200/300'),
+                      Text(S.of(context).feedback),
+                    ],
+                  ),
+                  value: 'Feedback',
+                ),
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      Icon(Icons.support_agent),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(S.of(context).Support),
+                    ],
+                  ),
+                  value: 'Support',
+                ),
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      Icon(Icons.logout),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(S.of(context).Logout),
+                    ],
+                  ),
+                  value: 'Logout',
+                )
+              ],
+            ),
+          ],
+        ),
+        body: ListView(
+          physics: ClampingScrollPhysics(),
+          shrinkWrap: true,
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {});
+              },
+              child: ParseLiveListWidget<ParseObject>(
+                shrinkWrap: true,
+                scrollPhysics: ClampingScrollPhysics(),
+                query: cltrClient.productData,
+                lazyLoading: true,
+                preloadedColumns: ['productName', 'fileImage', 'productPrice'],
+                // listLoadingElement: LinearProgressIndicator(),
+                childBuilder: (context, snapshot) {
+                  if (snapshot.failed) {
+                    return Text(S.of(context).warning);
+                  } else if (snapshot.hasData || snapshot.hasPreLoadedData) {
+                    if (snapshot.hasData) {
+                      return Card(
+                        child: ListTile(
+                          onTap: () => Get.to(() => ProductDetails(
+                                product: snapshot.loadedData,
+                              )),
+                          subtitle: Text(
+                              'Price: ${snapshot.loadedData.get('productPrice')}'),
+                          title: Text(
+                            snapshot.loadedData.get('productName'),
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          trailing: Container(
+                            height: 50,
+                            width: 50,
+                            child: ClipRRect(
+                              child: Image(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                    'https://picsum.photos/id/1/200/300'),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  );
-                  // GridView.builder(
-                  // shrinkWrap: true,
-                  // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  //     crossAxisCount: 2),
-                  // itemBuilder: (context, index) {
-                  //   return
-                  //   Container(
-                  // height: 300,
-                  // child: Card(
-                  //   child: Stack(
-                  //     fit: StackFit.loose,
-                  //     children: [
-                  //       Container(
-                  //         margin: EdgeInsets.all(5),
-                  //         height: MediaQuery.of(context).size.height,
-                  //         width: MediaQuery.of(context).size.width,
-                  //         color: Colors.cyan,
-                  //       ),
-                  //       Align(
-                  //         alignment: Alignment.bottomCenter,
-                  //         child: Container(
-                  //           padding: EdgeInsets.only(left: 5),
-                  //           margin: EdgeInsets.only(left: 5, right: 5, bottom: 5),
-                  //           height: 35,
-                  //           color: Colors.red.withOpacity(0.3),
-                  //           alignment: Alignment.bottomCenter,
-                  //           child: Row(
-                  //             mainAxisSize: MainAxisSize.max,
-                  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //             children: [
-                  //               Text(snapshot.loadedData.get('productName')),
-                  //               IconButton(
-                  //                   icon: Icon(Icons.shopping_cart_outlined),
-                  //                   onPressed: () {})
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  //   //   );
-                  //   // },
-                  // );
-                } else {
-                  return ListTileShimmer();
-                }
-              } else {
-                return SizedBox.shrink();
-              }
-            },
-          ),
-          // Expanded(
-          //   child: GridView(
-          //     primary: false,
-          //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          //         crossAxisCount: 2),
-          //     children: [
-          //       // dashboardContainer(name: 'Register'),
-          //       dashboardContainer(
-          //         name: 'Products',
-          //         icon: Icons.inventory,
-          //         onTap: () => Get.to(Products()),
-          //       ),
-          //       // dashboardContainer(
-          //       //   name: 'Order History',
-          //       //   icon: Icons.history,
-          //       //   onTap: () => Get.to(OrderHistoryClient()),
-          //       // ),
-          //       // dashboardContainer(
-          //       //   name: 'Settings',
-          //       //   onTap: () => Get.to(SettingsPage()),
-          //       // ),
-          //       // dashboardContainer(
-          //       //   name: 'FeedBack',
-          //       //   onTap: () => Get.to(FeedbackPage()),
-          //       // ),
-          //       // dashboardContainer(
-          //       //   name: 'Support',
-          //       //   onTap: () => Get.to(Support()),
-          //       // ),
-          //       dashboardContainer(
-          //         name: 'Delivery',
-          //         icon: Icons.delivery_dining,
-          //         onTap: () => Get.to(HomeScreenDelivery()),
-          //       ),
-          //     ],
-          //   ),
-          // )
-/*          dashboardContainer(
-            name: 'Delivery',
-            icon: Icons.delivery_dining,
-            onTap: () => Get.to(HomeScreenDelivery()),
-          ),*/
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: BottomWidget(
-        onTap: () async {
-          SharedPreferences mobile = await SharedPreferences.getInstance();
-          cartC.showOrderHistoryData(rCtrl.number);
-          cartC.showROrderHistoryData(rCtrl.number);
-          setState(() {});
-          number = mobile.getString(rCtrl.kMobile);
-          return Get.to(
-            () => OrderHistoryClient(
-              number: number,
+                      );
+                      // GridView.builder(
+                      // shrinkWrap: true,
+                      // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      //     crossAxisCount: 2),
+                      // itemBuilder: (context, index) {
+                      //   return
+                      //   Container(
+                      // height: 300,
+                      // child: Card(
+                      //   child: Stack(
+                      //     fit: StackFit.loose,
+                      //     children: [
+                      //       Container(
+                      //         margin: EdgeInsets.all(5),
+                      //         height: MediaQuery.of(context).size.height,
+                      //         width: MediaQuery.of(context).size.width,
+                      //         color: Colors.cyan,
+                      //       ),
+                      //       Align(
+                      //         alignment: Alignment.bottomCenter,
+                      //         child: Container(
+                      //           padding: EdgeInsets.only(left: 5),
+                      //           margin: EdgeInsets.only(left: 5, right: 5, bottom: 5),
+                      //           height: 35,
+                      //           color: Colors.red.withOpacity(0.3),
+                      //           alignment: Alignment.bottomCenter,
+                      //           child: Row(
+                      //             mainAxisSize: MainAxisSize.max,
+                      //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //             children: [
+                      //               Text(snapshot.loadedData.get('productName')),
+                      //               IconButton(
+                      //                   icon: Icon(Icons.shopping_cart_outlined),
+                      //                   onPressed: () {})
+                      //             ],
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      //   //   );
+                      //   // },
+                      // );
+                    } else {
+                      return ListTileShimmer();
+                    }
+                  } else {
+                    return SizedBox.shrink();
+                  }
+                },
+              ),
             ),
-          );
-        },
+            // Expanded(
+            //   child: GridView(
+            //     primary: false,
+            //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //         crossAxisCount: 2),
+            //     children: [
+            //       // dashboardContainer(name: 'Register'),
+            //       dashboardContainer(
+            //         name: 'Products',
+            //         icon: Icons.inventory,
+            //         onTap: () => Get.to(Products()),
+            //       ),
+            //       // dashboardContainer(
+            //       //   name: 'Order History',
+            //       //   icon: Icons.history,
+            //       //   onTap: () => Get.to(OrderHistoryClient()),
+            //       // ),
+            //       // dashboardContainer(
+            //       //   name: 'Settings',
+            //       //   onTap: () => Get.to(SettingsPage()),
+            //       // ),
+            //       // dashboardContainer(
+            //       //   name: 'FeedBack',
+            //       //   onTap: () => Get.to(FeedbackPage()),
+            //       // ),
+            //       // dashboardContainer(
+            //       //   name: 'Support',
+            //       //   onTap: () => Get.to(Support()),
+            //       // ),
+            //       dashboardContainer(
+            //         name: 'Delivery',
+            //         icon: Icons.delivery_dining,
+            //         onTap: () => Get.to(HomeScreenDelivery()),
+            //       ),
+            //     ],
+            //   ),
+            // )
+/*          dashboardContainer(
+              name: 'Delivery',
+              icon: Icons.delivery_dining,
+              onTap: () => Get.to(HomeScreenDelivery()),
+            ),*/
+          ],
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: BottomWidget(
+          onTap: () async {
+            SharedPreferences mobile = await SharedPreferences.getInstance();
+            cartC.showOrderHistoryData(rCtrl.number);
+            cartC.showROrderHistoryData(rCtrl.number);
+            setState(() {});
+            number = mobile.getString(rCtrl.kMobile);
+            return Get.to(
+              () => OrderHistoryClient(
+                number: number,
+              ),
+            );
+          },
+        ),
       ),
     );
   }

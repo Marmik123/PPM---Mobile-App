@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/register/client_controller.dart';
-// import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-import 'package:pcm/repository/user_repository.dart';
+import 'package:pcm/generated/l10n.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+
+// import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class ChangeName extends StatefulWidget {
   final ParseObject user;
@@ -20,14 +22,14 @@ class _ChangeNameState extends State<ChangeName> {
   RepoController rCtrl = Get.put(RepoController());
   ClientController cCtrl = Get.put(ClientController());
   final RoundedLoadingButtonController _btnSubmit =
-  new RoundedLoadingButtonController();
+      new RoundedLoadingButtonController();
   final _passKey = GlobalKey<FormState>();
   void _submit() async {
     try {
       QueryBuilder<ParseObject> userData =
-      QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
-      //ParseObject userData = ParseObject('UserMetadata')
-        ..whereEqualTo('objectId', rCtrl.objectId);
+          QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
+            //ParseObject userData = ParseObject('UserMetadata')
+            ..whereEqualTo('objectId', rCtrl.objectId);
 
       ParseResponse response = await userData.query();
       if (response.success) {
@@ -77,7 +79,7 @@ class _ChangeNameState extends State<ChangeName> {
               TextFormField(
                 controller: nameReset,
                 decoration: InputDecoration(
-                  labelText: 'Enter the Name',
+                  labelText: S.of(context).enterN,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(
@@ -88,8 +90,8 @@ class _ChangeNameState extends State<ChangeName> {
                 keyboardType: TextInputType.name,
                 // controller: passResetController,
                 validator: (value) {
-                  if (value.isEmpty ) {
-                    return 'Enter the name';
+                  if (value.isEmpty) {
+                    return S.of(context).enterN;
                   }
                   return null;
                 },
@@ -99,7 +101,7 @@ class _ChangeNameState extends State<ChangeName> {
               ),
               RoundedLoadingButton(
                 child: Text(
-                  'Submit',
+                  S.of(context).Submit,
                   style: TextStyle(color: Colors.white),
                 ),
                 borderRadius: 10,

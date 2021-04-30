@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
-import 'package:pcm/repository/user_repository.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 
 class HomeScreenClientController extends GetxController {
   RxList products = [].obs;

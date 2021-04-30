@@ -1,7 +1,8 @@
 // import 'package:Rapair_desk/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pcm/generated/l10n.dart';
-import 'package:pcm/utils/shared_preferences_utils.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 
 class ChangeLanguage extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class ChangeLanguage extends StatefulWidget {
 }
 
 class _ChangeLanguageState extends State<ChangeLanguage> {
+  RepoController repoCtrl = Get.put(RepoController());
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -22,29 +24,35 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
             Text(S.of(context).change),
             Divider(),
             ListTile(
-              onTap: () {
-                
+              onTap: () async {
+                /* SharedPreferences language =
+                    await SharedPreferences.getInstance();
+                repoCtrl.setLanguage('en');
+                Navigator.of(context)
+                    .pop(language.getString(repoCtrl.kLangCode));*/
                 Navigator.of(context).pop('en');
-
-            
               },
               title: Text(S.of(context).English),
             ),
             ListTile(
-              onTap: () {
-               
+              onTap: () async {
+                /* SharedPreferences language =
+                    await SharedPreferences.getInstance();
+                repoCtrl.setLanguage('gu');
+                Navigator.of(context)
+                    .pop(language.getString(repoCtrl.kLangCode));*/
                 Navigator.of(context).pop('gu');
-
-               
               },
               title: Text(S.of(context).Gujarati),
             ),
             ListTile(
-              onTap: () {
-                
+              onTap: () async {
+                /* SharedPreferences language =
+                    await SharedPreferences.getInstance();
+                repoCtrl.setLanguage('hi');
+                Navigator.of(context)
+                    .pop(language.getString(repoCtrl.kLangCode));*/
                 Navigator.of(context).pop('hi');
-
-               
               },
               title: Text(S.of(context).Hindi),
             )

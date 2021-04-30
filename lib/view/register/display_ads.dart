@@ -8,7 +8,7 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/register/ad_controller.dart';
 import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
-import 'package:pcm/repository/user_repository.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 import 'package:pcm/view/common/feedback.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/common/support.dart';
@@ -27,7 +27,7 @@ class DisplayAd extends StatelessWidget {
         titleSpacing: 0,
         leading: Icon(Icons.home_outlined),
         title: Text(
-          "Advertisements Registered",
+          S.of(context).adsRegistered,
           style: GoogleFonts.montserrat(
             fontSize: 17,
             fontWeight: FontWeight.w500,
@@ -118,7 +118,7 @@ class DisplayAd extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Ad Description :  ${snapshot.loadedData.get('adDescription')}' ??
+                          '${S.of(context).adDescrip}  ${snapshot.loadedData.get('adDescription')}' ??
                               "-",
                           style: GoogleFonts.montserrat(
                             fontSize: 13,
@@ -126,7 +126,7 @@ class DisplayAd extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Payment Received :  ${snapshot.loadedData.get('paymentReceived')}' ??
+                          '${S.of(context).paymentR}:  ${snapshot.loadedData.get('paymentReceived')}' ??
                               "-",
                           style: GoogleFonts.montserrat(
                             fontSize: 13,
@@ -136,7 +136,7 @@ class DisplayAd extends StatelessWidget {
                       ],
                     ),
                     title: Text(
-                      ' Ad Name : ${snapshot.loadedData.get('adName')}',
+                      ' ${S.of(context).adN} ${snapshot.loadedData.get('adName')}',
                       style: GoogleFonts.montserrat(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,

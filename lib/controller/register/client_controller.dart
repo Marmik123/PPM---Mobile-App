@@ -7,10 +7,11 @@ import 'package:get/get.dart';
 // import 'package:loading_hud/loading_indicator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-import 'package:pcm/repository/user_repository.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:pcm/repository/user_repository.dart';
+
+// import 'package:pcm/repository/shared_preferences.dart';
 
 class ClientController extends GetxController {
   TextEditingController nController = TextEditingController();
@@ -95,6 +96,7 @@ class ClientController extends GetxController {
         slController.clear();
         cController.clear();
         mController.clear();
+        salesReport();
         if (role.value) {
           distributorCount.value++;
         } else {
@@ -108,6 +110,49 @@ class ClientController extends GetxController {
       /*Future.delayed(Duration(milliseconds: 1500))
           .then((value) => btnController.reset());*/
       Get.back();
+    }
+  }
+
+  Future<void> salesReport() async {
+    print("called sales report");
+    SharedPreferences sPref = await SharedPreferences.getInstance();
+    try {
+      QueryBuilder<ParseObject> userData =
+          QueryBuilder<ParseObject>(ParseObject('SalesMetadata'))
+            //ParseObject userData = ParseObject('UserMetadata')
+            ..whereEqualTo('salesPName', sPref.getString(repo.kname))
+            ..whereEqualTo('number', sPref.getString(repo.kMobile));
+
+      ParseResponse response = await userData.query();
+      if (response.success) {
+        if (response.results == null) {
+          print("no user exist creating new one");
+          ParseObject newClient = ParseObject('SalesMetadata')
+            ..set<String>('salesPName', sPref.getString(repo.kname))
+            ..set('number', sPref.getString(repo.kMobile))
+            ..set<int>('clientsRegistered', clientCount.value);
+
+          ParseResponse reportResult = await newClient.create();
+          if (reportResult.success) {
+            //rCtrl.setOrdersMetadataObjectId(reportResult.result['objectId']);
+            //print(reportResult.result['objectId']);
+            //rCtrl.loadObjId();
+            //SharedPreferences preference =
+            //  await SharedPreferences.getInstance();
+            // print("@@@${preference.getString(rCtrl.kOrderObjectId)}");
+          }
+        } else {
+          print("user already there updating purchaseCount");
+          ParseObject client = response.result[0]
+            ..set('salesPName', sPref.getString(repo.kname))
+            ..set('number', sPref.getString(repo.kMobile))
+            ..set('clientsRegistered', clientCount.value);
+
+          ParseResponse reportResult = await client.save();
+        }
+      }
+    } catch (e) {
+      print(e);
     }
   }
 

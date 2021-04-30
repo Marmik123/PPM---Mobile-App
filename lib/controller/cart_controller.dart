@@ -4,7 +4,7 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/model/cart_item.dart';
 import 'package:pcm/repository/products_repository.dart';
-import 'package:pcm/repository/user_repository.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 import 'package:pcm/view/purchase_receipt.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,6 +17,7 @@ class CartController extends GetxController {
   RxList orderHistory = [].obs;
   RxList orderRHistory = [].obs;
   RxInt quantity = 0.obs;
+  RxInt purchaseCount = 0.obs;
   RxBool orderH = false.obs;
   RxInt rOrders = 0.obs;
   RxInt pOrders = 0.obs;
@@ -40,6 +41,49 @@ class CartController extends GetxController {
             ..whereEqualTo('customerContactNo', rCtrl.number);
 
       return loadOrderHistory;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future clientReport(String name, String mobile, int purchaseCount) async {
+    print("called client report");
+    try {
+      QueryBuilder<ParseObject> userData =
+          QueryBuilder<ParseObject>(ParseObject('OrdersMetadata'))
+            //ParseObject userData = ParseObject('UserMetadata')
+            ..whereEqualTo('clientName', name)
+            ..whereEqualTo('number', mobile);
+
+      ParseResponse response = await userData.query();
+      if (response.success) {
+        if (response.results == null) {
+          print("no user exist creating new one");
+          ParseObject newClient = ParseObject('OrdersMetadata')
+            ..set<String>('clientName', name)
+            ..set('number', mobile)
+            ..set<int>('productsPurchased', purchaseCount);
+
+          ParseResponse reportResult = await newClient.create();
+          if (reportResult.success) {
+            rCtrl.setOrdersMetadataObjectId(reportResult.result['objectId']);
+            print(reportResult.result['objectId']);
+            rCtrl.loadObjId();
+            SharedPreferences preference =
+                await SharedPreferences.getInstance();
+            print("@@@${preference.getString(rCtrl.kOrderObjectId)}");
+          }
+        } else {
+          print("user already there updating purchaseCount");
+          ParseObject client = response.result[0]
+            ..set('clientName', name)
+            ..set('number', mobile)
+            ..set('productsPurchased',
+                response.result[0]['productsPurchased'] + purchaseCount);
+
+          ParseResponse reportResult = await client.save();
+        }
+      }
     } catch (e) {
       print(e);
     }
@@ -317,6 +361,8 @@ class CartController extends GetxController {
     try {
       isLoading.value = true;
       for (var i = 0; i < cartList.length; i++) {
+        purchaseCount.value += cartList[i].quantity;
+        prodReport(cartList[i].title, 1);
         details.add({
           'name': cartList[i].title,
           'price': cartList[i].price,
@@ -355,6 +401,7 @@ class CartController extends GetxController {
       var objectId;
       if (response.success) {
         buttonCtrl.success();
+
         print("order data is $orderData");
         orderHistory.add(orderData);
         isLoading.value = false;
@@ -386,6 +433,52 @@ class CartController extends GetxController {
       );
     } finally {
       print('orderPlaced finally');
+    }
+  }
+
+  Future<void> prodReport(String name, int prodCount) async {
+    print("called ad report");
+    try {
+      QueryBuilder<ParseObject> userData =
+          QueryBuilder<ParseObject>(ParseObject('ProductsMetadata'))
+            //ParseObject userData = ParseObject('UserMetadata')
+            ..whereEqualTo('prodName', name);
+
+      ParseResponse response = await userData.query();
+      if (response.success) {
+        if (response.results == null) {
+          print("no pro exist creating new one");
+          ParseObject newClient = ParseObject('ProductsMetadata')
+            ..set<String>('prodName', name)
+            ..set('prodPurchaseCount', prodCount);
+
+          ParseResponse reportResult = await newClient.create();
+          if (reportResult.success) {
+            print('new prod created');
+            //prodCount = 0;
+            //rCtrl.setOrdersMetadataObjectId(reportResult.result['objectId']);
+            //print(reportResult.result['objectId']);
+            //rCtrl.loadObjId();
+            //SharedPreferences preference =
+            //  await SharedPreferences.getInstance();
+            // print("@@@${preference.getString(rCtrl.kOrderObjectId)}");
+          }
+        } else {
+          print("prod already there updating purchaseCount");
+          ParseObject client = response.result[0]
+            ..set('prodName', name)
+            ..set('prodPurchaseCount',
+                response.result[0]['prodPurchaseCount'] + 1);
+
+          ParseResponse reportResult = await client.save();
+          if (reportResult.success) {
+            // adsCount = 0;
+            print("prod Count updated and report made");
+          }
+        }
+      }
+    } catch (e) {
+      print(e);
     }
   }
 

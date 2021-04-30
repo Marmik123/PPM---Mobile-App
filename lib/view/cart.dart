@@ -9,10 +9,11 @@ import 'package:pcm/controller/homescreen_client_controller.dart';
 import 'package:pcm/controller/products_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/repository/products_repository.dart';
-import 'package:pcm/repository/user_repository.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 import 'package:pcm/widgets/circular_loader.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class Cart extends StatefulWidget {
   final ParseObject product;
@@ -729,6 +730,10 @@ class _CartState extends State<Cart> {
                           unit: cltrProduct.unit.value,
                         )
                       : showerror();
+                  cltrCart.clientReport(
+                      mobile.getString(rCtrl.kname),
+                      mobile.getString(rCtrl.kMobileNum),
+                      cltrCart.purchaseCount.value);
                 });
 
                 //cltrCart.subTotal.value = 0;

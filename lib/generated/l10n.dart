@@ -155,6 +155,136 @@ class S {
     );
   }
 
+  /// `Enter the name`
+  String get enterN {
+    return Intl.message(
+      'Enter the name',
+      name: 'enterN',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pincode`
+  String get pincode {
+    return Intl.message(
+      'Pincode',
+      name: 'pincode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Surat`
+  String get surat {
+    return Intl.message(
+      'Surat',
+      name: 'surat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gujarat`
+  String get Gujarat {
+    return Intl.message(
+      'Gujarat',
+      name: 'Gujarat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` Client Name :`
+  String get clientN {
+    return Intl.message(
+      ' Client Name :',
+      name: 'clientN',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Client Shop Name :`
+  String get clientShopN {
+    return Intl.message(
+      'Client Shop Name :',
+      name: 'clientShopN',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Client Number : `
+  String get clientNo {
+    return Intl.message(
+      'Client Number : ',
+      name: 'clientNo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clients Registered`
+  String get clientReg {
+    return Intl.message(
+      'Clients Registered',
+      name: 'clientReg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ad Description :`
+  String get adDescrip {
+    return Intl.message(
+      'Ad Description :',
+      name: 'adDescrip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ad Name :`
+  String get adN {
+    return Intl.message(
+      'Ad Name :',
+      name: 'adN',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `GST Number`
+  String get gstNo {
+    return Intl.message(
+      'GST Number',
+      name: 'gstNo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Regular GST`
+  String get regGst {
+    return Intl.message(
+      'Regular GST',
+      name: 'regGst',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Without GST`
+  String get woGst {
+    return Intl.message(
+      'Without GST',
+      name: 'woGst',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Settings`
   String get Settings {
     return Intl.message(
@@ -175,6 +305,16 @@ class S {
     );
   }
 
+  /// `Change Name`
+  String get changeN {
+    return Intl.message(
+      'Change Name',
+      name: 'changeN',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Change Mobile Number`
   String get changeMob {
     return Intl.message(
@@ -190,6 +330,76 @@ class S {
     return Intl.message(
       'Support',
       name: 'Support',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Composition GST`
+  String get compGst {
+    return Intl.message(
+      'Composition GST',
+      name: 'compGst',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Type of GST`
+  String get gstType {
+    return Intl.message(
+      'Enter Type of GST',
+      name: 'gstType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment Received`
+  String get paymentR {
+    return Intl.message(
+      'Payment Received',
+      name: 'paymentR',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Ad Photo`
+  String get adPhoto {
+    return Intl.message(
+      'Enter Ad Photo',
+      name: 'adPhoto',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Ad Description`
+  String get adDesc {
+    return Intl.message(
+      'Enter Ad Description',
+      name: 'adDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Support Details`
+  String get SupporD {
+    return Intl.message(
+      'Support Details',
+      name: 'SupporD',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Register Advertisement`
+  String get registerAd {
+    return Intl.message(
+      'Register Advertisement',
+      name: 'registerAd',
       desc: '',
       args: [],
     );
@@ -765,6 +975,66 @@ class S {
     );
   }
 
+  /// `Enter Mobile`
+  String get entermob {
+    return Intl.message(
+      'Enter Mobile',
+      name: 'entermob',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kg`
+  String get kg {
+    return Intl.message(
+      'Kg',
+      name: 'kg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter valid Mobile number`
+  String get validmob {
+    return Intl.message(
+      'Enter valid Mobile number',
+      name: 'validmob',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pieces`
+  String get piece {
+    return Intl.message(
+      'Pieces',
+      name: 'piece',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change Unit`
+  String get unit {
+    return Intl.message(
+      'Change Unit',
+      name: 'unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Size`
+  String get size {
+    return Intl.message(
+      'Select Size',
+      name: 'size',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Receipt Message`
   String get ReceiptMessage {
     return Intl.message(
@@ -1030,6 +1300,26 @@ class S {
     return Intl.message(
       'Are you sure you want to clear cart ?',
       name: 'cartM',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add a Customer Signature Here`
+  String get signatureNote {
+    return Intl.message(
+      'Add a Customer Signature Here',
+      name: 'signatureNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Advertisements Registered`
+  String get adsRegistered {
+    return Intl.message(
+      'Advertisements Registered',
+      name: 'adsRegistered',
       desc: '',
       args: [],
     );

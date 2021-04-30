@@ -1,8 +1,13 @@
+import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:pcm/controller/cart_controller.dart';
+import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/products_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/repository/products_repository.dart';
@@ -17,6 +22,7 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   CartController cltrCart = CartController();
+  OrderAssignController oCtrl = Get.put(OrderAssignController());
   int selectedType = 0;
   int unit = 0;
   ProductsController cltrProduct = Get.put(ProductsController());
@@ -24,6 +30,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    cltrProduct.slideIndex.value = 0;
     cltrProduct.quantity.value = 1;
     cltrCart.quantity.value = 1;
     cltrProduct.size.value = "Small";
@@ -41,7 +48,40 @@ class _ProductDetailsState extends State<ProductDetails> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
+            Row(
+              children: [
+                Icon(CupertinoIcons.back),
+                Expanded(
+                  child: Swiper(
+                    loop: false,
+                    autoplay: false,
+                    layout: SwiperLayout.TINDER,
+                    itemWidth: MediaQuery.of(context).size.width * 0.95,
+                    itemHeight: MediaQuery.of(context).size.height * 0.55,
+                    itemCount: 10,
+                    //ctrl.introScreenSlides.length,
+                    onIndexChanged: (indexCount) {
+                      cltrProduct.slideIndex.value = indexCount;
+                    },
+                    itemBuilder: (context, index) {
+                      return Image(
+                        fit: BoxFit.cover,
+                        image:
+                            NetworkImage('https://picsum.photos/id/1/200/300'),
+                      );
+                    },
+                  ),
+                ),
+                Icon(CupertinoIcons.forward)
+              ],
+            )
+
+            /*Container(
+              width: 100,
+              height: 100,
+              color: Colors.red,
+            ),*/
+/*            Container(
               margin: EdgeInsets.all(10),
               height: 300,
               width: MediaQuery.of(context).size.width,
@@ -52,7 +92,23 @@ class _ProductDetailsState extends State<ProductDetails> {
                   image: NetworkImage('https://picsum.photos/id/1/200/300'),
                 ),
               ),
-            ),
+            ),*/
+            ,
+            Obx(() => DotsIndicator(
+                  dotsCount: 10,
+                  position: cltrProduct.slideIndex.value.toDouble(),
+                  decorator: DotsDecorator(
+                    size: Size(10, 10),
+                    activeSize: Size(12, 12),
+                    shape: CircleBorder(
+                        side: BorderSide(
+                      color: Colors.black,
+                      width: 1,
+                    )),
+                    color: Colors.white,
+                    activeColor: Colors.cyanAccent,
+                  ),
+                )),
             SizedBox(
               height: 15,
             ),
@@ -120,7 +176,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     }),
 
                                 Text(
-                                  '${cltrCart.quantity.value} ${cltrProduct.unit.value}',
+                                  '${cltrCart.quantity.value} ${oCtrl.unitC.text}',
                                   style: TextStyle(
                                     color: Color(0xff010101),
                                     fontWeight: FontWeight.bold,
@@ -157,14 +213,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                       TextButton(
                         onPressed: () {
                           // cltrProduct.cartProducts.add(widget.product);
-                          cltrCart.addItem(
-                            widget.product.objectId,
-                            widget.product.get('productName'),
-                            double.parse(widget.product.get('productPrice')),
-                            cltrCart.quantity.value,
-                            cltrProduct.size.value,
-                            cltrProduct.unit.value,
-                          );
+                          if (cltrProduct.key.currentState.validate()) {
+                            cltrCart.addItem(
+                              widget.product.objectId,
+                              widget.product.get('productName'),
+                              double.parse(widget.product.get('productPrice')),
+                              cltrCart.quantity.value,
+                              oCtrl.sizeC.text,
+                              oCtrl.unitC.text,
+                            );
+                          }
+
                           print('this is cart items $cartItems');
 
                           // print(cltrProduct.cartProducts);
@@ -191,140 +250,195 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20.0, top: 10),
-              child: Row(
-                children: [
+              child: Form(
+                key: cltrProduct.key,
+                child: Row(
+                  children: [
 /*                  Text(
-                    "Choose Product Type",
-                    style: GoogleFonts.merriweather(
-                      color: Colors.black,
-                      fontSize: 16,
+                      "Choose Product Type",
+                      style: GoogleFonts.merriweather(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                    )*/
+                    Container(
+                      height: MediaQuery.of(context).size.height / 8,
+                      width: MediaQuery.of(context).size.width / 2,
+                      child:
+                          /*DropdownButtonFormField(
+                          elevation: 10,
+                          value: selectedType,
+                          onChanged: (value) {
+                            setState(() {
+                              value == 0
+                                  ? cltrProduct.size.value = "Small"
+                                  : value == 1
+                                      ? cltrProduct.size.value = "Medium"
+                                      : cltrProduct.size.value = "Large";
+                              selectedType = value;
+                            });
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return S.of(context).errorS;
+                            }
+                            return null;
+                          },
+                          iconEnabledColor: Colors.black,
+                          iconDisabledColor: Colors.cyan,
+                          decoration: InputDecoration(
+                            labelText: S.of(context).size,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: BorderSide(color: Colors.blueGrey),
+                            ),
+                          ),
+                          items: [
+                            DropdownMenuItem(
+                                value: 0,
+                                child: Text(
+                                  S.of(context).small,
+                                  style: GoogleFonts.montserrat(
+                                    textStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                )),
+                            DropdownMenuItem(
+                                value: 1,
+                                child: Text(
+                                  S.of(context).medium,
+                                  style: GoogleFonts.montserrat(
+                                    textStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                )),
+                            DropdownMenuItem(
+                                value: 2,
+                                child: Text(
+                                  S.of(context).large,
+                                  style: GoogleFonts.montserrat(
+                                    textStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                )),
+                          ])*/
+                          TextFormField(
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return "Please enter a size";
+                          } else if (!(value
+                                  .isCaseInsensitiveContains("small") ||
+                              value.isCaseInsensitiveContains("medium") ||
+                              value.isCaseInsensitiveContains("large"))) {
+                            oCtrl.sizeC.clear();
+                            return "Please enter valid size from \nSmall,medium or large";
+                          }
+                        },
+                        decoration: InputDecoration(
+                          alignLabelWithHint: true,
+                          labelText: "Enter the Size",
+                          labelStyle: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          hintText: "Small/Medium/Large",
+                        ),
+                        controller: oCtrl.sizeC,
+                        keyboardType: TextInputType.text,
+                      ),
                     ),
-                  )*/
-                  Container(
-                    height: MediaQuery.of(context).size.height / 10,
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: DropdownButtonFormField(
-                        elevation: 10,
-                        value: selectedType,
-                        onChanged: (value) {
-                          setState(() {
-                            value == 0
-                                ? cltrProduct.size.value = "Small"
-                                : value == 1
-                                    ? cltrProduct.size.value = "Medium"
-                                    : cltrProduct.size.value = "Large";
-                            selectedType = value;
-                          });
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return S.of(context).errorS;
-                          }
-                          return null;
-                        },
-                        iconEnabledColor: Colors.black,
-                        iconDisabledColor: Colors.cyan,
-                        decoration: InputDecoration(
-                          labelText: "Select Size" /*S.of(context).type*/,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide(color: Colors.blueGrey),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height / 8,
+                      width: MediaQuery.of(context).size.width / 3,
+                      child:
+                          /*DropdownButtonFormField(
+                          elevation: 10,
+                          value: unit,
+                          onChanged: (value) {
+                            setState(() {
+                              value == 0
+                                  ? cltrProduct.unit.value = "Kg"
+                                  : cltrProduct.unit.value = "Pc";
+                              unit = value;
+                            });
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return S.of(context).errorS;
+                            }
+                            return null;
+                          },
+                          iconEnabledColor: Colors.black,
+                          iconDisabledColor: Colors.cyan,
+                          decoration: InputDecoration(
+                            labelText: S.of(context).unit,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: BorderSide(color: Colors.blueGrey),
+                            ),
                           ),
-                        ),
-                        items: [
-                          DropdownMenuItem(
-                              value: 0,
-                              child: Text(
-                                S.of(context).small,
-                                style: GoogleFonts.montserrat(
-                                  textStyle: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              )),
-                          DropdownMenuItem(
-                              value: 1,
-                              child: Text(
-                                S.of(context).medium,
-                                style: GoogleFonts.montserrat(
-                                  textStyle: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              )),
-                          DropdownMenuItem(
-                              value: 2,
-                              child: Text(
-                                S.of(context).large,
-                                style: GoogleFonts.montserrat(
-                                  textStyle: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              )),
-                        ]),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height / 10,
-                    width: MediaQuery.of(context).size.width / 3.5,
-                    child: DropdownButtonFormField(
-                        elevation: 10,
-                        value: unit,
-                        onChanged: (value) {
-                          setState(() {
-                            value == 0
-                                ? cltrProduct.unit.value = "Kg"
-                                : cltrProduct.unit.value = "Pc";
-                            unit = value;
-                          });
-                        },
+                          items: [
+                            DropdownMenuItem(
+                                value: 0,
+                                child: Text(
+                                  S.of(context).kg,
+                                  style: GoogleFonts.montserrat(
+                                    textStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                )),
+                            DropdownMenuItem(
+                                value: 1,
+                                child: Text(
+                                  S.of(context).piece,
+                                  style: GoogleFonts.montserrat(
+                                    textStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                )),
+                          ])*/
+                          TextFormField(
                         validator: (value) {
-                          if (value.isEmpty) {
-                            return S.of(context).errorS;
+                          if (value.isEmpty)
+                            return "Please enter the unit";
+                          else if (!(value.isCaseInsensitiveContains("kg") ||
+                              value.isCaseInsensitiveContains("pc"))) {
+                            oCtrl.unitC.clear();
+                            return "Please enter valid \nunit from Kg or Pc";
                           }
-                          return null;
                         },
-                        iconEnabledColor: Colors.black,
-                        iconDisabledColor: Colors.cyan,
                         decoration: InputDecoration(
-                          labelText: "Change Unit" /*S.of(context).type*/,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide(color: Colors.blueGrey),
+                          alignLabelWithHint: true,
+                          labelText: "Enter the Unit",
+                          labelStyle: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400),
                           ),
+                          hintText: "Kg/Pc (Pieces)",
                         ),
-                        items: [
-                          DropdownMenuItem(
-                              value: 0,
-                              child: Text(
-                                "Kg" /*S.of(context).small*/,
-                                style: GoogleFonts.montserrat(
-                                  textStyle: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              )),
-                          DropdownMenuItem(
-                              value: 1,
-                              child: Text(
-                                "Pieces" /*S.of(context).medium*/,
-                                style: GoogleFonts.montserrat(
-                                  textStyle: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              )),
-                        ]),
-                  ),
-                ],
+                        controller: oCtrl.unitC,
+                        keyboardType: TextInputType.text,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
-import 'package:pcm/repository/user_repository.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 import 'package:pcm/view/home/home_screen_client.dart';
 import 'package:pcm/view/home/home_screen_delivery.dart';
 import 'package:pcm/view/home/home_screen_marketing.dart';
@@ -12,7 +12,7 @@ import '../view/home/homes_screen_sales.dart';
 
 class LoginController extends GetxController {
   RxBool isLoading = false.obs;
-
+  String mobileNum;
   GlobalKey<FormState> key = GlobalKey<FormState>();
   RepoController rCtrl = Get.put(RepoController());
   final userController = TextEditingController();
@@ -46,6 +46,7 @@ class LoginController extends GetxController {
         print('#####');
         await rCtrl.setUserData(response.results[0]['role'],
             phoneCtrl.mobileNo.text.trim().toString());
+        mobileNum = phoneCtrl.mobileNo.text.trim().toString();
         rCtrl.loadUserData();
         if (response.results == null) {
           Get.offAll(() => HomeScreen());
@@ -54,7 +55,9 @@ class LoginController extends GetxController {
         } else if (response.results[0]['role'] == "Marketing") {
           Get.offAll(() => HomeScreenM());
         } else if (response.results[0]['role'] == "DeliveryBoy") {
-          Get.offAll(() => HomeScreenDelivery());
+          Get.offAll(() => HomeScreenDelivery(
+                mobileNum: rCtrl.kMobile,
+              ));
           await orderCtrl
               .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
         } else if (response.results[0]['role'] == "SalesPerson") {

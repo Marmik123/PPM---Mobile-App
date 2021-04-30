@@ -29,7 +29,7 @@ class _SupportState extends State<Support> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              "Support Details",
+              S.of(context).SupporD,
               style: GoogleFonts.montserrat(
                 textStyle: TextStyle(
                     color: Colors.cyan,

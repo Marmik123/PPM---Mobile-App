@@ -4,8 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pcm/controller/register/ad_controller.dart';
 import 'package:pcm/generated/l10n.dart';
-import 'package:pcm/repository/user_repository.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+
+import 'file:///H:/RepoDharmaTech/pcm-flutter-app/lib/utils/shared_preferences.dart';
 
 class AdRegister extends StatefulWidget {
   @override
@@ -23,7 +24,7 @@ class _AdRegisterState extends State<AdRegister> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Register Advertisement" /*S.of(context).client*/,
+          S.of(context).registerAd,
         ),
       ),
       body: Form(
@@ -55,7 +56,7 @@ class _AdRegisterState extends State<AdRegister> {
               TextFormField(
                 controller: adCtrl.adDesc,
                 decoration: InputDecoration(
-                  labelText: "Enter Ad Description" /*S.of(context).sName*/,
+                  labelText: S.of(context).adDesc,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(color: Colors.blueGrey),
@@ -76,7 +77,7 @@ class _AdRegisterState extends State<AdRegister> {
                 onTap: () async => await adCtrl.adPhoto(ImageSource.camera),
                 controller: adCtrl.sPController,
                 decoration: InputDecoration(
-                  labelText: "Enter Ad Photo" /*S.of(context).photo*/,
+                  labelText: S.of(context).adPhoto,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(color: Colors.blueGrey),
@@ -99,7 +100,7 @@ class _AdRegisterState extends State<AdRegister> {
                     activeColor: Colors.cyan,
                   ),
                   Text(
-                    "Payment Received",
+                    S.of(context).paymentR,
                     style: GoogleFonts.montserrat(
                       fontSize: 17,
                       fontWeight: FontWeight.w500,

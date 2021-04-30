@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/generated/l10n.dart';
-import 'package:pcm/utils/shared_preferences_utils.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 import 'package:pcm/widgets/change_language.dart';
 import 'package:pcm/widgets/change_mobile.dart';
 import 'package:pcm/widgets/change_name.dart';
@@ -12,10 +13,19 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  String langCode;
+  RepoController ctrl = Get.put(RepoController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            setState(() {});
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_sharp),
+        ),
         title: Text(
           S.of(context).Settings,
           style: GoogleFonts.montserrat(
@@ -39,7 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         langCode = value;
                       });
                       print(langCode);
-                      await setLang(Locale(langCode));
+                      await ctrl.setLanguage(Locale(langCode));
 
                       setState(() {});
                     }
@@ -82,14 +92,14 @@ class _SettingsPageState extends State<SettingsPage> {
                         langCode = value;
                       });
                       print(langCode);
-                      await setLang(Locale(langCode));
+                      //await setLang(Locale(langCode));
 
                       setState(() {});
                     }
                   });
                 },
                 leading: Icon(Icons.handyman),
-                title: Text("Change Name" /*S.of(context).change*/),
+                title: Text(S.of(context).changeN),
               ),
             )
             // Card(

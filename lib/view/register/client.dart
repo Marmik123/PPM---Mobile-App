@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/generated/l10n.dart';
-import 'package:pcm/repository/user_repository.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class ClientRegister extends StatefulWidget {
@@ -206,7 +206,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                   iconEnabledColor: Colors.black,
                   iconDisabledColor: Colors.cyan,
                   decoration: InputDecoration(
-                    labelText: "Enter Type of GST" /*S.of(context).type*/,
+                    labelText: S.of(context).gstType,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(color: Colors.blueGrey),
@@ -216,7 +216,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                     DropdownMenuItem(
                         value: 0,
                         child: Text(
-                          "Regular GST" /*S.of(context).stat*/,
+                          S.of(context).regGst,
                           style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
                                 color: Colors.black,
@@ -227,7 +227,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                     DropdownMenuItem(
                         value: 1,
                         child: Text(
-                          "Composition GST" /*S.of(context).Kirana*/,
+                          S.of(context).compGst,
                           style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
                                 color: Colors.black,
@@ -238,7 +238,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                     DropdownMenuItem(
                         value: 2,
                         child: Text(
-                          "Without GST" /*S.of(context).Dairy*/,
+                          S.of(context).woGst,
                           style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
                                 color: Colors.black,
@@ -255,7 +255,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                       controller: con.gst,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
-                        labelText: "GST Number" /* S.of(context).City*/,
+                        labelText: S.of(context).gstNo,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: Colors.blueGrey),
@@ -348,7 +348,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                       controller: con.pincode,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        labelText: "Pincode" /* S.of(context).City*/,
+                        labelText: S.of(context).pincode,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: Colors.blueGrey),
@@ -360,7 +360,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                     ),
                     TextFormField(
                       // controller: con.cIController,
-                      initialValue: "Surat",
+                      initialValue: S.of(context).surat,
                       decoration: InputDecoration(
                         labelText: S.of(context).City,
                         border: OutlineInputBorder(
@@ -374,7 +374,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                     ),
                     TextFormField(
                       //controller: con.stController,
-                      initialValue: "Gujarat",
+                      initialValue: S.of(context).Gujarat,
                       decoration: InputDecoration(
                         labelText: S.of(context).State,
                         border: OutlineInputBorder(

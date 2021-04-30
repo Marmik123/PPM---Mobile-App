@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/register/client_controller.dart';
-// import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-import 'package:pcm/repository/user_repository.dart';
+import 'package:pcm/generated/l10n.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+
+// import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class ChangeMobile extends StatefulWidget {
   final ParseObject user;
@@ -77,7 +79,7 @@ class _ChangeMobileState extends State<ChangeMobile> {
               TextFormField(
                 controller: passResetController,
                 decoration: InputDecoration(
-                  labelText: 'Enter Mobile',
+                  labelText: S.of(context).entermob,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(
@@ -89,7 +91,7 @@ class _ChangeMobileState extends State<ChangeMobile> {
                 // controller: passResetController,
                 validator: (value) {
                   if (value.isEmpty && value.length < 11) {
-                    return 'Enter valid Mobile number';
+                    return S.of(context).validmob;
                   }
                   return null;
                 },
@@ -99,7 +101,7 @@ class _ChangeMobileState extends State<ChangeMobile> {
               ),
               RoundedLoadingButton(
                 child: Text(
-                  'Submit',
+                  S.of(context).Submit,
                   style: TextStyle(color: Colors.white),
                 ),
                 borderRadius: 10,

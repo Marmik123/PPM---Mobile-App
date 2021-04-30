@@ -9,12 +9,13 @@ import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/controller/sales_controller.dart';
 import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
-import 'package:pcm/repository/user_repository.dart';
 import 'package:pcm/view/common/feedback.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/common/support.dart';
 import 'package:pcm/view/order/salesperson_client_history.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'file:///H:/RepoDharmaTech/pcm-flutter-app/lib/utils/shared_preferences.dart';
 
 class DisplayClient extends StatelessWidget {
   @override
@@ -31,7 +32,7 @@ class DisplayClient extends StatelessWidget {
         titleSpacing: 0,
         leading: Icon(Icons.home_outlined),
         title: Text(
-          "Clients Registered",
+          S.of(context).clientReg,
           style: GoogleFonts.montserrat(
             fontSize: 17,
             fontWeight: FontWeight.w500,
@@ -122,7 +123,7 @@ class DisplayClient extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Client Number :  ${snapshot.loadedData.get('number')}' ??
+                          '${S.of(context).clientNo}  ${snapshot.loadedData.get('number')}' ??
                               "-",
                           style: GoogleFonts.montserrat(
                             fontSize: 13,
@@ -130,7 +131,7 @@ class DisplayClient extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Clinet Shop Name :  ${snapshot.loadedData.get('shopName')}' ??
+                          '${S.of(context).clientShopN}  ${snapshot.loadedData.get('shopName')}' ??
                               "-",
                           style: GoogleFonts.montserrat(
                             fontSize: 13,
@@ -140,7 +141,7 @@ class DisplayClient extends StatelessWidget {
                       ],
                     ),
                     title: Text(
-                      ' Client Name :  ${snapshot.loadedData.get('name')}',
+                      '${S.of(context).clientN}  ${snapshot.loadedData.get('name')}',
                       style: GoogleFonts.montserrat(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -148,7 +149,7 @@ class DisplayClient extends StatelessWidget {
                     ),
                     trailing: ElevatedButton(
                       child: Text(
-                        "Order History" /*S.of(context).Delivered*/,
+                        S.of(context).hist,
                         style: TextStyle(color: Colors.white),
                       ),
                       style: ButtonStyle(

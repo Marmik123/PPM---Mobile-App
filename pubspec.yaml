@@ -49,6 +49,8 @@ dev_dependencies:
   get_storage: ^1.4.0
   rounded_loading_button: ^1.0.18
   loading_hud: ^0.2.0
+  flutter_swiper: ^1.1.6
+  dots_indicator: ^1.2.0
   image_picker: ^0.7.2
   geolocator: ^7.0.1
   animations: ^2.0.0
