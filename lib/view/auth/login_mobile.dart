@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/controller/register/otp_controller.dart';
 import 'package:pcm/generated/l10n.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 import 'package:pcm/view/auth/otp_verification.dart';
+import 'package:pcm/view/register/client.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class SignIn extends StatefulWidget {
@@ -17,7 +20,9 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   SignInController ctrl = Get.put(SignInController());
   OrderAssignController assignCtrl = Get.put(OrderAssignController());
-
+  String langCode;
+  String selectedLang;
+  RepoController repoController = Get.put(RepoController());
   OtpController otpCtx = Get.put(OtpController());
   // String langCode = savedLocale.languageCode;
   @override
@@ -37,6 +42,143 @@ class _SignInState extends State<SignIn> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              GestureDetector(
+                onTap: () {
+                  Get.defaultDialog(
+                      title: S.of(context).change,
+                      titleStyle: GoogleFonts.montserrat(
+                        textStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // Text(S.of(context).change),
+                          ListTile(
+                            onTap: () async {
+                              /* SharedPreferences language =
+                    await SharedPreferences.getInstance();
+                repoCtrl.setLanguage('en');
+                Navigator.of(context)
+                    .pop(language.getString(repoCtrl.kLangCode));*/
+                              Navigator.of(context).pop('en');
+                            },
+                            title: Text(
+                              S.of(context).English,
+                              style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () async {
+                              /* SharedPreferences language =
+                    await SharedPreferences.getInstance();
+                repoCtrl.setLanguage('gu');
+                Navigator.of(context)
+                    .pop(language.getString(repoCtrl.kLangCode));*/
+                              Navigator.of(context).pop('gu');
+                            },
+                            title: Text(
+                              S.of(context).Gujarati,
+                              style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () async {
+                              /* SharedPreferences language =
+                    await SharedPreferences.getInstance();
+                repoCtrl.setLanguage('hi');
+                Navigator.of(context)
+                    .pop(language.getString(repoCtrl.kLangCode));*/
+                              Navigator.of(context).pop('hi');
+                            },
+                            title: Text(
+                              S.of(context).Hindi,
+                              style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            ),
+                          )
+                        ],
+                      )).then((value) async {
+                    if (value != null) {
+                      print('this is the value $value');
+                      setState(() {
+                        langCode = value;
+                      });
+                      print(langCode);
+                      await repoController.setLanguage(Locale(langCode));
+                      setState(() {});
+                      switch (langCode) {
+                        case 'en':
+                          {
+                            setState(() {
+                              selectedLang = S.of(context).English;
+                            });
+                          }
+                          break;
+
+                        case 'gu':
+                          {
+                            setState(() {
+                              selectedLang = S.of(context).Gujarati;
+                            });
+                          }
+                          break;
+
+                        case 'hi':
+                          {
+                            setState(() {
+                              selectedLang = S.of(context).Hindi;
+                            });
+                          }
+                          break;
+                      }
+                    }
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 40.0, right: 15),
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 190),
+                    height: 32,
+                    width: MediaQuery.of(context).size.width / 2,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          selectedLang ?? S.of(context).change,
+                          style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        Icon(Icons.language_outlined)
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               Padding(
                 padding:
                     const EdgeInsets.only(top: 100, left: 40.0, bottom: 30),
@@ -249,7 +391,72 @@ class _SignInState extends State<SignIn> {
                           // onPressed: () async {
                           //   await con.sendFeedback();
                           // },
-                        )
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 15.0),
+                                child: Text(
+                                  'New User ?  ',
+                                  style: GoogleFonts.montserrat(
+                                    textStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w300),
+                                  ),
+                                  maxLines: 1,
+                                ),
+                              ),
+                              TextButton(
+                                onLongPress: () {
+                                  Get.snackbar(
+                                    '',
+                                    '',
+                                    messageText: Text(
+                                      'Press Sign Up to Register',
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                    ),
+                                    titleText: Text(
+                                      'Fill the Sign Up Form',
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                    ),
+                                    icon: Icon(Icons.app_registration),
+                                    backgroundColor: Colors.cyan,
+                                    backgroundGradient: LinearGradient(
+                                        colors: [Colors.white, Colors.cyan]),
+                                    snackStyle: SnackStyle.FLOATING,
+                                  );
+                                },
+                                onPressed: () {
+                                  Get.to(() => ClientRegister());
+                                },
+                                child: Text(
+                                  'Sign Up',
+                                  style: GoogleFonts.montserrat(
+                                    textStyle: TextStyle(
+                                        color: Colors.cyan,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
 
 /*                            button(
                               context: context,
@@ -276,7 +483,7 @@ class _SignInState extends State<SignIn> {
                                       bottom: 20)),
                               buttonColor: MaterialStateProperty.all(Colors.teal),
                             )*/
-                        ,
+
                         SizedBox(
                           height: 30,
                         ),

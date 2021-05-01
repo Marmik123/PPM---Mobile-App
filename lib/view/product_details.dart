@@ -99,14 +99,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                   position: cltrProduct.slideIndex.value.toDouble(),
                   decorator: DotsDecorator(
                     size: Size(10, 10),
-                    activeSize: Size(12, 12),
+                    activeSize: Size(10, 10),
                     shape: CircleBorder(
                         side: BorderSide(
-                      color: Colors.black,
+                      color: Colors.grey,
                       width: 1,
                     )),
                     color: Colors.white,
-                    activeColor: Colors.cyanAccent,
+                    activeColor: Colors.grey,
                   ),
                 )),
             SizedBox(

@@ -10,6 +10,7 @@ import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 // import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/order/order_history_delivery.dart';
@@ -18,8 +19,6 @@ import 'package:pcm/widgets/circular_loader.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:signature/signature.dart';
-
-import 'file:///H:/RepoDharmaTech/pcm-flutter-app/lib/utils/shared_preferences.dart';
 
 import '../common/feedback.dart';
 import '../common/support.dart';
@@ -77,7 +76,9 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
                   icon: Icon(Icons.more_vert),
                   onSelected: (value) {
                     if (value == 'Settings') {
-                      Get.to(() => SettingsPage());
+                      Get.to(() => SettingsPage()).then((value) {
+                        setState(() {});
+                      });
                     } else if (value == 'Feedback') {
                       Get.to(() => FeedbackPage());
                     } else if (value == 'Support') {
@@ -92,7 +93,7 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
                     PopupMenuItem(
                       child: Row(
                         children: [
-                          Icon(Icons.settings),
+                          Icon(Icons.settings_outlined),
                           SizedBox(
                             width: 5,
                           ),

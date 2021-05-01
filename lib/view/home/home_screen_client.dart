@@ -100,7 +100,9 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
               icon: Icon(Icons.more_vert),
               onSelected: (value) {
                 if (value == 'Settings') {
-                  Get.to(() => SettingsPage());
+                  Get.to(() => SettingsPage()).then((value) {
+                    setState(() {});
+                  });
                 } else if (value == 'Feedback') {
                   Get.to(() => FeedbackPage());
                 } else if (value == 'Support') {
@@ -115,7 +117,7 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
                 PopupMenuItem(
                   child: Row(
                     children: [
-                      Icon(Icons.settings),
+                      Icon(Icons.settings_outlined),
                       SizedBox(
                         width: 5,
                       ),
@@ -171,98 +173,93 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
             SizedBox(
               height: 20,
             ),
-            GestureDetector(
-              onTap: () {
-                setState(() {});
-              },
-              child: ParseLiveListWidget<ParseObject>(
-                shrinkWrap: true,
-                scrollPhysics: ClampingScrollPhysics(),
-                query: cltrClient.productData,
-                lazyLoading: true,
-                preloadedColumns: ['productName', 'fileImage', 'productPrice'],
-                // listLoadingElement: LinearProgressIndicator(),
-                childBuilder: (context, snapshot) {
-                  if (snapshot.failed) {
-                    return Text(S.of(context).warning);
-                  } else if (snapshot.hasData || snapshot.hasPreLoadedData) {
-                    if (snapshot.hasData) {
-                      return Card(
-                        child: ListTile(
-                          onTap: () => Get.to(() => ProductDetails(
-                                product: snapshot.loadedData,
-                              )),
-                          subtitle: Text(
-                              'Price: ${snapshot.loadedData.get('productPrice')}'),
-                          title: Text(
-                            snapshot.loadedData.get('productName'),
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          trailing: Container(
-                            height: 50,
-                            width: 50,
-                            child: ClipRRect(
-                              child: Image(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(
-                                    'https://picsum.photos/id/1/200/300'),
-                              ),
+            ParseLiveListWidget<ParseObject>(
+              shrinkWrap: true,
+              scrollPhysics: ClampingScrollPhysics(),
+              query: cltrClient.productData,
+              lazyLoading: true,
+              preloadedColumns: ['productName', 'fileImage', 'productPrice'],
+              // listLoadingElement: LinearProgressIndicator(),
+              childBuilder: (context, snapshot) {
+                if (snapshot.failed) {
+                  return Text(S.of(context).warning);
+                } else if (snapshot.hasData || snapshot.hasPreLoadedData) {
+                  if (snapshot.hasData) {
+                    return Card(
+                      child: ListTile(
+                        onTap: () => Get.to(() => ProductDetails(
+                              product: snapshot.loadedData,
+                            )),
+                        subtitle: Text(
+                            'Price: ${snapshot.loadedData.get('productPrice')}'),
+                        title: Text(
+                          snapshot.loadedData.get('productName'),
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        trailing: Container(
+                          height: 50,
+                          width: 50,
+                          child: ClipRRect(
+                            child: Image(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                  'https://picsum.photos/id/1/200/300'),
                             ),
                           ),
                         ),
-                      );
-                      // GridView.builder(
-                      // shrinkWrap: true,
-                      // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      //     crossAxisCount: 2),
-                      // itemBuilder: (context, index) {
-                      //   return
-                      //   Container(
-                      // height: 300,
-                      // child: Card(
-                      //   child: Stack(
-                      //     fit: StackFit.loose,
-                      //     children: [
-                      //       Container(
-                      //         margin: EdgeInsets.all(5),
-                      //         height: MediaQuery.of(context).size.height,
-                      //         width: MediaQuery.of(context).size.width,
-                      //         color: Colors.cyan,
-                      //       ),
-                      //       Align(
-                      //         alignment: Alignment.bottomCenter,
-                      //         child: Container(
-                      //           padding: EdgeInsets.only(left: 5),
-                      //           margin: EdgeInsets.only(left: 5, right: 5, bottom: 5),
-                      //           height: 35,
-                      //           color: Colors.red.withOpacity(0.3),
-                      //           alignment: Alignment.bottomCenter,
-                      //           child: Row(
-                      //             mainAxisSize: MainAxisSize.max,
-                      //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //             children: [
-                      //               Text(snapshot.loadedData.get('productName')),
-                      //               IconButton(
-                      //                   icon: Icon(Icons.shopping_cart_outlined),
-                      //                   onPressed: () {})
-                      //             ],
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      //   //   );
-                      //   // },
-                      // );
-                    } else {
-                      return ListTileShimmer();
-                    }
+                      ),
+                    );
+                    // GridView.builder(
+                    // shrinkWrap: true,
+                    // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    //     crossAxisCount: 2),
+                    // itemBuilder: (context, index) {
+                    //   return
+                    //   Container(
+                    // height: 300,
+                    // child: Card(
+                    //   child: Stack(
+                    //     fit: StackFit.loose,
+                    //     children: [
+                    //       Container(
+                    //         margin: EdgeInsets.all(5),
+                    //         height: MediaQuery.of(context).size.height,
+                    //         width: MediaQuery.of(context).size.width,
+                    //         color: Colors.cyan,
+                    //       ),
+                    //       Align(
+                    //         alignment: Alignment.bottomCenter,
+                    //         child: Container(
+                    //           padding: EdgeInsets.only(left: 5),
+                    //           margin: EdgeInsets.only(left: 5, right: 5, bottom: 5),
+                    //           height: 35,
+                    //           color: Colors.red.withOpacity(0.3),
+                    //           alignment: Alignment.bottomCenter,
+                    //           child: Row(
+                    //             mainAxisSize: MainAxisSize.max,
+                    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //             children: [
+                    //               Text(snapshot.loadedData.get('productName')),
+                    //               IconButton(
+                    //                   icon: Icon(Icons.shopping_cart_outlined),
+                    //                   onPressed: () {})
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    //   //   );
+                    //   // },
+                    // );
                   } else {
-                    return SizedBox.shrink();
+                    return ListTileShimmer();
                   }
-                },
-              ),
+                } else {
+                  return SizedBox.shrink();
+                }
+              },
             ),
             // Expanded(
             //   child: GridView(

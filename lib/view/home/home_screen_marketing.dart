@@ -44,7 +44,9 @@ class _HomeScreenMState extends State<HomeScreenM> {
               icon: Icon(Icons.more_vert),
               onSelected: (value) {
                 if (value == 'Settings') {
-                  Get.to(() => SettingsPage());
+                  Get.to(() => SettingsPage()).then((value) {
+                    setState(() {});
+                  });
                 } else if (value == 'Feedback') {
                   Get.to(() => FeedbackPage());
                 } else if (value == 'Support') {
@@ -59,7 +61,7 @@ class _HomeScreenMState extends State<HomeScreenM> {
                 PopupMenuItem(
                   child: Row(
                     children: [
-                      Icon(Icons.settings),
+                      Icon(Icons.settings_outlined),
                       SizedBox(
                         width: 5,
                       ),

@@ -4,9 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pcm/controller/register/ad_controller.dart';
 import 'package:pcm/generated/l10n.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
-
-import 'file:///H:/RepoDharmaTech/pcm-flutter-app/lib/utils/shared_preferences.dart';
 
 class AdRegister extends StatefulWidget {
   @override

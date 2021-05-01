@@ -36,7 +36,7 @@ class RepoController extends GetxController {
   Future<void> setLanguage(Locale locale) async {
     language = await SharedPreferences.getInstance();
     print('@@@@${locale.languageCode}');
-    await language.setString(kLangCode, locale.languageCode ?? 'en');
+    await language.setString(kLangCode, locale?.languageCode ?? 'en');
     print('@@@@${language?.getString(kLangCode)}');
     await S.load(locale);
   }
@@ -50,7 +50,7 @@ class RepoController extends GetxController {
     return Locale(sharedPref?.getString(kLangCode));
   }
 
-  Locale get storedLocale => Locale(language?.getString(kLangCode) ?? 'hi');
+  Locale get storedLocale => Locale(language?.getString(kLangCode) ?? 'en');
 
   Future<void> setOrdersMetadataObjectId(String objectId) async {
     SharedPreferences objectPref = await SharedPreferences.getInstance();

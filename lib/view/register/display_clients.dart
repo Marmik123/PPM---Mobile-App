@@ -9,20 +9,29 @@ import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/controller/sales_controller.dart';
 import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 import 'package:pcm/view/common/feedback.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/common/support.dart';
+import 'package:pcm/view/home/homes_screen_sales.dart';
 import 'package:pcm/view/order/salesperson_client_history.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'file:///H:/RepoDharmaTech/pcm-flutter-app/lib/utils/shared_preferences.dart';
+class DisplayClient extends StatefulWidget {
+  @override
+  _DisplayClientState createState() => _DisplayClientState();
+}
 
-class DisplayClient extends StatelessWidget {
+class _DisplayClientState extends State<DisplayClient> {
   @override
   ClientController cCtrl = Get.put(ClientController());
+
   RepoController rCtrl = Get.put(RepoController());
+
   SupportController ctrl = Get.put(SupportController());
+
   SalesController sCtrl = Get.put(SalesController());
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -30,7 +39,13 @@ class DisplayClient extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 1,
         titleSpacing: 0,
-        leading: Icon(Icons.home_outlined),
+        leading: GestureDetector(
+            onTap: () {
+              Get.to(() => HomeScreen()).then((value) => () {
+                    setState(() {});
+                  });
+            },
+            child: Icon(Icons.home_outlined)),
         title: Text(
           S.of(context).clientReg,
           style: GoogleFonts.montserrat(
@@ -43,7 +58,9 @@ class DisplayClient extends StatelessWidget {
             icon: Icon(Icons.more_vert),
             onSelected: (value) {
               if (value == 'Settings') {
-                Get.to(() => SettingsPage());
+                Get.to(() => SettingsPage()).then((value) {
+                  setState(() {});
+                });
               } else if (value == 'Feedback') {
                 Get.to(() => FeedbackPage());
               } else if (value == 'Support') {

@@ -12,12 +12,21 @@ import 'package:pcm/utils/shared_preferences.dart';
 import 'package:pcm/view/common/feedback.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/common/support.dart';
+import 'package:pcm/view/home/home_screen_marketing.dart';
 
-class DisplayAd extends StatelessWidget {
+class DisplayAd extends StatefulWidget {
+  @override
+  _DisplayAdState createState() => _DisplayAdState();
+}
+
+class _DisplayAdState extends State<DisplayAd> {
   @override
   AdController adCtrl = Get.put(AdController());
+
   RepoController rCtrl = Get.put(RepoController());
+
   SupportController ctrl = Get.put(SupportController());
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -25,7 +34,13 @@ class DisplayAd extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 1,
         titleSpacing: 0,
-        leading: Icon(Icons.home_outlined),
+        leading: GestureDetector(
+            onTap: () {
+              Get.to(() => HomeScreenM()).then((value) => () {
+                    setState(() {});
+                  });
+            },
+            child: Icon(Icons.home_outlined)),
         title: Text(
           S.of(context).adsRegistered,
           style: GoogleFonts.montserrat(
@@ -38,7 +53,9 @@ class DisplayAd extends StatelessWidget {
             icon: Icon(Icons.more_vert),
             onSelected: (value) {
               if (value == 'Settings') {
-                Get.to(() => SettingsPage());
+                Get.to(() => SettingsPage()).then((value) {
+                  setState(() {});
+                });
               } else if (value == 'Feedback') {
                 Get.to(() => FeedbackPage());
               } else if (value == 'Support') {

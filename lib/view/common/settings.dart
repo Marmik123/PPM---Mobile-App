@@ -22,7 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
         leading: IconButton(
           onPressed: () {
             setState(() {});
-            Navigator.pop(context);
+            Get.back();
           },
           icon: Icon(Icons.arrow_back_sharp),
         ),
@@ -55,7 +55,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     }
                   });
                 },
-                leading: Icon(Icons.handyman),
+                leading: Icon(Icons.language),
                 title: Text(S.of(context).change),
               ),
             ),
@@ -75,7 +75,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   //     setState(() {});
                   //   }
                 },
-                leading: Icon(Icons.handyman),
+                leading: Icon(Icons.mobile_friendly),
                 title: Text(S.of(context).changeMob),
               ),
             ),
@@ -98,7 +98,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     }
                   });
                 },
-                leading: Icon(Icons.handyman),
+                leading: Icon(Icons.person),
                 title: Text(S.of(context).changeN),
               ),
             )

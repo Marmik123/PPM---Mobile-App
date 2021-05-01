@@ -3,16 +3,15 @@ import 'package:get/get.dart';
 // import 'package:loading_hud/loading_hud.dart';
 // import 'package:loading_hud/loading_indicator.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
-
-import 'file:///H:/RepoDharmaTech/pcm-flutter-app/lib/utils/shared_preferences.dart';
 
 class FeedbackController extends GetxController {
   GlobalKey fkey = GlobalKey();
   final TextEditingController sController = TextEditingController();
   final TextEditingController mController = TextEditingController();
   final RoundedLoadingButtonController btnController =
-      new RoundedLoadingButtonController();
+      RoundedLoadingButtonController();
   RepoController rCtrl = Get.put(RepoController());
   Future<void> sendFeedback() async {
     try {

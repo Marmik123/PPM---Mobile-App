@@ -97,6 +97,7 @@ class ClientController extends GetxController {
         cController.clear();
         mController.clear();
         salesReport();
+        Get.back();
         if (role.value) {
           distributorCount.value++;
         } else {
@@ -109,7 +110,7 @@ class ClientController extends GetxController {
     } finally {
       /*Future.delayed(Duration(milliseconds: 1500))
           .then((value) => btnController.reset());*/
-      Get.back();
+
     }
   }
 

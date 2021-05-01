@@ -25,7 +25,7 @@ SharedPreferences prefs;
 
 RepoController ctrl = Get.put(RepoController());
 //RepoController ctrl = Get.put(RepoController());
-initSPreference() async {
+Future<void> initSPreference() async {
   prefs = await SharedPreferences.getInstance();
 }
 
@@ -35,7 +35,8 @@ void main() async {
   await initSPreference();
   //print(ctrl.savedLocale());
 
-  await S.load(await ctrl.savedLocale());
+  print(prefs.getString('languageCode') ?? 'en');
+  await S.load(Locale(prefs.getString('languageCode') ?? 'en'));
   await Firebase.initializeApp();
   await Parse().initialize(
     parse_App_ID,
@@ -99,6 +100,8 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
+      fallbackLocale: Locale('en'),
+      locale: Locale(prefs.getString('languageCode')),
     );
   }
 }
