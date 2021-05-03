@@ -395,8 +395,7 @@ class CartController extends GetxController {
         ..set('customerName', customerName)
         ..set('customerAddress', customerAddress)
         ..set('customerContactNo', customerMobile)
-        ..set('size', size)
-        ..set('unit', unit);
+        ..set('size', size);
       ParseResponse response = await orderData.create();
       var objectId;
       if (response.success) {

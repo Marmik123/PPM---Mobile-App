@@ -45,10 +45,10 @@ class S {
     );
   }
 
-  /// `PCM`
+  /// `PPM`
   String get home {
     return Intl.message(
-      'PCM',
+      'PPM',
       name: 'home',
       desc: '',
       args: [],

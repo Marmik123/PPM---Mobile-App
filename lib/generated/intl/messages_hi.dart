@@ -107,7 +107,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "hint" : MessageLookupByLibrary.simpleMessage("फ़ोन नंबर दर्ज करें"),
     "hintF" : MessageLookupByLibrary.simpleMessage("प्रतिक्रिया दर्ज करें"),
     "hist" : MessageLookupByLibrary.simpleMessage("आदेश इतिहास"),
-    "home" : MessageLookupByLibrary.simpleMessage("पीसीएम"),
+    "home" : MessageLookupByLibrary.simpleMessage("पीपीएम"),
     "info" : MessageLookupByLibrary.simpleMessage("डिलीवरी के लिए और कोई आदेश नहीं हैं"),
     "kg" : MessageLookupByLibrary.simpleMessage("किलोग्राम"),
     "large" : MessageLookupByLibrary.simpleMessage("बड़ा (L)"),

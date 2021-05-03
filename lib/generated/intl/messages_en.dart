@@ -107,7 +107,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "hint" : MessageLookupByLibrary.simpleMessage("Enter a Phone No."),
     "hintF" : MessageLookupByLibrary.simpleMessage("Enter Feedback"),
     "hist" : MessageLookupByLibrary.simpleMessage("Order History"),
-    "home" : MessageLookupByLibrary.simpleMessage("PCM"),
+    "home" : MessageLookupByLibrary.simpleMessage("PPM"),
     "info" : MessageLookupByLibrary.simpleMessage("No more orders are there for Delivery"),
     "kg" : MessageLookupByLibrary.simpleMessage("Kg"),
     "large" : MessageLookupByLibrary.simpleMessage("Large (L)"),

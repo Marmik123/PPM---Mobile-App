@@ -176,7 +176,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     }),
 
                                 Text(
-                                  '${cltrCart.quantity.value} ${oCtrl.unitC.text}',
+                                  '${cltrCart.quantity.value} ${widget.product.get('unit') ?? '-'}',
                                   style: TextStyle(
                                     color: Color(0xff010101),
                                     fontWeight: FontWeight.bold,
@@ -220,7 +220,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               double.parse(widget.product.get('productPrice')),
                               cltrCart.quantity.value,
                               oCtrl.sizeC.text,
-                              oCtrl.unitC.text,
+                              widget.product.get('unit'),
                             );
                           }
 
@@ -358,11 +358,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                     SizedBox(
                       width: 15,
                     ),
-                    Container(
+/*                    Container(
                       height: MediaQuery.of(context).size.height / 8,
                       width: MediaQuery.of(context).size.width / 3,
                       child:
-                          /*DropdownButtonFormField(
+                          */ /*DropdownButtonFormField(
                           elevation: 10,
                           value: unit,
                           onChanged: (value) {
@@ -411,7 +411,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         fontWeight: FontWeight.w500),
                                   ),
                                 )),
-                          ])*/
+                          ])*/ /*
                           TextFormField(
                         validator: (value) {
                           if (value.isEmpty)
@@ -436,7 +436,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         controller: oCtrl.unitC,
                         keyboardType: TextInputType.text,
                       ),
-                    ),
+                    ),*/
                   ],
                 ),
               ),

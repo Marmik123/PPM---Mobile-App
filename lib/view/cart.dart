@@ -727,7 +727,7 @@ class _CartState extends State<Cart> {
                           customerAddress: mobile.getString(rCtrl.kAddress),
                           customerMobile: mobile.getString(rCtrl.kMobileNum),
                           size: cltrProduct.size.value,
-                          unit: cltrProduct.unit.value,
+                          //unit: cltrProduct.unit.value,
                         )
                       : showerror();
                   cltrCart.clientReport(
