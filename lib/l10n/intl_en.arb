@@ -103,6 +103,8 @@
   "ReceiptMessage": "Receipt Message",
   "PurchaseReceipt": "Purchase Receipt",
   "Receipt": "Receipt",
+  "newUser": "New User ?",
+  "signup": "Sign Up",
   "Products": "Products",
   "desc": "Description:",
   "large": "Large (L)",

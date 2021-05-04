@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/model/cart_item.dart';
@@ -183,12 +184,39 @@ class CartController extends GetxController {
           unit: unit,
         ));
         Get.snackbar(
+          '',
+          '',
+          messageText: Text(
+            'Item Added to Cart',
+            style: GoogleFonts.montserrat(
+              textStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w300),
+            ),
+          ),
+          titleText: Text(
+            'Cart Updated Successfully',
+            style: GoogleFonts.montserrat(
+              textStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w300),
+            ),
+          ),
+          icon: Icon(Icons.add_shopping_cart_outlined),
+          backgroundColor: Colors.cyan,
+          backgroundGradient:
+              LinearGradient(colors: [Colors.white, Colors.cyan]),
+          snackStyle: SnackStyle.FLOATING,
+        );
+        /*Get.snackbar(
           "Cart Updated Successfully",
           "Item Added to Cart",
           backgroundColor: Colors.black.withOpacity(0.8),
           maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
           colorText: Colors.white,
-        );
+        );*/
         print(cartList.length);
       } else {
         if (checkProductContains(productId, size, unit)) {
@@ -199,11 +227,31 @@ class CartController extends GetxController {
                 print("quantity ++");
                 element.quantity += quantity;
                 Get.snackbar(
-                  "Cart Updated Successfully",
-                  "Item Added to Cart",
-                  backgroundColor: Colors.black.withOpacity(0.8),
-                  maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
-                  colorText: Colors.white,
+                  '',
+                  '',
+                  messageText: Text(
+                    'Item Added to Cart',
+                    style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w300),
+                    ),
+                  ),
+                  titleText: Text(
+                    'Cart Updated Successfully',
+                    style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w300),
+                    ),
+                  ),
+                  icon: Icon(Icons.add_shopping_cart_outlined),
+                  backgroundColor: Colors.cyan,
+                  backgroundGradient:
+                      LinearGradient(colors: [Colors.white, Colors.cyan]),
+                  snackStyle: SnackStyle.FLOATING,
                 );
               }
             }
@@ -219,11 +267,31 @@ class CartController extends GetxController {
             unit: unit,
           ));
           Get.snackbar(
-            "Cart Updated Successfully",
-            "Item Added to Cart",
-            backgroundColor: Colors.black.withOpacity(0.8),
-            maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
-            colorText: Colors.white,
+            '',
+            '',
+            messageText: Text(
+              'Item Added to Cart',
+              style: GoogleFonts.montserrat(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w300),
+              ),
+            ),
+            titleText: Text(
+              'Cart Updated Successfully',
+              style: GoogleFonts.montserrat(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w300),
+              ),
+            ),
+            icon: Icon(Icons.add_shopping_cart_outlined),
+            backgroundColor: Colors.cyan,
+            backgroundGradient:
+                LinearGradient(colors: [Colors.white, Colors.cyan]),
+            snackStyle: SnackStyle.FLOATING,
           );
           print("AAAAAA ${cartList.length}");
         }

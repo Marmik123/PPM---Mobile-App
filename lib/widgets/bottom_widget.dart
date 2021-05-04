@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 
 class BottomWidget extends StatefulWidget {
   final VoidCallback onTap;
+  final double rotation;
 
-  const BottomWidget({Key key, this.onTap});
+  const BottomWidget({
+    Key key,
+    this.onTap,
+    this.rotation,
+  });
 
   @override
   _BottomWidgetState createState() => _BottomWidgetState();
@@ -15,11 +20,18 @@ class _BottomWidgetState extends State<BottomWidget> {
     return FloatingActionButton(
       onPressed: () {},
       backgroundColor: Colors.cyan,
-      child: IconButton(
-        iconSize: 30,
-        icon: Icon(Icons.history),
-        tooltip: 'History',
-        onPressed: widget.onTap,
+      child: Transform.rotate(
+        angle: widget.rotation * 540,
+        child: IconButton(
+          iconSize: 30,
+          icon: Icon(
+            Icons.history,
+            color: Colors.white,
+          ),
+          tooltip: 'History',
+          onPressed: widget.onTap,
+          // onPressed: widget.onTap,
+        ),
       ),
     );
     //   Card(

@@ -21,7 +21,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
   SignInController ctrl = Get.put(SignInController());
   OrderAssignController assignCtrl = Get.put(OrderAssignController());
   String langCode;
-  String selectedLang;
+  String selectedLang = S.of(Get.context).English;
   AnimationController controller;
   AnimationController aniCtrl;
   Animation animation;
@@ -83,7 +83,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                 child: Transform.translate(
                   offset: Offset(0, animation.value * 20),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 160),
+                    padding: const EdgeInsets.only(left: 240.0),
                     child: ElevatedButton(
                       style: ButtonStyle(
                           minimumSize: MaterialStateProperty.all(Size(10, 35)),
@@ -204,16 +204,20 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                         });
                       },
                       child: Row(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            selectedLang ?? S.of(context).change,
+                            selectedLang,
                             style: GoogleFonts.montserrat(
                               textStyle: TextStyle(
                                   color: Colors.black,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500),
                             ),
+                          ),
+                          SizedBox(
+                            width: 3,
                           ),
                           Icon(
                             Icons.language_outlined,
@@ -455,7 +459,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 15.0),
                                   child: Text(
-                                    'New User ?  ',
+                                    S.of(context).newUser,
                                     style: GoogleFonts.montserrat(
                                       textStyle: TextStyle(
                                           color: Colors.black,
@@ -499,7 +503,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                                     Get.to(() => ClientRegister());
                                   },
                                   child: Text(
-                                    'Sign Up',
+                                    S.of(context).signup,
                                     style: GoogleFonts.montserrat(
                                       textStyle: TextStyle(
                                           color: Colors.cyan,

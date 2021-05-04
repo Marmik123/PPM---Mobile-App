@@ -20,10 +20,17 @@ class ProductDetails extends StatefulWidget {
   _ProductDetailsState createState() => _ProductDetailsState();
 }
 
-class _ProductDetailsState extends State<ProductDetails> {
+class _ProductDetailsState extends State<ProductDetails>
+    with TickerProviderStateMixin {
   CartController cltrCart = CartController();
   OrderAssignController oCtrl = Get.put(OrderAssignController());
   int selectedType = 0;
+  AnimationController controller;
+  AnimationController aniCtrl;
+  AnimationController ctrl;
+  Animation animation;
+  Animation rowAnimation;
+  Animation rotateAnimation;
   int unit = 0;
   ProductsController cltrProduct = Get.put(ProductsController());
   @override
@@ -34,6 +41,44 @@ class _ProductDetailsState extends State<ProductDetails> {
     cltrProduct.quantity.value = 1;
     cltrCart.quantity.value = 1;
     cltrProduct.size.value = "Small";
+    controller = AnimationController(
+      duration: Duration(milliseconds: 400),
+      vsync: this,
+    );
+
+    ctrl = AnimationController(
+      duration: Duration(milliseconds: 1500),
+      vsync: this,
+    );
+
+    animation = CurvedAnimation(parent: controller, curve: Curves.linear);
+    rowAnimation = Tween<Offset>(
+      begin: Offset.fromDirection(-150, -150),
+      end: const Offset(0, 0.005),
+    ).animate(CurvedAnimation(
+      parent: controller,
+      curve: Curves.easeOutExpo,
+    ));
+
+    rotateAnimation = Tween<Offset>(
+      begin: Offset.fromDirection(0, 0),
+      end: const Offset(0.2, 0.0),
+    ).animate(controller);
+
+    controller.forward();
+    controller.addListener(() {
+      print(animation.value);
+      setState(() {
+        controller.value;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    controller.dispose();
   }
 
   @override
@@ -210,33 +255,37 @@ class _ProductDetailsState extends State<ProductDetails> {
                               ],
                             )),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          // cltrProduct.cartProducts.add(widget.product);
-                          if (cltrProduct.key.currentState.validate()) {
-                            cltrCart.addItem(
-                              widget.product.objectId,
-                              widget.product.get('productName'),
-                              double.parse(widget.product.get('productPrice')),
-                              cltrCart.quantity.value,
-                              oCtrl.sizeC.text,
-                              widget.product.get('unit'),
-                            );
-                          }
+                      SlideTransition(
+                        position: rowAnimation,
+                        child: TextButton(
+                          onPressed: () {
+                            // cltrProduct.cartProducts.add(widget.product);
+                            if (cltrProduct.key.currentState.validate()) {
+                              cltrCart.addItem(
+                                widget.product.objectId,
+                                widget.product.get('productName'),
+                                double.parse(
+                                    widget.product.get('productPrice')),
+                                cltrCart.quantity.value,
+                                oCtrl.sizeC.text,
+                                widget.product.get('unit'),
+                              );
+                            }
 
-                          print('this is cart items $cartItems');
+                            print('this is cart items $cartItems');
 
-                          // print(cltrProduct.cartProducts);
-                        },
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.cyan),
-                        ),
-                        child: Text(
-                          S.of(context).cartAdd,
-                          style: GoogleFonts.merriweather(
-                            color: Colors.white,
-                            fontSize: 16,
+                            // print(cltrProduct.cartProducts);
+                          },
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.cyan),
+                          ),
+                          child: Text(
+                            S.of(context).cartAdd,
+                            style: GoogleFonts.merriweather(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
                           ),
                         ),
                       ),
@@ -343,11 +392,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                         decoration: InputDecoration(
                           alignLabelWithHint: true,
                           labelText: "Enter the Size",
-                          labelStyle: GoogleFonts.montserrat(
-                            textStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400),
+                          labelStyle: GoogleFonts.merriweather(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
                           ),
                           hintText: "Small/Medium/Large",
                         ),

@@ -1065,6 +1065,26 @@ class S {
     );
   }
 
+  /// `New User ?`
+  String get newUser {
+    return Intl.message(
+      'New User ?',
+      name: 'newUser',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign Up`
+  String get signup {
+    return Intl.message(
+      'Sign Up',
+      name: 'signup',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Products`
   String get Products {
     return Intl.message(

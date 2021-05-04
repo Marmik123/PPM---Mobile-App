@@ -31,7 +31,8 @@ class HomeScreenDelivery extends StatefulWidget {
   _HomeScreenDeliveryState createState() => _HomeScreenDeliveryState();
 }
 
-class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
+class _HomeScreenDeliveryState extends State<HomeScreenDelivery>
+    with TickerProviderStateMixin {
   SharedPreferences mobile;
   RoundedLoadingButtonController ctrl = RoundedLoadingButtonController();
   SupportController sCtrl = Get.put(SupportController());
@@ -40,6 +41,10 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
   RepoController rCtrl = Get.put(RepoController());
   LoginController lCtrl = Get.put(LoginController());
   String mobileN;
+  Animation rotateAnimation;
+  Animation animation;
+
+  AnimationController controller;
   bool mobileNAssigned = false;
   @override
   void initState() {
@@ -47,6 +52,12 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
     super.initState();
     updateOrder();
     sCtrl.loadData();
+    controller = AnimationController(
+      duration: Duration(milliseconds: 400),
+      vsync: this,
+    );
+    animation = CurvedAnimation(parent: controller, curve: Curves.linear);
+    controller.forward();
   }
 
   @override
@@ -724,6 +735,7 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery> {
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             floatingActionButton: BottomWidget(
+              rotation: animation.value,
               onTap: () async {
                 SharedPreferences mobile =
                     await SharedPreferences.getInstance();

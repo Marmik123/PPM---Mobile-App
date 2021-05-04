@@ -29,11 +29,19 @@ class HomeScreenClient extends StatefulWidget {
   _HomeScreenClientState createState() => _HomeScreenClientState();
 }
 
-class _HomeScreenClientState extends State<HomeScreenClient> {
+class _HomeScreenClientState extends State<HomeScreenClient>
+    with TickerProviderStateMixin {
   HomeScreenClientController cltrClient = Get.put(HomeScreenClientController());
   ProductsController proCtrl = Get.put(ProductsController());
   SupportController sCtrl = Get.put(SupportController());
   CartController cartC = Get.put(CartController());
+  Animation rotateAnimation;
+
+  AnimationController controller;
+  AnimationController aniCtrl;
+  AnimationController ctrl;
+  Animation animation;
+  Animation rowAnimation;
   RepoController rCtrl = Get.put(RepoController());
   SignInController phoneCtrl = Get.put(SignInController());
   String number;
@@ -44,13 +52,51 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
     super.initState();
     RepoController rCtrl = Get.put(RepoController());
     rCtrl.loadUserData();
-
     print("init state called;");
     SupportController support = Get.put(SupportController());
     support.loadData();
     CartController cartC = Get.put(CartController());
     cartC.showOrderHistoryData(rCtrl.number);
     cartC.showROrderHistoryData(rCtrl.number);
+
+    controller = AnimationController(
+      duration: Duration(milliseconds: 400),
+      vsync: this,
+    );
+
+    ctrl = AnimationController(
+      duration: Duration(milliseconds: 1500),
+      vsync: this,
+    );
+
+    animation = CurvedAnimation(parent: controller, curve: Curves.linear);
+    rowAnimation = Tween<Offset>(
+      begin: Offset.fromDirection(0, 0),
+      end: const Offset(4.8, 0.0),
+    ).animate(CurvedAnimation(
+      parent: controller,
+      curve: Curves.easeOutExpo,
+    ));
+
+    rotateAnimation = Tween<Offset>(
+      begin: Offset.fromDirection(0, 0),
+      end: const Offset(0.2, 0.0),
+    ).animate(controller);
+
+    controller.forward();
+    controller.addListener(() {
+      print(animation.value);
+      setState(() {
+        controller.value;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    controller.dispose();
   }
 
   Future<Locale> loadLang() async {
@@ -196,10 +242,10 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
                           snapshot.loadedData.get('productName'),
                           style: TextStyle(fontSize: 18),
                         ),
-                        trailing: Container(
-                          height: 50,
-                          width: 50,
-                          child: ClipRRect(
+                        trailing: FittedBox(
+                          child: Container(
+                            height: 50,
+                            width: 50,
                             child: Image(
                               fit: BoxFit.cover,
                               image: NetworkImage(
@@ -307,6 +353,7 @@ class _HomeScreenClientState extends State<HomeScreenClient> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: BottomWidget(
+          rotation: animation.value,
           onTap: () async {
             SharedPreferences mobile = await SharedPreferences.getInstance();
             cartC.showOrderHistoryData(rCtrl.number);
