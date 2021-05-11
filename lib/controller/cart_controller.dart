@@ -168,6 +168,7 @@ class CartController extends GetxController {
     int quantity,
     String size,
     String unit,
+    String imageName,
   ) {
     print("@@ ${cartList.length}");
     print("#### $cartList");
@@ -175,6 +176,7 @@ class CartController extends GetxController {
     try {
       if (cartList.isEmpty) {
         print("cart empty added new");
+        print(imageName);
         cartList.add(CartItem(
           id: productId,
           title: title,
@@ -182,6 +184,7 @@ class CartController extends GetxController {
           quantity: quantity,
           size: size,
           unit: unit,
+          imageName: imageName,
         ));
         Get.snackbar(
           '',
@@ -265,6 +268,7 @@ class CartController extends GetxController {
             quantity: quantity,
             size: size,
             unit: unit,
+            imageName: imageName,
           ));
           Get.snackbar(
             '',

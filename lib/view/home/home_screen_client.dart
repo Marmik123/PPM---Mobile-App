@@ -231,6 +231,8 @@ class _HomeScreenClientState extends State<HomeScreenClient>
                   return Text(S.of(context).warning);
                 } else if (snapshot.hasData || snapshot.hasPreLoadedData) {
                   if (snapshot.hasData) {
+                    print(
+                        "####@@@${snapshot.loadedData.get('imageFileName')[0]}");
                     return Card(
                       child: ListTile(
                         onTap: () => Get.to(() => ProductDetails(
@@ -249,7 +251,8 @@ class _HomeScreenClientState extends State<HomeScreenClient>
                             child: Image(
                               fit: BoxFit.cover,
                               image: NetworkImage(
-                                  'https://picsum.photos/id/1/200/300'),
+                                  'https://cup.marketing.dharmatech.in/file/product/${snapshot.loadedData.get('imageFileName')[0]}' ??
+                                      'https://picsum.photos/id/1/200/300'),
                             ),
                           ),
                         ),

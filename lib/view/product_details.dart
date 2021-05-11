@@ -84,6 +84,7 @@ class _ProductDetailsState extends State<ProductDetails>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           S.of(context).detail,
@@ -103,16 +104,19 @@ class _ProductDetailsState extends State<ProductDetails>
                     layout: SwiperLayout.TINDER,
                     itemWidth: MediaQuery.of(context).size.width * 0.95,
                     itemHeight: MediaQuery.of(context).size.height * 0.55,
-                    itemCount: 10,
+                    itemCount: widget.product.get('imageFileName')?.length ?? 0,
                     //ctrl.introScreenSlides.length,
                     onIndexChanged: (indexCount) {
                       cltrProduct.slideIndex.value = indexCount;
                     },
                     itemBuilder: (context, index) {
-                      return Image(
-                        fit: BoxFit.cover,
-                        image:
-                            NetworkImage('https://picsum.photos/id/1/200/300'),
+                      return Container(
+                        color: Colors.white,
+                        child: Image(
+                          fit: BoxFit.contain,
+                          image: NetworkImage(
+                              'https://cup.marketing.dharmatech.in/file/product/${widget.product.get('imageFileName')[index]}'),
+                        ),
                       );
                     },
                   ),
@@ -140,7 +144,7 @@ class _ProductDetailsState extends State<ProductDetails>
             ),*/
             ,
             Obx(() => DotsIndicator(
-                  dotsCount: 10,
+                  dotsCount: widget.product.get('imageFileName')?.length ?? 0,
                   position: cltrProduct.slideIndex.value.toDouble(),
                   decorator: DotsDecorator(
                     size: Size(10, 10),
@@ -262,14 +266,14 @@ class _ProductDetailsState extends State<ProductDetails>
                             // cltrProduct.cartProducts.add(widget.product);
                             if (cltrProduct.key.currentState.validate()) {
                               cltrCart.addItem(
-                                widget.product.objectId,
-                                widget.product.get('productName'),
-                                double.parse(
-                                    widget.product.get('productPrice')),
-                                cltrCart.quantity.value,
-                                oCtrl.sizeC.text,
-                                widget.product.get('unit'),
-                              );
+                                  widget.product.objectId,
+                                  widget.product.get('productName'),
+                                  double.parse(
+                                      widget.product.get('productPrice')),
+                                  cltrCart.quantity.value,
+                                  oCtrl.sizeC.text,
+                                  widget.product.get('unit'),
+                                  widget.product.get('imageFileName')[0]);
                             }
 
                             print('this is cart items $cartItems');
@@ -410,7 +414,8 @@ class _ProductDetailsState extends State<ProductDetails>
                       height: MediaQuery.of(context).size.height / 8,
                       width: MediaQuery.of(context).size.width / 3,
                       child:
-                          */ /*DropdownButtonFormField(
+                          */
+                    /*DropdownButtonFormField(
                           elevation: 10,
                           value: unit,
                           onChanged: (value) {
@@ -459,7 +464,8 @@ class _ProductDetailsState extends State<ProductDetails>
                                         fontWeight: FontWeight.w500),
                                   ),
                                 )),
-                          ])*/ /*
+                          ])*/
+                    /*
                           TextFormField(
                         validator: (value) {
                           if (value.isEmpty)

@@ -7,7 +7,8 @@ class HomeScreenClientController extends GetxController {
   RxBool isLoading = false.obs;
   RxList<ParseObject> loggedInClient = <ParseObject>[].obs;
   QueryBuilder<ParseObject> productData =
-      QueryBuilder<ParseObject>(ParseObject('Products'));
+      QueryBuilder<ParseObject>(ParseObject('Products'))
+        ..orderByDescending('createdAt');
   RepoController rCtrl = Get.put(RepoController());
   Future<void> showLoggedInUserData(String mobile) async {
     print("called showloggedinUser");

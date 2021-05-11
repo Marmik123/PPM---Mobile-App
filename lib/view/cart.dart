@@ -14,7 +14,6 @@ import 'package:pcm/widgets/circular_loader.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class Cart extends StatefulWidget {
   final ParseObject product;
   const Cart({Key key, this.product}) : super(key: key);
@@ -162,10 +161,14 @@ class _CartState extends State<Cart> {
                                   height: 70,
                                   width: 70,
                                   child: ClipRRect(
-                                    child: Image(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                          'https://picsum.photos/id/1/200/300'),
+                                    child: Container(
+                                      color: Colors.white,
+                                      child: Image(
+                                        fit: BoxFit.contain,
+                                        image: NetworkImage(
+                                            'https://cup.marketing.dharmatech.in/file/product/${cartList[index].imageName}' ??
+                                                'https://picsum.photos/id/1/200/300'),
+                                      ),
                                     ),
                                   ),
                                 ),
