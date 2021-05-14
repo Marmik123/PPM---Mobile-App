@@ -22,7 +22,7 @@ class CartController extends GetxController {
   RxBool orderH = false.obs;
   RxInt rOrders = 0.obs;
   RxInt pOrders = 0.obs;
-  RxString payment_option = "".obs;
+  RxString payment_option = 'COD'.obs;
   RoundedLoadingButtonController buttonCtrl = RoundedLoadingButtonController();
   QueryBuilder<ParseObject> orderData =
       QueryBuilder<ParseObject>(ParseObject('Orders'));
@@ -30,16 +30,15 @@ class CartController extends GetxController {
   RepoController rCtrl = Get.put(RepoController());
 
   Future<String> getMobile() async {
-    SharedPreferences mobile = await SharedPreferences.getInstance();
+    var mobile = await SharedPreferences.getInstance();
 
     return mobile.getString(rCtrl.kMobile);
   }
 
   QueryBuilder showOrderHistory(String mobile) {
     try {
-      QueryBuilder<ParseObject> loadOrderHistory =
-          QueryBuilder<ParseObject>(ParseObject('Orders'))
-            ..whereEqualTo('customerContactNo', rCtrl.number);
+      var loadOrderHistory = QueryBuilder<ParseObject>(ParseObject('Orders'))
+        ..whereEqualTo('customerContactNo', rCtrl.number);
 
       return loadOrderHistory;
     } catch (e) {
@@ -48,41 +47,40 @@ class CartController extends GetxController {
   }
 
   Future clientReport(String name, String mobile, int purchaseCount) async {
-    print("called client report");
+    print('called client report');
     try {
-      QueryBuilder<ParseObject> userData =
-          QueryBuilder<ParseObject>(ParseObject('OrdersMetadata'))
-            //ParseObject userData = ParseObject('UserMetadata')
-            ..whereEqualTo('clientName', name)
-            ..whereEqualTo('number', mobile);
+      var userData = QueryBuilder<ParseObject>(ParseObject('OrdersMetadata'))
+        //ParseObject userData = ParseObject('UserMetadata')
+        ..whereEqualTo('clientName', name)
+        ..whereEqualTo('number', mobile);
 
-      ParseResponse response = await userData.query();
+      var response = await userData.query();
       if (response.success) {
         if (response.results == null) {
-          print("no user exist creating new one");
-          ParseObject newClient = ParseObject('OrdersMetadata')
+          print('no user exist creating new one');
+          var newClient = ParseObject('OrdersMetadata')
             ..set<String>('clientName', name)
             ..set('number', mobile)
             ..set<int>('productsPurchased', purchaseCount);
 
-          ParseResponse reportResult = await newClient.create();
+          var reportResult = await newClient.create();
           if (reportResult.success) {
-            rCtrl.setOrdersMetadataObjectId(reportResult.result['objectId']);
+            await rCtrl
+                .setOrdersMetadataObjectId(reportResult.result['objectId']);
             print(reportResult.result['objectId']);
-            rCtrl.loadObjId();
-            SharedPreferences preference =
-                await SharedPreferences.getInstance();
-            print("@@@${preference.getString(rCtrl.kOrderObjectId)}");
+            await rCtrl.loadObjId();
+            var preference = await SharedPreferences.getInstance();
+            print('@@@${preference.getString(rCtrl.kOrderObjectId)}');
           }
         } else {
-          print("user already there updating purchaseCount");
+          print('user already there updating purchaseCount');
           ParseObject client = response.result[0]
             ..set('clientName', name)
             ..set('number', mobile)
             ..set('productsPurchased',
                 response.result[0]['productsPurchased'] + purchaseCount);
 
-          ParseResponse reportResult = await client.save();
+          var reportResult = await client.save();
         }
       }
     } catch (e) {
@@ -93,20 +91,19 @@ class CartController extends GetxController {
   Future<void> showROrderHistoryData(String mobile) async {
     orderH.value = true;
     try {
-      print("showROrderDatahistory called");
-      QueryBuilder<ParseObject> loadROrderHistory =
-          QueryBuilder<ParseObject>(ParseObject('Orders'))
-            ..whereEqualTo('customerContactNo', mobile)
-            ..whereEqualTo('deliveryStatus', 'yes');
+      print('showROrderDatahistory called');
+      var loadROrderHistory = QueryBuilder<ParseObject>(ParseObject('Orders'))
+        ..whereEqualTo('customerContactNo', mobile)
+        ..whereEqualTo('deliveryStatus', 'yes');
 
-      ParseResponse rOrderData = await loadROrderHistory.query();
+      var rOrderData = await loadROrderHistory.query();
       if (rOrderData.success) {
         orderRHistory.removeRange(0, orderRHistory.length);
         orderRHistory(rOrderData.results);
         rOrders.value = orderRHistory().length;
         orderH.value = false;
       } else {
-        print("error");
+        print('error');
       }
     } catch (e) {
       orderH.value = false;
@@ -117,18 +114,17 @@ class CartController extends GetxController {
   Future<void> showOrderHistoryData(String mobile) async {
     try {
       orderH.value = true;
-      print("showOrderDatahistory called");
-      QueryBuilder<ParseObject> loadOrderHistory =
-          QueryBuilder<ParseObject>(ParseObject('Orders'))
-            ..whereEqualTo('customerContactNo', mobile);
+      print('showOrderDatahistory called');
+      var loadOrderHistory = QueryBuilder<ParseObject>(ParseObject('Orders'))
+        ..whereEqualTo('customerContactNo', mobile);
 
-      ParseResponse orderData = await loadOrderHistory.query();
+      var orderData = await loadOrderHistory.query();
       if (orderData.success) {
         orderHistory(orderData.results);
         pOrders.value = orderHistory().length;
         orderH.value = false;
       } else {
-        print("error");
+        print('error');
       }
     } catch (e) {
       orderH.value = false;
@@ -170,7 +166,7 @@ class CartController extends GetxController {
     String unit,
     String imageName,
   ) {
-    print("@@ ${cartList.length}");
+    print('@@ ${cartList.length}');
     print("#### $cartList");
     print('process of add to cart');
     try {

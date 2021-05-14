@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
@@ -12,8 +13,12 @@ import '../view/home/homes_screen_sales.dart';
 
 class LoginController extends GetxController {
   RxBool isLoading = false.obs;
+  RxBool oldDataReceived = false.obs;
+  RxBool userNotExist = false.obs;
   String mobileNum;
+  RxList oldData = [].obs;
   GlobalKey<FormState> key = GlobalKey<FormState>();
+  SignInController ctrl = Get.put(SignInController());
   RepoController rCtrl = Get.put(RepoController());
   final userController = TextEditingController();
   final passController = TextEditingController();
@@ -82,6 +87,111 @@ class LoginController extends GetxController {
         colorText: Colors.teal,
       );
       print(e);
+    }
+  }
+
+  Future<void> checkMobileExist(number) async {
+    try {
+      oldDataReceived.value = false;
+      userNotExist.value = false;
+      QueryBuilder doc = QueryBuilder(ParseObject('UserMetadata'))
+        ..whereEqualTo('number', number);
+      ParseResponse result = await doc.query();
+      if (result.success) {
+        if (result.result != null) {
+          oldData.removeRange(0, oldData?.length);
+          oldData.add(result.result);
+          print("get user data success");
+          print("####${oldData()}");
+          Get.snackbar(
+            '',
+            '',
+            messageText: Text(
+              'Please Add Another',
+              style: GoogleFonts.montserrat(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300),
+              ),
+            ),
+            titleText: Text(
+              'User With this Mobile Number Already Exist',
+              style: GoogleFonts.montserrat(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300),
+              ),
+            ),
+            icon: Icon(Icons.cancel),
+            backgroundColor: Colors.cyan,
+            backgroundGradient:
+                LinearGradient(colors: [Colors.white, Colors.cyan]),
+            snackStyle: SnackStyle.FLOATING,
+          );
+        }
+        if (result.result == null) {
+          print("User Does not exist");
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> getUserData() async {
+    var number = phoneCtrl.mobileNo.text.trim().toString();
+    try {
+      oldDataReceived.value = false;
+      userNotExist.value = false;
+      QueryBuilder doc = QueryBuilder(ParseObject('UserMetadata'))
+        ..whereEqualTo('number', number);
+      ParseResponse result = await doc.query();
+      if (result.success) {
+        if (result.result != null) {
+          oldData.removeRange(0, oldData?.length);
+          oldData.add(result.result);
+          print("get user data success");
+          print("####${oldData()}");
+          oldDataReceived.value = true;
+        }
+        if (result.result == null) {
+          userNotExist.value = true;
+          ctrl.buttonCtrl.reset();
+
+          Get.snackbar(
+            '',
+            '',
+            messageText: Text(
+              'Please Sign Up first',
+              style: GoogleFonts.montserrat(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300),
+              ),
+            ),
+            titleText: Text(
+              'User does not exist',
+              style: GoogleFonts.montserrat(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300),
+              ),
+            ),
+            icon: Icon(Icons.supervised_user_circle_sharp),
+            backgroundColor: Colors.cyan,
+            backgroundGradient:
+                LinearGradient(colors: [Colors.white, Colors.cyan]),
+            snackStyle: SnackStyle.FLOATING,
+          );
+        }
+      }
+    } catch (e) {
+      print(e);
+      ctrl.buttonCtrl.reset();
     }
   }
 

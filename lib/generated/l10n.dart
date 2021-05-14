@@ -545,10 +545,10 @@ class S {
     );
   }
 
-  /// `Enter Number`
+  /// `Enter Mobile Number`
   String get errorNum {
     return Intl.message(
-      'Enter Number',
+      'Enter Mobile Number',
       name: 'errorNum',
       desc: '',
       args: [],
@@ -565,10 +565,20 @@ class S {
     );
   }
 
-  /// `Number`
+  /// `Enter a value`
+  String get errorC {
+    return Intl.message(
+      'Enter a value',
+      name: 'errorC',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mobile Number`
   String get Number {
     return Intl.message(
-      'Number',
+      'Mobile Number',
       name: 'Number',
       desc: '',
       args: [],
@@ -645,10 +655,10 @@ class S {
     );
   }
 
-  /// `Shop photo`
+  /// `Add Id Proof`
   String get photo {
     return Intl.message(
-      'Shop photo',
+      'Add Id Proof',
       name: 'photo',
       desc: '',
       args: [],

@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 
 Future<Response> postMedia(String url, dynamic args) async {
   try {
-    Dio dio = Dio();
+    var dio = Dio();
     //final userStorage = GetStorage();
 
     // if (true) {
@@ -19,11 +19,11 @@ Future<Response> postMedia(String url, dynamic args) async {
     //     maxWidth: 200,
     //   ));
     // }
-    Response response = await dio.post(
+    var response = await dio.post(
       url,
       data: FormData.fromMap(args),
       options: Options(
-        headers:<String,dynamic> {},
+        headers: <String, dynamic>{},
       ),
     );
 
@@ -35,7 +35,7 @@ Future<Response> postMedia(String url, dynamic args) async {
 
 Future<Response> postNormal(String url, dynamic args) async {
   try {
-    Dio dio = Dio();
+    var dio = Dio();
     //final userStorage = GetStorage();
     // The argument type 'String' can't be assigned to the parameter type 'Uri'.
     // if (true) {
@@ -49,7 +49,7 @@ Future<Response> postNormal(String url, dynamic args) async {
     //     maxWidth: 200,
     //   ));
     // }
-    Response response = await dio.post(
+    var response = await dio.post(
       url,
       data: jsonEncode(args),
       options: Options(
@@ -65,7 +65,7 @@ Future<Response> postNormal(String url, dynamic args) async {
 
 Future<Response> getUrl(String url) async {
   try {
-    Dio dio = Dio();
+    var dio = Dio();
     //final userStorage = GetStorage();
 
     // if (true) {
@@ -79,7 +79,7 @@ Future<Response> getUrl(String url) async {
     //     maxWidth: 200,
     //   ));
     // }
-    Response response = await dio.get(
+    var response = await dio.get(
       url,
       options: Options(
         headers: {},

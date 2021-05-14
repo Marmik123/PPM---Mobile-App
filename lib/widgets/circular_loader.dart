@@ -14,3 +14,17 @@ buildLoader({Color color = Colors.teal}) {
     ),
   );
 }
+
+buildSmallLoader({Color color = Colors.teal}) {
+  return Container(
+    height: 10,
+    width: 5,
+    alignment: Alignment.centerRight,
+    padding: const EdgeInsets.only(right: 10),
+    child: CircularProgressIndicator(
+      strokeWidth: 2,
+      valueColor: AlwaysStoppedAnimation<Color>(color),
+      backgroundColor: Colors.grey,
+    ),
+  );
+}

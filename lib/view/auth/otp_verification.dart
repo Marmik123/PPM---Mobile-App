@@ -17,7 +17,6 @@ class _OtpVerificationState extends State<OtpVerification>
     with TickerProviderStateMixin {
   OtpController otpCtrl = Get.put(OtpController());
   AnimationController controller;
-  AnimationController aniCtrl;
   AnimationController ctrl;
   Animation animation;
   Animation rowAnimation;
@@ -57,6 +56,7 @@ class _OtpVerificationState extends State<OtpVerification>
     // TODO: implement dispose
     super.dispose();
     controller.dispose();
+    ctrl.dispose();
   }
 
   @override

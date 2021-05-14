@@ -6,7 +6,7 @@ class SignInController extends GetxController {
   TextEditingController mobileNo = TextEditingController();
   TextEditingController password = TextEditingController();
   RoundedLoadingButtonController buttonCtrl = RoundedLoadingButtonController();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   String verificationId;
   RxString countryCode = "".obs;
   String phoneCode;

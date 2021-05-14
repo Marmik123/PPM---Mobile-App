@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pcm/controller/login_controller.dart';
 import 'package:pcm/controller/orders_assign_controller.dart';
+import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/controller/register/otp_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/utils/shared_preferences.dart';
 import 'package:pcm/view/auth/otp_verification.dart';
 import 'package:pcm/view/register/client.dart';
+import 'package:pcm/view/register/document_veri_sign_in.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class SignIn extends StatefulWidget {
@@ -19,7 +22,9 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
   SignInController ctrl = Get.put(SignInController());
+  LoginController loginCtrl = Get.put(LoginController());
   OrderAssignController assignCtrl = Get.put(OrderAssignController());
+  ClientController client = Get.put(ClientController());
   String langCode;
   String selectedLang = S.of(Get.context).English;
   AnimationController controller;
@@ -34,6 +39,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
   void initState() {
     // TODO: implement initState
     super.initState();
+    loginCtrl.oldDataReceived.value = false;
     controller = AnimationController(
       duration: Duration(milliseconds: 700),
       vsync: this,
@@ -281,7 +287,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8.0, left: 5, right: 5),
                     child: Form(
-                      key: ctrl.formKey,
+                      key: ctrl.loginFormKey,
                       child: Column(
                         children: [
                           Row(
@@ -416,22 +422,15 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                             elevation: 10,
                             color: Colors.cyan,
                             onPressed: () async {
-                              if (ctrl.formKey.currentState.validate()) {
-                                await otpCtx.registerUser();
-                                Get.to(() => OtpVerification());
-                              } else
-                                ctrl.buttonCtrl.reset();
-/*
-                              if (otpCtx.formKey.currentState.validate()) {
-
-                                */
-/* Get.to(UserType(),
-                                      curve: Curves.elasticInOut,
-                                      duration: Duration(seconds: 1));
-                             */ /*
-
+                              if (ctrl.loginFormKey.currentState.validate()) {
+                                print("get user data about to call");
+                                await loginCtrl.getUserData();
                               }
-*/
+                              print("out of if loop");
+                              print(loginCtrl.oldDataReceived.value);
+                              loginCtrl.oldDataReceived.value
+                                  ? checkVerificationStatus()
+                                  : null;
                             },
                             child: Text(
                               S.of(context).Continue,
@@ -591,5 +590,17 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  Future<void> checkVerificationStatus() async {
+    if (loginCtrl.oldData[0][0]['isVerified'] == "Yes" ||
+        loginCtrl.oldData[0][0]['role'] != 'Client') {
+      print("is verified if loop");
+      await otpCtx.registerUser();
+      Get.to(() => OtpVerification());
+    } else {
+      ctrl.buttonCtrl.reset();
+      Get.to(() => SignInDocVeri());
+    }
   }
 }
