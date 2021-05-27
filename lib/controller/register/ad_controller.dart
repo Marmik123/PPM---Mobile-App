@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/utils/shared_preferences.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -87,7 +88,7 @@ class AdController extends GetxController {
         isLoading.value = false;
         final snackBar = SnackBar(
           content: Text(
-            "Error ! Please try again.",
+            S.of(Get.context).errorOc,
           ),
           elevation: 20.0,
           backgroundColor: Colors.cyan,
@@ -100,7 +101,7 @@ class AdController extends GetxController {
       print("default error---" + e);
       final snackBar = SnackBar(
         content: Text(
-          "Error ! Please try again.",
+          S.of(Get.context).errorOc,
         ),
         elevation: 20.0,
         backgroundColor: Colors.cyan,

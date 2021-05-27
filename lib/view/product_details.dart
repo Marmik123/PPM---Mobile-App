@@ -1,16 +1,18 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:pcm/controller/cart_controller.dart';
+import 'package:pcm/controller/login_controller.dart';
 import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/products_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/repository/products_repository.dart';
+import 'package:pcm/utils/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetails extends StatefulWidget {
   final ParseObject product;
@@ -32,6 +34,8 @@ class _ProductDetailsState extends State<ProductDetails>
   Animation rowAnimation;
   Animation rotateAnimation;
   int unit = 0;
+  RepoController repo = Get.put(RepoController());
+  LoginController login = Get.put(LoginController());
   ProductsController cltrProduct = Get.put(ProductsController());
   @override
   void initState() {
@@ -41,6 +45,7 @@ class _ProductDetailsState extends State<ProductDetails>
     cltrProduct.quantity.value = 1;
     cltrCart.quantity.value = 1;
     cltrProduct.size.value = "Small";
+    getSizes();
     controller = AnimationController(
       duration: Duration(milliseconds: 400),
       vsync: this,
@@ -262,18 +267,23 @@ class _ProductDetailsState extends State<ProductDetails>
                       SlideTransition(
                         position: rowAnimation,
                         child: TextButton(
-                          onPressed: () {
+                          onPressed: () async {
                             // cltrProduct.cartProducts.add(widget.product);
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            await login.checkUserExist(repo.number);
                             if (cltrProduct.key.currentState.validate()) {
-                              cltrCart.addItem(
-                                  widget.product.objectId,
-                                  widget.product.get('productName'),
-                                  double.parse(
-                                      widget.product.get('productPrice')),
-                                  cltrCart.quantity.value,
-                                  oCtrl.sizeC.text,
-                                  widget.product.get('unit'),
-                                  widget.product.get('imageFileName')[0]);
+                              login.userNotExist.value
+                                  ? print("Trying to add but user doesnt exist")
+                                  : cltrCart.addItem(
+                                      widget.product.objectId,
+                                      widget.product.get('productName'),
+                                      double.parse(
+                                          widget.product.get('productPrice')),
+                                      cltrCart.quantity.value,
+                                      cltrProduct.size.value,
+                                      widget.product.get('unit'),
+                                      widget.product.get('imageFileName')[0]);
                             }
 
                             print('this is cart items $cartItems');
@@ -315,98 +325,43 @@ class _ProductDetailsState extends State<ProductDetails>
                       ),
                     )*/
                     Container(
-                      height: MediaQuery.of(context).size.height / 8,
-                      width: MediaQuery.of(context).size.width / 2,
-                      child:
-                          /*DropdownButtonFormField(
-                          elevation: 10,
-                          value: selectedType,
-                          onChanged: (value) {
-                            setState(() {
-                              value == 0
-                                  ? cltrProduct.size.value = "Small"
-                                  : value == 1
-                                      ? cltrProduct.size.value = "Medium"
-                                      : cltrProduct.size.value = "Large";
-                              selectedType = value;
-                            });
-                          },
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return S.of(context).errorS;
-                            }
-                            return null;
-                          },
-                          iconEnabledColor: Colors.black,
-                          iconDisabledColor: Colors.cyan,
-                          decoration: InputDecoration(
-                            labelText: S.of(context).size,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                              borderSide: BorderSide(color: Colors.blueGrey),
+                        height: MediaQuery.of(context).size.height / 8,
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: DropdownButtonFormField(
+                            elevation: 10,
+                            value: selectedType,
+                            onChanged: (value) {
+                              setState(() {
+                                value == 0
+                                    ? cltrProduct.size.value = "Small"
+                                    : value == 1
+                                        ? cltrProduct.size.value = "Medium"
+                                        : cltrProduct.size.value = "Large";
+                                selectedType = value;
+                              });
+                            },
+                            iconEnabledColor: Colors.black,
+                            iconDisabledColor: Colors.cyan,
+                            decoration: InputDecoration(
+                              labelText: S.of(context).size,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                                borderSide: BorderSide(color: Colors.blueGrey),
+                              ),
                             ),
-                          ),
-                          items: [
-                            DropdownMenuItem(
-                                value: 0,
-                                child: Text(
-                                  S.of(context).small,
-                                  style: GoogleFonts.montserrat(
-                                    textStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                )),
-                            DropdownMenuItem(
-                                value: 1,
-                                child: Text(
-                                  S.of(context).medium,
-                                  style: GoogleFonts.montserrat(
-                                    textStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                )),
-                            DropdownMenuItem(
-                                value: 2,
-                                child: Text(
-                                  S.of(context).large,
-                                  style: GoogleFonts.montserrat(
-                                    textStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                )),
-                          ])*/
-                          TextFormField(
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return "Please enter a size";
-                          } else if (!(value
-                                  .isCaseInsensitiveContains("small") ||
-                              value.isCaseInsensitiveContains("medium") ||
-                              value.isCaseInsensitiveContains("large"))) {
-                            oCtrl.sizeC.clear();
-                            return "Please enter valid size from \nSmall,medium or large";
-                          }
-                        },
-                        decoration: InputDecoration(
-                          alignLabelWithHint: true,
-                          labelText: "Enter the Size",
-                          labelStyle: GoogleFonts.merriweather(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          hintText: "Small/Medium/Large",
-                        ),
-                        controller: oCtrl.sizeC,
-                        keyboardType: TextInputType.text,
-                      ),
-                    ),
+                            items: List.generate(
+                                cltrProduct.sizeDimList?.length,
+                                (index) => DropdownMenuItem(
+                                    value: index,
+                                    child: Text(
+                                      cltrProduct.sizeDimList[index].toString(),
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ))))),
                     SizedBox(
                       width: 15,
                     ),
@@ -529,4 +484,51 @@ class _ProductDetailsState extends State<ProductDetails>
       ),
     );
   }
+
+  checkMobileNumber(String number) {
+    login.checkUserExist(number);
+  }
+
+  getSizes() {
+    var size = widget.product.get('size');
+    cltrProduct.sizeDimList = size.split(';');
+    print('###@@@${cltrProduct.sizeDimList}');
+    return cltrProduct.sizeDimList;
+  }
 }
+/*
+[
+DropdownMenuItem(
+value: 0,
+child: Text(
+S.of(context).small,
+style: GoogleFonts.montserrat(
+textStyle: TextStyle(
+color: Colors.black,
+fontSize: 15,
+fontWeight: FontWeight.w500),
+),
+)),
+DropdownMenuItem(
+value: 1,
+child: Text(
+S.of(context).medium,
+style: GoogleFonts.montserrat(
+textStyle: TextStyle(
+color: Colors.black,
+fontSize: 15,
+fontWeight: FontWeight.w500),
+),
+)),
+DropdownMenuItem(
+value: 2,
+child: Text(
+S.of(context).large,
+style: GoogleFonts.montserrat(
+textStyle: TextStyle(
+color: Colors.black,
+fontSize: 15,
+fontWeight: FontWeight.w500),
+),
+)),
+]*/

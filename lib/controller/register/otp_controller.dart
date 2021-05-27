@@ -8,6 +8,7 @@ import 'package:pcm/controller/homescreen_client_controller.dart';
 import 'package:pcm/controller/login_controller.dart';
 import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class OtpController extends GetxController {
@@ -73,7 +74,7 @@ class OtpController extends GetxController {
           butCtrl.reset();
           phoneCtrl.buttonCtrl.reset();
           Get.snackbar(
-            "Firebase Exception",
+            S.of(Get.context).errorOc,
             e.message,
             backgroundColor: Colors.white,
             duration: Duration(seconds: 4),
@@ -108,8 +109,8 @@ class OtpController extends GetxController {
       phoneCtrl.buttonCtrl.reset();
       butCtrl.reset();
       Get.snackbar(
-        "Incorrect Otp",
-        "Otp verification failed,Please try again",
+        S.of(Get.context).errorOc,
+        "",
         backgroundColor: Colors.white,
         duration: Duration(seconds: 2),
         colorText: Colors.teal,
@@ -146,8 +147,8 @@ class OtpController extends GetxController {
           phoneCtrl.buttonCtrl.reset();
           butCtrl.reset();
           Get.snackbar(
-            "Incorrect Otp",
-            "Otp verification failed,Please try again",
+            S.of(Get.context).errorOc,
+            "",
             backgroundColor: Colors.white,
             duration: Duration(seconds: 2),
             colorText: Colors.teal,
@@ -159,8 +160,8 @@ class OtpController extends GetxController {
       phoneCtrl.buttonCtrl.reset();
       butCtrl.error();
       Get.snackbar(
-        "Incorrect Otp",
-        "Otp verification failed,Please try again",
+        S.of(Get.context).errorOc,
+        "",
         backgroundColor: Colors.white,
         duration: Duration(seconds: 2),
         colorText: Colors.teal,

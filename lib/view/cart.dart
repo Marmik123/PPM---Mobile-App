@@ -6,6 +6,7 @@ import 'package:parse_server_sdk/parse_server_sdk.dart';
 // import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/cart_controller.dart';
 import 'package:pcm/controller/homescreen_client_controller.dart';
+import 'package:pcm/controller/login_controller.dart';
 import 'package:pcm/controller/products_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/repository/products_repository.dart';
@@ -26,7 +27,7 @@ class _CartState extends State<Cart> {
   ProductsController cltrProduct = Get.put(ProductsController());
   HomeScreenClientController client = Get.put(HomeScreenClientController());
   RepoController rCtrl = Get.put(RepoController());
-
+  LoginController login = Get.put(LoginController());
   RxInt radio = 1.obs;
   RxInt value_1 = 0.obs;
   @override
@@ -723,20 +724,25 @@ class _CartState extends State<Cart> {
                 SharedPreferences mobile =
                     await SharedPreferences.getInstance();
                 setState(() {
-                  cltrCart.totalA != 0
-                      ? cltrCart.orderPlaced(
-                          price: cltrCart.totalA,
-                          customerName: mobile.getString(rCtrl.kname),
-                          customerAddress: mobile.getString(rCtrl.kAddress),
-                          customerMobile: mobile.getString(rCtrl.kMobileNum),
-                          size: cltrProduct.size.value,
-                          //unit: cltrProduct.unit.value,
-                        )
-                      : showerror();
-                  cltrCart.clientReport(
-                      mobile.getString(rCtrl.kname),
-                      mobile.getString(rCtrl.kMobileNum),
-                      cltrCart.purchaseCount.value);
+                  if (login.userNotExist.value) {
+                    print("ORDER CANT BE PLACED");
+                  } else {
+                    cltrCart.totalA != 0
+                        ? cltrCart.orderPlaced(
+                            price: cltrCart.totalA,
+                            customerName: mobile.getString(rCtrl.kname),
+                            customerAddress: mobile.getString(rCtrl.kAddress),
+                            customerMobile: mobile.getString(rCtrl.kMobileNum),
+                            pincode: mobile.getString(rCtrl.kpincode),
+                            size: cltrProduct.size.value,
+                            //unit: cltrProduct.unit.value,
+                          )
+                        : showerror();
+                    cltrCart.clientReport(
+                        mobile.getString(rCtrl.kname),
+                        mobile.getString(rCtrl.kMobileNum),
+                        cltrCart.purchaseCount.value);
+                  }
                 });
 
                 //cltrCart.subTotal.value = 0;

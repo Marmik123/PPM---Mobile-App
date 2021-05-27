@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/feedback_controller.dart';
+import 'package:pcm/controller/login_controller.dart';
 import 'package:pcm/generated/l10n.dart';
+import 'package:pcm/utils/shared_preferences.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 // ignore: must_be_immutable
@@ -13,7 +15,10 @@ class FeedbackPage extends StatefulWidget {
 
 class _FeedbackPageState extends State<FeedbackPage> {
   FeedbackController con = Get.put(FeedbackController());
-
+  LoginController login = Get.put(LoginController());
+  RepoController repo = Get.put(RepoController());
+  final RoundedLoadingButtonController btnController =
+      RoundedLoadingButtonController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +44,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
             TextField(
               controller: con.sController,
               decoration: InputDecoration(
-                labelText:  S.of(context).Subject,
+                labelText: S.of(context).Subject,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide(color: Colors.blueGrey),
@@ -68,7 +73,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
             TextField(
               decoration: InputDecoration(
                 labelText: S.of(context).feedback,
-                hintText:  S.of(context).hintF,
+                hintText: S.of(context).hintF,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide(color: Colors.blueGrey),
@@ -92,7 +97,10 @@ class _FeedbackPageState extends State<FeedbackPage> {
               width: 100,
               controller: con.btnController,
               onPressed: () async {
-                await con.sendFeedback();
+                await login.checkUserExist(repo.number);
+                login.userNotExist.value
+                    ? btnController.error()
+                    : await con.sendFeedback();
               },
             ),
           ],

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/model/cart_item.dart';
 import 'package:pcm/repository/products_repository.dart';
 import 'package:pcm/utils/shared_preferences.dart';
@@ -186,7 +187,7 @@ class CartController extends GetxController {
           '',
           '',
           messageText: Text(
-            'Item Added to Cart',
+            S.of(Get.context).itemAdded,
             style: GoogleFonts.montserrat(
               textStyle: TextStyle(
                   color: Colors.black,
@@ -195,7 +196,7 @@ class CartController extends GetxController {
             ),
           ),
           titleText: Text(
-            'Cart Updated Successfully',
+            S.of(Get.context).cartUpdated,
             style: GoogleFonts.montserrat(
               textStyle: TextStyle(
                   color: Colors.black,
@@ -229,7 +230,7 @@ class CartController extends GetxController {
                   '',
                   '',
                   messageText: Text(
-                    'Item Added to Cart',
+                    S.of(Get.context).itemAdded,
                     style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
                           color: Colors.black,
@@ -238,7 +239,7 @@ class CartController extends GetxController {
                     ),
                   ),
                   titleText: Text(
-                    'Cart Updated Successfully',
+                    S.of(Get.context).cartUpdated,
                     style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
                           color: Colors.black,
@@ -270,7 +271,7 @@ class CartController extends GetxController {
             '',
             '',
             messageText: Text(
-              'Item Added to Cart',
+              S.of(Get.context).itemAdded,
               style: GoogleFonts.montserrat(
                 textStyle: TextStyle(
                     color: Colors.black,
@@ -279,7 +280,7 @@ class CartController extends GetxController {
               ),
             ),
             titleText: Text(
-              'Cart Updated Successfully',
+              S.of(Get.context).cartUpdated,
               style: GoogleFonts.montserrat(
                 textStyle: TextStyle(
                     color: Colors.black,
@@ -299,93 +300,14 @@ class CartController extends GetxController {
     } catch (e) {
       print(e);
       Get.snackbar(
-        "Some Internal Error",
-        "Please logout and try again",
+        S.of(Get.context).errorOcu,
+        "",
         backgroundColor: Colors.black.withOpacity(0.8),
         maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
         colorText: Colors.white,
       );
     }
-
-    /*if (cartItems.containsKey(productId)) {
-      print('product already there, updating');
-      cartItems.update(productId, (existingcardItem) {
-        print(existingcardItem.size);
-        print(size);
-        if (existingcardItem.size == size) {
-          return CartItem(
-            id: existingcardItem.id,
-            title: existingcardItem.title,
-            quantity: existingcardItem.quantity + quantity,
-            price: existingcardItem.price,
-            size: existingcardItem.size,
-          );
-          */ /*cartItems.putIfAbsent(
-              size,
-              () => CartItem(
-                    id: existingcardItem.id,
-                    title: existingcardItem.title,
-                    price: existingcardItem.price,
-                    quantity: quantity,
-                    size: size,
-                  ));*/ /*
-        }
-      });
-    } else {
-      print('new to the cart');
-      var firstSize = size;
-      print("####$firstSize");
-      cartItems.putIfAbsent(
-          productId,
-          () => CartItem(
-                id: productId,
-                title: title,
-                price: price,
-                quantity: quantity,
-                size: firstSize,
-              ));*/
-
-    /*else if (cartItems.containsKey(productId) &&
-          !cartItems.containsValue(size)) {
-        cartItems.putIfAbsent(
-            size,
-            () => CartItem(
-                  id: DateTime.now().toString(),
-                  title: title,
-                  price: price,
-                  quantity: quantity,
-                  size: size,
-                ));
-      } else {
-        print("null");
-      }*/
-    /*else {
-        cartItems.update(
-          productId,
-          (existingcardItem) => CartItem(
-            id: existingcardItem.id,
-            title: existingcardItem.title,
-            quantity: existingcardItem.quantity + quantity,
-            price: existingcardItem.price,
-            size: existingcardItem.size,
-          ),
-        );
-      }*/
-    /*   if (cartItems.containsKey(productId)) {
-        cartItems.update(
-          productId,
-          (existingcardItem) => CartItem(
-            id: existingcardItem.id,
-            title: existingcardItem.title,
-            quantity: existingcardItem.quantity + quantity,
-            price: existingcardItem.price,
-            size: existingcardItem.size,
-          ),
-        );
-      } */
   }
-  /*print('product added to the cart');
-    print(cartItems);*/
 
   void removeItem(String productId) {
     //cartItems.remove(productId);
@@ -423,6 +345,7 @@ class CartController extends GetxController {
       String customerName,
       String size,
       String unit,
+      String pincode,
       String customerAddress,
       String customerMobile}) async {
     var details = [];
@@ -460,6 +383,7 @@ class CartController extends GetxController {
         ..set('payment_option', payment_option)
         ..set('total_price', price)
         ..set('delivery_fees', '')
+        ..set('pincode', pincode)
         ..set('customerName', customerName)
         ..set('customerAddress', customerAddress)
         ..set('customerContactNo', customerMobile)
@@ -476,7 +400,7 @@ class CartController extends GetxController {
         objectId = response.result.get('objectId');
         print('successful!!!!!!!!!!');
         Get.snackbar(
-          "Order Placed Successfully",
+          S.of(Get.context).orderSuccess,
           "",
           backgroundColor: Colors.black.withOpacity(0.8),
           maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
@@ -492,8 +416,8 @@ class CartController extends GetxController {
       print('error in orderPlaced $e');
       buttonCtrl.error();
       Get.snackbar(
-        "Error",
-        "Please logout and try again",
+        S.of(Get.context).errorOcu,
+        "",
         backgroundColor: Colors.black.withOpacity(0.8),
         maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
         colorText: Colors.white,

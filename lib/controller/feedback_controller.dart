@@ -29,6 +29,7 @@ class FeedbackController extends GetxController {
       ParseObject feedbackData = ParseObject('Feedback')
         ..set('subject', sController.text)
         ..set('message', mController.text)
+        ..set('mobileNum', rCtrl.number)
         ..set('username', rCtrl.name);
       ParseResponse response = await feedbackData.create();
       if (response.success) {

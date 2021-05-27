@@ -77,12 +77,12 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery>
                 S.of(context).HomeScreen,
               ),
               actions: [
-/*              IconButton(
+                IconButton(
                   icon: Icon(Icons.refresh_sharp),
                   onPressed: () {
-                    updateOrder();
+                    Phoenix.rebirth(context);
                   },
-                )*/
+                ),
                 PopupMenuButton(
                   icon: Icon(Icons.more_vert),
                   onSelected: (value) {
@@ -624,9 +624,14 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery>
                                                                         .loadedData,
                                                                     "yes",
                                                                   );
-                                                                  assignCtrl.chooseFile(
+                                                                  await assignCtrl.uploadImg(
+                                                                      'img.jpg',
                                                                       await _controller
-                                                                          .toPngBytes(),
+                                                                          .toPngBytes());
+                                                                  assignCtrl.chooseFile(
+                                                                      assignCtrl
+                                                                              .nameList()[
+                                                                          0],
                                                                       snapshot
                                                                           .loadedData);
                                                                 }

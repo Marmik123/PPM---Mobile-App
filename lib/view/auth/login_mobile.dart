@@ -431,6 +431,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                               loginCtrl.oldDataReceived.value
                                   ? checkVerificationStatus()
                                   : null;
+                              ctrl.buttonCtrl.reset();
                             },
                             child: Text(
                               S.of(context).Continue,
@@ -474,7 +475,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                                       '',
                                       '',
                                       messageText: Text(
-                                        'Press Sign Up to Register',
+                                        S.of(Get.context).signUp,
                                         style: GoogleFonts.montserrat(
                                           textStyle: TextStyle(
                                               color: Colors.black,
@@ -483,7 +484,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                                         ),
                                       ),
                                       titleText: Text(
-                                        'Fill the Sign Up Form',
+                                        S.of(Get.context).fillS,
                                         style: GoogleFonts.montserrat(
                                           textStyle: TextStyle(
                                               color: Colors.black,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:pcm/generated/l10n.dart';
 
 class SupportController extends GetxController {
   RxList<ParseObject> sData = <ParseObject>[].obs;
@@ -26,7 +27,7 @@ class SupportController extends GetxController {
         supportLoading.value = false;
         final snackBar = SnackBar(
           content: Text(
-            "Error ! Please try again.",
+            S.of(Get.context).errorOc,
             style: GoogleFonts.montserrat(
               textStyle: TextStyle(
                   color: Colors.cyan,
@@ -44,7 +45,7 @@ class SupportController extends GetxController {
       print("default error---" + e);
       final snackBar = SnackBar(
         content: Text(
-          "Error ! Please try again.",
+          S.of(Get.context).errorOcu,
           style: GoogleFonts.montserrat(
             textStyle: TextStyle(
                 color: Colors.cyan, fontSize: 55, fontWeight: FontWeight.w500),

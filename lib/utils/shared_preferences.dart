@@ -8,6 +8,15 @@ class RepoController extends GetxController {
   String kUserData = 'role';
   String kMobile = "mobile";
   String kname = "name";
+  String kpincode = "pincode";
+  String kShopName = "shop";
+  String kStoreType = "store";
+  String kGstType = "gstType";
+  String kGstNo = "gstNo";
+  String kLandmark = "landmark";
+  var kImageFile = "imageFile";
+  String kCity = "city";
+  String kState = "state";
   String kAddress = "add";
   String kMobileNum = "mobileNo";
   String kObjectId = "objectId";
@@ -17,8 +26,10 @@ class RepoController extends GetxController {
   SharedPreferences language;
   String number;
   String name;
+  String pincode;
   String objectId;
   String username;
+  String role;
   String orderObjectId;
 
   Future<void> setUserData(String user, String mobile) async {
@@ -29,6 +40,8 @@ class RepoController extends GetxController {
     print("@@@@@@ ${prefs.getString(kUserData)}");
     print("@@@@@@2 ${prefs.getString(kMobile)}");
     print(objectId);
+    role = prefs.getString(kUserData);
+    print(role);
     number = await prefs.getString(kMobile);
     name = await prefs.getString(kname);
   }
@@ -64,14 +77,35 @@ class RepoController extends GetxController {
   }
 
   Future<void> setLoginData(
-      String name, String address, String number, String objectId) async {
+      String name,
+      String address,
+      String number,
+      String objectId,
+      String pincode,
+      String shop,
+      String storeT,
+      String gstT,
+      String gstNo,
+      String landmark,
+      String city,
+      String state,
+      var imageFile) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(kMobileNum, number);
     await prefs.setString(kname, name);
+    await prefs.setString(kpincode, pincode);
+    await prefs.setString(kShopName, shop);
+    await prefs.setString(kStoreType, storeT);
+    await prefs.setString(kGstType, gstT);
+    await prefs.setString(kGstNo, gstNo);
+    await prefs.setString(kLandmark, landmark);
+    await prefs.setString(kCity, city);
+    await prefs.setString(kState, state);
     await prefs.setString(kAddress, address);
     await prefs.setString(kObjectId, objectId);
-    username = await prefs.getString(kname);
-    print(username);
+    await prefs.setString(kImageFile, imageFile);
+    pincode = await prefs.getString(kpincode);
+    print(pincode);
   }
 
   Future<String> loadUserData() async {
@@ -79,6 +113,7 @@ class RepoController extends GetxController {
     number = await prefs.getString(kMobile);
     objectId = await prefs.getString(kObjectId);
     name = await prefs.getString(kname);
+    pincode = await prefs.getString(kpincode);
     print(name);
   }
 
@@ -89,10 +124,12 @@ class RepoController extends GetxController {
     await prefs.remove(kname);
     await prefs.remove(kAddress);
     await prefs.remove(kMobileNum);
+    await prefs.remove(kpincode);
     await prefs.remove(kOrderObjectId);
     print("@@@@@@ ${prefs.getString(kUserData)}");
     print("@@@@@@2 ${prefs.getString(kMobile)}");
     //objectId.value = null;
+    name = null;
     print(objectId);
   }
 }

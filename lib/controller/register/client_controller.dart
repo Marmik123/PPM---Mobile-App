@@ -13,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:path/path.dart' as p;
 import 'package:pcm/controller/login_controller.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/utils/shared_preferences.dart';
 import 'package:pcm/view/register/document_verification.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -30,7 +31,7 @@ class ClientController extends GetxController {
 
   TextEditingController aPController = TextEditingController();
   TextEditingController pincode = TextEditingController();
-  TextEditingController gst = TextEditingController();
+  TextEditingController gstCon = TextEditingController();
 
   TextEditingController lController = TextEditingController();
   TextEditingController cIController = TextEditingController();
@@ -57,6 +58,7 @@ class ClientController extends GetxController {
   RxList finalImageList = [].obs;
   RxList registeredDetails = [].obs;
   int selectedType = 0;
+  int gst = 0;
   Uint8List selectedImage;
   RxInt clientCount = 0.obs;
   RxInt distributorCount = 0.obs;
@@ -77,7 +79,7 @@ class ClientController extends GetxController {
         ..set('state', 'Gujarat')
         ..set('shopName', sNController.text)
         ..set('pincode', pincode.text)
-        ..set('gstNumber', gst.text)
+        ..set('gstNumber', gstCon.text)
         ..set('gstType', gstType)
         ..set('storeType', store)
         ..set('registeredBy', name)
@@ -120,7 +122,7 @@ class ClientController extends GetxController {
         slController.clear();
         cController.clear();
         mController.clear();
-        gst.clear();
+        gstCon.clear();
         fileList.clear();
         nameList.clear();
         finalImageList.clear();
@@ -265,7 +267,8 @@ class ClientController extends GetxController {
       if (result.statusCode != 200) {
         isLoading.value = false;
         print("FILE UPLOAD FAILED");
-        Get.snackbar('Some error occured', 'File Upload Failed',
+        Get.snackbar(
+            S.of(Get.context).errorOc, S.of(Get.context).fileUploadFail,
             backgroundColor: Colors.cyan,
             margin: const EdgeInsets.all(5),
             snackPosition: SnackPosition.BOTTOM,
@@ -278,8 +281,10 @@ class ClientController extends GetxController {
                 LinearGradient(colors: [Colors.teal, Colors.cyan]));
       } else {
         print("FILE UPLOAD SUCCESS");
+
         isLoading.value = false;
         isUploaded.value = true;
+        print(repoController.name);
         clientRegister(
             repoController.name ?? 'Direct',
             gst == 0
@@ -300,7 +305,7 @@ class ClientController extends GetxController {
                                 : 'Medical',
             cIController.text ?? 'Surat',
             stController.text ?? 'Gujarat');
-        Get.snackbar('Photo Added Successfully', 'Action Success',
+        Get.snackbar(S.of(Get.context).photoSuccess, S.of(Get.context).actionS,
             backgroundColor: Colors.cyan,
             margin: const EdgeInsets.all(5),
             snackPosition: SnackPosition.BOTTOM,
@@ -315,7 +320,7 @@ class ClientController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       print('Error while uploding Image $e');
-      Get.snackbar('Some Error Catched', 'Please Try again',
+      Get.snackbar(S.of(Get.context).errorOc, '',
           backgroundColor: Colors.cyan,
           margin: const EdgeInsets.all(5),
           snackPosition: SnackPosition.BOTTOM,
@@ -409,7 +414,7 @@ class ClientController extends GetxController {
       return doc;
     } catch (e) {
       print(e);
-      Get.snackbar('Error Occured', 'Try again');
+      Get.snackbar(S.of(Get.context).errorOc, '');
     }
   }
 

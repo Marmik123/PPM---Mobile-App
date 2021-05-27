@@ -4,10 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/utils/shared_preferences.dart';
 import 'package:pcm/view/home/home_screen_client.dart';
 import 'package:pcm/view/home/home_screen_delivery.dart';
 import 'package:pcm/view/home/home_screen_marketing.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../view/home/homes_screen_sales.dart';
 
@@ -17,6 +19,8 @@ class LoginController extends GetxController {
   RxBool userNotExist = false.obs;
   String mobileNum;
   RxList oldData = [].obs;
+  RxList loggedUserData = [].obs;
+  RxString initialMob = ''.obs;
   GlobalKey<FormState> key = GlobalKey<FormState>();
   SignInController ctrl = Get.put(SignInController());
   RepoController rCtrl = Get.put(RepoController());
@@ -27,7 +31,8 @@ class LoginController extends GetxController {
   QueryBuilder<ParseObject> clientInfo =
       QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
         ..whereEqualTo('role', 'Client');
-
+  final RoundedLoadingButtonController btnController =
+      RoundedLoadingButtonController();
   QueryBuilder<ParseObject> salesInfo =
       QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
         ..whereEqualTo('role', 'SalesPerson');
@@ -47,6 +52,11 @@ class LoginController extends GetxController {
       if (response.success) {
         print(response);
         print('#####');
+        loggedUserData.removeRange(0, loggedUserData?.length);
+        loggedUserData(response.results);
+        print(loggedUserData);
+        print("@#%");
+        initialMob.value = loggedUserData[0]['number'].toString();
         print(response.results);
         print('#####');
         await rCtrl.setUserData(response.results[0]['role'],
@@ -70,8 +80,8 @@ class LoginController extends GetxController {
         }
       } else {
         Get.snackbar(
-          "Error Occured",
-          "Some Internal Error,Please try again.",
+          S.of(Get.context).errorOcu,
+          S.of(Get.context).errorOc,
           backgroundColor: Colors.white,
           duration: Duration(seconds: 2),
           colorText: Colors.teal,
@@ -80,12 +90,63 @@ class LoginController extends GetxController {
       }
     } catch (e) {
       Get.snackbar(
-        "Error Occured",
-        "Some Internal Error,Please try again.",
+        S.of(Get.context).errorOcu,
+        S.of(Get.context).errorOc,
         backgroundColor: Colors.white,
         duration: Duration(seconds: 2),
         colorText: Colors.teal,
       );
+      print(e);
+    }
+  }
+
+  Future<void> checkUserExist(number) async {
+    try {
+      oldDataReceived.value = false;
+      userNotExist.value = false;
+      QueryBuilder doc = QueryBuilder(ParseObject('UserMetadata'))
+        ..whereEqualTo('number', number);
+      ParseResponse result = await doc.query();
+      if (result.success) {
+        if (result.result != null) {
+          print("#####USer Exist");
+          userNotExist.value = false;
+        }
+        if (result.result == null) {
+          print("User Does not exist");
+          btnController.error();
+          userNotExist.value = true;
+          Get.snackbar(
+            '',
+            '',
+            messageText: Text(
+              S.of(Get.context).userNot,
+              style: GoogleFonts.montserrat(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300),
+              ),
+            ),
+            titleText: Text(
+              S.of(Get.context).signUpSnack,
+              style: GoogleFonts.montserrat(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300),
+              ),
+            ),
+            icon: Icon(Icons.cancel),
+            backgroundColor: Colors.cyan,
+            backgroundGradient:
+                LinearGradient(colors: [Colors.white, Colors.cyan]),
+            snackStyle: SnackStyle.FLOATING,
+          );
+          return false;
+        }
+      }
+    } catch (e) {
       print(e);
     }
   }
@@ -107,7 +168,7 @@ class LoginController extends GetxController {
             '',
             '',
             messageText: Text(
-              'Please Add Another',
+              S.of(Get.context).request,
               style: GoogleFonts.montserrat(
                 textStyle: TextStyle(
                     color: Colors.black,
@@ -116,7 +177,7 @@ class LoginController extends GetxController {
               ),
             ),
             titleText: Text(
-              'User With this Mobile Number Already Exist',
+              S.of(Get.context).alreadyExist,
               style: GoogleFonts.montserrat(
                 textStyle: TextStyle(
                     color: Colors.black,
@@ -164,7 +225,7 @@ class LoginController extends GetxController {
             '',
             '',
             messageText: Text(
-              'Please Sign Up first',
+              S.of(Get.context).signUpSnack,
               style: GoogleFonts.montserrat(
                 textStyle: TextStyle(
                     color: Colors.black,
@@ -173,7 +234,7 @@ class LoginController extends GetxController {
               ),
             ),
             titleText: Text(
-              'User does not exist',
+              S.of(Get.context).userNot,
               style: GoogleFonts.montserrat(
                 textStyle: TextStyle(
                     color: Colors.black,
@@ -215,7 +276,7 @@ class LoginController extends GetxController {
       print(result.error.message);
       Get.snackbar(
         "Error Occured",
-        "Some Internal Error,Please try again.",
+        S.of(Get.context).errorOc,
         backgroundColor: Colors.white,
         duration: Duration(seconds: 2),
         colorText: Colors.teal,

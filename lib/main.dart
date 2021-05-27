@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,8 +20,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const String parse_App_ID = '849F7316D6729D5A14451E65AF5E1';
 const String parse_Masterkey = 'A2F3518273BE94F51A3BD44CBAC5E';
-const String parse_App_url = 'https://cup.marketing.dharmatech.in/manage';
-const String kParseLiveQueryUrl = 'wss://cup.marketing.dharmatech.in';
+const String parse_App_url = 'https://api.ppmstore.in/parse';
+const String kParseLiveQueryUrl = 'wss://api.ppmstore.in';
 SharedPreferences prefs;
 
 RepoController ctrl = Get.put(RepoController());
@@ -34,7 +35,10 @@ void main() async {
   //await initPreferences();
   await initSPreference();
   //print(ctrl.savedLocale());
-
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp,
+  ]);
   print(prefs.getString('languageCode') ?? 'en');
   await S.load(Locale(prefs.getString('languageCode') ?? 'en'));
   await Firebase.initializeApp();

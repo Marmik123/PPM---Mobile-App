@@ -162,13 +162,7 @@ class _OtpVerificationState extends State<OtpVerification>
                     height: 200,
                   ),
                   SizedBox(
-                      child:
-                          /* otpCtrl.isLoading.value
-                            ? Center(
-                                child: buildLoader(),
-                              )
-                            :*/
-                          RoundedLoadingButton(
+                      child: RoundedLoadingButton(
                     color: Colors.white,
                     controller: otpCtrl.butCtrl,
                     onPressed: () {

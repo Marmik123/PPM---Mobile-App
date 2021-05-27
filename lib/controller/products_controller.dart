@@ -9,6 +9,7 @@ class ProductsController extends GetxController {
   RxInt slideIndex = 0.obs;
   RxString unit = "Kg".obs;
   RxList products = [].obs;
+  List sizeDimList = [];
   RxList cartProducts = [].obs;
   RxString size = "Small".obs;
   RxList sizeList = [].obs;

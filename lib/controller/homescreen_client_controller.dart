@@ -24,10 +24,20 @@ class HomeScreenClientController extends GetxController {
         loggedInClient(result.results);
         print('########$loggedInClient');
         rCtrl.setLoginData(
-            loggedInClient[0]['name'],
-            loggedInClient[0]['address1'],
-            loggedInClient[0]['number'],
-            loggedInClient[0]['objectId']);
+          loggedInClient[0]['name'],
+          loggedInClient[0]['address1'],
+          loggedInClient[0]['number'],
+          loggedInClient[0]['objectId'],
+          loggedInClient[0]['pincode'],
+          loggedInClient[0]['shopName'],
+          loggedInClient[0]['storeType'],
+          loggedInClient[0]['gstType'],
+          loggedInClient[0]['gstNumber'],
+          loggedInClient[0]['landmark'],
+          loggedInClient[0]['city'],
+          loggedInClient[0]['state'],
+          loggedInClient[0]['imageFileName'],
+        );
       }
     } catch (e) {
       print(e);

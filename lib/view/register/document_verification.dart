@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/generated/l10n.dart';
-import 'package:pcm/view/auth/login_mobile.dart';
 
 class DocumentVerification extends StatefulWidget {
   const DocumentVerification({Key key}) : super(key: key);
@@ -23,7 +23,7 @@ class _DocumentVerificationState extends State<DocumentVerification> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_sharp),
           onPressed: () {
-            Get.offAll(() => SignIn());
+            Phoenix.rebirth(context);
           },
         ),
       ),

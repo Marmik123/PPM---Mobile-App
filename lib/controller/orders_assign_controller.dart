@@ -1,10 +1,13 @@
-import 'dart:typed_data';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide MultipartFile;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
+import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/utils/shared_preferences.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +22,7 @@ class OrderAssignController extends GetxController {
   RxBool noOrderLeft = false.obs;
   RxBool showDelivered = false.obs;
   var isLoadingButton = -1.obs;
+  RxList nameList = [].obs;
   RxBool noOrderDelivered = false.obs;
   RxList<ParseObject> orderList = <ParseObject>[].obs;
   RxList<ParseObject> completeOrderData = <ParseObject>[].obs;
@@ -39,6 +43,77 @@ class OrderAssignController extends GetxController {
           ..whereEqualTo('deliveryBoyNum', mobile)
           ..whereNotEqualTo('deliveryStatus', "yes");
     return orders;
+  }
+
+  Future<void> uploadImg(String filename, selectedImage) async {
+    isLoading.value = true;
+    try {
+      String url = "https://cup.marketing.dharmatech.in/product/upload/image";
+      var uri = Uri.parse(url);
+      var request = new http.MultipartRequest("POST", uri);
+
+      var multipartFile = new http.MultipartFile.fromBytes(
+          'image', selectedImage,
+          filename: filename,
+          contentType: MediaType('application', 'octet-stream'));
+      request.files.add(multipartFile);
+
+      http.Response result =
+          await http.Response.fromStream(await request.send());
+      print("Result: ${result.statusCode}");
+      print(result.body.trArgs());
+      print(result.body);
+      var json = jsonDecode(result.body);
+      print(json);
+      print(json['file']);
+      nameList().removeRange(0, nameList.length);
+      nameList().add(json['file']);
+      if (result.statusCode != 200) {
+        isLoading.value = false;
+        print("FILE UPLOAD FAILED");
+        Get.snackbar(
+            S.of(Get.context).errorOc, S.of(Get.context).fileUploadFail,
+            backgroundColor: Colors.cyan,
+            margin: const EdgeInsets.all(5),
+            snackPosition: SnackPosition.BOTTOM,
+            maxWidth: MediaQuery.of(Get.context).size.width,
+            isDismissible: true,
+            dismissDirection: SnackDismissDirection.VERTICAL,
+            colorText: Colors.white,
+            icon: Icon(Icons.cancel),
+            backgroundGradient:
+                LinearGradient(colors: [Colors.teal, Colors.cyan]));
+      } else {
+        print("FILE UPLOAD SUCCESS");
+        isLoading.value = false;
+        //isUploaded.value = true;
+        Get.snackbar(S.of(Get.context).photoSuccess, S.of(Get.context).actionS,
+            backgroundColor: Colors.cyan,
+            margin: const EdgeInsets.all(5),
+            snackPosition: SnackPosition.BOTTOM,
+            maxWidth: MediaQuery.of(Get.context).size.width,
+            isDismissible: true,
+            dismissDirection: SnackDismissDirection.VERTICAL,
+            colorText: Colors.white,
+            icon: Icon(Icons.check_circle),
+            backgroundGradient:
+                LinearGradient(colors: [Colors.teal, Colors.cyan]));
+      }
+    } catch (e) {
+      isLoading.value = false;
+      print('Error while uploding Image $e');
+      Get.snackbar(S.of(Get.context).errorOc, '',
+          backgroundColor: Colors.cyan,
+          margin: const EdgeInsets.all(5),
+          snackPosition: SnackPosition.BOTTOM,
+          maxWidth: MediaQuery.of(Get.context).size.width,
+          isDismissible: true,
+          dismissDirection: SnackDismissDirection.VERTICAL,
+          colorText: Colors.white,
+          icon: Icon(Icons.cancel),
+          backgroundGradient:
+              LinearGradient(colors: [Colors.teal, Colors.cyan]));
+    }
   }
 
   Future<void> showAssignedOrder(String mobile) async {
@@ -69,8 +144,8 @@ class OrderAssignController extends GetxController {
       } else {
         isLoading.value = false;
         Get.snackbar(
-          "Error Occured",
-          "Error in Showing Assigned Orders",
+          S.of(Get.context).errorOcu,
+          "",
           backgroundColor: Colors.white,
           duration: Duration(seconds: 3),
           colorText: Colors.teal,
@@ -80,8 +155,8 @@ class OrderAssignController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       Get.snackbar(
-        "Error Occured",
-        "Error in Showing Assigned Order",
+        S.of(Get.context).errorOcu,
+        "",
         backgroundColor: Colors.white,
         duration: Duration(seconds: 2),
         colorText: Colors.teal,
@@ -107,8 +182,8 @@ class OrderAssignController extends GetxController {
       } else {
         isLoading.value = false;
         Get.snackbar(
-          "Error ! Please try again.",
-          "Order Data Not Loaded",
+          S.of(Get.context).errorOcu,
+          "",
           backgroundColor: Colors.white,
           duration: Duration(seconds: 3),
           colorText: Colors.teal,
@@ -118,8 +193,8 @@ class OrderAssignController extends GetxController {
       isLoading.value = false;
       //print("default error---" + e.toString());
       Get.snackbar(
-        "Error ! Please try again.",
-        "Order Data Not Loaded",
+        S.of(Get.context).errorOcu,
+        "",
         backgroundColor: Colors.white,
         duration: Duration(seconds: 3),
         colorText: Colors.teal,
@@ -195,7 +270,7 @@ class OrderAssignController extends GetxController {
           width: MediaQuery.of(Get.context).size.width / 2,
           behavior: SnackBarBehavior.floating,
           content: Text(
-            "Order Delivered Successfully",
+            S.of(Get.context).orderDel,
             style: GoogleFonts.montserrat(
                 fontSize: 12, fontWeight: FontWeight.w500),
           ),
@@ -207,8 +282,8 @@ class OrderAssignController extends GetxController {
         isLoading.value = false;
         isLoadingButton = -1;
         Get.snackbar(
-          "Error ! Please try again.",
-          "Order Delivery Status Not updated",
+          S.of(Get.context).errorOcu,
+          "",
           backgroundColor: Colors.white,
           duration: Duration(seconds: 3),
           colorText: Colors.teal,
@@ -219,8 +294,8 @@ class OrderAssignController extends GetxController {
       isLoading.value = false;
       print(" error---" + e.toString());
       Get.snackbar(
-        "Error ! Please try again.",
-        "Order Delivery Status Not updated",
+        S.of(Get.context).errorOcu,
+        "",
         backgroundColor: Colors.white,
         duration: Duration(seconds: 3),
         colorText: Colors.teal,
@@ -258,7 +333,7 @@ class OrderAssignController extends GetxController {
           width: MediaQuery.of(Get.context).size.width / 2,
           behavior: SnackBarBehavior.floating,
           content: Text(
-            "Delivery History Updated",
+            S.of(Get.context).delHist,
             style: GoogleFonts.montserrat(
                 fontSize: 12, fontWeight: FontWeight.w500),
           ),
@@ -270,8 +345,8 @@ class OrderAssignController extends GetxController {
         showDelivered.value = false;
 
         Get.snackbar(
-          "Error ! Please try again.",
-          "Delivery History Not Updated",
+          S.of(Get.context).errorOcu,
+          "",
           backgroundColor: Colors.white,
           duration: Duration(seconds: 3),
           colorText: Colors.teal,
@@ -281,8 +356,8 @@ class OrderAssignController extends GetxController {
       showDelivered.value = false;
       print("default error---" + e.toString());
       Get.snackbar(
-        "Catch Error ! Please try again.",
-        "Delivery History Not Updated",
+        S.of(Get.context).errorOcu,
+        "",
         backgroundColor: Colors.white,
         duration: Duration(seconds: 3),
         colorText: Colors.teal,
@@ -292,7 +367,7 @@ class OrderAssignController extends GetxController {
     }
   }
 
-  Future<void> chooseFile(Uint8List pickedFile, ParseObject orderObject) async {
+  Future<void> chooseFile(filename, ParseObject orderObject) async {
     isLoading.value = true;
     print('called choose file');
     //var name
@@ -301,17 +376,18 @@ class OrderAssignController extends GetxController {
       //var image = MemoryImage(pickedFile);
       /* ParseFile img =
           ParseFile(File.fromRawPath(pickedFile), name: "signature");*/
-      ParseWebFile pic = ParseWebFile(pickedFile, name: "sig");
-      orderObject..set<ParseWebFile>("custSignature", pic);
+      //ParseWebFile pic = ParseWebFile(pickedFile, name: "sig");
+      orderObject..set("custSign", filename);
       ParseResponse adResult = await orderObject.save();
       if (adResult.success) {
         print("signature added");
         isLoading.value = false;
+        Get.back();
       } else {
         isLoading.value = false;
         final snackBar = SnackBar(
           content: Text(
-            "Error ! Please try again.",
+            S.of(Get.context).errorOcu,
           ),
           elevation: 20.0,
           backgroundColor: Colors.cyan,
@@ -323,7 +399,7 @@ class OrderAssignController extends GetxController {
       Get.back();
       final snackBar = SnackBar(
         content: Text(
-          "Error ! Please try again.",
+          S.of(Get.context).errorOcu,
         ),
         elevation: 20.0,
         backgroundColor: Colors.cyan,

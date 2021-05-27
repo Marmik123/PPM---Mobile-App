@@ -65,10 +65,10 @@ class S {
     );
   }
 
-  /// `Enter Your Code`
+  /// `Enter Otp`
   String get otp {
     return Intl.message(
-      'Enter Your Code',
+      'Enter Otp',
       name: 'otp',
       desc: '',
       args: [],
@@ -120,6 +120,16 @@ class S {
     return Intl.message(
       'FeedBack',
       name: 'feedback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Profile`
+  String get editProfile {
+    return Intl.message(
+      'Edit Profile',
+      name: 'editProfile',
       desc: '',
       args: [],
     );
@@ -575,11 +585,171 @@ class S {
     );
   }
 
+  /// `Please Sign Up first`
+  String get signUpSnack {
+    return Intl.message(
+      'Please Sign Up first',
+      name: 'signUpSnack',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User Does not exist`
+  String get userNot {
+    return Intl.message(
+      'User Does not exist',
+      name: 'userNot',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please Add Another`
+  String get request {
+    return Intl.message(
+      'Please Add Another',
+      name: 'request',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User With this Mobile Number Already Exist`
+  String get alreadyExist {
+    return Intl.message(
+      'User With this Mobile Number Already Exist',
+      name: 'alreadyExist',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Mobile Number`
   String get Number {
     return Intl.message(
       'Mobile Number',
       name: 'Number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Some Internal Error,Please try again.`
+  String get errorOc {
+    return Intl.message(
+      'Some Internal Error,Please try again.',
+      name: 'errorOc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error Occured`
+  String get errorOcu {
+    return Intl.message(
+      'Error Occured',
+      name: 'errorOcu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Order Delivered Successfully`
+  String get orderDel {
+    return Intl.message(
+      'Order Delivered Successfully',
+      name: 'orderDel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delivery History Updated`
+  String get delHist {
+    return Intl.message(
+      'Delivery History Updated',
+      name: 'delHist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Order Placed Successfully`
+  String get orderSuccess {
+    return Intl.message(
+      'Order Placed Successfully',
+      name: 'orderSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Item Added to Cart`
+  String get itemAdded {
+    return Intl.message(
+      'Item Added to Cart',
+      name: 'itemAdded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cart Updated Successfully`
+  String get cartUpdated {
+    return Intl.message(
+      'Cart Updated Successfully',
+      name: 'cartUpdated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `File Upload Failed`
+  String get fileUploadFail {
+    return Intl.message(
+      'File Upload Failed',
+      name: 'fileUploadFail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Photo Added Successfully`
+  String get photoSuccess {
+    return Intl.message(
+      'Photo Added Successfully',
+      name: 'photoSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Action Success`
+  String get actionS {
+    return Intl.message(
+      'Action Success',
+      name: 'actionS',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Press Sign Up to Register`
+  String get signUp {
+    return Intl.message(
+      'Press Sign Up to Register',
+      name: 'signUp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fill the Sign Up Form`
+  String get fillS {
+    return Intl.message(
+      'Fill the Sign Up Form',
+      name: 'fillS',
       desc: '',
       args: [],
     );

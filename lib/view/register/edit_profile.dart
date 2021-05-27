@@ -1,33 +1,126 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/controller/login_controller.dart';
 import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/utils/shared_preferences.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-class ClientRegister extends StatefulWidget {
+class EditProfile extends StatefulWidget {
+  final String name;
+  final String number;
+  final String shop;
+  final String gstType;
+  final String gstNo;
+  final String storeT;
+  final String landmark;
+  final String city;
+  final String state;
+  final String pincode;
+  final String address;
+  final imageFile;
+
+  const EditProfile(
+      {Key key,
+      this.name,
+      this.number,
+      this.shop,
+      this.gstType,
+      this.gstNo,
+      this.storeT,
+      this.landmark,
+      this.city,
+      this.state,
+      this.pincode,
+      this.address,
+      this.imageFile})
+      : super(key: key);
+
   @override
-  _ClientRegisterState createState() => _ClientRegisterState();
+  _EditProfileState createState() => _EditProfileState();
 }
 
-class _ClientRegisterState extends State<ClientRegister> {
+class _EditProfileState extends State<EditProfile> {
   RepoController repoController = Get.put(RepoController());
   LoginController login = Get.put(LoginController());
   ClientController con = Get.put(ClientController());
+  TextEditingController nController = TextEditingController();
+  bool isNameC = false;
+  bool isNumC = false;
+  bool isGstT = false;
+  bool isGstN = false;
+  bool isShopN = false;
+  bool isStoreT = false;
+  bool isAddress = false;
+  bool isCity = false;
+  bool isState = false;
+  bool isPincode = false;
+  bool isLandmark = false;
+  String NameC;
+  String NumC;
+  String GstT;
+  String GstN;
+  String ShopN;
+  String StoreT;
+  String Address;
+  String City;
+  String State;
+  String Pincode;
+  String Landmark;
+  TextEditingController sNController = TextEditingController();
+
+  TextEditingController sPController = TextEditingController();
+
+  TextEditingController aPController = TextEditingController();
+  TextEditingController pincode = TextEditingController();
+  TextEditingController gstCon = TextEditingController();
+
+  TextEditingController lController = TextEditingController();
+  TextEditingController cIController = TextEditingController();
+
+  TextEditingController aController = TextEditingController();
+
+  TextEditingController stController = TextEditingController();
+  TextEditingController slController = TextEditingController();
+  int gst = 0;
+  int selectedType = 0;
+  TextEditingController cController = TextEditingController();
+  TextEditingController mController = TextEditingController();
+  String initialNumber;
+  final jobKey = GlobalKey<FormState>();
+  RepoController rCtrl = Get.put(RepoController());
+  final RoundedLoadingButtonController btnSubmit =
+      new RoundedLoadingButtonController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isNameC = false;
+    isNumC = false;
+    isGstT = false;
+    isGstN = false;
+    isShopN = false;
+    isStoreT = false;
+    isAddress = false;
+    isCity = false;
+    isState = false;
+    isPincode = false;
+    isLandmark = false;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          S.of(context).client,
+          S.of(context).editProfile,
         ),
       ),
       body: Form(
-          key: con.jobKey,
+          key: jobKey,
           child: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -36,7 +129,12 @@ class _ClientRegisterState extends State<ClientRegister> {
               children: [
                 TextFormField(
                   onTap: () {},
-                  controller: con.nController,
+                  initialValue: widget.name.toString(),
+                  onChanged: (value) {
+                    isNameC = true;
+                    NameC = value;
+                  },
+                  //controller: nController,
                   decoration: InputDecoration(
                     labelText: S.of(context).Name,
                     //enabledBorder: InputBorder.none,
@@ -47,7 +145,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
-                      con.btnController.reset();
+                      btnSubmit.reset();
                       return S.of(context).errorName;
                     }
                     return null;
@@ -61,10 +159,15 @@ class _ClientRegisterState extends State<ClientRegister> {
                   height: 10,
                 ),
                 TextFormField(
+                  initialValue: widget.number,
                   keyboardType: TextInputType.number,
-                  controller: con.mController,
+                  onChanged: (value) {
+                    isNumC = true;
+                    NumC = value;
+                  },
+                  //controller: mController,
                   onFieldSubmitted:
-                      checkMobileNumber(con.mController.text.trim().toString()),
+                      checkMobileNumber(mController.text.trim().toString()),
                   decoration: InputDecoration(
                     labelText: S.of(context).Number,
                     border: OutlineInputBorder(
@@ -83,7 +186,12 @@ class _ClientRegisterState extends State<ClientRegister> {
                   height: 10,
                 ),
                 TextFormField(
-                  controller: con.sNController,
+                  initialValue: widget.shop,
+                  onChanged: (value) {
+                    isShopN = true;
+                    ShopN = value;
+                  },
+                  //controller: sNController,
                   decoration: InputDecoration(
                     labelText: S.of(context).sName,
                     border: OutlineInputBorder(
@@ -103,10 +211,11 @@ class _ClientRegisterState extends State<ClientRegister> {
                 ),
                 DropdownButtonFormField(
                     isExpanded: true,
-                    value: con.selectedType,
+                    value: selectedType,
                     onChanged: (value) {
                       setState(() {
-                        con.selectedType = value;
+                        isStoreT = true;
+                        selectedType = value;
                       });
                     },
                     iconEnabledColor: Colors.black,
@@ -191,10 +300,11 @@ class _ClientRegisterState extends State<ClientRegister> {
                 ),
                 DropdownButtonFormField(
                     isExpanded: true,
-                    value: con.gst,
+                    value: gst,
                     onChanged: (value) {
                       setState(() {
-                        con.gst = value;
+                        isGstT = true;
+                        gst = value;
                       });
                     },
                     iconEnabledColor: Colors.black,
@@ -244,9 +354,14 @@ class _ClientRegisterState extends State<ClientRegister> {
                 SizedBox(
                   height: 10,
                 ),
-                con.gst == 0 || con.gst == 1
+                gst == 0 || gst == 1
                     ? TextFormField(
-                        controller: con.gstCon,
+                        initialValue: widget.gstNo,
+                        onChanged: (value) {
+                          isGstN = true;
+                          GstN = value;
+                        },
+                        //controller: gstCon,
                         keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value.isEmpty) {
@@ -263,129 +378,6 @@ class _ClientRegisterState extends State<ClientRegister> {
                         ),
                       )
                     : Container(),
-                SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  readOnly: true,
-                  controller: con.sPController,
-                  decoration: InputDecoration(
-                    prefix: GestureDetector(
-                      onTap: () async {
-                        setState(() {});
-                        con.isUploaded.value = false;
-                        return Get.defaultDialog(
-                            title: 'Choose from',
-                            titleStyle: GoogleFonts.montserrat(
-                              fontSize: 15,
-                            ),
-                            content: Column(
-                              children: [
-                                TextButton(
-                                    onPressed: () async {
-                                      await con.shopPhoto(ImageSource.camera);
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.camera_alt_outlined),
-                                        SizedBox(width: 10),
-                                        Text(
-                                          'Camera',
-                                          style: TextStyle(color: Colors.black),
-                                        ),
-                                      ],
-                                    )),
-                                TextButton(
-                                    onPressed: () async {
-                                      await con.shopPhoto(ImageSource.gallery);
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.upload_file),
-                                        SizedBox(width: 10),
-                                        Text('Gallery',
-                                            style:
-                                                TextStyle(color: Colors.black)),
-                                      ],
-                                    ))
-                              ],
-                            ));
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 1.3,
-                        height: MediaQuery.of(context).size.height / 22,
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: ClampingScrollPhysics(),
-                            itemCount: con.fileList().length,
-                            itemBuilder: (context, index) => Row(
-                                  children: [
-                                    Text(
-                                      con.fileList()[index],
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 10),
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            con.fileList().removeAt(index);
-                                            con
-                                                .finalImageList()
-                                                .removeAt(index);
-                                            if (con.nameList()?.isNotEmpty) {
-                                              con.nameList().removeAt(index);
-                                            }
-                                            print(
-                                                "REMAINING ${con.fileList()}");
-                                            print(
-                                                "REMAINING ${con.nameList()}");
-                                          });
-                                        },
-                                        child: Icon(
-                                          Icons.cancel,
-                                          color: Colors.grey,
-                                        ))
-                                  ],
-                                )),
-                      ),
-                    ),
-                    suffixIcon: GestureDetector(
-                        onTap: () {},
-                        child: Icon(
-                          Icons.file_upload,
-                          color: Colors.black,
-                        )),
-                    labelText: S.of(context).photo,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.blueGrey),
-                    ),
-                    // suffix: con.pickedFile ==null
-                    //     ?SizedBox.shrink()
-                    //     :Container(
-                    //   height: 25,
-                    //   width: 25,
-                    //   child: ClipRRect(
-                    //
-                    //     child: Image.file(
-                    //       con.pickedFile,
-                    //       fit: BoxFit.cover,
-                    //     ),
-                    //   ),
-                    // ),
-                  ),
-
-                  // validator: (value) {
-                  //   if (value.isEmpty) {
-                  //     return S.of(context).entVAmount;
-                  //   }
-                  //   return null;
-                  // },
-                  //keyboardType: TextInputType.number,
-                ),
                 SizedBox(
                   height: 10,
                 ),
@@ -406,7 +398,12 @@ class _ClientRegisterState extends State<ClientRegister> {
                     children: [
                       Text(S.of(context).Address),
                       TextFormField(
-                        controller: con.aPController,
+                        initialValue: widget.address,
+                        onChanged: (value) {
+                          isAddress = true;
+                          Address = value;
+                        },
+                        //controller: aPController,
                         validator: (value) {
                           if (value.isEmpty) {
                             return S.of(context).errorC;
@@ -425,7 +422,12 @@ class _ClientRegisterState extends State<ClientRegister> {
                         height: 10,
                       ),
                       TextFormField(
-                        controller: con.lController,
+                        onChanged: (value) {
+                          isLandmark = true;
+                          Landmark = value;
+                        },
+                        initialValue: widget.landmark,
+                        //controller: lController,
                         validator: (value) {
                           if (value.isEmpty) {
                             return S.of(context).errorC;
@@ -444,7 +446,12 @@ class _ClientRegisterState extends State<ClientRegister> {
                         height: 10,
                       ),
                       TextFormField(
-                        controller: con.pincode,
+                        initialValue: widget.pincode,
+                        onChanged: (value) {
+                          isPincode = true;
+                          Pincode = value;
+                        },
+                        //controller: pincode,
                         validator: (value) {
                           if (value.isEmpty) {
                             return S.of(context).errorC;
@@ -464,8 +471,12 @@ class _ClientRegisterState extends State<ClientRegister> {
                         height: 10,
                       ),
                       TextFormField(
-                        // controller: con.cIController,
-                        initialValue: S.of(context).surat,
+                        onChanged: (value) {
+                          isCity = true;
+                          City = value;
+                        },
+                        // controller: cIController,
+                        initialValue: widget.city,
                         validator: (value) {
                           if (value.isEmpty) {
                             return S.of(context).errorC;
@@ -484,8 +495,12 @@ class _ClientRegisterState extends State<ClientRegister> {
                         height: 10,
                       ),
                       TextFormField(
-                        //controller: con.stController,
-                        initialValue: S.of(context).Gujarat,
+                        onChanged: (value) {
+                          isState = true;
+                          State = value;
+                        },
+                        //controller: stController,
+                        initialValue: widget.state,
                         validator: (value) {
                           if (value.isEmpty) {
                             return S.of(context).errorC;
@@ -508,7 +523,7 @@ class _ClientRegisterState extends State<ClientRegister> {
                 ),
 
                 // TextFormField(
-                //   controller: con.cController,
+                //   controller: cController,
                 //   decoration: InputDecoration(
                 //     labelText: S.of(context).comments,
                 //     border: OutlineInputBorder(
@@ -528,39 +543,43 @@ class _ClientRegisterState extends State<ClientRegister> {
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: RoundedLoadingButton(
-              child: Text(S.of(context).Save),
-              borderRadius: 10,
-              height: 35,
-              width: 100,
-              controller: con.btnController,
-              onPressed: () {
-                /* if (con.isUploaded.value == false) {
-                  con.btnController.reset();
-                  Get.snackbar(
-                      'No ID Document Uploaded', 'Please upload the ID Proof',
-                      backgroundColor: Colors.cyan,
-                      margin: const EdgeInsets.all(5),
-                      snackPosition: SnackPosition.BOTTOM,
-                      maxWidth: MediaQuery.of(Get.context).size.width,
-                      isDismissible: true,
-                      dismissDirection: SnackDismissDirection.VERTICAL,
-                      colorText: Colors.white,
-                      icon: Icon(Icons.cancel),
-                      backgroundGradient:
-                          LinearGradient(colors: [Colors.teal, Colors.cyan]));
-                }*/
-                if (con.jobKey.currentState.validate()) {
-                  if (con.fileList.isNotEmpty) {
-                    for (var i = 0; i < con.fileList()?.length; i++) {
-                      con.uploadImg(
-                          con.fileList[i].toString(), con.finalImageList[i]);
-                    }
-                  }
-                }
-                if (con.jobKey.currentState.validate() &&
-                    con.isUploaded.value == true) {}
-              },
-            ),
+                child: Text(S.of(context).Save),
+                borderRadius: 10,
+                height: 35,
+                width: 100,
+                controller: btnSubmit,
+                onPressed: () {
+                  submitC(
+                      isNameC ? NameC : widget.name,
+                      isNumC ? NumC : widget.number,
+                      isShopN ? ShopN : widget.shop,
+                      isGstN ? GstN : widget.gstNo,
+                      isAddress ? Address : widget.address,
+                      isLandmark ? Landmark : widget.landmark,
+                      isGstT
+                          ? (gst == 0
+                              ? 'Regular GST'
+                              : gst == 1
+                                  ? 'Composition GST'
+                                  : 'Without GST')
+                          : widget.gstType,
+                      isStoreT
+                          ? (selectedType == 0
+                              ? 'Stationary'
+                              : selectedType == 1
+                                  ? 'Kirana'
+                                  : selectedType == 2
+                                      ? 'Dairy'
+                                      : selectedType == 3
+                                          ? 'Vegetable'
+                                          : selectedType == 4
+                                              ? 'Provision'
+                                              : 'Medical')
+                          : widget.storeT,
+                      isCity ? City : widget.city,
+                      isState ? State : widget.state,
+                      widget.imageFile);
+                }),
           ),
           SizedBox(
             height: 10,
@@ -568,6 +587,44 @@ class _ClientRegisterState extends State<ClientRegister> {
         ],
       ),
     );
+  }
+
+  void submitC(name, number, shopName, gstNo, address, landmark, gst, store,
+      city, state, imageFile) async {
+    try {
+      QueryBuilder<ParseObject> userData =
+          QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
+            //ParseObject userData = ParseObject('UserMetadata')
+            ..whereEqualTo('role', 'Client')
+            ..whereEqualTo('objectId', repoController.objectId);
+
+      ParseResponse response = await userData.query();
+      if (response.success) {
+        ParseObject user = response.result[0]
+          ..set('name', name)
+          ..set('shopName', shopName)
+          ..set('gstNumber', gstNo)
+          ..set('gstType', gst)
+          ..set('storeType', store)
+          ..set('imageFileName', imageFile)
+          ..set('city', city)
+          ..set('state', state)
+          ..set('address1', address)
+          ..set('landmark', landmark)
+          ..set('number', number);
+        print(userData);
+        ParseResponse result = await user.save();
+        if (result.success) {
+          btnSubmit.success();
+        }
+      }
+    } catch (e) {
+      print(e);
+      btnSubmit.error();
+    } finally {
+      Future.delayed(Duration(milliseconds: 1500))
+          .then((value) => btnSubmit.reset());
+    }
   }
 
   checkMobileNumber(String number) {
