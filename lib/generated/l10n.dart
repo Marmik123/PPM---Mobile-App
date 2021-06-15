@@ -785,6 +785,26 @@ class S {
     );
   }
 
+  /// `Hotel`
+  String get Hotel {
+    return Intl.message(
+      'Hotel',
+      name: 'Hotel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other`
+  String get Other {
+    return Intl.message(
+      'Other',
+      name: 'Other',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Provision`
   String get Provision {
     return Intl.message(

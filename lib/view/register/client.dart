@@ -184,6 +184,28 @@ class _ClientRegisterState extends State<ClientRegister> {
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500),
                             ),
+                          )),
+                      DropdownMenuItem(
+                          value: 6,
+                          child: Text(
+                            S.of(context).Hotel,
+                            style: GoogleFonts.montserrat(
+                              textStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          )),
+                      DropdownMenuItem(
+                          value: 7,
+                          child: Text(
+                            S.of(context).Other,
+                            style: GoogleFonts.montserrat(
+                              textStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500),
+                            ),
                           ))
                     ]),
                 SizedBox(

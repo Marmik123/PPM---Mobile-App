@@ -302,7 +302,11 @@ class ClientController extends GetxController {
                             ? 'Vegetable'
                             : selectedType == 4
                                 ? 'Provision'
-                                : 'Medical',
+                                : selectedType == 5
+                                    ? 'Medical'
+                                    : selectedType == 6
+                                        ? 'Hotel'
+                                        : 'Other',
             cIController.text ?? 'Surat',
             stController.text ?? 'Gujarat');
         Get.snackbar(S.of(Get.context).photoSuccess, S.of(Get.context).actionS,

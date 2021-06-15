@@ -47,7 +47,8 @@ class CartController extends GetxController {
     }
   }
 
-  Future clientReport(String name, String mobile, int purchaseCount) async {
+  Future clientReport(
+      String name, String mobile, int purchaseCount, String shopName) async {
     print('called client report');
     try {
       var userData = QueryBuilder<ParseObject>(ParseObject('OrdersMetadata'))
@@ -62,6 +63,7 @@ class CartController extends GetxController {
           var newClient = ParseObject('OrdersMetadata')
             ..set<String>('clientName', name)
             ..set('number', mobile)
+            ..set('shopName', shopName)
             ..set<int>('productsPurchased', purchaseCount);
 
           var reportResult = await newClient.create();
@@ -78,6 +80,7 @@ class CartController extends GetxController {
           ParseObject client = response.result[0]
             ..set('clientName', name)
             ..set('number', mobile)
+            ..set('shopName', shopName)
             ..set('productsPurchased',
                 response.result[0]['productsPurchased'] + purchaseCount);
 
@@ -340,14 +343,17 @@ class CartController extends GetxController {
   //   cartList = {};
   // }
 
-  Future<void> orderPlaced(
-      {price,
-      String customerName,
-      String size,
-      String unit,
-      String pincode,
-      String customerAddress,
-      String customerMobile}) async {
+  Future<void> orderPlaced({
+    price,
+    String customerName,
+    String size,
+    String unit,
+    String pincode,
+    String customerAddress,
+    String customerMobile,
+    String customerShopName,
+    String customerShopType,
+  }) async {
     var details = [];
     try {
       isLoading.value = true;
@@ -387,6 +393,8 @@ class CartController extends GetxController {
         ..set('customerName', customerName)
         ..set('customerAddress', customerAddress)
         ..set('customerContactNo', customerMobile)
+        ..set('customerShopName', customerShopName)
+        ..set('customerShopType', customerShopType)
         ..set('size', size);
       ParseResponse response = await orderData.create();
       var objectId;
