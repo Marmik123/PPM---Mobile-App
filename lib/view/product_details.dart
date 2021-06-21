@@ -37,14 +37,16 @@ class _ProductDetailsState extends State<ProductDetails>
   RepoController repo = Get.put(RepoController());
   LoginController login = Get.put(LoginController());
   ProductsController cltrProduct = Get.put(ProductsController());
+  TextEditingController qtyController = TextEditingController(text: '1');
+  FocusNode qtyFocusNode = FocusNode();
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     cltrProduct.slideIndex.value = 0;
     cltrProduct.quantity.value = 1;
     cltrCart.quantity.value = 1;
-    cltrProduct.size.value = "Small";
+    cltrProduct.size.value = 'Small';
     getSizes();
     controller = AnimationController(
       duration: Duration(milliseconds: 400),
@@ -103,27 +105,42 @@ class _ProductDetailsState extends State<ProductDetails>
               children: [
                 Icon(CupertinoIcons.back),
                 Expanded(
-                  child: Swiper(
-                    loop: false,
-                    autoplay: false,
-                    layout: SwiperLayout.TINDER,
-                    itemWidth: MediaQuery.of(context).size.width * 0.95,
-                    itemHeight: MediaQuery.of(context).size.height * 0.55,
-                    itemCount: widget.product.get('imageFileName')?.length ?? 0,
-                    //ctrl.introScreenSlides.length,
-                    onIndexChanged: (indexCount) {
-                      cltrProduct.slideIndex.value = indexCount;
-                    },
-                    itemBuilder: (context, index) {
-                      return Container(
-                        color: Colors.white,
-                        child: Image(
-                          fit: BoxFit.contain,
-                          image: NetworkImage(
-                              'https://cup.marketing.dharmatech.in/file/product/${widget.product.get('imageFileName')[index]}'),
-                        ),
-                      );
-                    },
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.40,
+                    child: PageView.builder(
+                      // loop: false,
+                      // autoplay: false,
+                      // layout: SwiperLayout.TINDER,
+                      // itemWidth: MediaQuery.of(context).size.width * 0.95,
+                      // itemHeight: MediaQuery.of(context).size.height * 0.55,
+                      itemCount:
+                          widget.product.get('imageFileName')?.length ?? 0,
+                      physics: PageScrollPhysics(),
+                      //ctrl.introScreenSlides.length,
+                      onPageChanged: (indexCount) {
+                        cltrProduct.slideIndex.value = indexCount;
+                      },
+                      itemBuilder: (context, index) {
+                        return Card(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          margin: EdgeInsets.all(10),
+                          elevation: 5,
+                          shadowColor: Colors.black45,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                'https://api.ppmstore.in/file/product/${widget.product.get('imageFileName')[index]}',
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
                 Icon(CupertinoIcons.forward)
@@ -171,289 +188,17 @@ class _ProductDetailsState extends State<ProductDetails>
               margin: EdgeInsets.only(top: 10, bottom: 10, left: 20),
               child: Text(
                 '${widget.product.get('productName')}',
-                style: GoogleFonts.merriweather(
+                style: GoogleFonts.montserrat(
                   color: Colors.black,
-                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
                 ),
               ),
             ),
             SizedBox(
               height: 15,
             ),
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '₹ ${widget.product.get('productPrice')}',
-                    style: GoogleFonts.merriweather(
-                      color: Colors.black,
-                      fontSize: 16,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Card(
-                        child: Obx(() => Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                // InkWell(
-                                //   onTap: () {
-                                //     setState(() {
-                                //       if (quentity > 1) {
-                                //         quentity--;
-                                //       }
-                                //     });
-                                //   },
-                                //   child: buttonContainer(
-                                //     Image.asset(quentity <= 1
-                                //         ? "assets/images/btn_medicine_quantity_minus_disabled.png"
-                                //         : 'assets/images/btn_medicine_quantity_minus.png'),
-                                //   ),
-                                // ),
-                                IconButton(
-                                    icon: Icon(
-                                      Icons.remove,
-                                      color: Colors.black,
-                                      size: 12,
-                                    ),
-                                    onPressed: () {
-                                      if (cltrProduct.quantity.value != 0) {
-                                        setState(() {
-                                          cltrProduct.quantity.value--;
-                                          cltrCart.quantity.value--;
-                                        });
-                                      }
-                                    }),
-
-                                Text(
-                                  '${cltrCart.quantity.value} ${widget.product.get('unit') ?? '-'}',
-                                  style: TextStyle(
-                                    color: Color(0xff010101),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.add,
-                                    color: Colors.black,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      cltrProduct.quantity.value++;
-                                      cltrCart.quantity.value++;
-                                    });
-                                  },
-                                  iconSize: 12,
-                                ),
-                                // InkWell(
-                                //   onTap: () {
-                                //     setState(() {
-                                //       quentity++;
-                                //     });
-                                //   },
-                                //   child: buttonContainer(
-                                //     Image.asset(
-                                //         "assets/images/btn_medicine_quantity_add.png"),
-                                //   ),
-                                // ),
-                              ],
-                            )),
-                      ),
-                      SlideTransition(
-                        position: rowAnimation,
-                        child: TextButton(
-                          onPressed: () async {
-                            // cltrProduct.cartProducts.add(widget.product);
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            await login.checkUserExist(repo.number);
-                            if (cltrProduct.key.currentState.validate()) {
-                              login.userNotExist.value
-                                  ? print("Trying to add but user doesnt exist")
-                                  : cltrCart.addItem(
-                                      widget.product.objectId,
-                                      widget.product.get('productName'),
-                                      double.parse(
-                                          widget.product.get('productPrice')),
-                                      cltrCart.quantity.value,
-                                      cltrProduct.size.value,
-                                      widget.product.get('unit'),
-                                      widget.product.get('imageFileName')[0]);
-                            }
-
-                            print('this is cart items $cartItems');
-
-                            // print(cltrProduct.cartProducts);
-                          },
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.cyan),
-                          ),
-                          child: Text(
-                            S.of(context).cartAdd,
-                            style: GoogleFonts.merriweather(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20.0, top: 10),
-              child: Form(
-                key: cltrProduct.key,
-                child: Row(
-                  children: [
-/*                  Text(
-                      "Choose Product Type",
-                      style: GoogleFonts.merriweather(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
-                    )*/
-                    Container(
-                        height: MediaQuery.of(context).size.height / 8,
-                        width: MediaQuery.of(context).size.width / 2,
-                        child: DropdownButtonFormField(
-                            elevation: 10,
-                            value: selectedType,
-                            onChanged: (value) {
-                              setState(() {
-                                value == 0
-                                    ? cltrProduct.size.value = "Small"
-                                    : value == 1
-                                        ? cltrProduct.size.value = "Medium"
-                                        : cltrProduct.size.value = "Large";
-                                selectedType = value;
-                              });
-                            },
-                            iconEnabledColor: Colors.black,
-                            iconDisabledColor: Colors.cyan,
-                            decoration: InputDecoration(
-                              labelText: S.of(context).size,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                                borderSide: BorderSide(color: Colors.blueGrey),
-                              ),
-                            ),
-                            items: List.generate(
-                                cltrProduct.sizeDimList?.length,
-                                (index) => DropdownMenuItem(
-                                    value: index,
-                                    child: Text(
-                                      cltrProduct.sizeDimList[index].toString(),
-                                      style: GoogleFonts.montserrat(
-                                        textStyle: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ))))),
-                    SizedBox(
-                      width: 15,
-                    ),
-/*                    Container(
-                      height: MediaQuery.of(context).size.height / 8,
-                      width: MediaQuery.of(context).size.width / 3,
-                      child:
-                          */
-                    /*DropdownButtonFormField(
-                          elevation: 10,
-                          value: unit,
-                          onChanged: (value) {
-                            setState(() {
-                              value == 0
-                                  ? cltrProduct.unit.value = "Kg"
-                                  : cltrProduct.unit.value = "Pc";
-                              unit = value;
-                            });
-                          },
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return S.of(context).errorS;
-                            }
-                            return null;
-                          },
-                          iconEnabledColor: Colors.black,
-                          iconDisabledColor: Colors.cyan,
-                          decoration: InputDecoration(
-                            labelText: S.of(context).unit,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                              borderSide: BorderSide(color: Colors.blueGrey),
-                            ),
-                          ),
-                          items: [
-                            DropdownMenuItem(
-                                value: 0,
-                                child: Text(
-                                  S.of(context).kg,
-                                  style: GoogleFonts.montserrat(
-                                    textStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                )),
-                            DropdownMenuItem(
-                                value: 1,
-                                child: Text(
-                                  S.of(context).piece,
-                                  style: GoogleFonts.montserrat(
-                                    textStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                )),
-                          ])*/
-                    /*
-                          TextFormField(
-                        validator: (value) {
-                          if (value.isEmpty)
-                            return "Please enter the unit";
-                          else if (!(value.isCaseInsensitiveContains("kg") ||
-                              value.isCaseInsensitiveContains("pc"))) {
-                            oCtrl.unitC.clear();
-                            return "Please enter valid \nunit from Kg or Pc";
-                          }
-                        },
-                        decoration: InputDecoration(
-                          alignLabelWithHint: true,
-                          labelText: "Enter the Unit",
-                          labelStyle: GoogleFonts.montserrat(
-                            textStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          hintText: "Kg/Pc (Pieces)",
-                        ),
-                        controller: oCtrl.unitC,
-                        keyboardType: TextInputType.text,
-                      ),
-                    ),*/
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Container(
+            /*Container(
               alignment: Alignment.centerLeft,
               margin: EdgeInsets.only(top: 10, bottom: 10, left: 20),
               child: Text(
@@ -463,24 +208,307 @@ class _ProductDetailsState extends State<ProductDetails>
                   fontSize: 16,
                 ),
               ),
-            ),
+            ),*/
             Container(
-              width: MediaQuery.of(context).size.width / 1.2,
-              margin: EdgeInsets.all(5),
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.all(10),
+              margin: EdgeInsets.only(bottom: 10, left: 20, right: 20),
               decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.black26,
-                  width: 1,
-                ),
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.green.shade100,
               ),
               //height: 300,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(widget.product.get('productDesc')),
+              child: Text(
+                widget.product.get('productDesc'),
+                style: GoogleFonts.montserrat(
+                  fontSize: 15,
+                ),
               ),
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.width * 20 / 100,
+            padding: EdgeInsets.only(
+              left: 10,
+              right: 10,
+              top: 10,
+              bottom: 10,
+            ),
+            color: Colors.green.shade50,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '₹ ${widget.product.get('productPrice')} / ${widget.product.get('unit')}',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: Form(
+                    key: cltrProduct.key,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height / 8,
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: DropdownButtonFormField(
+                        elevation: 10,
+                        icon: Icon(
+                          Icons.arrow_drop_down_circle,
+                          color: Colors.green,
+                        ),
+                        value: selectedType,
+                        onChanged: (value) {
+                          setState(() {
+                            value == 0
+                                ? cltrProduct.size.value = 'Small'
+                                : value == 1
+                                    ? cltrProduct.size.value = 'Medium'
+                                    : cltrProduct.size.value = 'Large';
+                            selectedType = value;
+                          });
+                        },
+                        iconEnabledColor: Colors.black,
+                        iconDisabledColor: Colors.green,
+                        decoration: InputDecoration(
+                          labelText: S.of(context).size,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: BorderSide(color: Colors.blueGrey),
+                          ),
+                        ),
+                        items: List.generate(
+                          cltrProduct.sizeDimList?.length,
+                          (index) => DropdownMenuItem(
+                            value: index,
+                            child: Text(
+                              cltrProduct.sizeDimList[index].toString(),
+                              style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            height: MediaQuery.of(context).size.width * 25 / 100,
+            padding: EdgeInsets.only(
+              top: 10,
+              bottom: 10,
+            ),
+            color: Colors.blueGrey.shade100,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        height: 50.0,
+                        width: 50.0,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.0),
+                          border: Border.all(
+                            color: cltrProduct.quantity() <= 1
+                                ? Colors.grey
+                                : Color(0xff000000),
+                          ),
+                        ),
+                        child: IconButton(
+                            alignment: Alignment.center,
+                            icon: Icon(
+                              Icons.remove_circle,
+                              color: cltrProduct.quantity() <= 1
+                                  ? Colors.grey
+                                  : Color(0xff000000),
+                            ),
+                            onPressed: () {
+                              if (cltrProduct.quantity() > 1) {
+                                setState(() {
+                                  cltrProduct.quantity.value--;
+                                  cltrCart.quantity.value--;
+                                });
+                              } else {
+                                Get.rawSnackbar(
+                                  message: 'Minimum order quantity is 1',
+                                  icon: Icon(Icons.warning),
+                                  backgroundColor: Colors.orangeAccent,
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  overlayBlur: 1,
+                                  borderRadius: 10,
+                                  snackStyle: SnackStyle.FLOATING,
+                                  margin: EdgeInsets.all(10),
+                                );
+                              }
+                            }),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: '${cltrProduct.quantity()}',
+                            ),
+                            TextSpan(
+                              text: ' ${widget.product.get('unit')}',
+                              style: GoogleFonts.sourceSansPro(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                          style: GoogleFonts.sourceSansPro(
+                            color: Color(0xff000000),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                          ),
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      /*Expanded(
+                        child: EditableText(
+                          controller: qtyController,
+                          focusNode: qtyFocusNode,
+                          style: GoogleFonts.sourceSansPro(
+                            color: Color(0xff000000),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                          ),
+                          cursorColor: Colors.green,
+                          backgroundCursorColor: Colors.transparent,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            if (value.isNotEmpty) {
+                              cltrCart.quantity(int.tryParse(value));
+                            }
+                          },
+                        ),
+                      ),*/
+                      Container(
+                        height: 50.0,
+                        width: 50.0,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.0),
+                          border: Border.all(
+                            color: Color(0xff000000),
+                          ),
+                        ),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.add_circle,
+                            color: Color(0xff000000),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              cltrProduct.quantity.value++;
+                              cltrCart.quantity.value++;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: SizedBox.expand(
+                    child: TextButton(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: S.of(context).cartAdd + '\n',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text:
+                                      '₹ ${double.parse(widget.product.get('productPrice')) * cltrCart.quantity()}',
+                                  style: GoogleFonts.montserrat(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 23,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            Icons.double_arrow_rounded,
+                            color: Colors.green.shade50,
+                          ),
+                        ],
+                      ),
+                      onPressed: () async {
+                        // cltrProduct.cartProducts.add(widget.product);
+                        var prefs = await SharedPreferences.getInstance();
+                        await login.checkUserExist(repo.number);
+                        if (cltrProduct.key.currentState.validate()) {
+                          login.userNotExist.value
+                              ? print('Trying to add but user doesnt exist')
+                              : cltrCart.addItem(
+                                  widget.product.objectId,
+                                  widget.product.get('productName'),
+                                  double.parse(
+                                      widget.product.get('productPrice')),
+                                  cltrCart.quantity.value,
+                                  cltrProduct.size.value,
+                                  widget.product.get('unit'),
+                                  widget.product.get('imageFileName')[0]);
+                        }
+
+                        print('this is cart items $cartItems');
+
+                        // print(cltrProduct.cartProducts);
+                      },
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            bottomLeft: Radius.circular(10),
+                            topRight: Radius.circular(0),
+                            bottomRight: Radius.circular(0),
+                          ),
+                        )),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.green),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        enableFeedback: true,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:pcm/controller/login_controller.dart';
 import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/utils/shared_preferences.dart';
+import 'package:pcm/widgets/tinted_title.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class Edit extends StatefulWidget {
@@ -92,196 +93,236 @@ class _EditState extends State<Edit> {
             child: ListView(
               padding: EdgeInsets.all(10),
               children: [
-                TextFormField(
-                  onTap: () {},
-                  initialValue: widget.name.toString(),
-                  onChanged: (value) {
-                    isNameC = true;
-                    NameC = value;
-                  },
-                  //controller: nController,
-                  decoration: InputDecoration(
-                    labelText: S.of(context).Name,
-                    //enabledBorder: InputBorder.none,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.blueGrey),
-                    ),
+                Card(
+                  margin: EdgeInsets.zero,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      btnSubmit.reset();
-                      return S.of(context).errorName;
-                    }
-                    return null;
-                  },
-                  //if () {
-
-                  // style: TextStyle(
-                  //     color: client.get('flagged') ? Colors.red : Colors.black),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  initialValue: widget.number,
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) {
-                    isNumC = true;
-                    NumC = value;
-                  },
-                  //controller: mController,
-                  onFieldSubmitted:
-                      checkMobileNumber(mController.text.trim().toString()),
-                  decoration: InputDecoration(
-                    labelText: S.of(context).Number,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.blueGrey),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return S.of(context).errorNum;
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.blueGrey,
-                    ),
-
-                    //   border: BoxBorder(
-                    //     // borderRadius: BorderRadius.circular(10),
-                    //     // borderSide: BorderSide(color: Colors.blueGrey),
-                    //   ),
-                  ),
+                  elevation: 5,
+                  shadowColor: Colors.black26,
                   child: Column(
                     children: [
-                      Text(S.of(context).Address),
-                      TextFormField(
-                        initialValue: widget.address,
-                        onChanged: (value) {
-                          isAddress = true;
-                          Address = value;
-                        },
-                        //controller: aPController,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return S.of(context).errorC;
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          labelText: S.of(context).AddressL,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.blueGrey),
-                          ),
-                        ),
+                      TintedTitle(
+                        title: 'Details',
+                        icon: Icons.person_outline,
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      TextFormField(
-                        onChanged: (value) {
-                          isLandmark = true;
-                          Landmark = value;
-                        },
-                        initialValue: widget.landmark,
-                        //controller: lController,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return S.of(context).errorC;
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          labelText: S.of(context).Landmark,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.blueGrey),
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              onTap: () {},
+                              initialValue: widget.name.toString(),
+                              onChanged: (value) {
+                                isNameC = true;
+                                NameC = value;
+                              },
+                              //controller: nController,
+                              decoration: InputDecoration(
+                                labelText: S.of(context).Name,
+                                //enabledBorder: InputBorder.none,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide:
+                                      BorderSide(color: Colors.blueGrey),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  btnSubmit.reset();
+                                  return S.of(context).errorName;
+                                }
+                                return null;
+                              },
+                              //if () {
+
+                              // style: TextStyle(
+                              //     color: client.get('flagged') ? Colors.red : Colors.black),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              initialValue: widget.number,
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) {
+                                isNumC = true;
+                                NumC = value;
+                              },
+                              //controller: mController,
+                              onFieldSubmitted: checkMobileNumber(
+                                  mController.text.trim().toString()),
+                              decoration: InputDecoration(
+                                labelText: S.of(context).Number,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide:
+                                      BorderSide(color: Colors.blueGrey),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return S.of(context).errorNum;
+                                }
+                                return null;
+                              },
+                            ),
+                          ],
                         ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Card(
+                  margin: EdgeInsets.zero,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  elevation: 5,
+                  shadowColor: Colors.black26,
+                  child: Column(
+                    children: [
+                      TintedTitle(
+                        title: S.of(context).Address,
+                        icon: Icons.add_location_alt_outlined,
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      TextFormField(
-                        initialValue: widget.pincode,
-                        onChanged: (value) {
-                          isPincode = true;
-                          Pincode = value;
-                        },
-                        //controller: pincode,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return S.of(context).errorC;
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          labelText: S.of(context).pincode,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.blueGrey),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        onChanged: (value) {
-                          isCity = true;
-                          City = value;
-                        },
-                        // controller: cIController,
-                        initialValue: widget.city,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return S.of(context).errorC;
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          labelText: S.of(context).City,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.blueGrey),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        onChanged: (value) {
-                          isState = true;
-                          State = value;
-                        },
-                        //controller: stController,
-                        initialValue: widget.state,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return S.of(context).errorC;
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          labelText: S.of(context).State,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.blueGrey),
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              initialValue: widget.address,
+                              onChanged: (value) {
+                                isAddress = true;
+                                Address = value;
+                              },
+                              //controller: aPController,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return S.of(context).errorC;
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                labelText: S.of(context).AddressL,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide:
+                                      BorderSide(color: Colors.blueGrey),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              onChanged: (value) {
+                                isLandmark = true;
+                                Landmark = value;
+                              },
+                              initialValue: widget.landmark,
+                              //controller: lController,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return S.of(context).errorC;
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                labelText: S.of(context).Landmark,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide:
+                                      BorderSide(color: Colors.blueGrey),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              initialValue: widget.pincode,
+                              onChanged: (value) {
+                                isPincode = true;
+                                Pincode = value;
+                              },
+                              //controller: pincode,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return S.of(context).errorC;
+                                }
+                                return null;
+                              },
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                labelText: S.of(context).pincode,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide:
+                                      BorderSide(color: Colors.blueGrey),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              onChanged: (value) {
+                                isCity = true;
+                                City = value;
+                              },
+                              // controller: cIController,
+                              initialValue: widget.city,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return S.of(context).errorC;
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                labelText: S.of(context).City,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide:
+                                      BorderSide(color: Colors.blueGrey),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              onChanged: (value) {
+                                isState = true;
+                                State = value;
+                              },
+                              //controller: stController,
+                              initialValue: widget.state,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return S.of(context).errorC;
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                labelText: S.of(context).State,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide:
+                                      BorderSide(color: Colors.blueGrey),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -312,23 +353,30 @@ class _EditState extends State<Edit> {
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: RoundedLoadingButton(
-                child: Text(S.of(context).Save),
-                borderRadius: 10,
-                height: 35,
-                width: 100,
-                controller: btnSubmit,
-                onPressed: () {
-                  submitSDM(
-                    isNameC ? NameC : widget.name,
-                    isNumC ? NumC : widget.number,
-                    isAddress ? Address : widget.address,
-                    isLandmark ? Landmark : widget.landmark,
-                    isCity ? City : widget.city,
-                    isState ? State : widget.state,
-                    isPincode ? Pincode : widget.pincode,
-                    widget.imageFile,
-                  );
-                }),
+              color: Colors.green,
+              child: Text(
+                S.of(context).Save,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              borderRadius: 10,
+              height: 35,
+              width: 100,
+              controller: btnSubmit,
+              onPressed: () {
+                submitSDM(
+                  isNameC ? NameC : widget.name,
+                  isNumC ? NumC : widget.number,
+                  isAddress ? Address : widget.address,
+                  isLandmark ? Landmark : widget.landmark,
+                  isCity ? City : widget.city,
+                  isState ? State : widget.state,
+                  isPincode ? Pincode : widget.pincode,
+                  widget.imageFile,
+                );
+              },
+            ),
           ),
           SizedBox(
             height: 10,

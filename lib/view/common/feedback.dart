@@ -27,9 +27,6 @@ class _FeedbackPageState extends State<FeedbackPage> {
       appBar: AppBar(
         title: Text(
           S.of(context).feedback,
-          style: GoogleFonts.montserrat(
-            textStyle: TextStyle(color: Colors.black),
-          ),
         ),
       ),
       body: Container(

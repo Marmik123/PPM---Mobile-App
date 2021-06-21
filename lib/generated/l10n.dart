@@ -65,10 +65,10 @@ class S {
     );
   }
 
-  /// `Enter Otp`
+  /// `Enter OTP`
   String get otp {
     return Intl.message(
-      'Enter Otp',
+      'Enter OTP',
       name: 'otp',
       desc: '',
       args: [],
@@ -95,20 +95,20 @@ class S {
     );
   }
 
-  /// `please enter Otp`
+  /// `Please enter OTP`
   String get otpError {
     return Intl.message(
-      'please enter Otp',
+      'Please enter OTP',
       name: 'otpError',
       desc: '',
       args: [],
     );
   }
 
-  /// `Enter valid Otp`
+  /// `Enter valid OTP`
   String get otpValid {
     return Intl.message(
-      'Enter valid Otp',
+      'Enter valid OTP',
       name: 'otpValid',
       desc: '',
       args: [],
@@ -205,30 +205,30 @@ class S {
     );
   }
 
-  /// ` Client Name :`
+  /// `Name :`
   String get clientN {
     return Intl.message(
-      ' Client Name :',
+      'Name :',
       name: 'clientN',
       desc: '',
       args: [],
     );
   }
 
-  /// `Client Shop Name :`
+  /// `Shop Name :`
   String get clientShopN {
     return Intl.message(
-      'Client Shop Name :',
+      'Shop Name :',
       name: 'clientShopN',
       desc: '',
       args: [],
     );
   }
 
-  /// `Client Number : `
+  /// `Number : `
   String get clientNo {
     return Intl.message(
-      'Client Number : ',
+      'Number : ',
       name: 'clientNo',
       desc: '',
       args: [],
@@ -1075,10 +1075,10 @@ class S {
     );
   }
 
-  /// `Order Id:`
+  /// `Order ID :`
   String get OrderId {
     return Intl.message(
-      'Order Id:',
+      'Order ID :',
       name: 'OrderId',
       desc: '',
       args: [],
@@ -1355,10 +1355,10 @@ class S {
     );
   }
 
-  /// `Send Otp`
+  /// `Send OTP`
   String get send {
     return Intl.message(
-      'Send Otp',
+      'Send OTP',
       name: 'send',
       desc: '',
       args: [],

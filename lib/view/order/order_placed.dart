@@ -73,6 +73,11 @@ class _OrderPlacedState extends State<OrderPlaced> {
             } else if (snapshot.hasData || snapshot.hasPreLoadedData) {
               if (snapshot.hasData) {
                 return Card(
+                  elevation: 5,
+                  shadowColor: Colors.black26,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   child: ExpansionTile(
                     expandedAlignment: Alignment.centerRight,
                     title: Row(
@@ -80,8 +85,11 @@ class _OrderPlacedState extends State<OrderPlaced> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(S.of(context).OrderId),
-                        Text(snapshot.loadedData.get('objectId').toString() ??
-                            "-")
+                        Text(snapshot.loadedData
+                                .get('objectId')
+                                .toString()
+                                .toUpperCase() ??
+                            '-')
                       ],
                     ),
                     subtitle: Text(
@@ -92,10 +100,9 @@ class _OrderPlacedState extends State<OrderPlaced> {
                     //   color: Colors.blueGrey,
                     // ),
                     expandedCrossAxisAlignment: CrossAxisAlignment.end,
-                    childrenPadding: EdgeInsets.only(
-                        top: 5, left: 15, right: 15, bottom: 10),
+                    childrenPadding: EdgeInsets.zero,
                     children: [
-                      ListView.builder(
+/*                      ListView.builder(
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         shrinkWrap: true,
                         itemCount:
@@ -107,23 +114,84 @@ class _OrderPlacedState extends State<OrderPlaced> {
                               children: [
                                 Text(snapshot.loadedData
                                         .get('order_details')[index]['name'] ??
-                                    "-"),
+                                    '-'),
                                 Text(
-                                  '${snapshot.loadedData.get('order_details')[index]['quantity'] ?? "-"} X ${snapshot.loadedData.get('order_details')[index]['price'] ?? "-"}',
+                                  '${snapshot.loadedData.get('order_details')[index]['quantity'] ?? "-"} X ₹${snapshot.loadedData.get('order_details')[index]['price'] ?? "-"}',
                                   style: TextStyle(fontSize: 10),
                                 )
                               ],
                             ),
                           );
                         },
+                      ),*/
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: DataTable(
+                          columns: [
+                            DataColumn(
+                              label: Text('Item'),
+                            ),
+                            DataColumn(
+                              label: Text('Qty'),
+                            ),
+                            DataColumn(
+                              label: Text('Price'),
+                            ),
+                            DataColumn(
+                              label: Text('Total'),
+                            ),
+                          ],
+                          rows: [
+                            ...(snapshot.loadedData.get('order_details')
+                                    as List)
+                                .map((e) => DataRow(
+                                      cells: [
+                                        DataCell(
+                                          Text(e['name'] ?? '-'),
+                                        ),
+                                        DataCell(
+                                          Text('${e['quantity'] ?? '-'}'),
+                                        ),
+                                        DataCell(
+                                          Text('₹ ' + e['price'].toString() ??
+                                              '-'),
+                                        ),
+                                        DataCell(
+                                          FittedBox(
+                                            child: Text(
+                                              '₹ ${(e['quantity'] ?? 0) * (double.tryParse(e['price'].toString()) ?? 0.0)}',
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ))
+                                .toList(),
+                          ],
+                          decoration: ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            color: Colors.green.shade50,
+                          ),
+                        ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(right: 10.0),
-                        child: Text(S.of(context).Total +
-                                snapshot.loadedData
-                                    .get('total_price')
-                                    .toString() ??
-                            "-"),
+                        padding: const EdgeInsets.only(
+                          right: 40.0,
+                          top: 7,
+                          bottom: 7,
+                        ),
+                        child: Text(
+                          S.of(context).Total +
+                                  '₹ ' +
+                                  snapshot.loadedData
+                                      .get('total_price')
+                                      .toString() ??
+                              '-',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                       SizedBox(
                         height: 5,

@@ -18,7 +18,8 @@ class HomeScreenM extends StatefulWidget {
   _HomeScreenMState createState() => _HomeScreenMState();
 }
 
-class _HomeScreenMState extends State<HomeScreenM> {
+class _HomeScreenMState extends State<HomeScreenM>
+    with AutomaticKeepAliveClientMixin<HomeScreenM> {
   AdController adCtrl = Get.put(AdController());
   SupportController ctrl = Get.put(SupportController());
   RepoController rCtrl = Get.put(RepoController());
@@ -31,9 +32,6 @@ class _HomeScreenMState extends State<HomeScreenM> {
       },
       child: Scaffold(
         appBar: AppBar(
-          brightness: Brightness.light,
-          backgroundColor: Colors.white,
-          elevation: 1,
           titleSpacing: 0,
           leading: Icon(Icons.home_outlined),
           title: Text(
@@ -41,6 +39,9 @@ class _HomeScreenMState extends State<HomeScreenM> {
           ),
           actions: [
             PopupMenuButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
               icon: Icon(Icons.more_vert),
               onSelected: (value) {
                 if (value == 'Settings') {
@@ -61,7 +62,10 @@ class _HomeScreenMState extends State<HomeScreenM> {
                 PopupMenuItem(
                   child: Row(
                     children: [
-                      Icon(Icons.settings_outlined),
+                      Icon(
+                        Icons.settings_outlined,
+                        color: Colors.black,
+                      ),
                       SizedBox(
                         width: 5,
                       ),
@@ -73,7 +77,10 @@ class _HomeScreenMState extends State<HomeScreenM> {
                 PopupMenuItem(
                   child: Row(
                     children: [
-                      Icon(Icons.feedback_outlined),
+                      Icon(
+                        Icons.feedback_outlined,
+                        color: Colors.black,
+                      ),
                       SizedBox(
                         width: 5,
                       ),
@@ -85,7 +92,10 @@ class _HomeScreenMState extends State<HomeScreenM> {
                 PopupMenuItem(
                   child: Row(
                     children: [
-                      Icon(Icons.support_agent),
+                      Icon(
+                        Icons.support_agent,
+                        color: Colors.black,
+                      ),
                       SizedBox(
                         width: 5,
                       ),
@@ -97,7 +107,10 @@ class _HomeScreenMState extends State<HomeScreenM> {
                 PopupMenuItem(
                   child: Row(
                     children: [
-                      Icon(Icons.logout),
+                      Icon(
+                        Icons.logout,
+                        color: Colors.black,
+                      ),
                       SizedBox(
                         width: 5,
                       ),
@@ -114,28 +127,53 @@ class _HomeScreenMState extends State<HomeScreenM> {
           () => Container(
             child: Column(
               children: [
+                SizedBox(
+                  height: 30,
+                ),
+                Hero(
+                  tag: 'ppm_logo',
+                  child: Image.asset(
+                    'images/LOGO-02.png',
+                    height: 50,
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
                 Card(
+                  elevation: 5,
+                  shadowColor: Colors.black26,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  color: Colors.white,
                   child: ListTile(
-                      onTap: () {
-                        Get.to(DisplayAd());
-                      },
-                      leading: Icon(Icons.add_to_photos_sharp),
-                      title: Text(S.of(context).adsRegistered),
-                      trailing: GestureDetector(
-                        child: Chip(
-                          label: Text(S.of(context).Add),
-                          // Text(S.of(context).add),
-                          avatar: CircleAvatar(
-                            child: Text(adCtrl.adCount.value.toString()),
-                          ),
+                    onTap: () {
+                      Get.to(DisplayAd());
+                    },
+                    leading: Icon(
+                      Icons.add_to_photos_sharp,
+                      color: Colors.green,
+                    ),
+                    title: Text(S.of(context).adsRegistered),
+                    trailing: GestureDetector(
+                      child: Chip(
+                        label: Text(S.of(context).Add),
+                        // Text(S.of(context).add),
+                        avatar: CircleAvatar(
+                          child: Text(adCtrl.adCount.value.toString()),
                         ),
-                        onTap: () {
-                          //clientCon.role.value = false;
-                          Get.to(AdRegister());
-                          // Navigator.of(context)
-                          //     .pushNamed(CreateReception.routeName);
-                        },
-                      )),
+                      ),
+                      onTap: () {
+                        //clientCon.role.value = false;
+                        var adCtrl = Get.put(AdController());
+                        adCtrl.pickedFile = null;
+                        Get.to(AdRegister());
+                        // Navigator.of(context)
+                        //     .pushNamed(CreateReception.routeName);
+                      },
+                    ),
+                  ),
                 ),
               ],
             ),

@@ -33,7 +33,6 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         actions: [
           IconButton(
@@ -63,7 +62,7 @@ class _CartState extends State<Cart> {
                             ),
                           ),
                           backgroundColor:
-                              MaterialStateProperty.all(Colors.cyan)),
+                              MaterialStateProperty.all(Colors.green)),
                       onPressed: () {
                         setState(() {
                           cartItems.clear();
@@ -85,7 +84,7 @@ class _CartState extends State<Cart> {
                             ),
                           ),
                           backgroundColor:
-                              MaterialStateProperty.all(Colors.cyan)),
+                              MaterialStateProperty.all(Colors.green)),
                       onPressed: () {
                         Get.back();
                       },
@@ -139,10 +138,16 @@ class _CartState extends State<Cart> {
 
                       return cltrCart.quantity.value == 0
                           ? Container()
-                          : Container(
+                          : Card(
                               margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
+                              elevation: 5,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              color: Colors.white,
+                              shadowColor: Colors.black54,
                               // padding: EdgeInsets.fromLTRB(12, 12, 16, 16),
-                              decoration: BoxDecoration(
+                              /*decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(15),
                                 boxShadow: [
@@ -156,7 +161,7 @@ class _CartState extends State<Cart> {
                                     spreadRadius: 0,
                                   )
                                 ],
-                              ),
+                              ),*/
                               child: ListTile(
                                 leading: Container(
                                   height: 70,
@@ -167,7 +172,7 @@ class _CartState extends State<Cart> {
                                       child: Image(
                                         fit: BoxFit.contain,
                                         image: NetworkImage(
-                                            'https://cup.marketing.dharmatech.in/file/product/${cartList[index].imageName}' ??
+                                            'https://api.ppmstore.in/file/product/${cartList[index].imageName}' ??
                                                 'https://picsum.photos/id/1/200/300'),
                                       ),
                                     ),
@@ -420,7 +425,7 @@ class _CartState extends State<Cart> {
                                 radio.value = value;
                               });
                             },
-                            activeColor: Colors.cyan,
+                            activeColor: Colors.green,
                             toggleable: false,
                           ),
                           Text(
@@ -443,7 +448,7 @@ class _CartState extends State<Cart> {
                                 radio.value = value;
                               });
                             },
-                            activeColor: Colors.cyan,
+                            activeColor: Colors.green,
                             toggleable: false,
                           ),
                           Text(
@@ -470,10 +475,10 @@ class _CartState extends State<Cart> {
                                   blurRadius: 1)
                             ],*/
                                   gradient: LinearGradient(
-                                      colors: [Colors.white70, Colors.cyan]),
+                                      colors: [Colors.white70, Colors.green]),
                                   borderRadius: BorderRadius.circular(15),
                                   shape: BoxShape.rectangle,
-                                  color: Colors.cyan.withOpacity(0.4),
+                                  color: Colors.green.withOpacity(0.4),
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -491,7 +496,7 @@ class _CartState extends State<Cart> {
                                               value_1.value = value;
                                             });
                                           },
-                                          activeColor: Colors.cyan,
+                                          activeColor: Colors.green,
                                           toggleable: false,
                                         ),
                                         Text(
@@ -516,7 +521,7 @@ class _CartState extends State<Cart> {
                                               value_1.value = value;
                                             });
                                           },
-                                          activeColor: Colors.cyan,
+                                          activeColor: Colors.green,
                                           toggleable: false,
                                         ),
                                         Text(
@@ -541,7 +546,7 @@ class _CartState extends State<Cart> {
                                               value_1.value = value;
                                             });
                                           },
-                                          activeColor: Colors.cyan,
+                                          activeColor: Colors.green,
                                           toggleable: false,
                                         ),
                                         Text(
@@ -711,7 +716,7 @@ class _CartState extends State<Cart> {
               borderRadius: 10,
               height: 40,
               width: 100,
-              color: Colors.cyan,
+              color: Colors.green,
               child: Text(
                 S.of(context).placeO,
                 style: TextStyle(

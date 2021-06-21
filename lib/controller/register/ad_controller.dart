@@ -8,6 +8,7 @@ import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/utils/shared_preferences.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path/path.dart';
 
 class AdController extends GetxController {
   RxInt adCount = 0.obs;
@@ -21,7 +22,7 @@ class AdController extends GetxController {
       new RoundedLoadingButtonController();
 
   Future<void> marketingReport() async {
-    print("called marketing report");
+    print('called marketing report');
     SharedPreferences sPref = await SharedPreferences.getInstance();
     try {
       QueryBuilder<ParseObject> userData =
@@ -33,7 +34,7 @@ class AdController extends GetxController {
       ParseResponse response = await userData.query();
       if (response.success) {
         if (response.results == null) {
-          print("no user exist creating new one");
+          print('no user exist creating new one');
           ParseObject newClient = ParseObject('MarketingMetadata')
             ..set<String>('markPName', sPref.getString(repo.kname))
             ..set('number', sPref.getString(repo.kMobile))
@@ -49,7 +50,7 @@ class AdController extends GetxController {
             // print("@@@${preference.getString(rCtrl.kOrderObjectId)}");
           }
         } else {
-          print("user already there updating purchaseCount");
+          print('user already there updating purchaseCount');
           ParseObject client = response.result[0]
             ..set('markPName', sPref.getString(repo.kname))
             ..set('number', sPref.getString(repo.kMobile))
@@ -98,7 +99,7 @@ class AdController extends GetxController {
     } catch (e) {
       btnController.error();
       isLoading.value = false;
-      print("default error---" + e);
+      print('default error---' + e.toString());
       final snackBar = SnackBar(
         content: Text(
           S.of(Get.context).errorOc,
@@ -108,7 +109,7 @@ class AdController extends GetxController {
       );
       ScaffoldMessenger.of(Get.context).showSnackBar(snackBar);
     } finally {
-      print("Finally executed");
+      print('Finally executed');
     }
   }
 
@@ -138,7 +139,7 @@ class AdController extends GetxController {
       print('clientresponse.results ${adResponse.results}');
       print('adResponse.result[0] ${adResponse.results[0]}');
       adCount.value = adResponse.results[0] ?? 1;
-      print("#!#!#!#!!#${adCount.value}");
+      print('#!#!#!#!!#${adCount.value}');
     }
 
     final LiveQuery liveQuery = LiveQuery();
@@ -162,7 +163,9 @@ class AdController extends GetxController {
   Future<void> adPhoto(ImageSource source) async {
     final picker = ImagePicker();
     pickedFile = await picker.getImage(source: source, imageQuality: 50);
-    print(pickedFile);
+    print(pickedFile.path);
+    sPController.text = basename(pickedFile.path);
+    update();
   }
 
   @override

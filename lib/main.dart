@@ -15,7 +15,6 @@ import 'package:pcm/view/home/home_screen_client.dart';
 import 'package:pcm/view/home/home_screen_delivery.dart';
 import 'package:pcm/view/home/home_screen_marketing.dart';
 import 'package:pcm/view/home/homes_screen_sales.dart';
-// import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String parse_App_ID = '849F7316D6729D5A14451E65AF5E1';
@@ -24,22 +23,23 @@ const String parse_App_url = 'https://api.ppmstore.in/parse';
 const String kParseLiveQueryUrl = 'wss://api.ppmstore.in';
 SharedPreferences prefs;
 
-RepoController ctrl = Get.put(RepoController());
+RepoController ctrl;
 //RepoController ctrl = Get.put(RepoController());
 Future<void> initSPreference() async {
+  ctrl = Get.put(RepoController());
   prefs = await SharedPreferences.getInstance();
 }
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarBrightness: Brightness.light,
+  ));
   //await initPreferences();
   await initSPreference();
   //print(ctrl.savedLocale());
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitDown,
-    DeviceOrientation.portraitUp,
-  ]);
-  print(prefs.getString('languageCode') ?? 'en');
+
   await S.load(Locale(prefs.getString('languageCode') ?? 'en'));
   await Firebase.initializeApp();
   await Parse().initialize(
@@ -53,6 +53,10 @@ void main() async {
   );
 
   runApp(Phoenix(child: MyApp()));
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp,
+  ]);
 }
 
 class MyApp extends StatelessWidget {
@@ -63,23 +67,29 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'PCM',
       theme: ThemeData(
-          appBarTheme: AppBarTheme(
-            brightness: Brightness.light,
-            iconTheme: IconThemeData(color: Colors.black),
-            color: Colors.white,
-            elevation: 1,
-            textTheme: TextTheme(
-              headline6: GoogleFonts.montserrat(
-                textStyle: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500),
+        scaffoldBackgroundColor: Colors.green.shade50,
+        accentColor: Colors.green,
+        appBarTheme: AppBarTheme(
+          brightness: Brightness.dark,
+          titleSpacing: 0,
+          iconTheme: IconThemeData(color: Colors.white),
+          backgroundColor: Colors.green,
+          elevation: 5,
+          shadowColor: Colors.black26,
+          textTheme: TextTheme(
+            headline6: GoogleFonts.montserrat(
+              textStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
-          textTheme: TextTheme(
-            headline6: GoogleFonts.merriweather(),
-          )),
+        ),
+        textTheme: TextTheme(
+          headline6: GoogleFonts.merriweather(),
+        ),
+      ),
       getPages: [
         GetPage(
           name: '/',
@@ -105,7 +115,8 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: S.delegate.supportedLocales,
       fallbackLocale: Locale('en'),
-      locale: Locale(prefs.getString('languageCode')),
+      locale: Locale(prefs.getString('languageCode') ?? 'en'),
+      defaultTransition: Transition.cupertino,
     );
   }
 }

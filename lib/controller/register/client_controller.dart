@@ -7,8 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
-// import 'package:loading_hud/loading_hud.dart';
-// import 'package:loading_hud/loading_indicator.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:path/path.dart' as p;
@@ -68,7 +67,7 @@ class ClientController extends GetxController {
 
   Future<void> clientRegister(String name, String gstType, String store,
       String city, String state) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var preferences = await SharedPreferences.getInstance();
     try {
       userData = ParseObject('UserMetadata')
         ..set('name', nController.text)
@@ -91,9 +90,9 @@ class ClientController extends GetxController {
       // ..set('status',
       //     widget.jobsData != null ? widget.jobsData.get('status') : 0)
       // ..set('client', client)
-      ParseResponse resultUser = await userData.create();
+      var resultUser = await userData.create();
 
-      ParseObject shopData = ParseObject('Shop')
+      var shopData = ParseObject('Shop')
         ..set('shopName', sNController.text)
         ..set('shopPhoto', ParseFile(File(pickedFile.path)))
         ..set('address1', aPController.text)
@@ -106,7 +105,7 @@ class ClientController extends GetxController {
       //     ParseGeoPoint(
       //         latitude: position.latitude, longitude: position.longitude));
 
-      ParseResponse resultShop = await shopData.create();
+      var resultShop = await shopData.create();
       print(resultUser.result);
       registeredDetails.add(resultUser.result);
       if (resultUser.success && resultShop.success) {
@@ -126,6 +125,9 @@ class ClientController extends GetxController {
         fileList.clear();
         nameList.clear();
         finalImageList.clear();
+        pincode.clear();
+        pickedFile = null;
+        update();
         salesReport();
         name == 'Direct' ? Get.to(() => DocumentVerification()) : Get.back();
         /* Get.defaultDialog(
@@ -138,9 +140,10 @@ class ClientController extends GetxController {
         } else {
           clientCount.value++;
         }
+        Get.back();
       }
     } catch (e) {
-      print("ERROR ERROR");
+      print('ERROR ERROR');
       btnController.error();
       print(e);
     } finally {
@@ -151,25 +154,24 @@ class ClientController extends GetxController {
   }
 
   Future<void> salesReport() async {
-    print("called sales report");
-    SharedPreferences sPref = await SharedPreferences.getInstance();
+    print('called sales report');
+    var sPref = await SharedPreferences.getInstance();
     try {
-      QueryBuilder<ParseObject> userData =
-          QueryBuilder<ParseObject>(ParseObject('SalesMetadata'))
-            //ParseObject userData = ParseObject('UserMetadata')
-            ..whereEqualTo('salesPName', sPref.getString(repo.kname))
-            ..whereEqualTo('number', sPref.getString(repo.kMobile));
+      var userData = QueryBuilder<ParseObject>(ParseObject('SalesMetadata'))
+        //ParseObject userData = ParseObject('UserMetadata')
+        ..whereEqualTo('salesPName', sPref.getString(repo.kname))
+        ..whereEqualTo('number', sPref.getString(repo.kMobile));
 
-      ParseResponse response = await userData.query();
+      var response = await userData.query();
       if (response.success) {
         if (response.results == null) {
-          print("no user exist creating new one");
-          ParseObject newClient = ParseObject('SalesMetadata')
+          print('no user exist creating new one');
+          var newClient = ParseObject('SalesMetadata')
             ..set<String>('salesPName', sPref.getString(repo.kname))
             ..set('number', sPref.getString(repo.kMobile))
             ..set<int>('clientsRegistered', clientCount.value);
 
-          ParseResponse reportResult = await newClient.create();
+          var reportResult = await newClient.create();
           if (reportResult.success) {
             //rCtrl.setOrdersMetadataObjectId(reportResult.result['objectId']);
             //print(reportResult.result['objectId']);
@@ -179,13 +181,13 @@ class ClientController extends GetxController {
             // print("@@@${preference.getString(rCtrl.kOrderObjectId)}");
           }
         } else {
-          print("user already there updating purchaseCount");
+          print('user already there updating purchaseCount');
           ParseObject client = response.result[0]
             ..set('salesPName', sPref.getString(repo.kname))
             ..set('number', sPref.getString(repo.kMobile))
             ..set('clientsRegistered', clientCount.value);
 
-          ParseResponse reportResult = await client.save();
+          var reportResult = await client.save();
         }
       }
     } catch (e) {
@@ -227,37 +229,80 @@ class ClientController extends GetxController {
   }
 */
 
+  void pickPhoto() {
+    isUploaded.value = false;
+    Get.defaultDialog(
+      title: 'Choose from',
+      titleStyle: GoogleFonts.montserrat(
+        fontSize: 15,
+      ),
+      content: Column(
+        children: [
+          TextButton(
+            onPressed: () async {
+              await shopPhoto(
+                ImageSource.camera,
+              );
+            },
+            child: Row(
+              children: [
+                Icon(Icons.camera_alt_outlined),
+                SizedBox(width: 10),
+                Text(
+                  'Camera',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ],
+            ),
+          ),
+          TextButton(
+            onPressed: () async {
+              await shopPhoto(ImageSource.gallery);
+            },
+            child: Row(
+              children: [
+                Icon(Icons.upload_file),
+                SizedBox(width: 10),
+                Text('Gallery', style: TextStyle(color: Colors.black)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<void> shopPhoto(ImageSource source) async {
     final picker = ImagePicker();
 
     pickedFile = await picker.getImage(source: source, imageQuality: 50);
     print(pickedFile);
     if (pickedFile != null) Get.back();
+
     filename.value = p.basename(pickedFile.path);
+    sPController.text = filename();
     selectedImage = await pickedFile.readAsBytes();
     finalImageList.add(selectedImage);
     fileList().add(filename.value);
-    print("####");
     print(fileList());
+    update();
     //_determinePosition();
   }
 
   Future<void> uploadImg(String filename, selectedImage) async {
     isLoading.value = true;
     try {
-      String url = "https://cup.marketing.dharmatech.in/product/upload/image";
+      var url = 'https://api.ppmstore.in/product/upload/image';
       var uri = Uri.parse(url);
-      var request = new http.MultipartRequest("POST", uri);
+      var request = http.MultipartRequest('POST', uri);
 
-      var multipartFile = new http.MultipartFile.fromBytes(
-          'image', selectedImage,
+      var multipartFile = http.MultipartFile.fromBytes('image', selectedImage,
           filename: filename,
           contentType: MediaType('application', 'octet-stream'));
       request.files.add(multipartFile);
 
-      http.Response result =
-          await http.Response.fromStream(await request.send());
-      print("Result: ${result.statusCode}");
+      var result = await http.Response.fromStream(await request.send());
+      print('Result: ${result.statusCode}');
       print(result.body.trArgs());
       print(result.body);
       var json = jsonDecode(result.body);
@@ -266,26 +311,38 @@ class ClientController extends GetxController {
       nameList().add(json['file']);
       if (result.statusCode != 200) {
         isLoading.value = false;
-        print("FILE UPLOAD FAILED");
+        print('FILE UPLOAD FAILED');
         Get.snackbar(
-            S.of(Get.context).errorOc, S.of(Get.context).fileUploadFail,
-            backgroundColor: Colors.cyan,
-            margin: const EdgeInsets.all(5),
-            snackPosition: SnackPosition.BOTTOM,
-            maxWidth: MediaQuery.of(Get.context).size.width,
-            isDismissible: true,
-            dismissDirection: SnackDismissDirection.VERTICAL,
-            colorText: Colors.white,
-            icon: Icon(Icons.cancel),
-            backgroundGradient:
-                LinearGradient(colors: [Colors.teal, Colors.cyan]));
+          S.of(Get.context).errorOc,
+          S.of(Get.context).fileUploadFail,
+          backgroundColor: Colors.red,
+          margin: const EdgeInsets.all(5),
+          snackPosition: SnackPosition.BOTTOM,
+          maxWidth: MediaQuery.of(Get.context).size.width,
+          isDismissible: true,
+          dismissDirection: SnackDismissDirection.VERTICAL,
+          colorText: Colors.white,
+          icon: Icon(Icons.cancel),
+        );
       } else {
-        print("FILE UPLOAD SUCCESS");
+        print('FILE UPLOAD SUCCESS');
 
         isLoading.value = false;
         isUploaded.value = true;
         print(repoController.name);
-        clientRegister(
+        Get.snackbar(
+          S.of(Get.context).photoSuccess,
+          S.of(Get.context).actionS,
+          backgroundColor: Colors.green,
+          margin: const EdgeInsets.all(5),
+          snackPosition: SnackPosition.BOTTOM,
+          maxWidth: MediaQuery.of(Get.context).size.width,
+          isDismissible: true,
+          dismissDirection: SnackDismissDirection.VERTICAL,
+          colorText: Colors.white,
+          icon: Icon(Icons.check_circle),
+        );
+        await clientRegister(
             repoController.name ?? 'Direct',
             gst == 0
                 ? 'Regular GST'
@@ -305,17 +362,6 @@ class ClientController extends GetxController {
                                 : 'Medical',
             cIController.text ?? 'Surat',
             stController.text ?? 'Gujarat');
-        Get.snackbar(S.of(Get.context).photoSuccess, S.of(Get.context).actionS,
-            backgroundColor: Colors.cyan,
-            margin: const EdgeInsets.all(5),
-            snackPosition: SnackPosition.BOTTOM,
-            maxWidth: MediaQuery.of(Get.context).size.width,
-            isDismissible: true,
-            dismissDirection: SnackDismissDirection.VERTICAL,
-            colorText: Colors.white,
-            icon: Icon(Icons.check_circle),
-            backgroundGradient:
-                LinearGradient(colors: [Colors.teal, Colors.cyan]));
       }
     } catch (e) {
       isLoading.value = false;
@@ -366,28 +412,31 @@ class ClientController extends GetxController {
 */
 
   void counts(String name) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    QueryBuilder<ParseObject> clientCountData =
-        QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
-          ..whereEqualTo('role', 'Client')
-          ..whereEqualTo('registeredBy', preferences.getString(repo.kname))
-          ..whereEqualTo('salesNumber', preferences.getString(repo.kMobile));
-    ParseResponse clientResponse = await clientCountData.count();
-    if (clientResponse.success && clientResponse != null) {
-      print('clientresponse.results ${clientResponse.results}');
-      print('clientResponse.result[0] ${clientResponse.result[0]}');
+    print('Name passed from RepoContr ::: $name');
+    var preferences = await SharedPreferences.getInstance();
+    var clientCountData = QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
+      ..whereEqualTo('role', 'Client')
+      ..whereEqualTo('registeredBy', preferences.getString(repo.kname))
+      ..whereEqualTo('salesNumber', preferences.getString(repo.kMobile));
+    var clientResponse = await clientCountData.count();
+    if (clientResponse.success &&
+        clientResponse != null &&
+        clientResponse.result != null) {
+      // print('clientresponse.results ${clientResponse.results}');
+      // print('clientResponse.result[0] ${clientResponse.result[0]}');
       clientCount.value = clientResponse.result[0] ?? 0;
     }
-    QueryBuilder<ParseObject> distributorCountData =
+    var distributorCountData =
         QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
           ..whereEqualTo('role', 'Distributor');
-    ParseResponse distributorResponse = await distributorCountData.count();
-    if (distributorResponse.success && distributorResponse != null) {
+    var distributorResponse = await distributorCountData.count();
+    if (distributorResponse.success &&
+        distributorResponse != null &&
+        distributorResponse.result != null) {
       distributorCount.value = distributorResponse.result[0];
     }
-    final LiveQuery liveQuery = LiveQuery();
-    Subscription subscription =
-        await liveQuery.client.subscribe(clientCountData);
+    final liveQuery = LiveQuery();
+    var subscription = await liveQuery.client.subscribe(clientCountData);
     subscription.on(LiveQueryEvent.update, (value) {
       print('clientCount updating ${clientCount.value} ');
       clientCount.value++;
@@ -406,9 +455,9 @@ class ClientController extends GetxController {
 
   QueryBuilder isDocumentVerifiedAtSignIn() {
     try {
-      print("####");
+      print('####');
       print(login.oldData[0][0]['objectId']);
-      QueryBuilder doc = QueryBuilder(ParseObject('UserMetadata'))
+      var doc = QueryBuilder(ParseObject('UserMetadata'))
         ..orderByDescending('updatedAt')
         ..whereEqualTo('objectId', login.oldData[0][0]['objectId']);
       return doc;
@@ -419,10 +468,10 @@ class ClientController extends GetxController {
   }
 
   QueryBuilder isDocumentVerified() {
-    print("####");
+    print('####');
     print(registeredDetails[0]['objectId']);
     try {
-      QueryBuilder doc = QueryBuilder(ParseObject('UserMetadata'))
+      var doc = QueryBuilder(ParseObject('UserMetadata'))
         ..orderByDescending('updatedAt')
         ..whereEqualTo('objectId', registeredDetails[0]['objectId']);
       return doc;
@@ -434,11 +483,10 @@ class ClientController extends GetxController {
   QueryBuilder showClients() {
     // SharedPreferences preferences = await SharedPreferences.getInstance();
     try {
-      QueryBuilder<ParseObject> clients =
-          QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
-            ..orderByDescending('createdAt')
-            ..whereEqualTo('salesNumber', repo.number)
-            ..whereEqualTo('registeredBy', repo.name);
+      var clients = QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
+        ..orderByDescending('createdAt')
+        ..whereEqualTo('salesNumber', repo.number)
+        ..whereEqualTo('registeredBy', repo.name);
 
       return clients;
     } catch (e) {

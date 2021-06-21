@@ -18,8 +18,8 @@ class OtpController extends GetxController {
   HomeScreenClientController clientCtrl = Get.put(HomeScreenClientController());
   RoundedLoadingButtonController butCtrl = RoundedLoadingButtonController();
 
-  String otpValue = "";
-  RxString mobile = "".obs;
+  String otpValue = '';
+  RxString mobile = ''.obs;
   RxBool isLoading = false.obs;
   String token;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -45,21 +45,22 @@ class OtpController extends GetxController {
 
   // Firebase function for registeration and user login
   Future registerUser() async {
-    print("Register user called");
+    print('Register user called');
     try {
       await _auth.verifyPhoneNumber(
-        phoneNumber: "+91" + phoneCtrl.mobileNo.text,
+        phoneNumber: '+91' + phoneCtrl.mobileNo.text,
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential credential) async {
           isLoading.value = false;
-          print("Verification Successful");
+          print('Verification Successful');
           phoneCtrl.buttonCtrl.success();
-          UserCredential result = await _auth.signInWithCredential(credential);
-          User user = result.user;
-          print("this is user");
+          var result = await _auth.signInWithCredential(credential);
+          var user = result.user;
+          print('this is user');
           print(user);
           if (user != null) {
-            print("User is  registered");
+            print('User is  registered');
+            //TODO: START
             mobile.value = phoneCtrl.mobileNo.text.trim().toString();
             loginCtrl
                 .userMobileLogin(phoneCtrl.mobileNo.text.trim().toString());
@@ -67,10 +68,11 @@ class OtpController extends GetxController {
                 .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
             clientCtrl.showLoggedInUserData(
                 phoneCtrl.mobileNo.text.trim().toString());
+            //TODO: END
           }
         },
         verificationFailed: (FirebaseAuthException e) {
-          print("Verification Failed Auth Exception");
+          print('Verification Failed Auth Exception');
           butCtrl.reset();
           phoneCtrl.buttonCtrl.reset();
           Get.snackbar(
@@ -86,9 +88,9 @@ class OtpController extends GetxController {
         },
         codeSent: (String verificationId, int code) async {
           isLoading.value = false;
-          print("code sent $verificationId $code");
+          print('code sent $verificationId $code');
           this.verificationId = verificationId;
-          print("Code is sent");
+          print('Code is sent');
         },
         codeAutoRetrievalTimeout: (String verificationId) {
           isLoading.value = false;
@@ -101,7 +103,7 @@ class OtpController extends GetxController {
             duration: Duration(seconds: 2),
             colorText: Colors.teal,
           );*/
-          print("Timeout");
+          print('Timeout');
           print(verificationId);
         },
       );
@@ -110,37 +112,37 @@ class OtpController extends GetxController {
       butCtrl.reset();
       Get.snackbar(
         S.of(Get.context).errorOc,
-        "",
+        '',
         backgroundColor: Colors.white,
         duration: Duration(seconds: 2),
         colorText: Colors.teal,
       );
-      print("Verfication Failed");
+      print('Verfication Failed');
     }
   }
 
 //Function to verify manually and verify added otp if not automatically verified
   verifyPhoneManually() {
     phoneCtrl.isLoading.value = false;
-    print("verify phone manually");
+    print('verify phone manually');
 
-    print("try");
-    AuthCredential credential = PhoneAuthProvider.credential(
+    print('try');
+    var credential = PhoneAuthProvider.credential(
       verificationId: verificationId,
       smsCode: otpController.text,
     );
-    print("line 1");
+    print('line 1');
     try {
       _auth.signInWithCredential(credential).then((value) {
-        print("Result is $value");
+        print('Result is $value');
 
         if (value != null) {
           butCtrl.success();
-          print("User already registered");
+          print('User already registered');
           mobile.value = phoneCtrl.mobileNo.text.trim().toString();
           loginCtrl.userMobileLogin(phoneCtrl.mobileNo.text.trim().toString());
           // Get.offAll(HomeScreen());
-          print("login successful");
+          print('login successful');
           clientCtrl
               .showLoggedInUserData(phoneCtrl.mobileNo.text.trim().toString());
         } else {
@@ -148,20 +150,34 @@ class OtpController extends GetxController {
           butCtrl.reset();
           Get.snackbar(
             S.of(Get.context).errorOc,
-            "",
+            '',
             backgroundColor: Colors.white,
             duration: Duration(seconds: 2),
             colorText: Colors.teal,
           );
         }
+      }).catchError((e) {
+        print('INNER CATCH CALLED');
+        phoneCtrl.buttonCtrl.reset();
+        butCtrl.error();
+        Get.snackbar(
+          S.of(Get.context).errorOc,
+          '',
+          backgroundColor: Colors.white,
+          duration: Duration(seconds: 2),
+          colorText: Colors.teal,
+        );
+        otpController.clear();
+        butCtrl.reset();
+        phoneCtrl.buttonCtrl.reset();
       });
-    } catch (e) {
-      print("cATCH CALLED");
+    } on Exception catch (e) {
+      print('CATCH CALLED');
       phoneCtrl.buttonCtrl.reset();
       butCtrl.error();
       Get.snackbar(
         S.of(Get.context).errorOc,
-        "",
+        '',
         backgroundColor: Colors.white,
         duration: Duration(seconds: 2),
         colorText: Colors.teal,

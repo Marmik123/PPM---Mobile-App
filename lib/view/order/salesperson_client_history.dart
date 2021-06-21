@@ -28,7 +28,6 @@ class _SalespersonClientState extends State<SalespersonClient> {
       appBar: AppBar(
         brightness: Brightness.light,
         backgroundColor: Colors.white,
-        elevation: 1,
         titleSpacing: 0,
         title: Text(
           S.of(context).hist,

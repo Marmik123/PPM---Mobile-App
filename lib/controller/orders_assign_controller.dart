@@ -48,7 +48,7 @@ class OrderAssignController extends GetxController {
   Future<void> uploadImg(String filename, selectedImage) async {
     isLoading.value = true;
     try {
-      String url = "https://cup.marketing.dharmatech.in/product/upload/image";
+      String url = "https://api.ppmstore.in/product/upload/image";
       var uri = Uri.parse(url);
       var request = new http.MultipartRequest("POST", uri);
 

@@ -35,17 +35,7 @@ class _DisplayClientState extends State<DisplayClient> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
-        elevation: 1,
         titleSpacing: 0,
-        leading: GestureDetector(
-            onTap: () {
-              Get.to(() => HomeScreen()).then((value) => () {
-                    setState(() {});
-                  });
-            },
-            child: Icon(Icons.home_outlined)),
         title: Text(
           S.of(context).clientReg,
           style: GoogleFonts.montserrat(
@@ -53,76 +43,6 @@ class _DisplayClientState extends State<DisplayClient> {
             fontWeight: FontWeight.w500,
           ),
         ),
-        actions: [
-          PopupMenuButton(
-            icon: Icon(Icons.more_vert),
-            onSelected: (value) {
-              if (value == 'Settings') {
-                Get.to(() => SettingsPage()).then((value) {
-                  setState(() {});
-                });
-              } else if (value == 'Feedback') {
-                Get.to(() => FeedbackPage());
-              } else if (value == 'Support') {
-                ctrl.loadData();
-                Get.to(() => Support());
-              } else if (value == 'Logout') {
-                rCtrl.deleteUserData();
-                Phoenix.rebirth(context);
-              }
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Icon(Icons.settings),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(S.of(context).Settings),
-                  ],
-                ),
-                value: 'Settings',
-              ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Icon(Icons.feedback_outlined),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(S.of(context).feedback),
-                  ],
-                ),
-                value: 'Feedback',
-              ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Icon(Icons.support_agent),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(S.of(context).Support),
-                  ],
-                ),
-                value: 'Support',
-              ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Icon(Icons.logout),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(S.of(context).Logout),
-                  ],
-                ),
-                value: 'Logout',
-              )
-            ],
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: ParseLiveListWidget(
@@ -130,18 +50,27 @@ class _DisplayClientState extends State<DisplayClient> {
             lazyLoading: true,
             scrollPhysics: ClampingScrollPhysics(),
             shrinkWrap: true,
+            padding: EdgeInsets.only(
+              top: 8,
+              bottom: 10,
+            ),
             childBuilder: (context, snapshot) {
               if (snapshot.failed) {
                 return Text(S.of(context).warning);
               } else if (snapshot.hasData) {
                 return Card(
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  shadowColor: Colors.black54,
                   child: ListTile(
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           '${S.of(context).clientNo}  ${snapshot.loadedData.get('number')}' ??
-                              "-",
+                              '-',
                           style: GoogleFonts.montserrat(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
@@ -149,7 +78,7 @@ class _DisplayClientState extends State<DisplayClient> {
                         ),
                         Text(
                           '${S.of(context).clientShopN}  ${snapshot.loadedData.get('shopName')}' ??
-                              "-",
+                              '-',
                           style: GoogleFonts.montserrat(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
@@ -170,15 +99,14 @@ class _DisplayClientState extends State<DisplayClient> {
                         style: TextStyle(color: Colors.white),
                       ),
                       style: ButtonStyle(
-                        elevation: MaterialStateProperty.all(20),
-                        backgroundColor: MaterialStateProperty.all(Colors.cyan),
+                        elevation: MaterialStateProperty.all(5),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.green),
                         shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(10),
                         )),
                       ),
-                      onPressed: () async {
-                        SharedPreferences preferences =
-                            await SharedPreferences.getInstance();
+                      onPressed: () {
                         sCtrl.displayROrderHistoryData(
                             snapshot.loadedData.get('number'));
                         Get.to(SalespersonClient(

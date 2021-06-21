@@ -27,9 +27,6 @@ class _OrderHistoryClientState extends State<OrderHistoryClient> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
-        elevation: 1,
         titleSpacing: 0,
         title: Text(
           S.of(context).hist,
@@ -37,41 +34,48 @@ class _OrderHistoryClientState extends State<OrderHistoryClient> {
       ),
       body: Container(
         child: SingleChildScrollView(
+          padding: EdgeInsets.only(top: 10),
           child: Obx(
             () => cltrCart.orderH.value
                 ? buildLoader()
                 : Column(
                     children: [
                       Card(
+                        elevation: 5,
+                        shadowColor: Colors.black26,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         child: ListTile(
-                            onTap: () {
-                              Get.to(() => OrderReceived(
-                                    mobileNo: widget.number,
-                                  ));
-                              // return showModal<void>(
-                              //   context: context,
-                              //   builder: (context) {
-                              //     return OrderPlaced();
-                              //   },
-                              // );
-                              // bottomNavigationIndex.value = 0;
-                            },
-                            leading: Icon(Icons.receipt_long_outlined),
-                            title:
-                                Text(S.of(context).oRec /*S.of(context).jobs*/),
-                            trailing: GestureDetector(
-                                child: CircleAvatar(
+                          onTap: () {
+                            Get.to(() => OrderReceived(
+                                  mobileNo: widget.number,
+                                ));
+                            // return showModal<void>(
+                            //   context: context,
+                            //   builder: (context) {
+                            //     return OrderPlaced();
+                            //   },
+                            // );
+                            // bottomNavigationIndex.value = 0;
+                          },
+                          leading: Icon(Icons.receipt_long_outlined),
+                          title:
+                              Text(S.of(context).oRec /*S.of(context).jobs*/),
+                          trailing: GestureDetector(
+                            child: CircleAvatar(
                               radius: 15,
                               child: Text(cltrCart.rOrders.value.toString()),
-                            )
-                                // onTap: () {
-                                //   clientCon.role.value = false;
-                                //
-                                //   Get.to(ClientRegister());
-                                //   // Navigator.of(context)
-                                //   //     .pushNamed(CreateReception.routeName);
-                                // },
-                                )),
+                            ),
+                            // onTap: () {
+                            //   clientCon.role.value = false;
+                            //
+                            //   Get.to(ClientRegister());
+                            //   // Navigator.of(context)
+                            //   //     .pushNamed(CreateReception.routeName);
+                            // },
+                          ),
+                        ),
                       ),
                       // Card(
                       //   child: ListTile(

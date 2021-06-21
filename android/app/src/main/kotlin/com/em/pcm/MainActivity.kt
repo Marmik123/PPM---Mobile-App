@@ -1,4 +1,4 @@
-package com.em.pcm
+package `in`.ppmstore.app
 
 import io.flutter.embedding.android.FlutterActivity
 

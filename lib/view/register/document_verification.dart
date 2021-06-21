@@ -19,7 +19,7 @@ class _DocumentVerificationState extends State<DocumentVerification> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Document Verification"),
+        title: Text('Document Verification'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_sharp),
           onPressed: () {
@@ -35,52 +35,55 @@ class _DocumentVerificationState extends State<DocumentVerification> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: ParseLiveListWidget(
-                  shrinkWrap: true,
-                  listenOnAllSubItems: true,
-                  lazyLoading: true,
-                  query: client.isDocumentVerified(),
-                  childBuilder: (context, snapshot) {
-                    print("!!!");
-                    print(snapshot.hasData);
-                    print(snapshot.loadedData);
-                    if (snapshot.failed) {
-                      return Text(S.of(context).warning);
-                    } else if (snapshot.hasData) {
-                      if (snapshot.loadedData.get('isVerified') == "No") {
-                        print(snapshot.loadedData.get('isVerified'));
-                        return Column(
-                          children: [
-                            Icon(
-                              Icons.watch_later_outlined,
-                              color: Colors.cyan,
-                              size: 55,
-                            ),
-                            Text(
-                              'Documents Verification In Progress',
+                shrinkWrap: true,
+                listenOnAllSubItems: true,
+                lazyLoading: true,
+                query: client.isDocumentVerified(),
+                childBuilder: (context, snapshot) {
+                  print(snapshot.hasData);
+                  print(snapshot.loadedData);
+                  if (snapshot.failed) {
+                    return Text(S.of(context).warning);
+                  } else if (snapshot.hasData) {
+                    if (snapshot.loadedData.get('isVerified') == 'No') {
+                      print(snapshot.loadedData.get('isVerified'));
+                      return Column(
+                        children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Icon(
+                            Icons.watch_later_outlined,
+                            color: Colors.cyan,
+                            size: 55,
+                          ),
+                          Text(
+                            'Documents Verification In Progress',
+                            style: TextStyle(color: Colors.black, fontSize: 20),
+                          )
+                        ],
+                      );
+                    } else if (snapshot.loadedData.get('isVerified') == 'Yes') {
+                      return Column(
+                        children: [
+                          Icon(
+                            Icons.check_circle_outline,
+                            size: 55,
+                            color: Colors.green,
+                          ),
+                          Text('Documents Verified Successfully',
                               style:
-                                  TextStyle(color: Colors.black, fontSize: 20),
-                            )
-                          ],
-                        );
-                      } else if (snapshot.loadedData.get('isVerified') ==
-                          'Yes') {
-                        return Column(
-                          children: [
-                            Icon(
-                              Icons.check_circle_outline,
-                              size: 55,
-                              color: Colors.green,
-                            ),
-                            Text('Documents Verified Successfully',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 20))
-                          ],
-                        );
-                      }
+                                  TextStyle(color: Colors.black, fontSize: 20))
+                        ],
+                      );
                     } else {
                       return ListTileShimmer();
                     }
-                  }),
+                  } else {
+                    return ListTileShimmer();
+                  }
+                },
+              ),
             ),
           ),
         ),

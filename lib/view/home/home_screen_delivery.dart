@@ -70,7 +70,6 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery>
             appBar: AppBar(
               brightness: Brightness.light,
               backgroundColor: Colors.white,
-              elevation: 1,
               titleSpacing: 0,
               leading: Icon(Icons.home_outlined),
               title: Text(

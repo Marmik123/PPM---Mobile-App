@@ -33,7 +33,6 @@ class _OrderHistoryDeliveryState extends State<OrderHistoryDelivery> {
         appBar: AppBar(
           brightness: Brightness.light,
           backgroundColor: Colors.white,
-          elevation: 1,
           titleSpacing: 0,
           title: Text(
             S.of(context).hist,

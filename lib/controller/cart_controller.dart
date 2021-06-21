@@ -39,6 +39,7 @@ class CartController extends GetxController {
   QueryBuilder showOrderHistory(String mobile) {
     try {
       var loadOrderHistory = QueryBuilder<ParseObject>(ParseObject('Orders'))
+        ..orderByDescending('createdAt')
         ..whereEqualTo('customerContactNo', rCtrl.number);
 
       return loadOrderHistory;
@@ -168,11 +169,11 @@ class CartController extends GetxController {
     String imageName,
   ) {
     print('@@ ${cartList.length}');
-    print("#### $cartList");
+    print('#### $cartList');
     print('process of add to cart');
     try {
       if (cartList.isEmpty) {
-        print("cart empty added new");
+        print('cart empty added new');
         print(imageName);
         cartList.add(CartItem(
           id: productId,
@@ -183,14 +184,12 @@ class CartController extends GetxController {
           unit: unit,
           imageName: imageName,
         ));
-        Get.snackbar(
-          '',
-          '',
+        Get.rawSnackbar(
           messageText: Text(
             S.of(Get.context).itemAdded,
             style: GoogleFonts.montserrat(
               textStyle: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 13,
                   fontWeight: FontWeight.w300),
             ),
@@ -199,15 +198,15 @@ class CartController extends GetxController {
             S.of(Get.context).cartUpdated,
             style: GoogleFonts.montserrat(
               textStyle: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 13,
                   fontWeight: FontWeight.w300),
             ),
           ),
           icon: Icon(Icons.add_shopping_cart_outlined),
-          backgroundColor: Colors.cyan,
-          backgroundGradient:
-              LinearGradient(colors: [Colors.white, Colors.cyan]),
+          backgroundColor: Colors.green,
+          /*backgroundGradient:
+              LinearGradient(colors: [Colors.white, Colors.cyan]),*/
           snackStyle: SnackStyle.FLOATING,
         );
         /*Get.snackbar(
@@ -221,19 +220,17 @@ class CartController extends GetxController {
       } else {
         if (checkProductContains(productId, size, unit)) {
           List<CartItem>.from(cartList).forEach((element) {
-            print("called for each");
+            print('called for each');
             if (element.id == productId && element.size == size) {
               if (element.unit == unit) {
-                print("quantity ++");
+                print('quantity ++');
                 element.quantity += quantity;
-                Get.snackbar(
-                  '',
-                  '',
+                Get.rawSnackbar(
                   messageText: Text(
                     S.of(Get.context).itemAdded,
                     style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
-                          color: Colors.black,
+                          color: Colors.white,
                           fontSize: 13,
                           fontWeight: FontWeight.w300),
                     ),
@@ -242,22 +239,20 @@ class CartController extends GetxController {
                     S.of(Get.context).cartUpdated,
                     style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
-                          color: Colors.black,
+                          color: Colors.white,
                           fontSize: 13,
                           fontWeight: FontWeight.w300),
                     ),
                   ),
                   icon: Icon(Icons.add_shopping_cart_outlined),
-                  backgroundColor: Colors.cyan,
-                  backgroundGradient:
-                      LinearGradient(colors: [Colors.white, Colors.cyan]),
+                  backgroundColor: Colors.green,
                   snackStyle: SnackStyle.FLOATING,
                 );
               }
             }
           });
         } else {
-          print("else");
+          print('else');
           cartList.add(CartItem(
             id: productId,
             title: title,
@@ -294,14 +289,14 @@ class CartController extends GetxController {
                 LinearGradient(colors: [Colors.white, Colors.cyan]),
             snackStyle: SnackStyle.FLOATING,
           );
-          print("AAAAAA ${cartList.length}");
+          print('AAAAAA ${cartList.length}');
         }
       }
     } catch (e) {
       print(e);
       Get.snackbar(
         S.of(Get.context).errorOcu,
-        "",
+        '',
         backgroundColor: Colors.black.withOpacity(0.8),
         maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
         colorText: Colors.white,
@@ -314,7 +309,7 @@ class CartController extends GetxController {
     cartList.remove(productId);
     quantity--;
     print(productId);
-    print("remove item from cart");
+    print('remove item from cart');
   }
 
   /*void singleItem(String prodId) {
@@ -393,7 +388,7 @@ class CartController extends GetxController {
       if (response.success) {
         buttonCtrl.success();
 
-        print("order data is $orderData");
+        print('order data is $orderData');
         orderHistory.add(orderData);
         isLoading.value = false;
         print(response.result.get('objectId'));
@@ -401,7 +396,7 @@ class CartController extends GetxController {
         print('successful!!!!!!!!!!');
         Get.snackbar(
           S.of(Get.context).orderSuccess,
-          "",
+          '',
           backgroundColor: Colors.black.withOpacity(0.8),
           maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
           colorText: Colors.white,
@@ -417,7 +412,7 @@ class CartController extends GetxController {
       buttonCtrl.error();
       Get.snackbar(
         S.of(Get.context).errorOcu,
-        "",
+        '',
         backgroundColor: Colors.black.withOpacity(0.8),
         maxWidth: MediaQuery.of(Get.context).size.width / 1.5,
         colorText: Colors.white,
@@ -428,7 +423,7 @@ class CartController extends GetxController {
   }
 
   Future<void> prodReport(String name, int prodCount) async {
-    print("called ad report");
+    print('called ad report');
     try {
       QueryBuilder<ParseObject> userData =
           QueryBuilder<ParseObject>(ParseObject('ProductsMetadata'))
@@ -438,7 +433,7 @@ class CartController extends GetxController {
       ParseResponse response = await userData.query();
       if (response.success) {
         if (response.results == null) {
-          print("no pro exist creating new one");
+          print('no pro exist creating new one');
           ParseObject newClient = ParseObject('ProductsMetadata')
             ..set<String>('prodName', name)
             ..set('prodPurchaseCount', prodCount);
@@ -455,7 +450,7 @@ class CartController extends GetxController {
             // print("@@@${preference.getString(rCtrl.kOrderObjectId)}");
           }
         } else {
-          print("prod already there updating purchaseCount");
+          print('prod already there updating purchaseCount');
           ParseObject client = response.result[0]
             ..set('prodName', name)
             ..set('prodPurchaseCount',
@@ -464,7 +459,7 @@ class CartController extends GetxController {
           ParseResponse reportResult = await client.save();
           if (reportResult.success) {
             // adsCount = 0;
-            print("prod Count updated and report made");
+            print('prod Count updated and report made');
           }
         }
       }
