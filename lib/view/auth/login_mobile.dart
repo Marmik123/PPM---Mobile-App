@@ -532,7 +532,26 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                                     );
                                   },
                                   onPressed: () {
-                                    Get.to(() => ClientRegister());
+                                    Get.to(() => ClientRegister())
+                                        .then((value) {
+                                      if (value ?? false) {
+                                        Get.snackbar(
+                                          'Client registered successfully',
+                                          S.of(Get.context).actionS,
+                                          backgroundColor: Colors.green,
+                                          margin: const EdgeInsets.all(5),
+                                          snackPosition: SnackPosition.BOTTOM,
+                                          maxWidth: MediaQuery.of(Get.context)
+                                              .size
+                                              .width,
+                                          isDismissible: true,
+                                          dismissDirection:
+                                              SnackDismissDirection.VERTICAL,
+                                          colorText: Colors.white,
+                                          icon: Icon(Icons.check_circle),
+                                        );
+                                      }
+                                    });
                                   },
                                   child: Text(
                                     S.of(context).signup,

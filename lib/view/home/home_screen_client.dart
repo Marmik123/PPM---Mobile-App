@@ -46,12 +46,12 @@ class _HomeScreenClientState extends State<HomeScreenClient>
   void initState() {
     // TODO: implement initState
     super.initState();
-    RepoController rCtrl = Get.put(RepoController());
+    var rCtrl = Get.put(RepoController());
     rCtrl.loadUserData();
     print('init state called;');
-    SupportController support = Get.put(SupportController());
+    var support = Get.put(SupportController());
     support.loadData();
-    CartController cartC = Get.put(CartController());
+    var cartC = Get.put(CartController());
     cartC.showOrderHistoryData(rCtrl.number);
     cartC.showROrderHistoryData(rCtrl.number);
 
@@ -409,7 +409,7 @@ class _HomeScreenClientState extends State<HomeScreenClient>
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
-            SharedPreferences mobile = await SharedPreferences.getInstance();
+            var mobile = await SharedPreferences.getInstance();
             cartC.showOrderHistoryData(rCtrl.number);
             cartC.showROrderHistoryData(rCtrl.number);
             setState(() {});

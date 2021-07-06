@@ -338,19 +338,11 @@ class OrderAssignController extends GetxController {
                 fontSize: 12, fontWeight: FontWeight.w500),
           ),
           elevation: 10.0,
-          backgroundColor: Colors.cyan,
+          backgroundColor: Colors.green,
         );
         ScaffoldMessenger.of(Get.context).showSnackBar(snackBar);
       } else {
         showDelivered.value = false;
-
-        Get.snackbar(
-          S.of(Get.context).errorOcu,
-          "",
-          backgroundColor: Colors.white,
-          duration: Duration(seconds: 3),
-          colorText: Colors.teal,
-        );
       }
     } catch (e) {
       showDelivered.value = false;

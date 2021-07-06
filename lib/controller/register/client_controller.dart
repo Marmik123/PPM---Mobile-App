@@ -129,7 +129,7 @@ class ClientController extends GetxController {
         pickedFile = null;
         update();
         salesReport();
-        name == 'Direct' ? Get.to(() => DocumentVerification()) : Get.back();
+        // name == 'Direct' ? Get.to(() => DocumentVerification()) : Get.back();
         /* Get.defaultDialog(
           title: 'Documents Are Under Verification',
           barrierDismissible: false,
@@ -140,16 +140,15 @@ class ClientController extends GetxController {
         } else {
           clientCount.value++;
         }
-        Get.back();
+        btnController.reset();
+        await Get.back(result: true);
       }
     } catch (e) {
       print('ERROR ERROR');
       btnController.error();
       print(e);
-    } finally {
-      /*Future.delayed(Duration(milliseconds: 1500))
-          .then((value) => btnController.reset());*/
-
+      await Future.delayed(Duration(milliseconds: 300))
+          .then((value) => btnController.reset());
     }
   }
 
@@ -330,7 +329,7 @@ class ClientController extends GetxController {
         isLoading.value = false;
         isUploaded.value = true;
         print(repoController.name);
-        Get.snackbar(
+        /*Get.snackbar(
           S.of(Get.context).photoSuccess,
           S.of(Get.context).actionS,
           backgroundColor: Colors.green,
@@ -341,7 +340,7 @@ class ClientController extends GetxController {
           dismissDirection: SnackDismissDirection.VERTICAL,
           colorText: Colors.white,
           icon: Icon(Icons.check_circle),
-        );
+        );*/
         await clientRegister(
             repoController.name ?? 'Direct',
             gst == 0
@@ -359,7 +358,11 @@ class ClientController extends GetxController {
                             ? 'Vegetable'
                             : selectedType == 4
                                 ? 'Provision'
-                                : 'Medical',
+                                : selectedType == 5
+                                    ? 'Medical'
+                                    : selectedType == 6
+                                        ? 'Hotel'
+                                        : 'Other',
             cIController.text ?? 'Surat',
             stController.text ?? 'Gujarat');
       }

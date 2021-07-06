@@ -167,7 +167,7 @@ class _OtpVerificationState extends State<OtpVerification>
                     controller: otpCtrl.butCtrl,
                     onPressed: () {
                       if (otpCtrl.formKey.currentState.validate()) {
-                        otpCtrl.verifyPhoneManually();
+                        otpCtrl.verifyOtp();
                         /* Get.to(UserType(),
                                     curve: Curves.elasticInOut,
                                     duration: Duration(seconds: 1));

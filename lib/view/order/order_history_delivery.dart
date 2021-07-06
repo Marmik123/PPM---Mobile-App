@@ -6,6 +6,7 @@ import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/utils/shared_preferences.dart';
 import 'package:pcm/widgets/circular_loader.dart';
+import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
 class OrderHistoryDelivery extends StatefulWidget {
@@ -31,8 +32,6 @@ class _OrderHistoryDeliveryState extends State<OrderHistoryDelivery> {
 
     return Scaffold(
         appBar: AppBar(
-          brightness: Brightness.light,
-          backgroundColor: Colors.white,
           titleSpacing: 0,
           title: Text(
             S.of(context).hist,
@@ -46,6 +45,11 @@ class _OrderHistoryDeliveryState extends State<OrderHistoryDelivery> {
                   physics: ClampingScrollPhysics(),
                   children: [
                     Card(
+                      elevation: 5,
+                      shadowColor: Colors.black26,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       child: ListTile(
                           onTap: () {
                             // bottomNavigationIndex.value = 0;
@@ -116,407 +120,268 @@ class _OrderHistoryDeliveryState extends State<OrderHistoryDelivery> {
                             ),
                           )
                         :*/
-                    ListView.builder(
+                    ListView.separated(
                       physics: ClampingScrollPhysics(),
                       shrinkWrap: true,
+                      padding: EdgeInsets.all(4),
                       itemCount: widget.listObject.length ?? 0,
                       itemBuilder: (context, index) {
-                        return Container(
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          elevation: 5,
+                          shadowColor: Colors.black26,
                           child: Column(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              SizedBox(
-                                height: 20,
-                              ),
                               Container(
-                                padding: EdgeInsets.all(15),
-                                child: Column(
+                                padding: EdgeInsets.only(
+                                    top: 10, bottom: 10, left: 20, right: 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.green.shade200,
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    topLeft: Radius.circular(20),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Container(
-                                      child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.only(
-                                                  top: 10,
-                                                  bottom: 10,
-                                                  left: 20,
-                                                  right: 20),
-                                              decoration: BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    90, 177, 255, 0.1),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    widget.listObject[index]
-                                                                ['date_time']
-                                                            .toString() ??
-                                                        "-",
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                  ),
-                                                  // Text(
-                                                  //   '28 Mins',
-                                                  //   style: GoogleFonts.montserrat(
-                                                  //       fontSize: 12, fontWeight: FontWeight.w500),
-                                                  // ),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Container(
-                                              padding: EdgeInsets.only(
-                                                left: 20,
-                                                right: 20,
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(S.of(context).delId,
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                            color:
-                                                                Color.fromRGBO(
-                                                              94,
-                                                              94,
-                                                              94,
-                                                              1,
-                                                            ),
-                                                          )),
-                                                      Text(
-                                                        widget.listObject[index]
-                                                                ['objectId'] ??
-                                                            "-",
-                                                        style: GoogleFonts
-                                                            .montserrat(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w300,
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(S.of(context).price,
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                            color:
-                                                                Color.fromRGBO(
-                                                              94,
-                                                              94,
-                                                              94,
-                                                              1,
-                                                            ),
-                                                          )),
-                                                      Text(
-                                                        widget.listObject[index]
-                                                                    [
-                                                                    'total_price']
-                                                                .toString() ??
-                                                            "-",
-                                                        style: GoogleFonts
-                                                            .montserrat(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                          S.of(context).payment,
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                            color:
-                                                                Color.fromRGBO(
-                                                              94,
-                                                              94,
-                                                              94,
-                                                              1,
-                                                            ),
-                                                          )),
-                                                      Text(
-                                                        widget.listObject[index]
-                                                                [
-                                                                'payment_option'] ??
-                                                            "-",
-                                                        style: GoogleFonts
-                                                            .montserrat(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  // Row(
-                                                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  //   children: [
-                                                  //     Text('tranlator',
-                                                  //         style: GoogleFonts.montserrat(
-                                                  //           fontSize: 14,
-                                                  //           fontWeight: FontWeight.w300,
-                                                  //           color: Color.fromRGBO(
-                                                  //             94,
-                                                  //             94,
-                                                  //             94,
-                                                  //             1,
-                                                  //           ),
-                                                  //         )),
-                                                  //     Text(
-                                                  //       'Seth Caldwell',
-                                                  //       style: GoogleFonts.montserrat(
-                                                  //         fontSize: 14,
-                                                  //         fontWeight: FontWeight.w500,
-                                                  //         color: Colors.black,
-                                                  //       ),
-                                                  //     ),
-                                                  //   ],
-                                                  // ),
-                                                  // SizedBox(
-                                                  //   height: 10,
-                                                  // ),
-                                                  // Row(
-                                                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  //   children: [
-                                                  //     Text('doctor',
-                                                  //         style: GoogleFonts.montserrat(
-                                                  //           fontSize: 14,
-                                                  //           fontWeight: FontWeight.w300,
-                                                  //           color: Color.fromRGBO(
-                                                  //             94,
-                                                  //             94,
-                                                  //             94,
-                                                  //             1,
-                                                  //           ),
-                                                  //         )),
-                                                  //     Text(
-                                                  //       'Chad Murray',
-                                                  //       style: GoogleFonts.montserrat(
-                                                  //         fontSize: 14,
-                                                  //         fontWeight: FontWeight.w500,
-                                                  //         color: Colors.black,
-                                                  //       ),
-                                                  //     ),
-                                                  //   ],
-                                                  // ),
-                                                  // SizedBox(
-                                                  //   height: 10,
-                                                  // ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                          S
-                                                              .of(context)
-                                                              .customerN,
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                            color:
-                                                                Color.fromRGBO(
-                                                              94,
-                                                              94,
-                                                              94,
-                                                              1,
-                                                            ),
-                                                          )),
-                                                      Text(
-                                                        widget.listObject[index]
-                                                                [
-                                                                'customerName'] ??
-                                                            '-',
-                                                        style: GoogleFonts
-                                                            .montserrat(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                          S
-                                                              .of(context)
-                                                              .customerAdd,
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                            color:
-                                                                Color.fromRGBO(
-                                                              94,
-                                                              94,
-                                                              94,
-                                                              1,
-                                                            ),
-                                                          )),
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            3,
-                                                        alignment:
-                                                            Alignment.topRight,
-                                                        child: Text(
-                                                          widget.listObject[
-                                                                      index][
-                                                                  'customerAddress'] ??
-                                                              '-',
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 3,
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                          S.of(context).contact,
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                            color:
-                                                                Color.fromRGBO(
-                                                              94,
-                                                              94,
-                                                              94,
-                                                              1,
-                                                            ),
-                                                          )),
-                                                      Text(
-                                                        widget.listObject[index]
-                                                                [
-                                                                'customerContactNo'] ??
-                                                            " -",
-                                                        style: GoogleFonts
-                                                            .montserrat(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ]),
+                                    Text(
+                                      DateFormat('dd/MM/yy hh:mm').format(
+                                              widget.listObject[index]
+                                                  ['date_time']) ??
+                                          '-',
+                                      style: GoogleFonts.montserrat(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   ],
                                 ),
                               ),
-
-                              // Expanded(
-                              //   child: GridView(
-                              //     primary: false,
-                              //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              //         crossAxisCount: 2),
-                              //     children: [
-                              //       // dashboardContainer(name: 'Register'),
-                              //
-                              //       dashboardContainer(
-                              //         name: 'Settings',
-                              //         onTap: () => Get.to(SettingsPage()),
-                              //       ),
-                              //       dashboardContainer(
-                              //         name: 'FeedBack',
-                              //         onTap: () => Get.to(FeedbackPage()),
-                              //       ),
-                              //       dashboardContainer(
-                              //         name: 'Support',
-                              //         onTap: () => Get.to(Support()),
-                              //       ),
-                              //       dashboardContainer(
-                              //         name: 'Client',
-                              //         onTap: () => Get.to(HomeScreenClient()),
-                              //       ),
-                              //       // dashboardContainer(
-                              //       //   name: 'Delivery Boy',
-                              //       //   onTap: () => Get.to(HomeScreenDelivery()),
-                              //       // ),
-                              //     ],
-                              //   ),
-                              // )
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: 8,
+                                  right: 8,
+                                  bottom: 8,
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(S.of(context).OrderId,
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w300,
+                                            )),
+                                        Text(
+                                          widget.listObject[index]['objectId']
+                                                  .toUpperCase() ??
+                                              '-',
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w300,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(S.of(context).price,
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w300,
+                                            )),
+                                        Text(
+                                          widget.listObject[index]
+                                                      ['total_price']
+                                                  .toString() ??
+                                              '-',
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(S.of(context).payment,
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w300,
+                                            )),
+                                        Text(
+                                          widget.listObject[index]
+                                                  ['payment_option'] ??
+                                              '-',
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    // Row(
+                                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //   children: [
+                                    //     Text('tranlator',
+                                    //         style: GoogleFonts.montserrat(
+                                    //           fontSize: 14,
+                                    //           fontWeight: FontWeight.w300,
+                                    //           color: Color.fromRGBO(
+                                    //             94,
+                                    //             94,
+                                    //             94,
+                                    //             1,
+                                    //           ),
+                                    //         )),
+                                    //     Text(
+                                    //       'Seth Caldwell',
+                                    //       style: GoogleFonts.montserrat(
+                                    //         fontSize: 14,
+                                    //         fontWeight: FontWeight.w500,
+                                    //
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    // SizedBox(
+                                    //   height: 10,
+                                    // ),
+                                    // Row(
+                                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //   children: [
+                                    //     Text('doctor',
+                                    //         style: GoogleFonts.montserrat(
+                                    //           fontSize: 14,
+                                    //           fontWeight: FontWeight.w300,
+                                    //           color: Color.fromRGBO(
+                                    //             94,
+                                    //             94,
+                                    //             94,
+                                    //             1,
+                                    //           ),
+                                    //         )),
+                                    //     Text(
+                                    //       'Chad Murray',
+                                    //       style: GoogleFonts.montserrat(
+                                    //         fontSize: 14,
+                                    //         fontWeight: FontWeight.w500,
+                                    //
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    // SizedBox(
+                                    //   height: 10,
+                                    // ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(S.of(context).customerN,
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w300,
+                                            )),
+                                        Text(
+                                          widget.listObject[index]
+                                                  ['customerName'] ??
+                                              '-',
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(S.of(context).customerAdd,
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w300,
+                                            )),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              3,
+                                          alignment: Alignment.topRight,
+                                          child: Text(
+                                            widget.listObject[index]
+                                                    ['customerAddress'] ??
+                                                '-',
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 3,
+                                            textAlign: TextAlign.end,
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(S.of(context).contact,
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w300,
+                                            )),
+                                        Text(
+                                          widget.listObject[index]
+                                                  ['customerContactNo'] ??
+                                              ' -',
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         );
                       },
+                      separatorBuilder: (context, index) => SizedBox(
+                        height: 5,
+                      ),
                     ),
                     /* dashboardContainer(
             name: 'Distributor',

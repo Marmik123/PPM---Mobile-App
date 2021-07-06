@@ -26,8 +26,6 @@ class _SalespersonClientState extends State<SalespersonClient> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
         titleSpacing: 0,
         title: Text(
           S.of(context).hist,
@@ -41,6 +39,11 @@ class _SalespersonClientState extends State<SalespersonClient> {
                 : Column(
                     children: [
                       Card(
+                        elevation: 5,
+                        shadowColor: Colors.black26,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         child: ListTile(
                             onTap: () {
                               Get.to(() => ReceivedClient(

@@ -730,6 +730,7 @@ class _CartState extends State<Cart> {
                     await SharedPreferences.getInstance();
                 setState(() {
                   if (login.userNotExist.value) {
+                    Get.snackbar('Error', 'User Does not exist');
                     print("ORDER CANT BE PLACED");
                   } else {
                     cltrCart.totalA != 0
@@ -740,13 +741,18 @@ class _CartState extends State<Cart> {
                             customerMobile: mobile.getString(rCtrl.kMobileNum),
                             pincode: mobile.getString(rCtrl.kpincode),
                             size: cltrProduct.size.value,
+                            customerShopName: mobile.getString(rCtrl.kShopName),
+                            customerShopType:
+                                mobile.getString(rCtrl.kStoreType),
                             //unit: cltrProduct.unit.value,
                           )
                         : showerror();
                     cltrCart.clientReport(
-                        mobile.getString(rCtrl.kname),
-                        mobile.getString(rCtrl.kMobileNum),
-                        cltrCart.purchaseCount.value);
+                      mobile.getString(rCtrl.kname),
+                      mobile.getString(rCtrl.kMobileNum),
+                      cltrCart.purchaseCount.value,
+                      mobile.getString(rCtrl.kShopName),
+                    );
                   }
                 });
 

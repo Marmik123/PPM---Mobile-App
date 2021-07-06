@@ -2,13 +2,16 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pcm/api.dart';
 import 'package:pcm/controller/homescreen_client_controller.dart';
 import 'package:pcm/controller/login_controller.dart';
 import 'package:pcm/controller/orders_assign_controller.dart';
 import 'package:pcm/controller/register/login_mobile_controller.dart';
 import 'package:pcm/generated/l10n.dart';
+import 'package:pcm/utils/utils.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class OtpController extends GetxController {
@@ -28,6 +31,9 @@ class OtpController extends GetxController {
   FirebaseAuth _auth = FirebaseAuth.instance;
   SignInController phoneCtrl = Get.put(SignInController());
   LoginController loginCtrl = Get.put(LoginController());
+
+  String sentOtp = '';
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -47,7 +53,7 @@ class OtpController extends GetxController {
   Future registerUser() async {
     print('Register user called');
     try {
-      await _auth.verifyPhoneNumber(
+      /*await _auth.verifyPhoneNumber(
         phoneNumber: '+91' + phoneCtrl.mobileNo.text,
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential credential) async {
@@ -96,17 +102,11 @@ class OtpController extends GetxController {
           isLoading.value = false;
           butCtrl.reset();
           phoneCtrl.buttonCtrl.reset();
-/*          Get.snackbar(
-            "Enter Otp Manually",
-            "Automatic Otp verification failed",
-            backgroundColor: Colors.white,
-            duration: Duration(seconds: 2),
-            colorText: Colors.teal,
-          );*/
           print('Timeout');
           print(verificationId);
         },
-      );
+      );*/
+      await sendOtp(phoneCtrl.mobileNo.text.trim());
     } catch (e) {
       phoneCtrl.buttonCtrl.reset();
       butCtrl.reset();
@@ -117,7 +117,52 @@ class OtpController extends GetxController {
         duration: Duration(seconds: 2),
         colorText: Colors.teal,
       );
-      print('Verfication Failed');
+    }
+  }
+
+  Future<void> sendOtp(String mobileNumber) async {
+    sentOtp = randomNumber.toString();
+    print(sentOtp);
+    var apiKey = 'NTY2YTY0NDgzNjcwNzM2MzM4MzQ1NDQxNmYzNjQ4MzI=';
+    var message = '$sentOtp is your PPM Store verification code.';
+    if (kReleaseMode) {
+      await getUrl(
+          'https://api.textlocal.in/send/?apiKey=$apiKey&sender=PPMStr&numbers=91$mobileNumber&message=$message');
+    }
+    isLoading.value = false;
+  }
+
+  Future<void> verifyOtp() async {
+    phoneCtrl.isLoading.value = false;
+    if (sentOtp == otpController.text) {
+      isLoading.value = false;
+      phoneCtrl.buttonCtrl.success();
+      butCtrl.success();
+
+      mobile.value = phoneCtrl.mobileNo.text.trim().toString();
+
+      await loginCtrl
+          .userMobileLogin(phoneCtrl.mobileNo.text.trim().toString());
+
+      await clientCtrl
+          .showLoggedInUserData(phoneCtrl.mobileNo.text.trim().toString());
+
+      await assignCtrl
+          .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
+    } else {
+      phoneCtrl.buttonCtrl.reset();
+
+      butCtrl.reset();
+
+      Get.snackbar(
+        S.of(Get.context).errorOc,
+        '',
+        backgroundColor: Colors.white,
+        duration: Duration(seconds: 2),
+        colorText: Colors.teal,
+      );
+
+      phoneCtrl.isLoading.value = false;
     }
   }
 

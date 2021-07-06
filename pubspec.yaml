@@ -66,7 +66,7 @@ dev_dependencies:
 dependency_overrides:
   shared_preferences: ^2.0.3
   path_provider: ^2.0.0
-  dio: ^4.0.0-beta7
+  dio: ^4.0.0
   http: ^0.12.2
   crypto: ^3.0.0
   plugin_platform_interface: ^2.0.0

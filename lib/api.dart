@@ -29,7 +29,7 @@ Future<Response> postMedia(String url, dynamic args) async {
 
     return response;
   } on DioError catch (e) {
-    throw e;
+    rethrow;
   }
 }
 
@@ -59,7 +59,7 @@ Future<Response> postNormal(String url, dynamic args) async {
 
     return response;
   } on DioError catch (e) {
-    throw e;
+    rethrow;
   }
 }
 
@@ -88,6 +88,6 @@ Future<Response> getUrl(String url) async {
 
     return response;
   } on DioError catch (e) {
-    throw e;
+    rethrow;
   }
 }
