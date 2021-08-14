@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pcm/controller/login_controller.dart';
@@ -37,10 +38,15 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    // TODO: implement initState
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.light,
+    ));
     super.initState();
     loginCtrl.oldDataReceived.value = false;
     controller = AnimationController(
+      upperBound: 1.0,
+      lowerBound: 0.9,
       duration: Duration(milliseconds: 700),
       vsync: this,
     );
@@ -62,9 +68,8 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -74,11 +79,12 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
       body: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-            colors: [Colors.white, Colors.cyan],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          )),
+            gradient: LinearGradient(
+              colors: [Colors.white, Colors.green],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: Column(
@@ -105,9 +111,10 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                             title: S.of(context).change,
                             titleStyle: GoogleFonts.montserrat(
                               textStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500),
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                             content: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -227,7 +234,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                           ),
                           Icon(
                             Icons.language_outlined,
-                            color: Colors.cyan,
+                            color: Colors.green,
                           )
                         ],
                       ),
@@ -235,13 +242,13 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                   ),
                 ),
               ),
-              Padding(
+              /* Padding(
                 padding:
                     const EdgeInsets.only(top: 100, left: 40.0, bottom: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Transform.scale(
+                    /* Transform.scale(
                       scale: animation.value * 1.2,
                       child: Text(
                         S.of(context).signIn,
@@ -256,14 +263,14 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                     ),
                     SizedBox(
                       height: 10,
-                    ),
-                    Transform.scale(
+                    ), */
+                    /* Transform.scale(
                       scale: animation.value * 1,
                       child: Text(
                         S.of(context).home,
                         style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
-                              color: Colors.cyan,
+                              color: Colors.green,
                               fontSize: animation.value * 40,
                               fontWeight: FontWeight.w500),
                         ),
@@ -273,9 +280,13 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                                 fontWeight: FontWeight.w400),*/
                         maxLines: 1,
                       ),
-                    ),
+                    ), */
+                    
                   ],
                 ),
+              ), */
+              SizedBox(
+                height: 50,
               ),
               Transform.scale(
                 scale: animation.value,
@@ -284,12 +295,31 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                       EdgeInsets.only(left: 15, right: 15, bottom: 25, top: 20),
                   padding:
                       EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8.0, left: 5, right: 5),
                     child: Form(
                       key: ctrl.loginFormKey,
                       child: Column(
                         children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Transform.scale(
+                            scale: animation.value,
+                            child: Hero(
+                              tag: 'ppm_logo',
+                              child: Image.asset(
+                                'images/LOGO-02.png',
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
@@ -310,8 +340,9 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                                     }
                                     if (value.length != 10) {
                                       return S.of(context).valid;
-                                    } else
+                                    } else {
                                       return null;
+                                    }
 /*                                  showCountryPicker(
                                       context: context,
                                       //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
@@ -335,7 +366,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                                       onPressed: () {
                                       },
                                     ),*/
-                                    prefixText: "+91  ",
+                                    prefixText: '+91  ',
                                     /*prefixStyle: kStyle.copyWith(
                                           color: Colors.black,
                                           fontSize: 18,
@@ -349,7 +380,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                                         ),*/
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
-                                        color: Colors.cyan,
+                                        color: Colors.green,
                                         width: 1,
                                       ),
                                     ),
@@ -420,26 +451,27 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                           RoundedLoadingButton(
                             controller: ctrl.buttonCtrl,
                             elevation: 10,
-                            color: Colors.cyan,
+                            color: Colors.green,
                             onPressed: () async {
                               if (ctrl.loginFormKey.currentState.validate()) {
-                                print("get user data about to call");
+                                print('get user data about to call');
                                 await loginCtrl.getUserData();
                               }
-                              print("out of if loop");
+                              print('out of if loop');
                               print(loginCtrl.oldDataReceived.value);
-                              loginCtrl.oldDataReceived.value
-                                  ? checkVerificationStatus()
-                                  : null;
+                              if (loginCtrl.oldDataReceived()) {
+                                await checkVerificationStatus();
+                              }
                               ctrl.buttonCtrl.reset();
                             },
                             child: Text(
                               S.of(context).Continue,
                               style: GoogleFonts.montserrat(
                                 textStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500),
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                             borderRadius: 12,
@@ -493,25 +525,44 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                                         ),
                                       ),
                                       icon: Icon(Icons.app_registration),
-                                      backgroundColor: Colors.cyan,
+                                      backgroundColor: Colors.green,
                                       backgroundGradient: LinearGradient(
-                                          colors: [Colors.white, Colors.cyan]),
+                                          colors: [Colors.white, Colors.green]),
                                       snackStyle: SnackStyle.FLOATING,
                                     );
                                   },
                                   onPressed: () {
-                                    Get.to(() => ClientRegister());
+                                    Get.to(() => ClientRegister())
+                                        .then((value) {
+                                      if (value ?? false) {
+                                        Get.snackbar(
+                                          'Client registered successfully',
+                                          S.of(Get.context).actionS,
+                                          backgroundColor: Colors.green,
+                                          margin: const EdgeInsets.all(5),
+                                          snackPosition: SnackPosition.BOTTOM,
+                                          maxWidth: MediaQuery.of(Get.context)
+                                              .size
+                                              .width,
+                                          isDismissible: true,
+                                          dismissDirection:
+                                              SnackDismissDirection.VERTICAL,
+                                          colorText: Colors.white,
+                                          icon: Icon(Icons.check_circle),
+                                        );
+                                      }
+                                    });
                                   },
                                   child: Text(
                                     S.of(context).signup,
                                     style: GoogleFonts.montserrat(
                                       textStyle: TextStyle(
-                                          color: Colors.cyan,
+                                          color: Colors.green,
                                           fontSize: 13,
                                           fontWeight: FontWeight.w500),
                                     ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -548,10 +599,6 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                         ],
                       ),
                     ),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
               ),
@@ -594,9 +641,9 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
   }
 
   Future<void> checkVerificationStatus() async {
-    if (loginCtrl.oldData[0][0]['isVerified'] == "Yes" ||
+    if (loginCtrl.oldData[0][0]['isVerified'] == 'Yes' ||
         loginCtrl.oldData[0][0]['role'] != 'Client') {
-      print("is verified if loop");
+      print('is verified if loop');
       await otpCtx.registerUser();
       Get.to(() => OtpVerification());
     } else {

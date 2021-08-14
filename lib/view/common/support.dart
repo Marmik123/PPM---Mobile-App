@@ -19,9 +19,6 @@ class _SupportState extends State<Support> {
       appBar: AppBar(
         title: Text(
           S.of(context).Support,
-          style: GoogleFonts.montserrat(
-            textStyle: TextStyle(color: Colors.black),
-          ),
         ),
       ),
       body: Column(

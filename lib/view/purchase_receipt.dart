@@ -45,14 +45,10 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
             //Get.back();
           },
         ),
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
         elevation: 1,
         titleSpacing: 0,
         title: Text(
           S.of(context).Receipt,
-          style:
-              GoogleFonts.montserrat(textStyle: TextStyle(color: Colors.black)),
         ),
       ),
       body: ListView(
@@ -60,7 +56,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
           Container(
             decoration: BoxDecoration(
                 border: Border.all(
-                  color: Color.fromRGBO(0, 100, 244, 1),
+                  color: Colors.green,
                 ),
                 borderRadius: BorderRadius.circular(10)),
             margin: EdgeInsets.all(10),
@@ -72,7 +68,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                   padding:
                       EdgeInsets.only(top: 5, left: 17, right: 17, bottom: 5),
                   decoration: BoxDecoration(
-                    color: Color.fromRGBO(90, 177, 255, 0.1),
+                    color: Colors.green.shade100,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
@@ -91,10 +87,10 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                           ),
                         ],
                       ),
-                      Text(
+                      /*Text(
                         S.of(context).ReceiptMessage,
                         style: TextStyle(fontSize: 14),
-                      ),
+                      ),*/
                       SizedBox(
                         height: 10,
                       ),
@@ -109,7 +105,8 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                               children: [
                                 TextSpan(text: S.of(context).OrderId),
                                 TextSpan(
-                                  text: '${widget.order.objectId}',
+                                  text:
+                                      '${widget.order.objectId.toUpperCase()}',
                                   style: TextStyle(),
                                 ),
                               ],
@@ -173,17 +170,21 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                     return ListTile(
                       leading: CircleAvatar(
                         child: Text(
-                            '${cltrCart.orderDetails[index]['quantity'] ?? "-"} ${cltrCart.orderDetails[index]['unit'] ?? "-"} x ',
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 12)),
+                          '${cltrCart.orderDetails[index]['quantity'] ?? "-"} ${cltrCart.orderDetails[index]['unit'] ?? "-"}',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                         radius: 20,
-                        backgroundColor: Color.fromRGBO(90, 177, 255, 0.1),
+                        backgroundColor: Colors.green.shade100,
                       ),
                       subtitle: Text(S.of(context).Size +
                               " ${cltrCart.orderDetails[index]['size']}" ??
-                          "size"),
+                          'size'),
                       title:
-                          Text(cltrCart.orderDetails[index]['name'] ?? "name"),
+                          Text(cltrCart.orderDetails[index]['name'] ?? 'name'),
                       trailing: Text(
                           '₹ ${cltrCart.orderDetails[index]['quantity'] * cltrCart.orderDetails[index]['price']}'),
                     );
@@ -197,7 +198,7 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                   padding: EdgeInsets.only(left: 20, right: 20, top: 10),
                   child: Column(
                     children: [
-                      Row(
+                      /*Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
@@ -210,10 +211,10 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                                 fontSize: 14, fontWeight: FontWeight.w500),
                           ),
                         ],
-                      ),
-                      SizedBox(
+                      ),*/
+                      /*SizedBox(
                         height: 5,
-                      ),
+                      ),*/
 /*                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -228,9 +229,9 @@ class _PurchaseReceiptState extends State<PurchaseReceipt> {
                           ),
                         ],
                       )*/
-                      SizedBox(
+                      /*SizedBox(
                         height: 5,
-                      ),
+                      ),*/
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "276131450498",
-    "project_id": "pcmapp-9ef46",
-    "storage_bucket": "pcmapp-9ef46.appspot.com"
+    "project_number": "151424414011",
+    "project_id": "ppm-store-in",
+    "storage_bucket": "ppm-store-in.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:276131450498:android:6bbbed647d2efbf62e2e9b",
+        "mobilesdk_app_id": "1:151424414011:android:eda78a8b64d6b2099d071e",
         "android_client_info": {
-          "package_name": "com.em.pcm"
+          "package_name": "in.ppmstore.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "276131450498-834cm5919tvupp133omn71aucbl3bicb.apps.googleusercontent.com",
+          "client_id": "151424414011-df5msbak587ek97416rogoragsgha9tl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.ppmstore.app",
+            "certificate_hash": "987738d9a239de3b0de76113e80d6f73f08ea2c4"
+          }
+        },
+        {
+          "client_id": "151424414011-2efo8fpnslq12hf403226gcu4mav69vp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBhiOKD2-HzjOvQDBxfO7c-_f4Ve2Fyr80"
+          "current_key": "AIzaSyD9avxjbbfzWIlRC8HIwH1O7ZgkTXcZ2gE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "276131450498-834cm5919tvupp133omn71aucbl3bicb.apps.googleusercontent.com",
+              "client_id": "151424414011-2efo8fpnslq12hf403226gcu4mav69vp.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

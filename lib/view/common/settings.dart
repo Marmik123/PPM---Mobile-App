@@ -31,9 +31,6 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         title: Text(
           S.of(context).Settings,
-          style: GoogleFonts.montserrat(
-            textStyle: TextStyle(color: Colors.black),
-          ),
         ),
       ),
       body: Container(
@@ -67,42 +64,44 @@ class _SettingsPageState extends State<SettingsPage> {
                   final pref = await SharedPreferences.getInstance();
                   var role = pref.getString(ctrl.kUserData);
                   var address = pref.getString(ctrl.kAddress);
-                  var number = await pref.getString(ctrl.kMobile);
-                  var name = await pref.getString(ctrl.kname);
-                  var pincode = await pref.getString(ctrl.kpincode);
-                  var landmark = await pref.getString(ctrl.kLandmark);
-                  var city = await pref.getString(ctrl.kCity);
-                  var state = await pref.getString(ctrl.kState);
-                  var gstType = await pref.getString(ctrl.kGstType);
-                  var gstNo = await pref.getString(ctrl.kGstNo);
-                  var storeT = await pref.getString(ctrl.kStoreType);
-                  var shopN = await pref.getString(ctrl.kShopName);
-                  var imageFile = await pref.getString(ctrl.kImageFile);
-                  role == 'Client'
-                      ? Get.to(() => EditProfile(
-                            address: address,
-                            city: city,
-                            gstNo: gstNo,
-                            gstType: gstType,
-                            landmark: landmark,
-                            name: name,
-                            number: number,
-                            pincode: pincode,
-                            shop: shopN,
-                            state: state,
-                            storeT: storeT,
-                            imageFile: imageFile,
-                          ))
-                      : Get.to(() => Edit(
-                            imageFile: imageFile,
-                            state: state,
-                            pincode: pincode,
-                            number: number,
-                            name: name,
-                            landmark: landmark,
-                            city: city,
-                            address: address,
-                          ));
+                  var number = pref.getString(ctrl.kMobile);
+                  var name = pref.getString(ctrl.kname);
+                  var pincode = pref.getString(ctrl.kpincode);
+                  var landmark = pref.getString(ctrl.kLandmark);
+                  var city = pref.getString(ctrl.kCity);
+                  var state = pref.getString(ctrl.kState);
+                  var gstType = pref.getString(ctrl.kGstType);
+                  var gstNo = pref.getString(ctrl.kGstNo);
+                  var storeT = pref.getString(ctrl.kStoreType);
+                  var shopN = pref.getString(ctrl.kShopName);
+                  var imageFile = pref.getString(ctrl.kImageFile);
+                  if (role == 'Client') {
+                    await Get.to(() => EditProfile(
+                          address: address,
+                          city: city,
+                          gstNo: gstNo,
+                          gstType: gstType,
+                          landmark: landmark,
+                          name: name,
+                          number: number,
+                          pincode: pincode,
+                          shop: shopN,
+                          state: state,
+                          storeT: storeT,
+                          imageFile: imageFile,
+                        ));
+                  } else {
+                    await Get.to(() => Edit(
+                          imageFile: imageFile,
+                          state: state,
+                          pincode: pincode,
+                          number: number,
+                          name: name,
+                          landmark: landmark,
+                          city: city,
+                          address: address,
+                        ));
+                  }
                   /*showModalBottomSheet(
                       context: context, builder: (context) => EditProfile());*/
                   // ).then((value) async {

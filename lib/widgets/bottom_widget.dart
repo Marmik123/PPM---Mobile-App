@@ -17,22 +17,23 @@ class BottomWidget extends StatefulWidget {
 class _BottomWidgetState extends State<BottomWidget> {
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
+    return FloatingActionButton.extended(
       onPressed: () {},
-      backgroundColor: Colors.cyan,
-      child: Transform.rotate(
+      backgroundColor: Colors.green,
+      icon: Transform.rotate(
         angle: widget.rotation * 540,
         child: IconButton(
           iconSize: 30,
           icon: Icon(
-            Icons.history,
+            Icons.receipt_long_outlined,
             color: Colors.white,
           ),
-          tooltip: 'History',
+          tooltip: 'Orders',
           onPressed: widget.onTap,
           // onPressed: widget.onTap,
         ),
       ),
+      label: Text('Orders'),
     );
     //   Card(
     //   elevation: 2,

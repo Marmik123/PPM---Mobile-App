@@ -11,18 +11,14 @@ import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/utils/shared_preferences.dart';
 import 'package:pcm/view/cart.dart';
-// import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/view/common/settings.dart';
 import 'package:pcm/view/order/order_history_client.dart';
 import 'package:pcm/view/product_details.dart';
-// import 'package:pcm/view/products.dart';
-// import 'package:pcm/view/register/client.dart';
 import 'package:pcm/widgets/bottom_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../common/feedback.dart';
 import '../common/support.dart';
-// import '../product_details.dart';
 
 class HomeScreenClient extends StatefulWidget {
   @override
@@ -50,12 +46,12 @@ class _HomeScreenClientState extends State<HomeScreenClient>
   void initState() {
     // TODO: implement initState
     super.initState();
-    RepoController rCtrl = Get.put(RepoController());
+    var rCtrl = Get.put(RepoController());
     rCtrl.loadUserData();
-    print("init state called;");
-    SupportController support = Get.put(SupportController());
+    print('init state called;');
+    var support = Get.put(SupportController());
     support.loadData();
-    CartController cartC = Get.put(CartController());
+    var cartC = Get.put(CartController());
     cartC.showOrderHistoryData(rCtrl.number);
     cartC.showROrderHistoryData(rCtrl.number);
 
@@ -111,21 +107,20 @@ class _HomeScreenClientState extends State<HomeScreenClient>
       },
       child: Scaffold(
         appBar: AppBar(
-          brightness: Brightness.light,
-          backgroundColor: Colors.white,
-          elevation: 1,
-          titleSpacing: 0,
-          leading: Icon(Icons.home_outlined),
+          leading: Icon(
+            Icons.home,
+          ),
           title: Text(
-            S.of(context).HomeScreen,
+            'PPM Store',
           ),
           actions: [
             IconButton(
-                icon: Icon(Icons.shopping_cart_outlined),
-                onPressed: () async {
-                  // Add Your Code here.
-                  return Get.to(() => Cart());
-                }),
+              icon: Icon(Icons.shopping_cart_outlined),
+              onPressed: () async {
+                // Add Your Code here.
+                return Get.to(() => Cart());
+              },
+            ),
 /*          IconButton(
                 icon: Icon(Icons.qr_code_scanner),
                 onPressed: () {
@@ -144,6 +139,9 @@ class _HomeScreenClientState extends State<HomeScreenClient>
                 })*/
             PopupMenuButton(
               icon: Icon(Icons.more_vert),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
               onSelected: (value) {
                 if (value == 'Settings') {
                   Get.to(() => SettingsPage()).then((value) {
@@ -163,7 +161,10 @@ class _HomeScreenClientState extends State<HomeScreenClient>
                 PopupMenuItem(
                   child: Row(
                     children: [
-                      Icon(Icons.settings_outlined),
+                      Icon(
+                        Icons.settings_outlined,
+                        color: Colors.black,
+                      ),
                       SizedBox(
                         width: 5,
                       ),
@@ -175,7 +176,10 @@ class _HomeScreenClientState extends State<HomeScreenClient>
                 PopupMenuItem(
                   child: Row(
                     children: [
-                      Icon(Icons.feedback_outlined),
+                      Icon(
+                        Icons.feedback_outlined,
+                        color: Colors.black,
+                      ),
                       SizedBox(
                         width: 5,
                       ),
@@ -187,7 +191,10 @@ class _HomeScreenClientState extends State<HomeScreenClient>
                 PopupMenuItem(
                   child: Row(
                     children: [
-                      Icon(Icons.support_agent),
+                      Icon(
+                        Icons.support_agent,
+                        color: Colors.black,
+                      ),
                       SizedBox(
                         width: 5,
                       ),
@@ -199,7 +206,10 @@ class _HomeScreenClientState extends State<HomeScreenClient>
                 PopupMenuItem(
                   child: Row(
                     children: [
-                      Icon(Icons.logout),
+                      Icon(
+                        Icons.logout,
+                        color: Colors.black,
+                      ),
                       SizedBox(
                         width: 5,
                       ),
@@ -217,44 +227,86 @@ class _HomeScreenClientState extends State<HomeScreenClient>
           shrinkWrap: true,
           children: [
             SizedBox(
-              height: 20,
+              height: 30,
+            ),
+            Hero(
+              tag: 'ppm_logo',
+              child: Image.asset(
+                'images/LOGO-02.png',
+                height: 50,
+              ),
+            ),
+            SizedBox(
+              height: 15,
             ),
             ParseLiveListWidget<ParseObject>(
               shrinkWrap: true,
-              scrollPhysics: ClampingScrollPhysics(),
+              scrollPhysics: const ClampingScrollPhysics(),
               query: cltrClient.productData,
               lazyLoading: true,
               preloadedColumns: ['productName', 'fileImage', 'productPrice'],
               // listLoadingElement: LinearProgressIndicator(),
+              padding: EdgeInsets.only(top: 10),
+              listenOnAllSubItems: true,
               childBuilder: (context, snapshot) {
                 if (snapshot.failed) {
                   return Text(S.of(context).warning);
                 } else if (snapshot.hasData || snapshot.hasPreLoadedData) {
                   if (snapshot.hasData) {
-                    print(
-                        "####@@@${snapshot.loadedData.get('imageFileName')[0]}");
+                    /*print(
+                        "####@@@${snapshot.loadedData.get('imageFileName')[0]}");*/
+                    var images = snapshot.loadedData.get('imageFileName')
+                        as List<dynamic>;
                     return Card(
+                      elevation: 5,
+                      shadowColor: Colors.black26,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      color: Colors.white,
                       child: ListTile(
                         onTap: () => Get.to(() => ProductDetails(
                               product: snapshot.loadedData,
                             )),
                         subtitle: Text(
-                            'Price: ${snapshot.loadedData.get('productPrice')}'),
+                          '₹ ${snapshot.loadedData.get('productPrice')} / ${snapshot.loadedData.get('unit')}',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
                         title: Text(
                           snapshot.loadedData.get('productName'),
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        trailing: FittedBox(
-                          child: Container(
-                            height: 50,
-                            width: 50,
-                            child: Image(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                  'https://cup.marketing.dharmatech.in/file/product/${snapshot.loadedData.get('imageFileName')[0]}' ??
-                                      'https://picsum.photos/id/1/200/300'),
+                        leading: FittedBox(
+                          child: Card(
+                            margin: EdgeInsets.zero,
+                            elevation: 5,
+                            shadowColor: Colors.black45,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: SizedBox(
+                                width: 100,
+                                height: 100,
+                                child: Image(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(images.isNotEmpty
+                                      ? 'https://api.ppmstore.in/file/product/${images.first}'
+                                      : 'https://picsum.photos/id/1/200/300'),
+                                ),
+                              ),
                             ),
                           ),
+                        ),
+                        trailing: Icon(
+                          Icons.double_arrow_sharp,
+                          color: Colors.green,
                         ),
                       ),
                     );
@@ -354,11 +406,10 @@ class _HomeScreenClientState extends State<HomeScreenClient>
             ),*/
           ],
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton: BottomWidget(
-          rotation: animation.value,
-          onTap: () async {
-            SharedPreferences mobile = await SharedPreferences.getInstance();
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () async {
+            var mobile = await SharedPreferences.getInstance();
             cartC.showOrderHistoryData(rCtrl.number);
             cartC.showROrderHistoryData(rCtrl.number);
             setState(() {});
@@ -369,6 +420,12 @@ class _HomeScreenClientState extends State<HomeScreenClient>
               ),
             );
           },
+          backgroundColor: Colors.green,
+          icon: Icon(
+            Icons.receipt_long_outlined,
+            color: Colors.white,
+          ),
+          label: Text('Orders'),
         ),
       ),
     );

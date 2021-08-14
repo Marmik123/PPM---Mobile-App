@@ -32,9 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          brightness: Brightness.light,
-          backgroundColor: Colors.white,
-          elevation: 1,
           titleSpacing: 0,
           leading: Icon(Icons.home_outlined),
           title: Text(
@@ -43,6 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             PopupMenuButton(
               icon: Icon(Icons.more_vert),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
               onSelected: (value) {
                 if (value == 'Settings') {
                   Get.to(() => SettingsPage()).then((value) {
@@ -62,7 +62,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 PopupMenuItem(
                   child: Row(
                     children: [
-                      Icon(Icons.settings_outlined),
+                      Icon(
+                        Icons.settings_outlined,
+                        color: Colors.black,
+                      ),
                       SizedBox(
                         width: 5,
                       ),
@@ -74,7 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 PopupMenuItem(
                   child: Row(
                     children: [
-                      Icon(Icons.feedback_outlined),
+                      Icon(
+                        Icons.feedback_outlined,
+                        color: Colors.black,
+                      ),
                       SizedBox(
                         width: 5,
                       ),
@@ -86,7 +92,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 PopupMenuItem(
                   child: Row(
                     children: [
-                      Icon(Icons.support_agent),
+                      Icon(
+                        Icons.support_agent,
+                        color: Colors.black,
+                      ),
                       SizedBox(
                         width: 5,
                       ),
@@ -98,7 +107,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 PopupMenuItem(
                   child: Row(
                     children: [
-                      Icon(Icons.logout),
+                      Icon(
+                        Icons.logout,
+                        color: Colors.black,
+                      ),
                       SizedBox(
                         width: 5,
                       ),
@@ -115,7 +127,26 @@ class _HomeScreenState extends State<HomeScreen> {
           () => Container(
             child: Column(
               children: [
+                SizedBox(
+                  height: 30,
+                ),
+                Hero(
+                  tag: 'ppm_logo',
+                  child: Image.asset(
+                    'images/LOGO-02.png',
+                    height: 50,
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
                 Card(
+                  elevation: 5,
+                  shadowColor: Colors.black26,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  color: Colors.white,
                   child: ListTile(
                       onTap: () {
                         // bottomNavigationIndex.value = 0;

@@ -48,7 +48,7 @@ class OrderAssignController extends GetxController {
   Future<void> uploadImg(String filename, selectedImage) async {
     isLoading.value = true;
     try {
-      String url = "https://cup.marketing.dharmatech.in/product/upload/image";
+      String url = "https://api.ppmstore.in/product/upload/image";
       var uri = Uri.parse(url);
       var request = new http.MultipartRequest("POST", uri);
 
@@ -338,19 +338,11 @@ class OrderAssignController extends GetxController {
                 fontSize: 12, fontWeight: FontWeight.w500),
           ),
           elevation: 10.0,
-          backgroundColor: Colors.cyan,
+          backgroundColor: Colors.green,
         );
         ScaffoldMessenger.of(Get.context).showSnackBar(snackBar);
       } else {
         showDelivered.value = false;
-
-        Get.snackbar(
-          S.of(Get.context).errorOcu,
-          "",
-          backgroundColor: Colors.white,
-          duration: Duration(seconds: 3),
-          colorText: Colors.teal,
-        );
       }
     } catch (e) {
       showDelivered.value = false;

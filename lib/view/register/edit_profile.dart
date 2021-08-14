@@ -6,6 +6,7 @@ import 'package:pcm/controller/login_controller.dart';
 import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/utils/shared_preferences.dart';
+import 'package:pcm/widgets/tinted_title.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class EditProfile extends StatefulWidget {
@@ -120,270 +121,304 @@ class _EditProfileState extends State<EditProfile> {
         ),
       ),
       body: Form(
-          key: jobKey,
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: ListView(
-              padding: EdgeInsets.all(10),
-              children: [
-                TextFormField(
-                  onTap: () {},
-                  initialValue: widget.name.toString(),
-                  onChanged: (value) {
-                    isNameC = true;
-                    NameC = value;
-                  },
-                  //controller: nController,
-                  decoration: InputDecoration(
-                    labelText: S.of(context).Name,
-                    //enabledBorder: InputBorder.none,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.blueGrey),
+        key: jobKey,
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: ListView(
+            padding: EdgeInsets.all(10),
+            children: [
+              Card(
+                margin: EdgeInsets.zero,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                elevation: 5,
+                shadowColor: Colors.black26,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TintedTitle(
+                      title: 'Details',
+                      icon: Icons.format_list_numbered_rounded,
                     ),
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      btnSubmit.reset();
-                      return S.of(context).errorName;
-                    }
-                    return null;
-                  },
-                  //if () {
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            onTap: () {},
+                            initialValue: widget.name.toString(),
+                            onChanged: (value) {
+                              isNameC = true;
+                              NameC = value;
+                            },
+                            //controller: nController,
+                            decoration: InputDecoration(
+                              labelText: S.of(context).Name,
+                              //enabledBorder: InputBorder.none,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.blueGrey),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                btnSubmit.reset();
+                                return S.of(context).errorName;
+                              }
+                              return null;
+                            },
+                            //if () {
 
-                  // style: TextStyle(
-                  //     color: client.get('flagged') ? Colors.red : Colors.black),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  initialValue: widget.number,
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) {
-                    isNumC = true;
-                    NumC = value;
-                  },
-                  //controller: mController,
-                  onFieldSubmitted:
-                      checkMobileNumber(mController.text.trim().toString()),
-                  decoration: InputDecoration(
-                    labelText: S.of(context).Number,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.blueGrey),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return S.of(context).errorNum;
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  initialValue: widget.shop,
-                  onChanged: (value) {
-                    isShopN = true;
-                    ShopN = value;
-                  },
-                  //controller: sNController,
-                  decoration: InputDecoration(
-                    labelText: S.of(context).sName,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.blueGrey),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return S.of(context).errorS;
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                DropdownButtonFormField(
-                    isExpanded: true,
-                    value: selectedType,
-                    onChanged: (value) {
-                      setState(() {
-                        isStoreT = true;
-                        selectedType = value;
-                      });
-                    },
-                    iconEnabledColor: Colors.black,
-                    iconDisabledColor: Colors.cyan,
-                    decoration: InputDecoration(
-                      labelText: S.of(context).type,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.blueGrey),
-                      ),
-                    ),
-                    items: [
-                      DropdownMenuItem(
-                          value: 0,
-                          child: Text(
-                            S.of(context).stat,
-                            style: GoogleFonts.montserrat(
-                              textStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          )),
-                      DropdownMenuItem(
-                          value: 1,
-                          child: Text(
-                            S.of(context).Kirana,
-                            style: GoogleFonts.montserrat(
-                              textStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          )),
-                      DropdownMenuItem(
-                          value: 2,
-                          child: Text(
-                            S.of(context).Dairy,
-                            style: GoogleFonts.montserrat(
-                              textStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          )),
-                      DropdownMenuItem(
-                          value: 3,
-                          child: Text(
-                            S.of(context).Vegetable,
-                            style: GoogleFonts.montserrat(
-                              textStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          )),
-                      DropdownMenuItem(
-                          value: 4,
-                          child: Text(
-                            S.of(context).Provision,
-                            style: GoogleFonts.montserrat(
-                              textStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          )),
-                      DropdownMenuItem(
-                          value: 5,
-                          child: Text(
-                            S.of(context).Medical,
-                            style: GoogleFonts.montserrat(
-                              textStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ))
-                    ]),
-                SizedBox(
-                  height: 10,
-                ),
-                DropdownButtonFormField(
-                    isExpanded: true,
-                    value: gst,
-                    onChanged: (value) {
-                      setState(() {
-                        isGstT = true;
-                        gst = value;
-                      });
-                    },
-                    iconEnabledColor: Colors.black,
-                    iconDisabledColor: Colors.cyan,
-                    decoration: InputDecoration(
-                      labelText: S.of(context).gstType,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.blueGrey),
-                      ),
-                    ),
-                    items: [
-                      DropdownMenuItem(
-                          value: 0,
-                          child: Text(
-                            S.of(context).regGst,
-                            style: GoogleFonts.montserrat(
-                              textStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          )),
-                      DropdownMenuItem(
-                          value: 1,
-                          child: Text(
-                            S.of(context).compGst,
-                            style: GoogleFonts.montserrat(
-                              textStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          )),
-                      DropdownMenuItem(
-                          value: 2,
-                          child: Text(
-                            S.of(context).woGst,
-                            style: GoogleFonts.montserrat(
-                              textStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          )),
-                    ]),
-                SizedBox(
-                  height: 10,
-                ),
-                gst == 0 || gst == 1
-                    ? TextFormField(
-                        initialValue: widget.gstNo,
-                        onChanged: (value) {
-                          isGstN = true;
-                          GstN = value;
-                        },
-                        //controller: gstCon,
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return S.of(context).errorNum;
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          labelText: S.of(context).gstNo,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.blueGrey),
+                            // style: TextStyle(
+                            //     color: client.get('flagged') ? Colors.red : Colors.black),
                           ),
-                        ),
-                      )
-                    : Container(),
-                SizedBox(
-                  height: 10,
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            initialValue: widget.number,
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              isNumC = true;
+                              NumC = value;
+                            },
+                            //controller: mController,
+                            onFieldSubmitted: checkMobileNumber(
+                                mController.text.trim().toString()),
+                            decoration: InputDecoration(
+                              labelText: S.of(context).Number,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.blueGrey),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return S.of(context).errorNum;
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            initialValue: widget.shop,
+                            onChanged: (value) {
+                              isShopN = true;
+                              ShopN = value;
+                            },
+                            //controller: sNController,
+                            decoration: InputDecoration(
+                              labelText: S.of(context).sName,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.blueGrey),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return S.of(context).errorS;
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          DropdownButtonFormField(
+                              isExpanded: true,
+                              value: selectedType,
+                              onChanged: (value) {
+                                setState(() {
+                                  isStoreT = true;
+                                  selectedType = value;
+                                });
+                              },
+                              iconEnabledColor: Colors.black,
+                              iconDisabledColor: Colors.green,
+                              decoration: InputDecoration(
+                                labelText: S.of(context).type,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide:
+                                      BorderSide(color: Colors.blueGrey),
+                                ),
+                              ),
+                              items: [
+                                DropdownMenuItem(
+                                    value: 0,
+                                    child: Text(
+                                      S.of(context).stat,
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    )),
+                                DropdownMenuItem(
+                                    value: 1,
+                                    child: Text(
+                                      S.of(context).Kirana,
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    )),
+                                DropdownMenuItem(
+                                    value: 2,
+                                    child: Text(
+                                      S.of(context).Dairy,
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    )),
+                                DropdownMenuItem(
+                                    value: 3,
+                                    child: Text(
+                                      S.of(context).Vegetable,
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    )),
+                                DropdownMenuItem(
+                                    value: 4,
+                                    child: Text(
+                                      S.of(context).Provision,
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    )),
+                                DropdownMenuItem(
+                                    value: 5,
+                                    child: Text(
+                                      S.of(context).Medical,
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ))
+                              ]),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          DropdownButtonFormField(
+                              isExpanded: true,
+                              value: gst,
+                              onChanged: (value) {
+                                setState(() {
+                                  isGstT = true;
+                                  gst = value;
+                                });
+                              },
+                              iconEnabledColor: Colors.black,
+                              iconDisabledColor: Colors.green,
+                              decoration: InputDecoration(
+                                labelText: S.of(context).gstType,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide:
+                                      BorderSide(color: Colors.blueGrey),
+                                ),
+                              ),
+                              items: [
+                                DropdownMenuItem(
+                                    value: 0,
+                                    child: Text(
+                                      S.of(context).regGst,
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    )),
+                                DropdownMenuItem(
+                                    value: 1,
+                                    child: Text(
+                                      S.of(context).compGst,
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    )),
+                                DropdownMenuItem(
+                                    value: 2,
+                                    child: Text(
+                                      S.of(context).woGst,
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    )),
+                              ]),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          gst == 0 || gst == 1
+                              ? TextFormField(
+                                  initialValue: widget.gstNo,
+                                  onChanged: (value) {
+                                    isGstN = true;
+                                    GstN = value;
+                                  },
+                                  //controller: gstCon,
+                                  keyboardType: TextInputType.text,
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return S.of(context).errorNum;
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    labelText: S.of(context).gstNo,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide:
+                                          BorderSide(color: Colors.blueGrey),
+                                    ),
+                                  ),
+                                )
+                              : SizedBox.shrink(),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                elevation: 5,
+                shadowColor: Colors.black26,
+                /*decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: Colors.blueGrey,
@@ -393,157 +428,177 @@ class _EditProfileState extends State<EditProfile> {
                     //     // borderRadius: BorderRadius.circular(10),
                     //     // borderSide: BorderSide(color: Colors.blueGrey),
                     //   ),
-                  ),
-                  child: Column(
-                    children: [
-                      Text(S.of(context).Address),
-                      TextFormField(
-                        initialValue: widget.address,
-                        onChanged: (value) {
-                          isAddress = true;
-                          Address = value;
-                        },
-                        //controller: aPController,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return S.of(context).errorC;
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          labelText: S.of(context).AddressL,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.blueGrey),
+                  ),*/
+                child: Column(
+                  children: [
+                    TintedTitle(
+                      title: S.of(context).Address,
+                      icon: Icons.add_location_alt_outlined,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            initialValue: widget.address,
+                            onChanged: (value) {
+                              isAddress = true;
+                              Address = value;
+                            },
+                            //controller: aPController,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return S.of(context).errorC;
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              labelText: S.of(context).AddressL,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.blueGrey),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        onChanged: (value) {
-                          isLandmark = true;
-                          Landmark = value;
-                        },
-                        initialValue: widget.landmark,
-                        //controller: lController,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return S.of(context).errorC;
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          labelText: S.of(context).Landmark,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.blueGrey),
+                          SizedBox(
+                            height: 10,
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        initialValue: widget.pincode,
-                        onChanged: (value) {
-                          isPincode = true;
-                          Pincode = value;
-                        },
-                        //controller: pincode,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return S.of(context).errorC;
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          labelText: S.of(context).pincode,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.blueGrey),
+                          TextFormField(
+                            onChanged: (value) {
+                              isLandmark = true;
+                              Landmark = value;
+                            },
+                            initialValue: widget.landmark,
+                            //controller: lController,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return S.of(context).errorC;
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              labelText: S.of(context).Landmark,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.blueGrey),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        onChanged: (value) {
-                          isCity = true;
-                          City = value;
-                        },
-                        // controller: cIController,
-                        initialValue: widget.city,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return S.of(context).errorC;
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          labelText: S.of(context).City,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.blueGrey),
+                          SizedBox(
+                            height: 10,
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        onChanged: (value) {
-                          isState = true;
-                          State = value;
-                        },
-                        //controller: stController,
-                        initialValue: widget.state,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return S.of(context).errorC;
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          labelText: S.of(context).State,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.blueGrey),
+                          TextFormField(
+                            initialValue: widget.pincode,
+                            onChanged: (value) {
+                              isPincode = true;
+                              Pincode = value;
+                            },
+                            //controller: pincode,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return S.of(context).errorC;
+                              }
+                              return null;
+                            },
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              labelText: S.of(context).pincode,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.blueGrey),
+                              ),
+                            ),
                           ),
-                        ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            onChanged: (value) {
+                              isCity = true;
+                              City = value;
+                            },
+                            // controller: cIController,
+                            initialValue: widget.city,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return S.of(context).errorC;
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              labelText: S.of(context).City,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.blueGrey),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            onChanged: (value) {
+                              isState = true;
+                              State = value;
+                            },
+                            //controller: stController,
+                            initialValue: widget.state,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return S.of(context).errorC;
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              labelText: S.of(context).State,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.blueGrey),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  height: 10,
-                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
 
-                // TextFormField(
-                //   controller: cController,
-                //   decoration: InputDecoration(
-                //     labelText: S.of(context).comments,
-                //     border: OutlineInputBorder(
-                //       borderRadius: BorderRadius.circular(10),
-                //       borderSide: BorderSide(color: Colors.blueGrey),
-                //     ),
-                //   ),
-                //   maxLines: null,
-                //   keyboardType: TextInputType.multiline,
-                // ),
-              ],
-            ),
-          )),
+              // TextFormField(
+              //   controller: cController,
+              //   decoration: InputDecoration(
+              //     labelText: S.of(context).comments,
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(10),
+              //       borderSide: BorderSide(color: Colors.blueGrey),
+              //     ),
+              //   ),
+              //   maxLines: null,
+              //   keyboardType: TextInputType.multiline,
+              // ),
+            ],
+          ),
+        ),
+      ),
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: RoundedLoadingButton(
-                child: Text(S.of(context).Save),
+                color: Colors.green,
+                child: Text(
+                  S.of(context).Save,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 borderRadius: 10,
                 height: 35,
                 width: 100,

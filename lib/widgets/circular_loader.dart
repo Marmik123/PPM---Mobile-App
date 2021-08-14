@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-buildLoader({Color color = Colors.teal}) {
+buildLoader({Color color = Colors.green}) {
   return Center(
     child: Container(
       height: 50,
@@ -15,7 +15,7 @@ buildLoader({Color color = Colors.teal}) {
   );
 }
 
-buildSmallLoader({Color color = Colors.teal}) {
+buildSmallLoader({Color color = Colors.green}) {
   return Container(
     height: 10,
     width: 5,
