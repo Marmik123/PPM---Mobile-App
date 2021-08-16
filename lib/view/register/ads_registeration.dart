@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,7 +19,7 @@ class _AdRegisterState extends State<AdRegister> {
   RepoController repoController = Get.put(RepoController());
   AdController adCtrl = Get.find<AdController>();
   final adKey = GlobalKey<FormState>();
-  bool payment = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,6 +89,24 @@ class _AdRegisterState extends State<AdRegister> {
                             }
                             return null;
                           },
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          onTap: () {},
+                          controller: adCtrl.gstNoController,
+                          decoration: InputDecoration(
+                            labelText: S.of(context).gstNo,
+                            //enabledBorder: InputBorder.none,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Colors.blueGrey),
+                            ),
+                          ),
                         ),
                         SizedBox(
                           height: 10,
@@ -166,11 +182,11 @@ class _AdRegisterState extends State<AdRegister> {
                         Row(
                           children: [
                             Checkbox(
-                              value: payment,
+                              value: adCtrl.payment,
                               onChanged: (bool newValue) {
                                 setState(() {
-                                  payment = newValue;
-                                  print(payment);
+                                  adCtrl.payment = newValue;
+                                  print(adCtrl.payment);
                                 });
                               },
                               activeColor: Colors.green,
@@ -212,8 +228,12 @@ class _AdRegisterState extends State<AdRegister> {
             width: 100,
             controller: adCtrl.btnController,
             onPressed: () {
-              adCtrl.registerAd(repoController.name, repoController.number,
-                  payment == true ? 'Yes' : 'No');
+              if (adKey.currentState.validate()) {
+                adCtrl.registerAd(repoController.name, repoController.number,
+                    adCtrl.payment == true ? 'Yes' : 'No');
+              } else {
+                adCtrl.btnController.reset();
+              }
             },
           ),
           SizedBox(

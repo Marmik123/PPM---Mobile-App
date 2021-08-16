@@ -125,6 +125,11 @@ class OtpController extends GetxController {
     print(sentOtp);
     var apiKey = 'NTY2YTY0NDgzNjcwNzM2MzM4MzQ1NDQxNmYzNjQ4MzI=';
     var message = '$sentOtp is your PPM Store verification code.';
+    mobile.value = phoneCtrl.mobileNo.text.trim().toString();
+    loginCtrl.userMobileLogin(phoneCtrl.mobileNo.text.trim().toString());
+    await assignCtrl
+        .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
+    clientCtrl.showLoggedInUserData(phoneCtrl.mobileNo.text.trim().toString());
     if (kReleaseMode) {
       await getUrl(
           'https://api.textlocal.in/send/?apiKey=$apiKey&sender=PPMStr&numbers=91$mobileNumber&message=$message');

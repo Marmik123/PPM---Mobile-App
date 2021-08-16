@@ -168,7 +168,7 @@ class _HomeScreenMState extends State<HomeScreenM>
                         //clientCon.role.value = false;
                         var adCtrl = Get.put(AdController());
                         adCtrl.pickedFile = null;
-                        Get.to(AdRegister());
+                        Get.to(() => AdRegister());
                         // Navigator.of(context)
                         //     .pushNamed(CreateReception.routeName);
                       },
