@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,10 +8,6 @@ import 'package:pcm/controller/register/ad_controller.dart';
 import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/utils/shared_preferences.dart';
-import 'package:pcm/view/common/feedback.dart';
-import 'package:pcm/view/common/settings.dart';
-import 'package:pcm/view/common/support.dart';
-import 'package:pcm/view/home/home_screen_marketing.dart';
 
 class DisplayAd extends StatefulWidget {
   @override
@@ -50,6 +45,7 @@ class _DisplayAdState extends State<DisplayAd> {
               if (snapshot.failed) {
                 return Text(S.of(context).warning);
               } else if (snapshot.hasData) {
+                print('##${snapshot.loadedData}');
                 return Card(
                   elevation: 5,
                   shape: RoundedRectangleBorder(
@@ -98,10 +94,7 @@ class _DisplayAdState extends State<DisplayAd> {
                           child: Image(
                             fit: BoxFit.cover,
                             image: NetworkImage(
-                              'https://api.ppmstore.in/file/product/' +
-                                      snapshot.loadedData
-                                          .get('imageFileName')
-                                          ?.first ??
+                              'https://api.ppmstore.in/file/product/${snapshot.loadedData.get('imageFileName')?.first}' ??
                                   'https://picsum.photos/id/1/200/300',
                             ),
                           ),
