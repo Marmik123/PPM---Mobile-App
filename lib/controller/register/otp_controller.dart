@@ -28,7 +28,7 @@ class OtpController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController otpController = TextEditingController();
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   SignInController phoneCtrl = Get.put(SignInController());
   LoginController loginCtrl = Get.put(LoginController());
 
@@ -125,11 +125,6 @@ class OtpController extends GetxController {
     print(sentOtp);
     var apiKey = 'NTY2YTY0NDgzNjcwNzM2MzM4MzQ1NDQxNmYzNjQ4MzI=';
     var message = '$sentOtp is your PPM Store verification code.';
-    mobile.value = phoneCtrl.mobileNo.text.trim().toString();
-    loginCtrl.userMobileLogin(phoneCtrl.mobileNo.text.trim().toString());
-    await assignCtrl
-        .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
-    clientCtrl.showLoggedInUserData(phoneCtrl.mobileNo.text.trim().toString());
     if (kReleaseMode) {
       await getUrl(
           'https://api.textlocal.in/send/?apiKey=$apiKey&sender=PPMStr&numbers=91$mobileNumber&message=$message');
@@ -139,12 +134,21 @@ class OtpController extends GetxController {
 
   Future<void> verifyOtp() async {
     phoneCtrl.isLoading.value = false;
+    print('SENT OTP : $sentOtp :: Entered OTP : ${otpController.text}');
     if (sentOtp == otpController.text) {
       isLoading.value = false;
-      phoneCtrl.buttonCtrl.success();
-      butCtrl.success();
+      // phoneCtrl?.buttonCtrl?.success();
+      butCtrl?.success();
 
       mobile.value = phoneCtrl.mobileNo.text.trim().toString();
+      await loginCtrl
+          .userMobileLogin(phoneCtrl.mobileNo.text.trim().toString());
+      await assignCtrl
+          .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
+      await clientCtrl
+          .showLoggedInUserData(phoneCtrl.mobileNo.text.trim().toString());
+
+      /*mobile.value = phoneCtrl.mobileNo.text.trim().toString();
 
       await loginCtrl
           .userMobileLogin(phoneCtrl.mobileNo.text.trim().toString());
@@ -153,11 +157,11 @@ class OtpController extends GetxController {
           .showLoggedInUserData(phoneCtrl.mobileNo.text.trim().toString());
 
       await assignCtrl
-          .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());
+          .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());*/
     } else {
-      phoneCtrl.buttonCtrl.reset();
+      // phoneCtrl?.buttonCtrl?.reset();
 
-      butCtrl.reset();
+      butCtrl?.reset();
 
       Get.snackbar(
         S.of(Get.context).errorOc,
