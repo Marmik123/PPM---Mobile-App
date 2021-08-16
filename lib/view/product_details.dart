@@ -168,26 +168,24 @@ class _ProductDetailsState extends State<ProductDetails>
               ),
             ),*/
             ,
-            Obx(
-              () => widget.product?.get('imageFileName').isEmpty
-                  ? SizedBox.shrink()
-                  : DotsIndicator(
-                      dotsCount:
-                          widget.product?.get('imageFileName')?.length ?? 1,
-                      position: cltrProduct.slideIndex().toDouble(),
-                      decorator: DotsDecorator(
-                        size: Size(10, 10),
-                        activeSize: Size(10, 10),
-                        shape: CircleBorder(
-                            side: BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        )),
-                        color: Colors.white,
-                        activeColor: Colors.grey,
-                      ),
+            widget.product?.get('imageFileName')?.isEmpty ?? true
+                ? SizedBox.shrink()
+                : DotsIndicator(
+                    dotsCount:
+                        widget.product?.get('imageFileName')?.length ?? 1,
+                    position: cltrProduct.slideIndex().toDouble(),
+                    decorator: DotsDecorator(
+                      size: Size(10, 10),
+                      activeSize: Size(10, 10),
+                      shape: CircleBorder(
+                          side: BorderSide(
+                        color: Colors.grey,
+                        width: 1,
+                      )),
+                      color: Colors.white,
+                      activeColor: Colors.grey,
                     ),
-            ),
+                  ),
             SizedBox(
               height: 15,
             ),
@@ -364,8 +362,8 @@ class _ProductDetailsState extends State<ProductDetails>
                           ),
                           onPressed: () {
                             setState(() {
-                              cltrProduct.quantity++;
-                              cltrCart.quantity++;
+                              cltrProduct.quantity.value++;
+                              cltrCart.quantity.value++;
                             });
                           },
                         ),
