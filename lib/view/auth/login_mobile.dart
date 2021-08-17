@@ -24,15 +24,15 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
   SignInController ctrl = Get.put(SignInController());
   LoginController loginCtrl = Get.put(LoginController());
-  OrderAssignController assignCtrl = Get.put(OrderAssignController());
-  ClientController client = Get.put(ClientController());
+  // OrderAssignController assignCtrl = Get.put(OrderAssignController());
+  // ClientController client = Get.put(ClientController());
   String langCode;
   String selectedLang = S.of(Get.context).English;
   AnimationController controller;
   AnimationController aniCtrl;
   Animation animation;
   Animation rowAnimation;
-  RepoController repoController = Get.put(RepoController());
+  // RepoController repoController = Get.put(RepoController());
   OtpController otpCtx = Get.put(OtpController());
   // String langCode = savedLocale.languageCode;
 
@@ -186,7 +186,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                               langCode = value;
                             });
                             print(langCode);
-                            await repoController.setLanguage(Locale(langCode));
+                            await setLanguage(Locale(langCode));
                             setState(() {});
                             switch (langCode) {
                               case 'en':

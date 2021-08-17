@@ -24,7 +24,6 @@ class ReceivedClient extends StatefulWidget {
 class _ReceivedClientState extends State<ReceivedClient> {
   CartController cltrCart = Get.put(CartController());
   SignInController ctrl = Get.find();
-  RepoController rCtrl = Get.put(RepoController());
   SalesController sCtrl = Get.put(SalesController());
   String number;
   SharedPreferences prefs;

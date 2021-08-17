@@ -34,7 +34,7 @@ class _ProductDetailsState extends State<ProductDetails>
   Animation rowAnimation;
   Animation rotateAnimation;
   int unit = 0;
-  RepoController repo = Get.put(RepoController());
+  // RepoController repo = Get.put(RepoController());
   LoginController login = Get.put(LoginController());
   ProductsController cltrProduct = Get.put(ProductsController());
   TextEditingController qtyController = TextEditingController(text: '1');
@@ -501,7 +501,7 @@ class _ProductDetailsState extends State<ProductDetails>
                       onPressed: () async {
                         // cltrProduct.cartProducts.add(widget.product);
                         var prefs = await SharedPreferences.getInstance();
-                        await login.checkUserExist(repo.number);
+                        await login.checkUserExist(number);
                         if (cltrProduct.key.currentState.validate()) {
                           login.userNotExist.value
                               ? print('Trying to add but user doesnt exist')

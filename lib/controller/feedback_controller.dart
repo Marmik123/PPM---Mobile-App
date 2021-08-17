@@ -12,7 +12,7 @@ class FeedbackController extends GetxController {
   final TextEditingController mController = TextEditingController();
   final RoundedLoadingButtonController btnController =
       RoundedLoadingButtonController();
-  RepoController rCtrl = Get.put(RepoController());
+  // RepoController rCtrl = Get.put(RepoController());
   Future<void> sendFeedback() async {
     try {
       // var loadingHud = LoadingHud(
@@ -29,8 +29,8 @@ class FeedbackController extends GetxController {
       ParseObject feedbackData = ParseObject('Feedback')
         ..set('subject', sController.text)
         ..set('message', mController.text)
-        ..set('mobileNum', rCtrl.number)
-        ..set('username', rCtrl.name);
+        ..set('mobileNum', number)
+        ..set('username', name);
       ParseResponse response = await feedbackData.create();
       if (response.success) {
         // loadingHud.dismiss();

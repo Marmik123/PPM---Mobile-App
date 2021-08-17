@@ -5,7 +5,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pcm/controller/login_controller.dart';
 import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/generated/l10n.dart';
-import 'package:pcm/utils/shared_preferences.dart';
 import 'package:pcm/widgets/circular_loader.dart';
 import 'package:pcm/widgets/tinted_title.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -16,7 +15,6 @@ class ClientRegister extends StatefulWidget {
 }
 
 class _ClientRegisterState extends State<ClientRegister> {
-  RepoController repoController = Get.put(RepoController());
   LoginController login = Get.put(LoginController());
   ClientController con = Get.put(ClientController());
 

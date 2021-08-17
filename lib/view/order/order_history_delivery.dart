@@ -21,8 +21,7 @@ class OrderHistoryDelivery extends StatefulWidget {
 class _OrderHistoryDeliveryState extends State<OrderHistoryDelivery> {
   OrderAssignController assignCtrl = Get.put(OrderAssignController());
   SignInController ctrl = Get.put(SignInController());
-  RepoController rCtrl = Get.put(RepoController());
-  @override
+
   @override
   _OrderHistoryDeliveryState createState() => _OrderHistoryDeliveryState();
 

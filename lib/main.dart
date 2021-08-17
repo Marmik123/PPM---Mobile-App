@@ -23,10 +23,10 @@ const String parse_App_url = 'https://api.ppmstore.in/parse';
 const String kParseLiveQueryUrl = 'wss://api.ppmstore.in';
 SharedPreferences prefs;
 
-RepoController ctrl;
+// RepoController ctrl;
 //RepoController ctrl = Get.put(RepoController());
 Future<void> initSPreference() async {
-  ctrl = Get.put(RepoController());
+  // ctrl = Get.put(RepoController());
   prefs = await SharedPreferences.getInstance();
 }
 
@@ -94,13 +94,13 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/',
           page: () {
-            return prefs.getString(ctrl.kUserData) == 'Client'
+            return prefs.getString(kUserData) == 'Client'
                 ? HomeScreenClient()
-                : prefs.getString(ctrl.kUserData) == 'DeliveryBoy'
+                : prefs.getString(kUserData) == 'DeliveryBoy'
                     ? HomeScreenDelivery()
-                    : prefs.getString(ctrl.kUserData) == 'SalesPerson'
+                    : prefs.getString(kUserData) == 'SalesPerson'
                         ? HomeScreen()
-                        : prefs.getString(ctrl.kUserData) == 'Marketing'
+                        : prefs.getString(kUserData) == 'Marketing'
                             ? HomeScreenM()
                             : SignIn();
           },

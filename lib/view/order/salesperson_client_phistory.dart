@@ -13,7 +13,6 @@ import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/utils/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class PlacedClient extends StatefulWidget {
   String mobile;
 
@@ -26,7 +25,6 @@ class _PlacedClientState extends State<PlacedClient> {
   CartController cltrCart = Get.put(CartController());
   SignInController phoneCtrl = Get.put(SignInController());
   SalesController sCtrl = Get.put(SalesController());
-  RepoController rCtrl = Get.put(RepoController());
   SharedPreferences prefs;
   @override
   void initState() {

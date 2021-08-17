@@ -22,7 +22,7 @@ class _HomeScreenMState extends State<HomeScreenM>
     with AutomaticKeepAliveClientMixin<HomeScreenM> {
   AdController adCtrl = Get.put(AdController());
   SupportController ctrl = Get.put(SupportController());
-  RepoController rCtrl = Get.put(RepoController());
+  // RepoController rCtrl = Get.put(RepoController());
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class _HomeScreenMState extends State<HomeScreenM>
                   ctrl.loadData();
                   Get.to(() => Support());
                 } else if (value == 'Logout') {
-                  rCtrl.deleteUserData();
+                  deleteUserData();
                   Phoenix.rebirth(context);
                 }
               },

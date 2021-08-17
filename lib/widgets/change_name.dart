@@ -19,7 +19,7 @@ class ChangeName extends StatefulWidget {
 }
 
 class _ChangeNameState extends State<ChangeName> {
-  RepoController rCtrl = Get.put(RepoController());
+  // RepoController rCtrl = Get.put(RepoController());
   ClientController cCtrl = Get.put(ClientController());
   final RoundedLoadingButtonController _btnSubmit =
       new RoundedLoadingButtonController();
@@ -29,7 +29,7 @@ class _ChangeNameState extends State<ChangeName> {
       QueryBuilder<ParseObject> userData =
           QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
             //ParseObject userData = ParseObject('UserMetadata')
-            ..whereEqualTo('objectId', rCtrl.objectId);
+            ..whereEqualTo('objectId', objectId);
 
       ParseResponse response = await userData.query();
       if (response.success) {

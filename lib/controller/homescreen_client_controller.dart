@@ -9,7 +9,7 @@ class HomeScreenClientController extends GetxController {
   QueryBuilder<ParseObject> productData =
       QueryBuilder<ParseObject>(ParseObject('Products'))
         ..orderByDescending('createdAt');
-  RepoController rCtrl = Get.put(RepoController());
+  // RepoController rCtrl = Get.put(RepoController());
   Future<void> showLoggedInUserData(String mobile) async {
     print("called showloggedinUser");
     try {
@@ -23,7 +23,7 @@ class HomeScreenClientController extends GetxController {
         print(result);
         loggedInClient(result.results);
         print('########$loggedInClient');
-        rCtrl.setLoginData(
+        await setLoginData(
           loggedInClient[0]['name'],
           loggedInClient[0]['address1'],
           loggedInClient[0]['number'],
@@ -47,7 +47,7 @@ class HomeScreenClientController extends GetxController {
   Future<void> productsData() async {
     isLoading.value = true;
 
-    ParseResponse productResponse = await productData.query();
+    var productResponse = await productData.query();
     products.assignAll(productResponse.results);
     print(products);
     isLoading.value = false;

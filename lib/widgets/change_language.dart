@@ -10,7 +10,6 @@ class ChangeLanguage extends StatefulWidget {
 }
 
 class _ChangeLanguageState extends State<ChangeLanguage> {
-  RepoController repoCtrl = Get.put(RepoController());
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

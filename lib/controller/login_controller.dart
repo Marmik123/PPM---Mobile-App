@@ -23,7 +23,7 @@ class LoginController extends GetxController {
   RxString initialMob = ''.obs;
   GlobalKey<FormState> key = GlobalKey<FormState>();
   SignInController ctrl = Get.put(SignInController());
-  RepoController rCtrl = Get.put(RepoController());
+  // RepoController rCtrl = Get.put(RepoController());
   final userController = TextEditingController();
   final passController = TextEditingController();
   SignInController phoneCtrl = Get.put(SignInController());
@@ -59,10 +59,10 @@ class LoginController extends GetxController {
         initialMob.value = loggedUserData[0]['number'].toString();
         print(response.results);
         print('#####');
-        await rCtrl.setUserData(response.results[0]['role'],
+        await setUserData(response.results[0]['role'],
             phoneCtrl.mobileNo.text.trim().toString());
         mobileNum = phoneCtrl.mobileNo.text.trim().toString();
-        rCtrl.loadUserData();
+        loadUserData();
         if (response.results == null) {
           Get.offAll(() => HomeScreen());
         } else if (response.results[0]['role'] == "Client") {
@@ -71,7 +71,7 @@ class LoginController extends GetxController {
           Get.offAll(() => HomeScreenM());
         } else if (response.results[0]['role'] == "DeliveryBoy") {
           Get.offAll(() => HomeScreenDelivery(
-                mobileNum: rCtrl.kMobile,
+                mobileNum: kMobile,
               ));
           await orderCtrl
               .showAssignedOrder(phoneCtrl.mobileNo.text.trim().toString());

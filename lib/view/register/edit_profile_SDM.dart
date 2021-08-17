@@ -49,7 +49,7 @@ class _EditState extends State<Edit> {
   String State;
   String Pincode;
   String Landmark;
-  RepoController repoController = Get.put(RepoController());
+  // RepoController repoController = Get.put(RepoController());
   LoginController login = Get.put(LoginController());
   ClientController con = Get.put(ClientController());
   TextEditingController nController = TextEditingController();
@@ -392,7 +392,7 @@ class _EditState extends State<Edit> {
       QueryBuilder<ParseObject> userData =
           QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
             //ParseObject userData = ParseObject('UserMetadata')
-            ..whereEqualTo('objectId', repoController.objectId);
+            ..whereEqualTo('objectId', objectId);
 
       ParseResponse response = await userData.query();
       if (response.success) {
@@ -427,7 +427,7 @@ class _EditState extends State<Edit> {
           QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
             //ParseObject userData = ParseObject('UserMetadata')
             ..whereEqualTo('role', 'Client')
-            ..whereEqualTo('objectId', repoController.objectId);
+            ..whereEqualTo('objectId', objectId);
 
       ParseResponse response = await userData.query();
       if (response.success) {

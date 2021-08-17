@@ -22,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   ClientController clientCon = Get.put(ClientController());
   SupportController ctrl = Get.put(SupportController());
-  RepoController rCtrl = Get.put(RepoController());
+  // RepoController rCtrl = Get.put(RepoController());
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ctrl.loadData();
                   Get.to(() => Support());
                 } else if (value == 'Logout') {
-                  rCtrl.deleteUserData();
+                  deleteUserData();
                   Phoenix.rebirth(context);
                 }
               },

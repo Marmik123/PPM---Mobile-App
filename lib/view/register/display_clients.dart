@@ -9,13 +9,7 @@ import 'package:pcm/controller/register/client_controller.dart';
 import 'package:pcm/controller/sales_controller.dart';
 import 'package:pcm/controller/support_controller.dart';
 import 'package:pcm/generated/l10n.dart';
-import 'package:pcm/utils/shared_preferences.dart';
-import 'package:pcm/view/common/feedback.dart';
-import 'package:pcm/view/common/settings.dart';
-import 'package:pcm/view/common/support.dart';
-import 'package:pcm/view/home/homes_screen_sales.dart';
 import 'package:pcm/view/order/salesperson_client_history.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DisplayClient extends StatefulWidget {
   @override
@@ -25,8 +19,6 @@ class DisplayClient extends StatefulWidget {
 class _DisplayClientState extends State<DisplayClient> {
   @override
   ClientController cCtrl = Get.put(ClientController());
-
-  RepoController rCtrl = Get.put(RepoController());
 
   SupportController ctrl = Get.put(SupportController());
 

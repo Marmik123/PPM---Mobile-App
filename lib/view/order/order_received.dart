@@ -23,7 +23,7 @@ class OrderReceived extends StatefulWidget {
 class _OrderReceivedState extends State<OrderReceived> {
   CartController cltrCart = Get.put(CartController());
   SignInController ctrl = Get.find();
-  RepoController rCtrl = Get.put(RepoController());
+  // RepoController rCtrl = Get.put(RepoController());
   String number;
   SharedPreferences prefs;
   @override
@@ -67,7 +67,7 @@ class _OrderReceivedState extends State<OrderReceived> {
               ),
               ParseLiveListWidget<ParseObject>(
                 shrinkWrap: true,
-                query: cltrCart.showReceivedOrder(rCtrl.kMobile),
+                query: cltrCart.showReceivedOrder(kMobile),
                 scrollPhysics: ClampingScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 lazyLoading: true,

@@ -35,12 +35,6 @@ class OtpController extends GetxController {
   String sentOtp = '';
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
-
-  @override
   void onInit() async {
     // TODO: implement onInit
     super.onInit();
