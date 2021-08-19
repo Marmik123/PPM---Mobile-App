@@ -1,7 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
@@ -502,19 +501,18 @@ class _ProductDetailsState extends State<ProductDetails>
                         // cltrProduct.cartProducts.add(widget.product);
                         var prefs = await SharedPreferences.getInstance();
                         await login.checkUserExist(number);
-                        if (cltrProduct.key.currentState.validate()) {
-                          login.userNotExist.value
-                              ? print('Trying to add but user doesnt exist')
-                              : cltrCart.addItem(
-                                  widget.product.objectId,
-                                  widget.product.get('productName'),
-                                  double.parse(
-                                      widget.product.get('productPrice')),
-                                  cltrCart.quantity.value,
-                                  cltrProduct.size.value,
-                                  widget.product.get('unit'),
-                                  widget.product.get('imageFileName')[0]);
-                        }
+
+                        login.userNotExist.value
+                            ? print('Trying to add but user doesnt exist')
+                            : cltrCart.addItem(
+                                widget.product.objectId,
+                                widget.product.get('productName'),
+                                double.parse(
+                                    widget.product.get('productPrice')),
+                                cltrCart.quantity.value,
+                                cltrProduct.size.value,
+                                widget.product.get('unit'),
+                                widget.product.get('imageFileName')[0]);
 
                         print('this is cart items $cartItems');
 

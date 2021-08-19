@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 String kUserData = 'role';
 String kMobile = "mobile";
 String kname = "name";
+String kUserId = "userid";
 String kpincode = "pincode";
 String kShopName = "shop";
 String kStoreType = "store";
@@ -25,24 +25,35 @@ ParseUser currentUser;
 SharedPreferences language;
 String number;
 String name;
+String userId;
 String pincode;
 String objectId;
 String username;
 String role;
 String orderObjectId;
 
-Future<void> setUserData(String user, String mobile) async {
+Future<void> setUserData(
+  String user,
+  String mobile,
+  String userId,
+  String name,
+) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString(kUserData, user);
   await prefs.setString(kMobile, mobile);
+  await prefs.setString(kUserId, userId);
+  await prefs.setString(kname, name);
   // objectId.value = user;
   print("@@@@@@ ${prefs.getString(kUserData)}");
   print("@@@@@@2 ${prefs.getString(kMobile)}");
+  print("@@@@@@2 ${prefs.getString(kUserId)}");
   print(objectId);
   role = prefs.getString(kUserData);
   print(role);
   number = await prefs.getString(kMobile);
   name = await prefs.getString(kname);
+  print("this is name $name");
+  userId = await prefs.getString(kUserId);
 }
 
 Future<void> setLanguage(Locale locale) async {
@@ -88,6 +99,7 @@ Future<void> setLoginData(
     String landmark,
     String city,
     String state,
+    String userId,
     var imageFile) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString(kMobileNum, number);
@@ -103,6 +115,7 @@ Future<void> setLoginData(
   await prefs.setString(kAddress, address);
   await prefs.setString(kObjectId, objectId);
   await prefs.setString(kImageFile, imageFile);
+  await prefs.setString(kUserId, userId);
   pincode = await prefs.getString(kpincode);
   print(pincode);
 }
@@ -113,6 +126,7 @@ Future<String> loadUserData() async {
   objectId = await prefs.getString(kObjectId);
   name = await prefs.getString(kname);
   pincode = await prefs.getString(kpincode);
+  userId = await prefs.getString(kUserId);
   print(name);
 }
 

@@ -741,6 +741,7 @@ class _CartState extends State<Cart> {
                             customerMobile: mobile.getString(kMobileNum),
                             pincode: mobile.getString(kpincode),
                             size: cltrProduct.size.value,
+                            customerId: mobile.getString(kUserId),
                             customerShopName: mobile.getString(kShopName),
                             customerShopType: mobile.getString(kStoreType),
                             //unit: cltrProduct.unit.value,

@@ -161,11 +161,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           label: Text(S.of(context).Add),
                           // Text(S.of(context).add),
                           avatar: CircleAvatar(
-                            child: Text(clientCon.clientCount.value.toString()),
+                            child: Text(clientCon.clientCount().toString()),
                           ),
                         ),
                         onTap: () {
                           clientCon.role.value = false;
+
                           Get.to(ClientRegister());
                           // Navigator.of(context)
                           //     .pushNamed(CreateReception.routeName);

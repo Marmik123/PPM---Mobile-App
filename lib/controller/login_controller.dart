@@ -59,8 +59,12 @@ class LoginController extends GetxController {
         initialMob.value = loggedUserData[0]['number'].toString();
         print(response.results);
         print('#####');
-        await setUserData(response.results[0]['role'],
-            phoneCtrl.mobileNo.text.trim().toString());
+        await setUserData(
+          response.results[0]['role'],
+          phoneCtrl.mobileNo.text.trim().toString(),
+          response.results[0]['objectId'].toString(),
+          response.results[0]['name'].toString(),
+        );
         mobileNum = phoneCtrl.mobileNo.text.trim().toString();
         loadUserData();
         if (response.results == null) {
@@ -82,9 +86,9 @@ class LoginController extends GetxController {
         Get.snackbar(
           S.of(Get.context).errorOcu,
           S.of(Get.context).errorOc,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.green,
           duration: Duration(seconds: 2),
-          colorText: Colors.teal,
+          colorText: Colors.black,
         );
         print("error occured ");
       }

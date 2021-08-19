@@ -5,16 +5,15 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:path/path.dart' as p;
 import 'package:pcm/controller/login_controller.dart';
 import 'package:pcm/generated/l10n.dart';
 import 'package:pcm/utils/shared_preferences.dart';
-import 'package:pcm/view/register/document_verification.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -60,13 +59,14 @@ class ClientController extends GetxController {
   int gst = 0;
   Uint8List selectedImage;
   RxInt clientCount = 0.obs;
+  RxInt clientsRegistered = 0.obs;
   RxInt distributorCount = 0.obs;
   RxString filename = ''.obs;
   ParseObject userData;
   // RepoController repoController = Get.put(RepoController());
 
-  Future<void> clientRegister(String name, String gstType, String store,
-      String city, String state) async {
+  Future<void> clientRegister(String name, String gstType, String salesPId,
+      String store, String city, String state) async {
     var preferences = await SharedPreferences.getInstance();
     try {
       userData = ParseObject('UserMetadata')
@@ -82,6 +82,7 @@ class ClientController extends GetxController {
         ..set('gstType', gstType)
         ..set('storeType', store)
         ..set('registeredBy', name)
+        ..set('salesId', preferences.getString(kUserId))
         ..set('imageFileName',
             List.generate(nameList()?.length, (index) => nameList()[index]))
         ..set('isVerified', name == 'Direct' ? 'No' : 'Yes')
@@ -128,7 +129,7 @@ class ClientController extends GetxController {
         pincode.clear();
         pickedFile = null;
         update();
-        salesReport();
+        await salesReport();
         // name == 'Direct' ? Get.to(() => DocumentVerification()) : Get.back();
         /* Get.defaultDialog(
           title: 'Documents Are Under Verification',
@@ -156,22 +157,26 @@ class ClientController extends GetxController {
     print('called sales report');
     var sPref = await SharedPreferences.getInstance();
     try {
-      var userData = QueryBuilder<ParseObject>(ParseObject('SalesMetadata'))
+      print('!!00${sPref.getString(kname)}');
+      print('!!11${sPref.getString(kMobileNum)}');
+      var userData = QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
         //ParseObject userData = ParseObject('UserMetadata')
-        ..whereEqualTo('salesPName', sPref.getString(kname))
-        ..whereEqualTo('number', sPref.getString(kMobile));
+        ..whereEqualTo('registeredBy', sPref.getString(kname))
+        ..whereEqualTo('salesNumber', sPref.getString(kMobileNum));
 
       var response = await userData.query();
       if (response.success) {
         if (response.results == null) {
+          print('123$clientsRegistered');
           print('no user exist creating new one');
-          var newClient = ParseObject('SalesMetadata')
+
+          /*  var newClient = ParseObject('SalesMetadata')
             ..set<String>('salesPName', sPref.getString(kname))
             ..set('number', sPref.getString(kMobile))
-            ..set<int>('clientsRegistered', clientCount.value);
+            ..set<int>('clientsRegistered', clientCount.value);*/
 
-          var reportResult = await newClient.create();
-          if (reportResult.success) {
+          // var reportResult = await newClient.create();
+          /* if (reportResult.success) {
             //rCtrl.setOrdersMetadataObjectId(reportResult.result['objectId']);
             //print(reportResult.result['objectId']);
             //rCtrl.loadObjId();
@@ -187,6 +192,10 @@ class ClientController extends GetxController {
             ..set('clientsRegistered', clientCount.value);
 
           var reportResult = await client.save();
+        }*/
+        } else {
+          print("Hey You ${response.results}");
+          clientsRegistered(response.results.length);
         }
       }
     } catch (e) {
@@ -325,7 +334,6 @@ class ClientController extends GetxController {
         );
       } else {
         print('FILE UPLOAD SUCCESS');
-
         isLoading.value = false;
         isUploaded.value = true;
         print(name);
@@ -348,6 +356,7 @@ class ClientController extends GetxController {
                 : gst == 1
                     ? 'Composition GST'
                     : 'Without GST',
+            kUserId,
             selectedType == 0
                 ? 'Stationary'
                 : selectedType == 1
@@ -442,12 +451,12 @@ class ClientController extends GetxController {
     var subscription = await liveQuery.client.subscribe(clientCountData);
     subscription.on(LiveQueryEvent.update, (value) {
       print('clientCount updating ${clientCount.value} ');
-      clientCount.value++;
+      //clientCount.value++;
       print('clientCount updated ${clientCount.value} ');
     });
     subscription.on(LiveQueryEvent.create, (value) {
       print('clientCount updating ${clientCount.value} ');
-      clientCount.value++;
+      //clientCount.value++;
       print('clientCount updated ${clientCount.value} ');
     });
 
@@ -490,7 +499,7 @@ class ClientController extends GetxController {
         ..orderByDescending('createdAt')
         ..whereEqualTo('salesNumber', number)
         ..whereEqualTo('registeredBy', name);
-
+      print('####$clients');
       return clients;
     } catch (e) {
       print(e);

@@ -36,6 +36,7 @@ class HomeScreenClientController extends GetxController {
           loggedInClient[0]['landmark'],
           loggedInClient[0]['city'],
           loggedInClient[0]['state'],
+          loggedInClient[0]['objectId'],
           loggedInClient[0]['imageFileName'],
         );
       }
