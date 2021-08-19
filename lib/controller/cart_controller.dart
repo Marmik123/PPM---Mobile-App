@@ -341,6 +341,7 @@ class CartController extends GetxController {
   Future<void> orderPlaced({
     price,
     String customerName,
+    String customerId,
     String size,
     String unit,
     String pincode,
