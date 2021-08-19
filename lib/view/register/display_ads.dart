@@ -15,13 +15,11 @@ class DisplayAd extends StatefulWidget {
 }
 
 class _DisplayAdState extends State<DisplayAd> {
-  @override
   AdController adCtrl = Get.put(AdController());
-
-  RepoController rCtrl = Get.put(RepoController());
 
   SupportController ctrl = Get.put(SupportController());
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

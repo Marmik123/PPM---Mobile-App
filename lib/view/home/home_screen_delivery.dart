@@ -39,7 +39,7 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery>
   SupportController sCtrl = Get.put(SupportController());
   OrderAssignController assignCtrl = Get.put(OrderAssignController());
   SignInController phoneCtrl = Get.put(SignInController());
-  RepoController rCtrl = Get.put(RepoController());
+  // RepoController rCtrl = Get.put(RepoController());
   LoginController lCtrl = Get.put(LoginController());
   String mobileN;
   Animation rotateAnimation;
@@ -97,7 +97,7 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery>
                       sCtrl.loadData();
                       Get.to(() => Support());
                     } else if (value == 'Logout') {
-                      rCtrl.deleteUserData();
+                      deleteUserData();
                       Phoenix.rebirth(context);
                     }
                   },
@@ -215,7 +215,7 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery>
             floatingActionButton: FloatingActionButton.extended(
               onPressed: () async {
                 var mobile = await SharedPreferences.getInstance();
-                assignCtrl.showDeliveredOrder(mobile.getString(rCtrl.kMobile));
+                assignCtrl.showDeliveredOrder(mobile.getString(kMobile));
                 return Get.to(() => OrderHistoryDelivery(
                       listObject: assignCtrl.deliveredOrders,
                     ));
@@ -606,9 +606,9 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery>
 
   void updateOrder() async {
     var mobile = await SharedPreferences.getInstance();
-    //await assignCtrl.showAssignedOrder(mobile.getString(rCtrl.kMobile) ?? "-");
-    await assignCtrl.showOrder(mobile.getString(rCtrl.kMobile) ?? '-');
-    mobileN = mobile.getString(rCtrl.kMobile);
+    //await assignCtrl.showAssignedOrder(mobile.getString(kMobile) ?? "-");
+    await assignCtrl.showOrder(mobile.getString(kMobile) ?? '-');
+    mobileN = mobile.getString(kMobile);
     setState(() {
       mobileNAssigned = true;
     });
@@ -617,7 +617,7 @@ class _HomeScreenDeliveryState extends State<HomeScreenDelivery>
 
   Future<String> create() async {
     var pref = await SharedPreferences.getInstance();
-    var number = await pref.getString(rCtrl.kMobile);
+    var number = await pref.getString(kMobile);
     return number;
   }
 }

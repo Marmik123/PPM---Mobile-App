@@ -26,7 +26,7 @@ class _CartState extends State<Cart> {
   CartController cltrCart = Get.put(CartController());
   ProductsController cltrProduct = Get.put(ProductsController());
   HomeScreenClientController client = Get.put(HomeScreenClientController());
-  RepoController rCtrl = Get.put(RepoController());
+  // RepoController rCtrl = Get.put(RepoController());
   LoginController login = Get.put(LoginController());
   RxInt radio = 1.obs;
   RxInt value_1 = 0.obs;
@@ -736,22 +736,21 @@ class _CartState extends State<Cart> {
                     cltrCart.totalA != 0
                         ? cltrCart.orderPlaced(
                             price: cltrCart.totalA,
-                            customerName: mobile.getString(rCtrl.kname),
-                            customerAddress: mobile.getString(rCtrl.kAddress),
-                            customerMobile: mobile.getString(rCtrl.kMobileNum),
-                            pincode: mobile.getString(rCtrl.kpincode),
+                            customerName: mobile.getString(kname),
+                            customerAddress: mobile.getString(kAddress),
+                            customerMobile: mobile.getString(kMobileNum),
+                            pincode: mobile.getString(kpincode),
                             size: cltrProduct.size.value,
-                            customerShopName: mobile.getString(rCtrl.kShopName),
-                            customerShopType:
-                                mobile.getString(rCtrl.kStoreType),
+                            customerShopName: mobile.getString(kShopName),
+                            customerShopType: mobile.getString(kStoreType),
                             //unit: cltrProduct.unit.value,
                           )
                         : showerror();
                     cltrCart.clientReport(
-                      mobile.getString(rCtrl.kname),
-                      mobile.getString(rCtrl.kMobileNum),
+                      mobile.getString(kname),
+                      mobile.getString(kMobileNum),
                       cltrCart.purchaseCount.value,
-                      mobile.getString(rCtrl.kShopName),
+                      mobile.getString(kShopName),
                     );
                   }
                 });

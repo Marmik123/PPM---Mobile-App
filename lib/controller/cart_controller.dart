@@ -28,19 +28,19 @@ class CartController extends GetxController {
   QueryBuilder<ParseObject> orderData =
       QueryBuilder<ParseObject>(ParseObject('Orders'));
   SignInController ctrl = Get.put(SignInController());
-  RepoController rCtrl = Get.put(RepoController());
+  // RepoController rCtrl = Get.put(RepoController());
 
   Future<String> getMobile() async {
     var mobile = await SharedPreferences.getInstance();
 
-    return mobile.getString(rCtrl.kMobile);
+    return mobile.getString(kMobile);
   }
 
   QueryBuilder showOrderHistory(String mobile) {
     try {
       var loadOrderHistory = QueryBuilder<ParseObject>(ParseObject('Orders'))
         ..orderByDescending('createdAt')
-        ..whereEqualTo('customerContactNo', rCtrl.number);
+        ..whereEqualTo('customerContactNo', number);
 
       return loadOrderHistory;
     } catch (e) {
@@ -69,12 +69,11 @@ class CartController extends GetxController {
 
           var reportResult = await newClient.create();
           if (reportResult.success) {
-            await rCtrl
-                .setOrdersMetadataObjectId(reportResult.result['objectId']);
+            await setOrdersMetadataObjectId(reportResult.result['objectId']);
             print(reportResult.result['objectId']);
-            await rCtrl.loadObjId();
+            await loadObjId();
             var preference = await SharedPreferences.getInstance();
-            print('@@@${preference.getString(rCtrl.kOrderObjectId)}');
+            print('@@@${preference.getString(kOrderObjectId)}');
           }
         } else {
           print('user already there updating purchaseCount');
@@ -141,7 +140,7 @@ class CartController extends GetxController {
     try {
       QueryBuilder<ParseObject> loadOrderReceived =
           QueryBuilder<ParseObject>(ParseObject('Orders'))
-            ..whereEqualTo('customerContactNo', rCtrl.number)
+            ..whereEqualTo('customerContactNo', number)
             ..whereEqualTo('deliveryStatus', 'yes');
 
       return loadOrderReceived;

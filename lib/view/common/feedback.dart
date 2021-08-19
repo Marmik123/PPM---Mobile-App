@@ -16,7 +16,7 @@ class FeedbackPage extends StatefulWidget {
 class _FeedbackPageState extends State<FeedbackPage> {
   FeedbackController con = Get.put(FeedbackController());
   LoginController login = Get.put(LoginController());
-  RepoController repo = Get.put(RepoController());
+  // RepoController repo = Get.put(RepoController());
   final RoundedLoadingButtonController btnController =
       RoundedLoadingButtonController();
   @override
@@ -94,7 +94,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
               width: 100,
               controller: con.btnController,
               onPressed: () async {
-                await login.checkUserExist(repo.number);
+                await login.checkUserExist(number);
                 login.userNotExist.value
                     ? btnController.error()
                     : await con.sendFeedback();

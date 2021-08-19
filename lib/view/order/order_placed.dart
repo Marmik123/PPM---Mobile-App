@@ -23,7 +23,7 @@ class OrderPlaced extends StatefulWidget {
 class _OrderPlacedState extends State<OrderPlaced> {
   CartController cltrCart = Get.put(CartController());
   SignInController phoneCtrl = Get.put(SignInController());
-  RepoController rCtrl = Get.put(RepoController());
+  // RepoController rCtrl = Get.put(RepoController());
   SharedPreferences prefs;
   @override
   void initState() {
@@ -56,7 +56,7 @@ class _OrderPlacedState extends State<OrderPlaced> {
         ),
         ParseLiveListWidget<ParseObject>(
           shrinkWrap: true,
-          query: cltrCart.showOrderHistory(rCtrl.kMobile),
+          query: cltrCart.showOrderHistory(kMobile),
           scrollPhysics: ClampingScrollPhysics(),
           scrollDirection: Axis.vertical,
           lazyLoading: true,

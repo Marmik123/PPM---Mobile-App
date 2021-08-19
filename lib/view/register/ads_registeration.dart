@@ -16,7 +16,7 @@ class AdRegister extends StatefulWidget {
 
 class _AdRegisterState extends State<AdRegister> {
   int selectedType = 0;
-  RepoController repoController = Get.put(RepoController());
+  // RepoController repoController = Get.put(RepoController());
   AdController adCtrl = Get.find<AdController>();
   final adKey = GlobalKey<FormState>();
 
@@ -229,8 +229,8 @@ class _AdRegisterState extends State<AdRegister> {
             controller: adCtrl.btnController,
             onPressed: () {
               if (adKey.currentState.validate()) {
-                adCtrl.registerAd(repoController.name, repoController.number,
-                    adCtrl.payment == true ? 'Yes' : 'No');
+                adCtrl.registerAd(
+                    name, number, adCtrl.payment == true ? 'Yes' : 'No');
               } else {
                 adCtrl.btnController.reset();
               }

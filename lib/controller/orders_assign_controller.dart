@@ -15,7 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class OrderAssignController extends GetxController {
   SignInController mobileCtrl = Get.put(SignInController());
   //OtpController otpCtrl = Get.put(OtpController());
-  RepoController rCtrl = Get.put(RepoController());
+  // RepoController rCtrl = Get.put(RepoController());
   RxBool isLoading = false.obs;
   RxInt ordersDelCount = 0.obs;
   RxInt pressedButtonIndex = 0.obs;
@@ -32,7 +32,7 @@ class OrderAssignController extends GetxController {
   TextEditingController unitC = TextEditingController();
   Future<String> returnMobile() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    var number = await pref.getString(rCtrl.kMobile);
+    var number = await pref.getString(kMobile);
     return number;
   }
 
@@ -258,9 +258,9 @@ class OrderAssignController extends GetxController {
       ParseResponse adResult = await orderObject.save();
       if (adResult.success) {
         print("updated delivery status successfully");
-        await showDeliveredOrder(pref.getString(rCtrl.kMobileNum));
-        deliveryReport(pref.getString(rCtrl.kname),
-            pref.getString(rCtrl.kMobileNum), deliveredOrders.length);
+        await showDeliveredOrder(pref.getString(kMobileNum));
+        deliveryReport(pref.getString(kname), pref.getString(kMobileNum),
+            deliveredOrders.length);
         Get.back();
         //showAssignedOrder(rCtrl.number);
         //isLoadingButton = -1;

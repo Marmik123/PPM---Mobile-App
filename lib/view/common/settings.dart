@@ -16,7 +16,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   String langCode;
-  RepoController ctrl = Get.put(RepoController());
+  // RepoController ctrl = Get.put(RepoController());
   LoginController login = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         langCode = value;
                       });
                       print(langCode);
-                      await ctrl.setLanguage(Locale(langCode));
+                      await setLanguage(Locale(langCode));
                       setState(() {});
                     }
                   });
@@ -62,19 +62,19 @@ class _SettingsPageState extends State<SettingsPage> {
               child: ListTile(
                 onTap: () async {
                   final pref = await SharedPreferences.getInstance();
-                  var role = pref.getString(ctrl.kUserData);
-                  var address = pref.getString(ctrl.kAddress);
-                  var number = pref.getString(ctrl.kMobile);
-                  var name = pref.getString(ctrl.kname);
-                  var pincode = pref.getString(ctrl.kpincode);
-                  var landmark = pref.getString(ctrl.kLandmark);
-                  var city = pref.getString(ctrl.kCity);
-                  var state = pref.getString(ctrl.kState);
-                  var gstType = pref.getString(ctrl.kGstType);
-                  var gstNo = pref.getString(ctrl.kGstNo);
-                  var storeT = pref.getString(ctrl.kStoreType);
-                  var shopN = pref.getString(ctrl.kShopName);
-                  var imageFile = pref.getString(ctrl.kImageFile);
+                  var role = pref.getString(kUserData);
+                  var address = pref.getString(kAddress);
+                  var number = pref.getString(kMobile);
+                  var name = pref.getString(kname);
+                  var pincode = pref.getString(kpincode);
+                  var landmark = pref.getString(kLandmark);
+                  var city = pref.getString(kCity);
+                  var state = pref.getString(kState);
+                  var gstType = pref.getString(kGstType);
+                  var gstNo = pref.getString(kGstNo);
+                  var storeT = pref.getString(kStoreType);
+                  var shopN = pref.getString(kShopName);
+                  var imageFile = pref.getString(kImageFile);
                   if (role == 'Client') {
                     await Get.to(() => EditProfile(
                           address: address,

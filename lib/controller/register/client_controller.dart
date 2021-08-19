@@ -42,7 +42,7 @@ class ClientController extends GetxController {
 
   TextEditingController cController = TextEditingController();
   TextEditingController mController = TextEditingController();
-  RepoController repo = Get.put(RepoController());
+  // RepoController repo = Get.put(RepoController());
   final RoundedLoadingButtonController btnController =
       new RoundedLoadingButtonController();
 
@@ -63,7 +63,7 @@ class ClientController extends GetxController {
   RxInt distributorCount = 0.obs;
   RxString filename = ''.obs;
   ParseObject userData;
-  RepoController repoController = Get.put(RepoController());
+  // RepoController repoController = Get.put(RepoController());
 
   Future<void> clientRegister(String name, String gstType, String store,
       String city, String state) async {
@@ -85,7 +85,7 @@ class ClientController extends GetxController {
         ..set('imageFileName',
             List.generate(nameList()?.length, (index) => nameList()[index]))
         ..set('isVerified', name == 'Direct' ? 'No' : 'Yes')
-        ..set('salesNumber', preferences.getString(repo.kMobile))
+        ..set('salesNumber', preferences.getString(kMobile))
         ..set('role', 'Client');
       // ..set('status',
       //     widget.jobsData != null ? widget.jobsData.get('status') : 0)
@@ -158,16 +158,16 @@ class ClientController extends GetxController {
     try {
       var userData = QueryBuilder<ParseObject>(ParseObject('SalesMetadata'))
         //ParseObject userData = ParseObject('UserMetadata')
-        ..whereEqualTo('salesPName', sPref.getString(repo.kname))
-        ..whereEqualTo('number', sPref.getString(repo.kMobile));
+        ..whereEqualTo('salesPName', sPref.getString(kname))
+        ..whereEqualTo('number', sPref.getString(kMobile));
 
       var response = await userData.query();
       if (response.success) {
         if (response.results == null) {
           print('no user exist creating new one');
           var newClient = ParseObject('SalesMetadata')
-            ..set<String>('salesPName', sPref.getString(repo.kname))
-            ..set('number', sPref.getString(repo.kMobile))
+            ..set<String>('salesPName', sPref.getString(kname))
+            ..set('number', sPref.getString(kMobile))
             ..set<int>('clientsRegistered', clientCount.value);
 
           var reportResult = await newClient.create();
@@ -182,8 +182,8 @@ class ClientController extends GetxController {
         } else {
           print('user already there updating purchaseCount');
           ParseObject client = response.result[0]
-            ..set('salesPName', sPref.getString(repo.kname))
-            ..set('number', sPref.getString(repo.kMobile))
+            ..set('salesPName', sPref.getString(kname))
+            ..set('number', sPref.getString(kMobile))
             ..set('clientsRegistered', clientCount.value);
 
           var reportResult = await client.save();
@@ -328,7 +328,7 @@ class ClientController extends GetxController {
 
         isLoading.value = false;
         isUploaded.value = true;
-        print(repoController.name);
+        print(name);
         /*Get.snackbar(
           S.of(Get.context).photoSuccess,
           S.of(Get.context).actionS,
@@ -342,7 +342,7 @@ class ClientController extends GetxController {
           icon: Icon(Icons.check_circle),
         );*/
         await clientRegister(
-            repoController.name ?? 'Direct',
+            name ?? 'Direct',
             gst == 0
                 ? 'Regular GST'
                 : gst == 1
@@ -419,8 +419,8 @@ class ClientController extends GetxController {
     var preferences = await SharedPreferences.getInstance();
     var clientCountData = QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
       ..whereEqualTo('role', 'Client')
-      ..whereEqualTo('registeredBy', preferences.getString(repo.kname))
-      ..whereEqualTo('salesNumber', preferences.getString(repo.kMobile));
+      ..whereEqualTo('registeredBy', preferences.getString(kname))
+      ..whereEqualTo('salesNumber', preferences.getString(kMobile));
     var clientResponse = await clientCountData.count();
     if (clientResponse.success &&
         clientResponse != null &&
@@ -488,8 +488,8 @@ class ClientController extends GetxController {
     try {
       var clients = QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
         ..orderByDescending('createdAt')
-        ..whereEqualTo('salesNumber', repo.number)
-        ..whereEqualTo('registeredBy', repo.name);
+        ..whereEqualTo('salesNumber', number)
+        ..whereEqualTo('registeredBy', name);
 
       return clients;
     } catch (e) {
@@ -500,8 +500,8 @@ class ClientController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    counts(repo.name);
-    repo.loadUserData();
+    counts(name);
+    loadUserData();
     update();
   }
 }

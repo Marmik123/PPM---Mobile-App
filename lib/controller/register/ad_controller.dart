@@ -28,7 +28,7 @@ class AdController extends GetxController {
   TextEditingController gstTypeController = TextEditingController();
   TextEditingController adDesc = TextEditingController();
   TextEditingController sPController = TextEditingController();
-  RepoController repo = Get.put(RepoController());
+  // RepoController repo = Get.put(RepoController());
   final RoundedLoadingButtonController btnController =
       new RoundedLoadingButtonController();
 
@@ -38,16 +38,16 @@ class AdController extends GetxController {
     try {
       var userData = QueryBuilder<ParseObject>(ParseObject('MarketingMetadata'))
         //ParseObject userData = ParseObject('UserMetadata')
-        ..whereEqualTo('markPName', sPref.getString(repo.kname))
-        ..whereEqualTo('number', sPref.getString(repo.kMobile));
+        ..whereEqualTo('markPName', sPref.getString(kname))
+        ..whereEqualTo('number', sPref.getString(kMobile));
 
       var response = await userData.query();
       if (response.success) {
         if (response.results == null) {
           print('no user exist creating new one');
           var newClient = ParseObject('MarketingMetadata')
-            ..set<String>('markPName', sPref.getString(repo.kname))
-            ..set('number', sPref.getString(repo.kMobile))
+            ..set<String>('markPName', sPref.getString(kname))
+            ..set('number', sPref.getString(kMobile))
             ..set<int>('adsRegistered', adCount.value);
 
           var reportResult = await newClient.create();
@@ -62,8 +62,8 @@ class AdController extends GetxController {
         } else {
           print('user already there updating purchaseCount');
           ParseObject client = response.result[0]
-            ..set('markPName', sPref.getString(repo.kname))
-            ..set('number', sPref.getString(repo.kMobile))
+            ..set('markPName', sPref.getString(kname))
+            ..set('number', sPref.getString(kMobile))
             ..set('adsRegistered', adCount.value);
 
           var reportResult = await client.save();
@@ -82,8 +82,8 @@ class AdController extends GetxController {
         ..set('adName', nController.text.trim().toString())
         ..set('adDescription', adDesc.text.trim().trim().toString())
         ..set<ParseFile>('adPhoto', ParseFile(File(pickedFile.path)))
-        ..set('registeredBy', preferences.getString(repo.kname))
-        ..set('number', preferences.getString(repo.kMobile))
+        ..set('registeredBy', preferences.getString(kname))
+        ..set('number', preferences.getString(kMobile))
         ..set('imageFileName',
             List.generate(nameList()?.length, (index) => nameList()[index]))
         ..set('gstNo', preferences.getString(gstNoController.text.trim()))
@@ -135,8 +135,8 @@ class AdController extends GetxController {
     try {
       var adData = QueryBuilder<ParseObject>(ParseObject('Advertisement'))
         ..orderByDescending('createdAt')
-        ..whereEqualTo('number', repo.number)
-        ..whereEqualTo('registeredBy', repo.name);
+        ..whereEqualTo('number', number)
+        ..whereEqualTo('registeredBy', name);
       print('#@#$adData');
       counts();
       return adData;
@@ -148,8 +148,8 @@ class AdController extends GetxController {
   void counts() async {
     var preferences = await SharedPreferences.getInstance();
     var adCountData = QueryBuilder<ParseObject>(ParseObject('Advertisement'))
-      ..whereEqualTo('number', preferences.getString(repo.kMobile))
-      ..whereEqualTo('registeredBy', preferences.getString(repo.kname));
+      ..whereEqualTo('number', preferences.getString(kMobile))
+      ..whereEqualTo('registeredBy', preferences.getString(kname));
     var adResponse = await adCountData.count();
     if (adResponse.success && adResponse != null) {
       print('clientresponse.results ${adResponse.results}');
@@ -235,7 +235,7 @@ class AdController extends GetxController {
         print('FILE UPLOAD SUCCESS');
         isLoading.value = false;
         //isUploaded.value = true;
-        print(repo.name);
+        print(name);
         Get.snackbar(
           S.of(Get.context).photoSuccess,
           S.of(Get.context).actionS,
@@ -269,7 +269,7 @@ class AdController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    repo.loadUserData();
+    loadUserData();
     counts();
     update();
   }

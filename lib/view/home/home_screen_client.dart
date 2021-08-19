@@ -38,7 +38,7 @@ class _HomeScreenClientState extends State<HomeScreenClient>
   AnimationController ctrl;
   Animation animation;
   Animation rowAnimation;
-  RepoController rCtrl = Get.put(RepoController());
+  // RepoController rCtrl = Get.put(RepoController());
   SignInController phoneCtrl = Get.put(SignInController());
   String number;
 
@@ -46,14 +46,13 @@ class _HomeScreenClientState extends State<HomeScreenClient>
   void initState() {
     // TODO: implement initState
     super.initState();
-    var rCtrl = Get.put(RepoController());
-    rCtrl.loadUserData();
+    loadUserData();
     print('init state called;');
     var support = Get.put(SupportController());
     support.loadData();
     var cartC = Get.put(CartController());
-    cartC.showOrderHistoryData(rCtrl.number);
-    cartC.showROrderHistoryData(rCtrl.number);
+    cartC.showOrderHistoryData(number);
+    cartC.showROrderHistoryData(number);
 
     controller = AnimationController(
       duration: Duration(milliseconds: 400),
@@ -96,7 +95,7 @@ class _HomeScreenClientState extends State<HomeScreenClient>
   }
 
   Future<Locale> loadLang() async {
-    await S.load(rCtrl.storedLocale);
+    await S.load(storedLocale);
   }
 
   @override
@@ -153,7 +152,7 @@ class _HomeScreenClientState extends State<HomeScreenClient>
                   //sCtrl.loadData();
                   Get.to(() => Support());
                 } else if (value == 'Logout') {
-                  rCtrl.deleteUserData();
+                  deleteUserData();
                   Phoenix.rebirth(context);
                 }
               },
@@ -410,10 +409,10 @@ class _HomeScreenClientState extends State<HomeScreenClient>
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
             var mobile = await SharedPreferences.getInstance();
-            cartC.showOrderHistoryData(rCtrl.number);
-            cartC.showROrderHistoryData(rCtrl.number);
+            cartC.showOrderHistoryData(number);
+            cartC.showROrderHistoryData(number);
             setState(() {});
-            number = mobile.getString(rCtrl.kMobile);
+            number = mobile.getString(kMobile);
             return Get.to(
               () => OrderHistoryClient(
                 number: number,

@@ -44,7 +44,7 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  RepoController repoController = Get.put(RepoController());
+  // RepoController repoController = Get.put(RepoController());
   LoginController login = Get.put(LoginController());
   ClientController con = Get.put(ClientController());
   TextEditingController nController = TextEditingController();
@@ -91,7 +91,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController mController = TextEditingController();
   String initialNumber;
   final jobKey = GlobalKey<FormState>();
-  RepoController rCtrl = Get.put(RepoController());
+  // RepoController rCtrl = Get.put(RepoController());
   final RoundedLoadingButtonController btnSubmit =
       new RoundedLoadingButtonController();
 
@@ -651,7 +651,7 @@ class _EditProfileState extends State<EditProfile> {
           QueryBuilder<ParseObject>(ParseObject('UserMetadata'))
             //ParseObject userData = ParseObject('UserMetadata')
             ..whereEqualTo('role', 'Client')
-            ..whereEqualTo('objectId', repoController.objectId);
+            ..whereEqualTo('objectId', objectId);
 
       ParseResponse response = await userData.query();
       if (response.success) {
