@@ -11,6 +11,6 @@ Additionally, Products, Advertisements,Feedbacks,Reports with Date Filter,Orders
 ### Special Features in App(From my perspective) : Live list reflection of orders for particular Delivery Boy which gets updated on the spot on updation by Admin Panel in Web App & Customer Signature Submission on delivery which admin can verify for security point of view. 
 ### Mobile App Users Include : Clients, Marketing Person, Sales Person , Delivery Boy.
 ### Admin Panel User : Authorised Admin.
-### Target Audience  : Big Business Industrial Areas for instance Textile Markets and Diamond Markets and many more.
+### Target Marketing Audience  : Big Business Industrial Areas for instance Textile Markets and Diamond Markets and many more.
 ### Technology Used : Flutter , Dart, Parse Server SDK Flutter, Parse Server and its helpful features.
 
