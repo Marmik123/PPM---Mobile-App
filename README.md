@@ -1,4 +1,4 @@
-# PPM - Mobile-App
+# PPM - Mobile Application
 
 
 Brief Idea:
